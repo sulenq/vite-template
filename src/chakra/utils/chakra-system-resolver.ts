@@ -1,6 +1,8 @@
 import { chakraConfig } from "@/chakra/chakra-system";
 import type { ColorMode } from "@/chakra/hooks/use-color-mode";
 
+// -----------------------------------------------------------------
+
 export const resolveSemanticColor = (
   token: string | null,
   colorMode: ColorMode,

@@ -1,5 +1,7 @@
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
 
+// -----------------------------------------------------------------
+
 export const chakraConfig = defineConfig({
   conditions: {
     hover: "&:is(:hover, [data-hover]):not(:disabled, [data-disabled])",

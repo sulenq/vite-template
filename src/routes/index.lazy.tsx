@@ -1,6 +1,8 @@
 import { Flex, HStack, Stack } from "@/components/ui/stack";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
+// -----------------------------------------------------------------
+
 export const Route = createLazyFileRoute("/")({
   component: RouteComponent,
 });
