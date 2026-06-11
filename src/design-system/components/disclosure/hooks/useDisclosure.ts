@@ -1,0 +1,42 @@
+import { useMemo } from "react";
+import { useSearch, useNavigate } from "@tanstack/react-router";
+import { Route as RootRoute } from "@/routes/__root";
+
+export function useDisclosure(disclosurePath: string) {
+  const { d } = useSearch({
+    from: RootRoute.id,
+  });
+  const navigate = useNavigate();
+
+  const isOpen = useMemo(() => {
+    if (typeof d !== "string") return false;
+
+    return d === disclosurePath || d.startsWith(`${disclosurePath}/`);
+  }, [disclosurePath, d]);
+
+  function open() {
+    const base = typeof d === "string" && d.length > 0 ? d : "";
+
+    const next = base ? `${base}/${disclosurePath}` : disclosurePath;
+
+    navigate({
+      to: ".",
+      search: { d: next },
+    });
+  }
+
+  function toggle() {
+    if (isOpen) {
+      window.history.back();
+      return;
+    }
+
+    open();
+  }
+
+  return {
+    isOpen,
+    open,
+    toggle,
+  };
+}

@@ -1,3 +1,4 @@
+import { SM_SCREEN_BREAKPOINT } from "@/design-system/chakra/constants/styles";
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
 
 export const chakraConfig = defineConfig({
@@ -18,7 +19,12 @@ export const chakraConfig = defineConfig({
   // Theme config ---------------------------------------------------
 
   theme: {
-    breakpoints: {},
+    breakpoints: {
+      sm: "320px",
+      md: SM_SCREEN_BREAKPOINT,
+      lg: "960px",
+      xl: "1200px",
+    },
 
     keyframes: {},
 
@@ -531,29 +537,6 @@ export const chakraConfig = defineConfig({
 
     semanticTokens: {
       colors: {
-        text: { value: { base: "{colors.neutral.950}", _dark: "#ddd" } },
-
-        ibody: {
-          value: {
-            base: "{colors.bodyDark}",
-            _dark: "{colors.bodyLight}",
-          },
-        },
-
-        item: {
-          value: {
-            base: "{colors.neutral.100}",
-            _dark: "{colors.neutral.900}",
-          },
-        },
-
-        bgContent: {
-          value: {
-            base: "{colors.neutral.200}",
-            _dark: "{colors.neutral.950}",
-          },
-        },
-
         bg: {
           canvas: {
             value: {
@@ -589,15 +572,6 @@ export const chakraConfig = defineConfig({
             value: {
               base: "{colors.d2} !important",
               _dark: "{colors.d2} !important",
-            },
-          },
-        },
-
-        fg: {
-          ibody: {
-            value: {
-              base: "{colors.neutral.900}",
-              _dark: "{colors.neutral.50}",
             },
           },
         },

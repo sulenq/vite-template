@@ -21,6 +21,13 @@ export default defineConfig([
     },
   },
 
+  {
+    files: ["src/design-system/**/*.{ts,tsx}"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
+
   // Only src/design-system may import from @chakra-ui/react.
   {
     files: ["**/*.{ts,tsx}"],
