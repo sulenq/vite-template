@@ -539,8 +539,8 @@ export const chakraConfig = defineConfig({
 
         ibody: {
           value: {
-            base: "{colors.neutral.950}",
-            _dark: "{colors.neutral.50}",
+            base: "{colors.bodyDark}",
+            _dark: "{colors.bodyLight}",
           },
         },
 
@@ -565,21 +565,11 @@ export const chakraConfig = defineConfig({
               _dark: "#151515",
             },
           },
-          bodySolid: {
-            value: {
-              base: "#faf9ffff",
-              _dark: "#1c1c1c",
-            },
-          },
           body: {
             value: {
               base: "{colors.bodyLight}",
               _dark: "{colors.bodyDark}",
             },
-            // value: {
-            //   base: "#faf9ffec",
-            //   _dark: "rgba(27, 27, 27, 0.925)",
-            // },
           },
           frosted: {
             value: {
@@ -632,6 +622,7 @@ export const chakraConfig = defineConfig({
         },
 
         // -----------------------------------------------------------------
+
         neutral: {
           contrast: {
             value: {
