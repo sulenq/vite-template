@@ -21,10 +21,10 @@ export default defineConfig([
     },
   },
 
-  // Only src/chakra and src/components may import from @chakra-ui/react.
+  // Only src/design-system may import from @chakra-ui/react.
   {
     files: ["**/*.{ts,tsx}"],
-    ignores: ["src/chakra/**/*.{ts,tsx}", "src/components/**/*.{ts,tsx}"],
+    ignores: ["src/design-system/**/*.{ts,tsx}"],
     rules: {
       "no-restricted-imports": [
         "error",
@@ -33,7 +33,7 @@ export default defineConfig([
             {
               name: "@chakra-ui/react",
               message:
-                "Only src/chakra and src/components may import from @chakra-ui/react.",
+                "Only src/design-system may import from @chakra-ui/react.",
             },
           ],
         },
