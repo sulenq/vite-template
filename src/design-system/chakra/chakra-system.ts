@@ -678,6 +678,7 @@ export const chakraConfig = defineConfig({
           },
         },
 
+        // slight blue tint
         grey: {
           contrast: {
             value: {
