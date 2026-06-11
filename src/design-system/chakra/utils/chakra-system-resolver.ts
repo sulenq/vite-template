@@ -1,5 +1,5 @@
-import { chakraConfig } from "@/chakra/chakra-system";
-import type { ColorMode } from "@/chakra/hooks/use-color-mode";
+import { chakraConfig } from "@/design-system/chakra/chakra-system";
+import type { ColorMode } from "@/design-system/chakra/hooks/use-color-mode";
 
 // -----------------------------------------------------------------
 

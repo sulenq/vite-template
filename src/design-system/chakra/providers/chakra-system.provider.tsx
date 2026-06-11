@@ -1,6 +1,6 @@
 "use client";
 
-import { chakraSystem } from "@/chakra/chakra-system";
+import { chakraSystem } from "@/design-system/chakra/chakra-system";
 import { ChakraProvider } from "@chakra-ui/react";
 
 // -----------------------------------------------------------------

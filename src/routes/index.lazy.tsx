@@ -1,4 +1,8 @@
-import { Flex, HStack, Stack } from "@/components/ui/stack";
+import {
+  Flex,
+  HStack,
+  Stack,
+} from "@/design-system/components/layout/flex-box";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
 // -----------------------------------------------------------------
