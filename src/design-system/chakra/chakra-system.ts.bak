@@ -679,6 +679,12 @@ export const chakraConfig = defineConfig({
         },
 
         grey: {
+          solid: {
+            value: {
+              base: "{colors.grey.500}",
+              _dark: "{colors.grey.700}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.grey.50}",
@@ -691,25 +697,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.grey.200}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.grey.50}",
-              _dark: "{colors.grey.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.grey.100}",
               _dark: "{colors.grey.900}",
             },
           },
-          emphasized: { value: "{colors.grey.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.grey.500}",
-              _dark: "{colors.grey.700}",
+              base: "{colors.grey.50}",
+              _dark: "{colors.grey.950}",
             },
           },
+          emphasized: { value: "{colors.grey.800}" },
           focusRing: {
             value: {
               base: "{colors.grey.500}",
@@ -725,6 +725,12 @@ export const chakraConfig = defineConfig({
         },
 
         cream: {
+          solid: {
+            value: {
+              base: "{colors.cream.500}",
+              _dark: "{colors.cream.700}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.cream.50}",
@@ -737,25 +743,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.cream.200}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.cream.50}",
-              _dark: "{colors.cream.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.cream.100}",
               _dark: "{colors.cream.900}",
             },
           },
-          emphasized: { value: "{colors.cream.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.cream.500}",
-              _dark: "{colors.cream.700}",
+              base: "{colors.cream.50}",
+              _dark: "{colors.cream.950}",
             },
           },
+          emphasized: { value: "{colors.cream.800}" },
           focusRing: {
             value: {
               base: "{colors.cream.500}",
@@ -771,6 +771,12 @@ export const chakraConfig = defineConfig({
         },
 
         caramel: {
+          solid: {
+            value: {
+              base: "{colors.caramel.500}",
+              _dark: "{colors.caramel.700}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.caramel.50}",
@@ -783,25 +789,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.caramel.200}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.caramel.50}",
-              _dark: "{colors.caramel.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.caramel.100}",
               _dark: "{colors.caramel.900}",
             },
           },
-          emphasized: { value: "{colors.caramel.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.caramel.500}",
-              _dark: "{colors.caramel.700}",
+              base: "{colors.caramel.50}",
+              _dark: "{colors.caramel.950}",
             },
           },
+          emphasized: { value: "{colors.caramel.800}" },
           focusRing: {
             value: {
               base: "{colors.caramel.500}",
@@ -817,6 +817,12 @@ export const chakraConfig = defineConfig({
         },
 
         mocha: {
+          solid: {
+            value: {
+              base: "{colors.mocha.500}",
+              _dark: "{colors.mocha.700}",
+            },
+          },
           contrast: {
             value: { base: "{colors.mocha.50}", _dark: "{colors.mocha.100}" },
           },
@@ -826,25 +832,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.mocha.200}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.mocha.50}",
-              _dark: "{colors.mocha.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.mocha.100}",
               _dark: "{colors.mocha.900}",
             },
           },
-          emphasized: { value: "{colors.mocha.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.mocha.500}",
-              _dark: "{colors.mocha.700}",
+              base: "{colors.mocha.50}",
+              _dark: "{colors.mocha.950}",
             },
           },
+          emphasized: { value: "{colors.mocha.800}" },
           focusRing: {
             value: {
               base: "{colors.mocha.500}",
@@ -860,6 +860,12 @@ export const chakraConfig = defineConfig({
         },
 
         brown: {
+          solid: {
+            value: {
+              base: "{colors.brown.500}",
+              _dark: "{colors.brown.700}",
+            },
+          },
           contrast: {
             value: { base: "{colors.brown.50}", _dark: "{colors.brown.100}" },
           },
@@ -869,25 +875,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.brown.200}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.brown.50}",
-              _dark: "{colors.brown.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.brown.100}",
               _dark: "{colors.brown.900}",
             },
           },
-          emphasized: { value: "{colors.brown.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.brown.500}",
-              _dark: "{colors.brown.700}",
+              base: "{colors.brown.50}",
+              _dark: "{colors.brown.950}",
             },
           },
+          emphasized: { value: "{colors.brown.800}" },
           focusRing: {
             value: {
               base: "{colors.brown.500}",
@@ -903,6 +903,12 @@ export const chakraConfig = defineConfig({
         },
 
         maroon: {
+          solid: {
+            value: {
+              base: "{colors.maroon.500}",
+              _dark: "{colors.maroon.500}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.maroon.50}",
@@ -915,25 +921,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.maroon.200}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.maroon.50}",
-              _dark: "{colors.maroon.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.maroon.100}",
               _dark: "{colors.maroon.900}",
             },
           },
-          emphasized: { value: "{colors.maroon.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.maroon.500}",
-              _dark: "{colors.maroon.500}",
+              base: "{colors.maroon.50}",
+              _dark: "{colors.maroon.950}",
             },
           },
+          emphasized: { value: "{colors.maroon.800}" },
           focusRing: {
             value: {
               base: "{colors.maroon.500}",
@@ -949,6 +949,12 @@ export const chakraConfig = defineConfig({
         },
 
         red: {
+          solid: {
+            value: {
+              base: "{colors.red.500}",
+              _dark: "{colors.red.500}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.red.50}",
@@ -961,25 +967,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.red.300}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.red.50} !important",
-              _dark: "{colors.red.950} !important",
-            },
-          },
           muted: {
             value: {
               base: "{colors.red.100} !important",
               _dark: "{colors.red.900} !important",
             },
           },
-          emphasized: { value: "{colors.red.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.red.500}",
-              _dark: "{colors.red.500}",
+              base: "{colors.red.50} !important",
+              _dark: "{colors.red.950} !important",
             },
           },
+          emphasized: { value: "{colors.red.800}" },
           focusRing: {
             value: {
               base: "{colors.red.500}",
@@ -995,6 +995,12 @@ export const chakraConfig = defineConfig({
         },
 
         salmon: {
+          solid: {
+            value: {
+              base: "{colors.salmon.500}",
+              _dark: "{colors.salmon.700}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.salmon.50}",
@@ -1007,25 +1013,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.salmon.200}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.salmon.50}",
-              _dark: "{colors.salmon.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.salmon.100}",
               _dark: "{colors.salmon.900}",
             },
           },
-          emphasized: { value: "{colors.salmon.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.salmon.500}",
-              _dark: "{colors.salmon.700}",
+              base: "{colors.salmon.50}",
+              _dark: "{colors.salmon.950}",
             },
           },
+          emphasized: { value: "{colors.salmon.800}" },
           focusRing: {
             value: {
               base: "{colors.salmon.500}",
@@ -1041,6 +1041,12 @@ export const chakraConfig = defineConfig({
         },
 
         pastelOrange: {
+          solid: {
+            value: {
+              base: "{colors.pastelOrange.500}",
+              _dark: "{colors.pastelOrange.700}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.pastelOrange.50}",
@@ -1053,25 +1059,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.pastelOrange.400}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.pastelOrange.50}",
-              _dark: "{colors.pastelOrange.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.pastelOrange.100}",
               _dark: "{colors.pastelOrange.900}",
             },
           },
-          emphasized: { value: "{colors.pastelOrange.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.pastelOrange.500}",
-              _dark: "{colors.pastelOrange.700}",
+              base: "{colors.pastelOrange.50}",
+              _dark: "{colors.pastelOrange.950}",
             },
           },
+          emphasized: { value: "{colors.pastelOrange.800}" },
           focusRing: {
             value: {
               base: "{colors.pastelOrange.500}",
@@ -1087,6 +1087,12 @@ export const chakraConfig = defineConfig({
         },
 
         orange: {
+          solid: {
+            value: {
+              base: "{colors.orange.500} !important",
+              _dark: "{colors.orange.700} !important",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.orange.50} !important",
@@ -1099,25 +1105,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.orange.400} !important",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.orange.50} !important",
-              _dark: "{colors.orange.950} !important",
-            },
-          },
           muted: {
             value: {
               base: "{colors.orange.100} !important",
               _dark: "{colors.orange.900} !important",
             },
           },
-          emphasized: { value: "{colors.orange.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.orange.500} !important",
-              _dark: "{colors.orange.700} !important",
+              base: "{colors.orange.50} !important",
+              _dark: "{colors.orange.950} !important",
             },
           },
+          emphasized: { value: "{colors.orange.800}" },
           focusRing: {
             value: {
               base: "{colors.orange.500}",
@@ -1133,6 +1133,12 @@ export const chakraConfig = defineConfig({
         },
 
         gold: {
+          solid: {
+            value: {
+              base: "{colors.gold.500}",
+              _dark: "{colors.gold.500}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.gold.50}",
@@ -1145,25 +1151,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.gold.500}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.gold.50}",
-              _dark: "{colors.gold.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.gold.100}",
               _dark: "{colors.gold.900}",
             },
           },
-          emphasized: { value: "{colors.gold.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.gold.500}",
-              _dark: "{colors.gold.500}",
+              base: "{colors.gold.50}",
+              _dark: "{colors.gold.950}",
             },
           },
+          emphasized: { value: "{colors.gold.800}" },
           focusRing: {
             value: {
               base: "{colors.gold.500}",
@@ -1179,6 +1179,12 @@ export const chakraConfig = defineConfig({
         },
 
         yellow: {
+          solid: {
+            value: {
+              base: "{colors.yellow.500}",
+              _dark: "{colors.yellow.500}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.yellow.900} !important",
@@ -1191,25 +1197,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.yellow.500} !important",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.yellow.50} !important",
-              _dark: "{colors.yellow.950} !important",
-            },
-          },
           muted: {
             value: {
               base: "{colors.yellow.100} !important",
               _dark: "{colors.yellow.900} !important",
             },
           },
-          emphasized: { value: "{colors.yellow.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.yellow.500}",
-              _dark: "{colors.yellow.500}",
+              base: "{colors.yellow.50} !important",
+              _dark: "{colors.yellow.950} !important",
             },
           },
+          emphasized: { value: "{colors.yellow.800}" },
           focusRing: {
             value: {
               base: "{colors.yellow.500}",
@@ -1225,6 +1225,12 @@ export const chakraConfig = defineConfig({
         },
 
         lime: {
+          solid: {
+            value: {
+              base: "{colors.lime.500}",
+              _dark: "{colors.lime.600}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.lime.800}",
@@ -1237,25 +1243,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.lime.300}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.lime.50}",
-              _dark: "{colors.lime.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.lime.100}",
               _dark: "{colors.lime.900}",
             },
           },
-          emphasized: { value: "{colors.lime.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.lime.500}",
-              _dark: "{colors.lime.600}",
+              base: "{colors.lime.50}",
+              _dark: "{colors.lime.950}",
             },
           },
+          emphasized: { value: "{colors.lime.800}" },
           focusRing: {
             value: {
               base: "{colors.lime.500}",
@@ -1271,6 +1271,12 @@ export const chakraConfig = defineConfig({
         },
 
         olive: {
+          solid: {
+            value: {
+              base: "{colors.olive.500}",
+              _dark: "{colors.olive.600}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.olive.50}",
@@ -1283,25 +1289,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.olive.300}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.olive.50}",
-              _dark: "{colors.olive.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.olive.100}",
               _dark: "{colors.olive.900}",
             },
           },
-          emphasized: { value: "{colors.olive.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.olive.500}",
-              _dark: "{colors.olive.600}",
+              base: "{colors.olive.50}",
+              _dark: "{colors.olive.950}",
             },
           },
+          emphasized: { value: "{colors.olive.800}" },
           focusRing: {
             value: {
               base: "{colors.olive.500}",
@@ -1317,6 +1317,12 @@ export const chakraConfig = defineConfig({
         },
 
         green: {
+          solid: {
+            value: {
+              base: "{colors.green.500}",
+              _dark: "{colors.green.600}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.green.50} !important",
@@ -1329,25 +1335,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.green.300} !important",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.green.50} !important",
-              _dark: "{colors.green.950} !important",
-            },
-          },
           muted: {
             value: {
               base: "{colors.green.100} !important",
               _dark: "{colors.green.900} !important",
             },
           },
-          emphasized: { value: "{colors.green.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.green.500}",
-              _dark: "{colors.green.600}",
+              base: "{colors.green.50} !important",
+              _dark: "{colors.green.950} !important",
             },
           },
+          emphasized: { value: "{colors.green.800}" },
           focusRing: {
             value: {
               base: "{colors.green.500}",
@@ -1363,6 +1363,12 @@ export const chakraConfig = defineConfig({
         },
 
         jade: {
+          solid: {
+            value: {
+              base: "{colors.jade.500}",
+              _dark: "{colors.jade.500}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.jade.50}",
@@ -1375,25 +1381,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.jade.300}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.jade.50}",
-              _dark: "{colors.jade.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.jade.100}",
               _dark: "{colors.jade.900}",
             },
           },
-          emphasized: { value: "{colors.jade.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.jade.500}",
-              _dark: "{colors.jade.500}",
+              base: "{colors.jade.50}",
+              _dark: "{colors.jade.950}",
             },
           },
+          emphasized: { value: "{colors.jade.800}" },
           focusRing: {
             value: {
               base: "{colors.jade.500}",
@@ -1409,6 +1409,12 @@ export const chakraConfig = defineConfig({
         },
 
         teal: {
+          solid: {
+            value: {
+              base: "{colors.teal.500} !important",
+              _dark: "{colors.teal.500} !important",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.teal.50} !important",
@@ -1421,25 +1427,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.teal.300} !important",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.teal.50} !important",
-              _dark: "{colors.teal.950} !important",
-            },
-          },
           muted: {
             value: {
               base: "{colors.teal.100} !important",
               _dark: "{colors.teal.900} !important",
             },
           },
-          emphasized: { value: "{colors.teal.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.teal.500} !important",
-              _dark: "{colors.teal.500} !important",
+              base: "{colors.teal.50} !important",
+              _dark: "{colors.teal.950} !important",
             },
           },
+          emphasized: { value: "{colors.teal.800}" },
           focusRing: {
             value: {
               base: "{colors.teal.500}",
@@ -1455,6 +1455,12 @@ export const chakraConfig = defineConfig({
         },
 
         tealBlue: {
+          solid: {
+            value: {
+              base: "{colors.tealBlue.500}",
+              _dark: "{colors.tealBlue.500}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.tealBlue.50}",
@@ -1467,25 +1473,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.tealBlue.400}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.tealBlue.50}",
-              _dark: "{colors.tealBlue.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.tealBlue.100}",
               _dark: "{colors.tealBlue.900}",
             },
           },
-          emphasized: { value: "{colors.tealBlue.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.tealBlue.500}",
-              _dark: "{colors.tealBlue.500}",
+              base: "{colors.tealBlue.50}",
+              _dark: "{colors.tealBlue.950}",
             },
           },
+          emphasized: { value: "{colors.tealBlue.800}" },
           focusRing: {
             value: {
               base: "{colors.tealBlue.500}",
@@ -1501,6 +1501,12 @@ export const chakraConfig = defineConfig({
         },
 
         cyan: {
+          solid: {
+            value: {
+              base: "{colors.cyan.500} !important",
+              _dark: "{colors.cyan.500} !important",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.cyan.50} !important",
@@ -1513,25 +1519,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.cyan.400} !important",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.cyan.50} !important",
-              _dark: "{colors.cyan.950} !important",
-            },
-          },
           muted: {
             value: {
               base: "{colors.cyan.100} !important",
               _dark: "{colors.cyan.900} !important",
             },
           },
-          emphasized: { value: "{colors.cyan.800}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.cyan.500} !important",
-              _dark: "{colors.cyan.500} !important",
+              base: "{colors.cyan.50} !important",
+              _dark: "{colors.cyan.950} !important",
             },
           },
+          emphasized: { value: "{colors.cyan.800}" },
           focusRing: {
             value: {
               base: "{colors.cyan.500}",
@@ -1547,6 +1547,12 @@ export const chakraConfig = defineConfig({
         },
 
         sky: {
+          solid: {
+            value: {
+              base: "{colors.sky.500}",
+              _dark: "{colors.sky.500}",
+            },
+          },
           contrast: {
             value: { base: "{colors.sky.50}", _dark: "{colors.sky.900}" },
           },
@@ -1556,25 +1562,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.sky.400}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.sky.50}",
-              _dark: "{colors.sky.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.sky.100}",
               _dark: "{colors.sky.900}",
             },
           },
-          emphasized: { value: "{colors.sky.400}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.sky.500}",
-              _dark: "{colors.sky.500}",
+              base: "{colors.sky.50}",
+              _dark: "{colors.sky.950}",
             },
           },
+          emphasized: { value: "{colors.sky.400}" },
           focusRing: {
             value: {
               base: "{colors.sky.500}",
@@ -1590,6 +1590,12 @@ export const chakraConfig = defineConfig({
         },
 
         powderBlue: {
+          solid: {
+            value: {
+              base: "{colors.powderBlue.500}",
+              _dark: "{colors.powderBlue.500}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.powderBlue.50}",
@@ -1602,25 +1608,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.powderBlue.400}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.powderBlue.50}",
-              _dark: "{colors.powderBlue.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.powderBlue.100}",
               _dark: "{colors.powderBlue.900}",
             },
           },
-          emphasized: { value: "{colors.powderBlue.400}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.powderBlue.500}",
-              _dark: "{colors.powderBlue.500}",
+              base: "{colors.powderBlue.50}",
+              _dark: "{colors.powderBlue.950}",
             },
           },
+          emphasized: { value: "{colors.powderBlue.400}" },
           focusRing: {
             value: {
               base: "{colors.powderBlue.500}",
@@ -1636,6 +1636,12 @@ export const chakraConfig = defineConfig({
         },
 
         blue: {
+          solid: {
+            value: {
+              base: "{colors.blue.500}",
+              _dark: "{colors.blue.600}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.blue.50} !important",
@@ -1648,25 +1654,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.blue.400} !important",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.blue.50} !important",
-              _dark: "{colors.blue.950} !important",
-            },
-          },
           muted: {
             value: {
               base: "{colors.blue.100} !important",
               _dark: "{colors.blue.900} !important",
             },
           },
-          emphasized: { value: "{colors.blue.400}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.blue.500}",
-              _dark: "{colors.blue.600}",
+              base: "{colors.blue.50} !important",
+              _dark: "{colors.blue.950} !important",
             },
           },
+          emphasized: { value: "{colors.blue.400}" },
           focusRing: {
             value: {
               base: "{colors.blue.500}",
@@ -1682,6 +1682,12 @@ export const chakraConfig = defineConfig({
         },
 
         sapphire: {
+          solid: {
+            value: {
+              base: "{colors.sapphire.500}",
+              _dark: "{colors.sapphire.600}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.sapphire.100}",
@@ -1694,25 +1700,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.sapphire.300}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.sapphire.50}",
-              _dark: "{colors.sapphire.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.sapphire.100}",
               _dark: "{colors.sapphire.900}",
             },
           },
-          emphasized: { value: "{colors.sapphire.400}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.sapphire.500}",
-              _dark: "{colors.sapphire.600}",
+              base: "{colors.sapphire.50}",
+              _dark: "{colors.sapphire.950}",
             },
           },
+          emphasized: { value: "{colors.sapphire.400}" },
           focusRing: {
             value: {
               base: "{colors.sapphire.500}",
@@ -1728,6 +1728,12 @@ export const chakraConfig = defineConfig({
         },
 
         indigo: {
+          solid: {
+            value: {
+              base: "{colors.indigo.500}",
+              _dark: "{colors.indigo.500}",
+            },
+          },
           contrast: {
             value: { base: "{colors.indigo.50}", _dark: "{colors.indigo.50}" },
           },
@@ -1737,25 +1743,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.indigo.300}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.indigo.50}",
-              _dark: "{colors.indigo.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.indigo.100}",
               _dark: "{colors.indigo.900}",
             },
           },
-          emphasized: { value: "{colors.indigo.400}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.indigo.500}",
-              _dark: "{colors.indigo.500}",
+              base: "{colors.indigo.50}",
+              _dark: "{colors.indigo.950}",
             },
           },
+          emphasized: { value: "{colors.indigo.400}" },
           focusRing: {
             value: {
               base: "{colors.indigo.500}",
@@ -1771,6 +1771,12 @@ export const chakraConfig = defineConfig({
         },
 
         discord: {
+          solid: {
+            value: {
+              base: "{colors.discord.500}",
+              _dark: "{colors.discord.500}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.discord.50}",
@@ -1783,25 +1789,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.discord.300}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.discord.50}",
-              _dark: "{colors.discord.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.discord.100}",
               _dark: "{colors.discord.900}",
             },
           },
-          emphasized: { value: "{colors.discord.400}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.discord.500}",
-              _dark: "{colors.discord.500}",
+              base: "{colors.discord.50}",
+              _dark: "{colors.discord.950}",
             },
           },
+          emphasized: { value: "{colors.discord.400}" },
           focusRing: {
             value: {
               base: "{colors.discord.500}",
@@ -1817,6 +1817,12 @@ export const chakraConfig = defineConfig({
         },
 
         powderLavender: {
+          solid: {
+            value: {
+              base: "{colors.powderLavender.500}",
+              _dark: "{colors.powderLavender.500}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.powderLavender.50}",
@@ -1829,25 +1835,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.powderLavender.400}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.powderLavender.50}",
-              _dark: "{colors.powderLavender.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.powderLavender.100}",
               _dark: "{colors.powderLavender.900}",
             },
           },
-          emphasized: { value: "{colors.powderLavender.400}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.powderLavender.500}",
-              _dark: "{colors.powderLavender.500}",
+              base: "{colors.powderLavender.50}",
+              _dark: "{colors.powderLavender.950}",
             },
           },
+          emphasized: { value: "{colors.powderLavender.400}" },
           focusRing: {
             value: {
               base: "{colors.powderLavender.500}",
@@ -1863,6 +1863,12 @@ export const chakraConfig = defineConfig({
         },
 
         lavender: {
+          solid: {
+            value: {
+              base: "{colors.lavender.500}",
+              _dark: "{colors.lavender.600}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.lavender.50}",
@@ -1875,25 +1881,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.lavender.300}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.lavender.50}",
-              _dark: "{colors.lavender.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.lavender.100}",
               _dark: "{colors.lavender.900}",
             },
           },
-          emphasized: { value: "{colors.lavender.400}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.lavender.500}",
-              _dark: "{colors.lavender.600}",
+              base: "{colors.lavender.50}",
+              _dark: "{colors.lavender.950}",
             },
           },
+          emphasized: { value: "{colors.lavender.400}" },
           focusRing: {
             value: {
               base: "{colors.lavender.500}",
@@ -1909,6 +1909,12 @@ export const chakraConfig = defineConfig({
         },
 
         purple: {
+          solid: {
+            value: {
+              base: "{colors.purple.500}",
+              _dark: "{colors.purple.600}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.purple.50} !important",
@@ -1921,25 +1927,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.purple.400}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.purple.50}",
-              _dark: "{colors.purple.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.purple.100}",
               _dark: "{colors.purple.900}",
             },
           },
-          emphasized: { value: "{colors.purple.400}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.purple.500}",
-              _dark: "{colors.purple.600}",
+              base: "{colors.purple.50}",
+              _dark: "{colors.purple.950}",
             },
           },
+          emphasized: { value: "{colors.purple.400}" },
           focusRing: {
             value: {
               base: "{colors.purple.500}",
@@ -1955,6 +1955,12 @@ export const chakraConfig = defineConfig({
         },
 
         bubblegumPink: {
+          solid: {
+            value: {
+              base: "{colors.bubblegumPink.500}",
+              _dark: "{colors.bubblegumPink.600}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.bubblegumPink.50}",
@@ -1967,25 +1973,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.bubblegumPink.400}",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.bubblegumPink.50}",
-              _dark: "{colors.bubblegumPink.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.bubblegumPink.100}",
               _dark: "{colors.bubblegumPink.900}",
             },
           },
-          emphasized: { value: "{colors.bubblegumPink.400}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.bubblegumPink.500}",
-              _dark: "{colors.bubblegumPink.600}",
+              base: "{colors.bubblegumPink.50}",
+              _dark: "{colors.bubblegumPink.950}",
             },
           },
+          emphasized: { value: "{colors.bubblegumPink.400}" },
           focusRing: {
             value: {
               base: "{colors.bubblegumPink.500}",
@@ -2001,6 +2001,12 @@ export const chakraConfig = defineConfig({
         },
 
         pink: {
+          solid: {
+            value: {
+              base: "{colors.pink.500}",
+              _dark: "{colors.pink.600}",
+            },
+          },
           contrast: {
             value: {
               base: "{colors.pink.50} !important",
@@ -2013,25 +2019,19 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.pink.400} !important",
             },
           },
-          subtle: {
-            value: {
-              base: "{colors.pink.50}",
-              _dark: "{colors.pink.950}",
-            },
-          },
           muted: {
             value: {
               base: "{colors.pink.100} !important",
               _dark: "{colors.pink.900} !important",
             },
           },
-          emphasized: { value: "{colors.pink.400}" },
-          solid: {
+          subtle: {
             value: {
-              base: "{colors.pink.500}",
-              _dark: "{colors.pink.600}",
+              base: "{colors.pink.50}",
+              _dark: "{colors.pink.950}",
             },
           },
+          emphasized: { value: "{colors.pink.400}" },
           focusRing: {
             value: {
               base: "{colors.pink.500}",
