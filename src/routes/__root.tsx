@@ -4,8 +4,6 @@ import { Outlet, createRootRoute } from "@tanstack/react-router";
 import "@fontsource-variable/plus-jakarta-sans";
 import "@/app.css";
 
-// -----------------------------------------------------------------
-
 export const Route = createRootRoute({
   component: RootComponent,
 });

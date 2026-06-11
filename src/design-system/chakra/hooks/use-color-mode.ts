@@ -1,7 +1,5 @@
 import { useTheme } from "next-themes";
 
-// -----------------------------------------------------------------
-
 export type ColorMode = "light" | "dark";
 
 export interface UseColorMode {

@@ -5,8 +5,6 @@ import {
 } from "@/design-system/components/layout/flex-box";
 import { createLazyFileRoute } from "@tanstack/react-router";
 
-// -----------------------------------------------------------------
-
 export const Route = createLazyFileRoute("/")({
   component: RouteComponent,
 });

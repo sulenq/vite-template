@@ -1,6 +1,6 @@
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
 
-// -----------------------------------------------------------------
+
 
 export const chakraConfig = defineConfig({
   conditions: {
@@ -40,7 +40,7 @@ export const chakraConfig = defineConfig({
 
         placeholder: { value: "#96969691" },
 
-        // -----------------------------------------------------------------
+        
 
         neutral: {
           50: { value: "#fafafa" },
@@ -631,7 +631,7 @@ export const chakraConfig = defineConfig({
           },
         },
 
-        // -----------------------------------------------------------------
+        
         neutral: {
           contrast: {
             value: {

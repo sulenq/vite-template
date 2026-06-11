@@ -1,7 +1,5 @@
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
 
-// -----------------------------------------------------------------
-
 export const chakraConfig = defineConfig({
   conditions: {
     hover: "&:is(:hover, [data-hover]):not(:disabled, [data-disabled])",
@@ -39,8 +37,6 @@ export const chakraConfig = defineConfig({
         an4: { value: "#8a90964an" },
 
         placeholder: { value: "#96969691" },
-
-        // -----------------------------------------------------------------
 
         neutral: {
           50: { value: "#fafafa" },
@@ -620,8 +616,6 @@ export const chakraConfig = defineConfig({
             },
           },
         },
-
-        // -----------------------------------------------------------------
 
         neutral: {
           contrast: {
