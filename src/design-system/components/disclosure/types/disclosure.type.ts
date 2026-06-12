@@ -5,10 +5,9 @@ import {
   Drawer as ChakraDrawer,
 } from "@chakra-ui/react";
 
-export type DisclosureRootProps = {} & (
-  | ChakraDrawer.RootProps
-  | ChakraDialog.RootProps
-);
+export type DisclosureRootProps = {
+  opened?: boolean;
+} & (ChakraDrawer.RootProps | ChakraDialog.RootProps);
 
 export type DisclosureBackdropProps = {} & (
   | ChakraDrawer.BackdropProps

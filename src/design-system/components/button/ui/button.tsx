@@ -20,6 +20,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         size={MAIN_BUTTON_SIZE}
         colorPalette={"neutral"}
+        fontWeight={"normal"}
         {...props}
       />
     );

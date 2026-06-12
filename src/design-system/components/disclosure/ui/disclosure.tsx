@@ -22,25 +22,39 @@ import { useViewport } from "@/design-system/hooks/use-viewport";
 import {
   Dialog as ChakraDialog,
   Drawer as ChakraDrawer,
+  DialogContent,
+  DrawerContent,
 } from "@chakra-ui/react";
 import { XIcon } from "lucide-react";
 
-const DisclosureRoot = ({ children, ...props }: DisclosureRootProps) => {
+const DisclosureRoot = (props: DisclosureRootProps) => {
+  // Props
+  const { children, opened, ...restProps } = props;
+
   // Hooks
   const viewport = useViewport();
   const isSmallViewport = viewport.width < parseInt(SM_SCREEN_BREAKPOINT, 10);
 
   return isSmallViewport ? (
-    <Drawer.Root placement={"bottom"} {...(props as ChakraDrawer.RootProps)}>
-      {children}
+    <Drawer.Root
+      open={opened}
+      placement={"bottom"}
+      lazyMount
+      unmountOnExit
+      {...(restProps as ChakraDrawer.RootProps)}
+    >
+      <DrawerContent>{children}</DrawerContent>
     </Drawer.Root>
   ) : (
     <Dialog.Root
+      open={opened}
       placement={"center"}
       scrollBehavior={"inside"}
-      {...(props as ChakraDialog.RootProps)}
+      lazyMount
+      unmountOnExit
+      {...(restProps as ChakraDialog.RootProps)}
     >
-      {children}
+      <DialogContent>{children}</DialogContent>
     </Dialog.Root>
   );
 };

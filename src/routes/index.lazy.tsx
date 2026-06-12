@@ -1,9 +1,12 @@
 import {
-  Flex,
-  HStack,
-  Stack,
-} from "@/design-system/components/layout/flex-box";
+  Button,
+  IconButton,
+} from "@/design-system/components/button/ui/button";
+import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
+import { Box } from "@/design-system/components/layout/container";
+import { SettingsTrigger } from "@/features/settings/components/settings.disclosure";
 import { createLazyFileRoute } from "@tanstack/react-router";
+import { SettingsIcon } from "lucide-react";
 
 export const Route = createLazyFileRoute("/")({
   component: RouteComponent,
@@ -11,16 +14,14 @@ export const Route = createLazyFileRoute("/")({
 
 function RouteComponent() {
   return (
-    <Stack gap={10}>
-      <HStack>
-        <Flex w={"50px"} h={"100px"} bg={"red"} />
-        <Flex w={"50px"} h={"200px"} bg={"cyan.solid"} />
-      </HStack>
+    <Box className="debug" h={"100vh"} gap={10}>
+      <SettingsTrigger className="debug" disclosurePath="/settings">
+        <IconButton>
+          <AppLucideIcon icon={SettingsIcon} />
+        </IconButton>
 
-      <Flex>
-        <Flex w={"50px"} h={"100px"} bg={"red"} />
-        <Flex w={"50px"} h={"200px"} bg={"cyan.solid"} />
-      </Flex>
-    </Stack>
+        <Button>Tes Button</Button>
+      </SettingsTrigger>
+    </Box>
   );
 }

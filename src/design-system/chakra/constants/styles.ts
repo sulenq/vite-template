@@ -1,3 +1,5 @@
+// src/design-system/chakra/constants/styles.ts
+
 import type { ButtonProps, InputProps } from "@chakra-ui/react";
 
 // Dimensions

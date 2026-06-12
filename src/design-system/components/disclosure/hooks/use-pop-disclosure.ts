@@ -1,10 +1,10 @@
-// src/design-system/components/disclosure/hooks/useDisclosure.ts
+// src/design-system/components/disclosure/hooks/use-pop-disclosure.ts
 
 import { useMemo } from "react";
 import { useSearch, useNavigate } from "@tanstack/react-router";
 import { Route as RootRoute } from "@/routes/__root";
 
-export function useDisclosure(disclosurePath: string) {
+export function usePopDisclosure(disclosurePath: string) {
   const { d } = useSearch({
     from: RootRoute.id,
   });

@@ -4,9 +4,9 @@ import { SM_SCREEN_BREAKPOINT } from "@/design-system/chakra/constants/styles";
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
 
 export const chakraConfig = defineConfig({
-  conditions: {
-    hover: "&:is(:hover, [data-hover]):not(:disabled, [data-disabled])",
-  },
+  // conditions: {
+  //   hover: "&:is(:hover, [data-hover]):not(:disabled, [data-disabled])",
+  // },
   globalCss: {
     "html, body": {
       bg: "bg.body",
@@ -487,9 +487,9 @@ export const chakraConfig = defineConfig({
       spacing: {},
 
       fonts: {
-        heading: { value: "Plus Jakarta Sans, sans-serif" },
-        body: { value: "Plus Jakarta Sans, sans-serif" },
-        number: { value: "Plus Jakarta Sans, sans-serif" },
+        heading: { value: "Plus Jakarta Sans Variable, sans-serif" },
+        body: { value: "Plus Jakarta Sans Variable, sans-serif" },
+        number: { value: "Plus Jakarta Sans Variable, sans-serif" },
       },
       fontSizes: {
         xs: { value: "0.75rem" }, // 12px
@@ -512,6 +512,7 @@ export const chakraConfig = defineConfig({
         semibold: { value: "600" },
         bold: { value: "700" },
         extrabold: { value: "800" },
+        black: { value: "900" },
       },
       letterSpacings: {},
       lineHeights: {},
@@ -596,8 +597,8 @@ export const chakraConfig = defineConfig({
         neutral: {
           contrast: {
             value: {
-              base: "{colors.bodyDark}",
-              _dark: "{colors.bodyLight}",
+              base: "{colors.bodyLight}",
+              _dark: "{colors.bodyDark}",
             },
           },
           fg: {
@@ -618,11 +619,16 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.neutral.800}",
             },
           },
-          emphasized: { value: "{colors.neutral.800}" },
+          emphasized: {
+            value: {
+              base: "{colors.neutral.300}",
+              _dark: "{colors.neutral.700}",
+            },
+          },
           solid: {
             value: {
               base: "{colors.neutral.900}",
-              _dark: "{colors.bodyDark}",
+              _dark: "{colors.bodyLight}",
             },
           },
           focusRing: {
