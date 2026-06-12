@@ -4,11 +4,9 @@
 
 import { Button } from "@/design-system/components/button/ui/button";
 import { usePopDisclosure } from "@/design-system/components/disclosure/hooks/use-pop-disclosure";
+import type { DisclosureTrigger } from "@/design-system/components/disclosure/types/disclosure.type";
 import { Disclosure } from "@/design-system/components/disclosure/ui/disclosure";
-import {
-  Box,
-  type StackProps,
-} from "@/design-system/components/layout/container";
+import { Box } from "@/design-system/components/layout/container";
 
 interface SettingsDisclosureProps {
   isOpen?: boolean;
@@ -25,9 +23,9 @@ export const SettingsDisclosure = (props: SettingsDisclosureProps) => {
       </Disclosure.Header>
 
       <Disclosure.Body>
-        <SettingsTrigger disclosurePath={"sub"}>
+        <ResetPasswordTrigger dKey={"settings.reset-password"}>
           <Button>Reset Passwrod</Button>
-        </SettingsTrigger>
+        </ResetPasswordTrigger>
       </Disclosure.Body>
 
       <Disclosure.Footer></Disclosure.Footer>
@@ -35,16 +33,12 @@ export const SettingsDisclosure = (props: SettingsDisclosureProps) => {
   );
 };
 
-interface SettingsTrigger extends StackProps {
-  disclosurePath: string;
-}
-
-export const SettingsTrigger = (props: SettingsTrigger) => {
+export const SettingsTrigger = (props: DisclosureTrigger) => {
   // Props
-  const { children, disclosurePath, ...restProps } = props;
+  const { children, dKey, ...restProps } = props;
 
   // Hooks
-  const { isOpen, open } = usePopDisclosure(disclosurePath);
+  const { isOpen, open } = usePopDisclosure(dKey);
 
   return (
     <>
@@ -53,6 +47,30 @@ export const SettingsTrigger = (props: SettingsTrigger) => {
       </Box>
 
       <SettingsDisclosure isOpen={isOpen} />
+    </>
+  );
+};
+
+export const ResetPasswordTrigger = (props: DisclosureTrigger) => {
+  // Props
+  const { children, dKey, ...restProps } = props;
+
+  // Hooks
+  const { isOpen, open } = usePopDisclosure(dKey);
+
+  return (
+    <>
+      <Box w={"fit"} onClick={open} {...restProps}>
+        {children}
+      </Box>
+
+      <Disclosure.Root opened={isOpen}>
+        <Disclosure.Header></Disclosure.Header>
+
+        <Disclosure.Body>Reset Password Content</Disclosure.Body>
+
+        <Disclosure.Footer></Disclosure.Footer>
+      </Disclosure.Root>
     </>
   );
 };

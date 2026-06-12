@@ -15,13 +15,13 @@ export const Route = createLazyFileRoute("/")({
 function RouteComponent() {
   return (
     <Box className="debug" h={"100vh"} gap={10}>
-      <SettingsTrigger className="debug" disclosurePath="/settings">
+      <SettingsTrigger className="debug" dKey="settings">
         <IconButton>
           <AppLucideIcon icon={SettingsIcon} />
         </IconButton>
-
-        <Button>Tes Button</Button>
       </SettingsTrigger>
+
+      <Button>Tes Button</Button>
     </Box>
   );
 }

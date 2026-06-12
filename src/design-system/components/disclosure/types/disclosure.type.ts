@@ -3,7 +3,12 @@
 import {
   Dialog as ChakraDialog,
   Drawer as ChakraDrawer,
+  type BoxProps,
 } from "@chakra-ui/react";
+
+export interface DisclosureTrigger extends BoxProps {
+  dKey: string;
+}
 
 export type DisclosureRootProps = {
   opened?: boolean;

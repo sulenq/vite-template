@@ -2015,7 +2015,44 @@ export const chakraConfig = defineConfig({
         },
       },
       gradients: {},
-      shadows: {},
+      shadows: {
+        xs: {
+          value: {
+            base: "0 1px 2px rgba(0,0,0,0.04)",
+            _dark: "0 1px 2px rgba(0,0,0,0.25)",
+          },
+        },
+        sm: {
+          value: {
+            base: "0 2px 4px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03)",
+            _dark: "0 2px 4px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.18)",
+          },
+        },
+        md: {
+          value: {
+            base: "0 2px 4px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.02)",
+            _dark: "0 2px 4px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.16)",
+          },
+        },
+        lg: {
+          value: {
+            base: "0 8px 16px rgba(0,0,0,0.04), 0 4px 6px rgba(0,0,0,0.03)",
+            _dark: "0 8px 16px rgba(0,0,0,0.28), 0 4px 6px rgba(0,0,0,0.22)",
+          },
+        },
+        xl: {
+          value: {
+            base: "0 12px 24px rgba(0,0,0,0.05), 0 6px 10px rgba(0,0,0,0.04)",
+            _dark: "0 12px 24px rgba(0,0,0,0.32), 0 6px 10px rgba(0,0,0,0.26)",
+          },
+        },
+        "2xl": {
+          value: {
+            base: "0 20px 40px rgba(0,0,0,0.06)",
+            _dark: "0 20px 40px rgba(0,0,0,0.4)",
+          },
+        },
+      },
       radii: {},
       borders: {},
     },
