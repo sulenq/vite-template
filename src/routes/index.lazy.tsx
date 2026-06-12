@@ -1,3 +1,5 @@
+// src/routes/index.lazy.tsx
+
 import {
   Button,
   IconButton,
@@ -14,8 +16,8 @@ export const Route = createLazyFileRoute("/")({
 
 function RouteComponent() {
   return (
-    <Box className="debug" h={"100vh"} gap={10}>
-      <SettingsTrigger className="debug" dKey="settings">
+    <Box h={"100vh"} gap={10}>
+      <SettingsTrigger dKey="settings">
         <IconButton>
           <AppLucideIcon icon={SettingsIcon} />
         </IconButton>

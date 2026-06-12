@@ -40,6 +40,8 @@ export const SettingsTrigger = (props: DisclosureTrigger) => {
   // Hooks
   const { isOpen, open } = usePopDisclosure(dKey);
 
+  //   console.log("settings open", isOpen);
+
   return (
     <>
       <Box w={"fit"} onClick={open} {...restProps}>
@@ -57,6 +59,8 @@ export const ResetPasswordTrigger = (props: DisclosureTrigger) => {
 
   // Hooks
   const { isOpen, open } = usePopDisclosure(dKey);
+
+  //   console.log("reset password open", isOpen);
 
   return (
     <>

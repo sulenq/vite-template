@@ -52,7 +52,7 @@ export function usePopDisclosure(dKey: string) {
 //   const isOpen = useMemo(() => {
 //     if (typeof d !== "string") return false;
 
-//     return d === dKey || d.startsWith(dKey);
+//     return d === dKey || d.startsWith(dKey + ".");
 //   }, [dKey, d]);
 
 //   function open() {
