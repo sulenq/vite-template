@@ -17,7 +17,7 @@ const DialogBackdrop = (props: ChakraDialog.BackdropProps) => {
   return <ChakraDialog.Backdrop {...props} />;
 };
 
-const DialogTitle = (props: ChakraDialog.TitleProps) => {
+const DialogHeader = (props: ChakraDialog.HeaderProps) => {
   return <ChakraDialog.Title {...props} />;
 };
 
@@ -32,7 +32,7 @@ const DialogFooter = (props: ChakraDialog.FooterProps) => {
 export const Dialog = {
   Root: DialogRoot,
   Backdrop: DialogBackdrop,
-  Title: DialogTitle,
+  Header: DialogHeader,
   Body: DialogBody,
   Content: DialogContent,
   Footer: DialogFooter,

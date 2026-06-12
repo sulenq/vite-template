@@ -3,17 +3,27 @@
 "use client";
 
 import { SM_SCREEN_BREAKPOINT } from "@/design-system/chakra/constants/styles";
+import type { ButtonProps } from "@/design-system/components/button/types/button.type";
+import { IconButton } from "@/design-system/components/button/ui/button";
+import type {
+  DisclosureBackdropProps,
+  DisclosureBodyProps,
+  DisclosureContentProps,
+  DisclosureFooterProps,
+  DisclosureHeaderProps,
+  DisclosureRootProps,
+} from "@/design-system/components/disclosure/types/disclosure.type";
 import { Dialog } from "@/design-system/components/disclosure/ui/dialog";
 import { Drawer } from "@/design-system/components/disclosure/ui/drawer";
+import { back } from "@/design-system/components/disclosure/utils/navigation";
+import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { useViewport } from "@/design-system/hooks/use-viewport";
-import { Drawer as ChakraDrawer } from "@chakra-ui/react";
-import { Dialog as ChakraDialog } from "@chakra-ui/react";
-
-type DisclosureRootProps = {} & (
-  | ChakraDrawer.RootProps
-  | ChakraDialog.RootProps
-);
+import {
+  Dialog as ChakraDialog,
+  Drawer as ChakraDrawer,
+} from "@chakra-ui/react";
+import { XIcon } from "lucide-react";
 
 const DisclosureRoot = ({ children, ...props }: DisclosureRootProps) => {
   // Hooks
@@ -35,12 +45,7 @@ const DisclosureRoot = ({ children, ...props }: DisclosureRootProps) => {
   );
 };
 
-type DisclosureBackdropProps = {} & (
-  | ChakraDrawer.BackdropProps
-  | ChakraDialog.BackdropProps
-);
-
-const DisclosureBackdrop = ({ ...props }: DisclosureBackdropProps) => {
+const DisclosureBackdrop = (props: DisclosureBackdropProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   return isSmallViewport ? (
@@ -50,12 +55,7 @@ const DisclosureBackdrop = ({ ...props }: DisclosureBackdropProps) => {
   );
 };
 
-type DisclosureContentProps = {} & (
-  | ChakraDrawer.ContentProps
-  | ChakraDialog.ContentProps
-);
-
-const DisclosureContent = ({ ...props }: DisclosureContentProps) => {
+const DisclosureContent = (props: DisclosureContentProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   return isSmallViewport ? (
@@ -65,27 +65,27 @@ const DisclosureContent = ({ ...props }: DisclosureContentProps) => {
   );
 };
 
-type DisclosureTitleProps = {} & (
-  | ChakraDrawer.TitleProps
-  | ChakraDialog.TitleProps
-);
+const DisclosureCloseButon = (props: ButtonProps) => {
+  const { ...restProps } = props;
 
-const DisclosureTitle = ({ ...props }: DisclosureTitleProps) => {
-  const isSmallViewport = useIsSmallViewport();
-
-  return isSmallViewport ? (
-    <Drawer.Title {...(props as ChakraDrawer.TitleProps)} />
-  ) : (
-    <Dialog.Title {...(props as ChakraDialog.TitleProps)} />
+  return (
+    <IconButton onClick={back} {...restProps}>
+      <AppLucideIcon icon={XIcon} />
+    </IconButton>
   );
 };
 
-type DisclosureBodyProps = {} & (
-  | ChakraDrawer.BodyProps
-  | ChakraDialog.BodyProps
-);
+const DisclosureHeader = (props: DisclosureHeaderProps) => {
+  const isSmallViewport = useIsSmallViewport();
 
-const DisclosureBody = ({ ...props }: DisclosureBodyProps) => {
+  return isSmallViewport ? (
+    <Drawer.Header {...(props as ChakraDrawer.HeaderProps)} />
+  ) : (
+    <Dialog.Header {...(props as ChakraDialog.HeaderProps)} />
+  );
+};
+
+const DisclosureBody = (props: DisclosureBodyProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   return isSmallViewport ? (
@@ -95,12 +95,7 @@ const DisclosureBody = ({ ...props }: DisclosureBodyProps) => {
   );
 };
 
-type DisclosureFooterProps = {} & (
-  | ChakraDrawer.FooterProps
-  | ChakraDialog.FooterProps
-);
-
-const DisclosureFooter = ({ ...props }: DisclosureFooterProps) => {
+const DisclosureFooter = (props: DisclosureFooterProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   return isSmallViewport ? (
@@ -114,7 +109,8 @@ export const Disclosure = {
   Root: DisclosureRoot,
   Backdrop: DisclosureBackdrop,
   Content: DisclosureContent,
-  Title: DisclosureTitle,
+  CloseButton: DisclosureCloseButon,
+  Header: DisclosureHeader,
   Body: DisclosureBody,
   Footer: DisclosureFooter,
 };

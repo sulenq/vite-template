@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit --watch --preserveWatchOutput",
     "sitemap:generate": "node src/scripts/generate-sitemap.js",
-    "chakra:typegen": "chakra typegen ./src/themes/chakra-custom-system.ts"
+    "chakra:typegen": "pnpm exec chakra typegen ./src/design-system/chakra/chakra-system.ts"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.35.0",
@@ -26,6 +26,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@chakra-ui/cli": "^3.36.0",
     "@eslint/js": "^10.0.1",
     "@tanstack/router-plugin": "^1.168.18",
     "@types/node": "^24.13.1",

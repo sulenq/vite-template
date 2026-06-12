@@ -1,3 +1,5 @@
+// src/design-system/components/disclosure/hooks/useDisclosure.ts
+
 import { useMemo } from "react";
 import { useSearch, useNavigate } from "@tanstack/react-router";
 import { Route as RootRoute } from "@/routes/__root";
