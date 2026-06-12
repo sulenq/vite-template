@@ -9,12 +9,16 @@ export const DialogRoot = (props: ChakraDialog.RootProps) => {
   return <ChakraDialog.Root onEscapeKeyDown={back} {...props} />;
 };
 
-const DialogContent = (props: ChakraDialog.ContentProps) => {
-  return <ChakraDialog.Content {...props} />;
-};
-
 const DialogBackdrop = (props: ChakraDialog.BackdropProps) => {
   return <ChakraDialog.Backdrop {...props} />;
+};
+
+const DialogPositioner = (props: ChakraDialog.PositionerProps) => {
+  return <ChakraDialog.Positioner {...props} />;
+};
+
+const DialogContent = (props: ChakraDialog.ContentProps) => {
+  return <ChakraDialog.Content {...props} />;
 };
 
 const DialogHeader = (props: ChakraDialog.HeaderProps) => {
@@ -32,8 +36,9 @@ const DialogFooter = (props: ChakraDialog.FooterProps) => {
 export const Dialog = {
   Root: DialogRoot,
   Backdrop: DialogBackdrop,
+  Positioner: DialogPositioner,
+  Content: DialogContent,
   Header: DialogHeader,
   Body: DialogBody,
-  Content: DialogContent,
   Footer: DialogFooter,
 };

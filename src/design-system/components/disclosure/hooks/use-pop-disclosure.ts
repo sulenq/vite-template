@@ -1,6 +1,6 @@
 // src/design-system/components/disclosure/hooks/use-pop-disclosure.ts
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useSearch, useNavigate } from "@tanstack/react-router";
 import { Route as RootRoute } from "@/routes/__root";
 
@@ -9,6 +9,13 @@ export function usePopDisclosure(dKey: string) {
     from: RootRoute.id,
   });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!d) {
+      document.body.style.overflow = "";
+      document.body.style.pointerEvents = "";
+    }
+  }, [d]);
 
   const isOpen = useMemo(() => {
     if (typeof d !== "string") return false;

@@ -8,7 +8,6 @@ import { IconButton } from "@/design-system/components/button/ui/button";
 import type {
   DisclosureBackdropProps,
   DisclosureBodyProps,
-  DisclosureContentProps,
   DisclosureFooterProps,
   DisclosureHeaderProps,
   DisclosureRootProps,
@@ -22,14 +21,26 @@ import { useViewport } from "@/design-system/hooks/use-viewport";
 import {
   Dialog as ChakraDialog,
   Drawer as ChakraDrawer,
+  DialogBackdrop,
   DialogContent,
+  DialogPositioner,
   DrawerContent,
+  Portal,
 } from "@chakra-ui/react";
 import { XIcon } from "lucide-react";
 
 const DisclosureRoot = (props: DisclosureRootProps) => {
   // Props
-  const { children, opened, ...restProps } = props;
+  const {
+    children,
+    opened,
+    portalled = true,
+    portalRef,
+    backdrop = true,
+    positionerProps,
+    contentProps,
+    ...restProps
+  } = props;
 
   // Hooks
   const viewport = useViewport();
@@ -54,7 +65,13 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
       unmountOnExit
       {...(restProps as ChakraDialog.RootProps)}
     >
-      <DialogContent>{children}</DialogContent>
+      <Portal disabled={!portalled} container={portalRef}>
+        {backdrop && <DialogBackdrop />}
+
+        <DialogPositioner {...positionerProps}>
+          <DialogContent {...contentProps}>{children}</DialogContent>
+        </DialogPositioner>
+      </Portal>
     </Dialog.Root>
   );
 };
@@ -66,16 +83,6 @@ const DisclosureBackdrop = (props: DisclosureBackdropProps) => {
     <Drawer.Backdrop {...(props as ChakraDrawer.BackdropProps)} />
   ) : (
     <Dialog.Backdrop {...(props as ChakraDialog.BackdropProps)} />
-  );
-};
-
-const DisclosureContent = (props: DisclosureContentProps) => {
-  const isSmallViewport = useIsSmallViewport();
-
-  return isSmallViewport ? (
-    <Drawer.Content {...(props as ChakraDrawer.ContentProps)} />
-  ) : (
-    <Dialog.Content {...(props as ChakraDialog.ContentProps)} />
   );
 };
 
@@ -122,7 +129,6 @@ const DisclosureFooter = (props: DisclosureFooterProps) => {
 export const Disclosure = {
   Root: DisclosureRoot,
   Backdrop: DisclosureBackdrop,
-  Content: DisclosureContent,
   CloseButton: DisclosureCloseButon,
   Header: DisclosureHeader,
   Body: DisclosureBody,

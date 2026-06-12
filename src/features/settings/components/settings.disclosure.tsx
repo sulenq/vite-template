@@ -7,6 +7,7 @@ import { usePopDisclosure } from "@/design-system/components/disclosure/hooks/us
 import type { DisclosureTrigger } from "@/design-system/components/disclosure/types/disclosure.type";
 import { Disclosure } from "@/design-system/components/disclosure/ui/disclosure";
 import { Box } from "@/design-system/components/layout/container";
+import { useRef } from "react";
 
 interface SettingsDisclosureProps {
   isOpen?: boolean;
@@ -16,6 +17,9 @@ export const SettingsDisclosure = (props: SettingsDisclosureProps) => {
   // Props
   const { isOpen, ...restProps } = props;
 
+  // Refs
+  const bodyRef = useRef<HTMLElement>(null);
+
   return (
     <Disclosure.Root opened={isOpen} {...restProps}>
       <Disclosure.Header>
@@ -23,7 +27,11 @@ export const SettingsDisclosure = (props: SettingsDisclosureProps) => {
       </Disclosure.Header>
 
       <Disclosure.Body>
-        <ResetPasswordTrigger dKey={"settings.reset-password"}>
+        <ResetPasswordTrigger
+          dKey={"settings.reset-password"}
+          portalled={false}
+          portalRef={bodyRef}
+        >
           <Button>Reset Passwrod</Button>
         </ResetPasswordTrigger>
       </Disclosure.Body>
@@ -55,7 +63,7 @@ export const SettingsTrigger = (props: DisclosureTrigger) => {
 
 export const ResetPasswordTrigger = (props: DisclosureTrigger) => {
   // Props
-  const { children, dKey, ...restProps } = props;
+  const { children, dKey, portalled, portalRef, ...restProps } = props;
 
   // Hooks
   const { isOpen, open } = usePopDisclosure(dKey);
@@ -68,7 +76,14 @@ export const ResetPasswordTrigger = (props: DisclosureTrigger) => {
         {children}
       </Box>
 
-      <Disclosure.Root opened={isOpen}>
+      <Disclosure.Root
+        opened={isOpen}
+        portalled={portalled}
+        portalRef={portalRef}
+        contentProps={{
+          zIndex: "modal",
+        }}
+      >
         <Disclosure.Header></Disclosure.Header>
 
         <Disclosure.Body>Reset Password Content</Disclosure.Body>

@@ -13,6 +13,10 @@ const DrawerBackdrop = (props: ChakraDrawer.BackdropProps) => {
   return <ChakraDrawer.Backdrop {...props} />;
 };
 
+const DrawerPositioner = (props: ChakraDrawer.PositionerProps) => {
+  return <ChakraDrawer.Positioner {...props} />;
+};
+
 const DrawerContent = (props: ChakraDrawer.ContentProps) => {
   return <ChakraDrawer.Content {...props} />;
 };
@@ -32,6 +36,7 @@ const DrawerFooter = (props: ChakraDrawer.FooterProps) => {
 export const Drawer = {
   Root: DrawerRoot,
   Backdrop: DrawerBackdrop,
+  Positioner: DrawerPositioner,
   Content: DrawerContent,
   Header: DrawerHeader,
   Body: DrawerBody,

@@ -4,15 +4,26 @@ import {
   Dialog as ChakraDialog,
   Drawer as ChakraDrawer,
   type BoxProps,
+  type DialogPositionerProps,
 } from "@chakra-ui/react";
 
 export interface DisclosureTrigger extends BoxProps {
   dKey: string;
+  portalled?: boolean;
+  portalRef?: React.RefObject<HTMLElement | null>;
 }
 
 export type DisclosureRootProps = {
   opened?: boolean;
-} & (ChakraDrawer.RootProps | ChakraDialog.RootProps);
+  portalled?: boolean;
+  portalRef?: React.RefObject<HTMLElement | null>;
+  backdrop?: boolean;
+  positionerProps?: DialogPositionerProps;
+  contentProps?: DisclosureContentProps;
+} & (
+  | Omit<ChakraDrawer.RootProps, "open">
+  | Omit<ChakraDialog.RootProps, "open">
+);
 
 export type DisclosureBackdropProps = {} & (
   | ChakraDrawer.BackdropProps
