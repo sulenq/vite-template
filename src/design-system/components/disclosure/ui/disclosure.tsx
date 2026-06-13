@@ -141,6 +141,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
       <Dialog.Positioner {...positionerProps}>
         {backdrop && (
           <Dialog.Backdrop
+            pointerEvents={"auto"}
             onClick={() => {
               back();
             }}
