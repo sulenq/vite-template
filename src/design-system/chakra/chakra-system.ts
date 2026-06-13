@@ -612,10 +612,10 @@ export const chakraConfig = defineConfig({
           value: "300ms",
         },
         slower: {
-          value: "400ms",
+          value: "450ms",
         },
         slowest: {
-          value: "500ms",
+          value: "550ms",
         },
       },
 

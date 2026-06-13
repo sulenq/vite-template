@@ -20,6 +20,7 @@ import {
   updateClickOrigin,
   updateDialogOffset,
 } from "@/design-system/components/disclosure/utils/click-origin";
+import { back } from "@/design-system/components/disclosure/utils/navigation";
 import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import {
@@ -93,9 +94,7 @@ const DisclosureTrigger = (props: DisclosureTriggerProps) => {
   return (
     <Dialog.Trigger
       {...(props as ChakraDialog.TriggerProps)}
-      onPointerDown={(event) => {
-        updateClickOrigin(event.currentTarget);
-      }}
+      onPointerDown={(e) => updateClickOrigin(e.currentTarget)}
     />
   );
 };
@@ -139,21 +138,22 @@ const DisclosureContent = (props: DisclosureContentProps) => {
 
   return (
     <Portal disabled={!portalled} container={portalRef}>
-      {backdrop && <Dialog.Backdrop />}
+      <Dialog.Positioner {...positionerProps}>
+        {backdrop && (
+          <Dialog.Backdrop
+            onClick={() => {
+              back();
+            }}
+          />
+        )}
 
-      <Dialog.Positioner
-        // onClick={() => {
-        //   back();
-        // }}
-        {...positionerProps}
-      >
         <Dialog.Content
           ref={contentRef}
           bg={"bg.body"}
           shadow={"md"}
           onAnimationStart={() => {
             if (contentRef.current) {
-              updateDialogOffset();
+              updateDialogOffset(contentRef.current);
             }
           }}
           _open={{
