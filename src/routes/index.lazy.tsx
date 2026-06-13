@@ -4,7 +4,7 @@ import { IconButton } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
 import { VStack } from "@/design-system/components/layout/container";
-import { SettingsTrigger } from "@/features/settings/components/settings.disclosure";
+import { Settings } from "@/features/settings/components/settings.disclosure";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { SettingsIcon } from "lucide-react";
 
@@ -17,11 +17,11 @@ function RouteComponent() {
     <VStack h={"100vh"} gap={10}>
       <ColorModeToggleButton />
 
-      <SettingsTrigger dKey={"settings"} w={"fit"} mb={"auto"}>
+      <Settings.Trigger dKey={"settings"} w={"fit"} mb={"auto"}>
         <IconButton>
           <AppLucideIcon icon={SettingsIcon} />
         </IconButton>
-      </SettingsTrigger>
+      </Settings.Trigger>
     </VStack>
   );
 }

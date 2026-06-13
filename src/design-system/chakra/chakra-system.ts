@@ -37,10 +37,10 @@ export const chakraConfig = defineConfig({
         },
         "50%": {
           transform: "translate(0, 0) scale(1.025)",
-          opacity: 1,
         },
         "100%": {
-          transform: "scale(1)",
+          transform: "translate(0, 0) scale(1)",
+          opacity: 1,
         },
       },
 
@@ -53,6 +53,17 @@ export const chakraConfig = defineConfig({
           transform:
             "translate(var(--dialog-offset-x), var(--dialog-offset-y)) scale(0)",
           opacity: 0,
+        },
+      },
+
+      "scale-up": {
+        "0%": {
+          transform: "scale(0.25)",
+          opacity: 0,
+        },
+        "100%": {
+          transform: "scale(1)",
+          opacity: 1,
         },
       },
 
@@ -609,7 +620,14 @@ export const chakraConfig = defineConfig({
       },
 
       // Motion preset
-      animations: {},
+      animations: {
+        "scale-up-overshoot-from-click-origin": {
+          value: "scale-up-overshoot-from-click-origin",
+        },
+        "scale-up": {
+          value: "scale-up cubic-bezier(0.16, 1, 0.3, 1)",
+        },
+      },
 
       aspectRatios: {},
     },

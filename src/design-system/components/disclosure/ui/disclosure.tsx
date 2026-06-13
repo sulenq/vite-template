@@ -20,7 +20,6 @@ import {
   updateClickOrigin,
   updateDialogOffset,
 } from "@/design-system/components/disclosure/utils/click-origin";
-import { back } from "@/design-system/components/disclosure/utils/navigation";
 import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import {
@@ -52,8 +51,6 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
       <Drawer.Root
         open={opened}
         placement={"bottom"}
-        lazyMount
-        unmountOnExit
         {...(restProps as ChakraDrawer.RootProps)}
       >
         <Portal disabled={!portalled} container={portalRef}>
@@ -75,8 +72,6 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
           close();
         }
       }}
-      lazyMount
-      unmountOnExit
       size={"xs"}
       placement={"center"}
       scrollBehavior={"inside"}
@@ -144,16 +139,14 @@ const DisclosureContent = (props: DisclosureContentProps) => {
 
   return (
     <Portal disabled={!portalled} container={portalRef}>
-      {backdrop && (
-        <Dialog.Backdrop
-          pointerEvents={"auto"}
-          onClick={() => {
-            back();
-          }}
-        />
-      )}
+      {backdrop && <Dialog.Backdrop />}
 
-      <Dialog.Positioner {...positionerProps}>
+      <Dialog.Positioner
+        // onClick={() => {
+        //   back();
+        // }}
+        {...positionerProps}
+      >
         <Dialog.Content
           ref={contentRef}
           bg={"bg.body"}
