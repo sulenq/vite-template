@@ -29,7 +29,7 @@ export const chakraConfig = defineConfig({
     },
 
     keyframes: {
-      scaleUpOvershoot: {
+      "scale-up-overshoot": {
         "0%": {
           transform: "scale(0.25)",
           opacity: 0,
@@ -43,7 +43,7 @@ export const chakraConfig = defineConfig({
         },
       },
 
-      scaleDown: {
+      "scale-down": {
         "0%": {
           transform: "scale(1)",
           opacity: 1,
@@ -559,12 +559,13 @@ export const chakraConfig = defineConfig({
 
       durations: {},
 
+      // Motion preset
       animations: {
         "scale-up-overshoot": {
-          value: "scaleUpOvershoot 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+          value: "scale-up-overshoot 0.35s",
         },
         "scale-down": {
-          value: "scaleDown 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+          value: "scale-down 0.35s",
         },
       },
 

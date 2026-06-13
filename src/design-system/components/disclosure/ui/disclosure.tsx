@@ -149,7 +149,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
           }}
           _closed={{
             animation: "scale-down",
-            animationDuration: "slow",
+            animationDuration: "moderate",
           }}
           {...restProps}
         >
