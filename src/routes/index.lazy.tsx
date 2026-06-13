@@ -1,6 +1,7 @@
 // src/routes/index.lazy.tsx
 
 import { IconButton } from "@/design-system/components/button/ui/button";
+import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
 import { VStack } from "@/design-system/components/layout/container";
 import { SettingsTrigger } from "@/features/settings/components/settings.disclosure";
@@ -14,6 +15,8 @@ export const Route = createLazyFileRoute("/")({
 function RouteComponent() {
   return (
     <VStack h={"100vh"} gap={10}>
+      <ColorModeToggleButton />
+
       <SettingsTrigger dKey={"settings"} w={"fit"} mt={"auto"}>
         <IconButton>
           <AppLucideIcon icon={SettingsIcon} />
