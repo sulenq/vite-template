@@ -29,39 +29,13 @@ export const chakraConfig = defineConfig({
     },
 
     keyframes: {
-      scaleUpOvershootFromCursor: {
-        "0%": {
-          transform: "scale(0.25)",
-          opacity: 0,
-        },
-        "50%": {
-          transform: "scale(1.015)",
-          opacity: 1,
-        },
-        "100%": {
-          transform: "scale(1)",
-          opacity: 1,
-        },
-      },
-
-      scaleDownToCursor: {
-        "0%": {
-          transform: "scale(1)",
-          opacity: 1,
-        },
-        "100%": {
-          transform: "scale(0.25)",
-          opacity: 0,
-        },
-      },
-
       scaleUpOvershoot: {
         "0%": {
           transform: "scale(0.25)",
           opacity: 0,
         },
         "50%": {
-          transform: "scale(1.015)",
+          transform: "scale(1.025)",
           opacity: 1,
         },
         "100%": {
@@ -87,7 +61,7 @@ export const chakraConfig = defineConfig({
         canvasDark: { value: "#151515" },
 
         bodyLight: { value: "#faf9ff" },
-        bodyDark: { value: "#1d1d1d" },
+        bodyDark: { value: "#1f1f1f" },
 
         an0: { value: "#8a909614" },
         an1: { value: "#8a90961a" },
@@ -686,7 +660,7 @@ export const chakraConfig = defineConfig({
           },
           solid: {
             value: {
-              base: "{colors.neutral.900}",
+              base: "{colors.bodyDark}",
               _dark: "{colors.bodyLight}",
             },
           },
@@ -2077,38 +2051,42 @@ export const chakraConfig = defineConfig({
       shadows: {
         xs: {
           value: {
-            base: "0 1px 2px rgba(0,0,0,0.04)",
-            _dark: "0 1px 2px rgba(0,0,0,0.25)",
+            base: "0 1px 2px rgba(0,0,0,0.04) !important",
+            _dark: "0 1px 2px rgba(0,0,0,0.25) !important",
           },
         },
         sm: {
           value: {
-            base: "0 2px 4px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03)",
-            _dark: "0 2px 4px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.18)",
+            base: "0 2px 4px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03) !important",
+            _dark:
+              "0 2px 4px rgba(0,0,0,0.22), 0 1px 2px rgba(0,0,0,0.18) !important",
           },
         },
         md: {
           value: {
-            base: "0 2px 4px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.02)",
-            _dark: "0 2px 4px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.16)",
+            base: "0 2px 4px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.02) !important",
+            _dark:
+              "0 2px 4px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.16) !important",
           },
         },
         lg: {
           value: {
-            base: "0 8px 16px rgba(0,0,0,0.04), 0 4px 6px rgba(0,0,0,0.03)",
-            _dark: "0 8px 16px rgba(0,0,0,0.28), 0 4px 6px rgba(0,0,0,0.22)",
+            base: "0 8px 16px rgba(0,0,0,0.04), 0 4px 6px rgba(0,0,0,0.03) !important",
+            _dark:
+              "0 8px 16px rgba(0,0,0,0.28), 0 4px 6px rgba(0,0,0,0.22) !important",
           },
         },
         xl: {
           value: {
-            base: "0 12px 24px rgba(0,0,0,0.05), 0 6px 10px rgba(0,0,0,0.04)",
-            _dark: "0 12px 24px rgba(0,0,0,0.32), 0 6px 10px rgba(0,0,0,0.26)",
+            base: "0 12px 24px rgba(0,0,0,0.05), 0 6px 10px rgba(0,0,0,0.04) !important",
+            _dark:
+              "0 12px 24px rgba(0,0,0,0.32), 0 6px 10px rgba(0,0,0,0.26) !important",
           },
         },
         "2xl": {
           value: {
-            base: "0 20px 40px rgba(0,0,0,0.06)",
-            _dark: "0 20px 40px rgba(0,0,0,0.4)",
+            base: "0 20px 40px rgba(0,0,0,0.06) !important",
+            _dark: "0 20px 40px rgba(0,0,0,0.4) !important",
           },
         },
       },

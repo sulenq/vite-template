@@ -81,6 +81,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
           close();
         }
       }}
+      size={"xs"}
       placement={"center"}
       scrollBehavior={"inside"}
       lazyMount
@@ -140,6 +141,8 @@ const DisclosureContent = (props: DisclosureContentProps) => {
 
       <Dialog.Positioner {...positionerProps}>
         <Dialog.Content
+          bg={"bg.body"}
+          shadow={"md"}
           _open={{
             animation: "scale-up-overshoot",
             animationDuration: "slowest",
@@ -173,7 +176,7 @@ const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
 const DisclosureCloseButton = (props: ButtonProps) => {
   return (
     <DisclosureCloseTrigger asChild position={"static"}>
-      <IconButton {...props}>
+      <IconButton size={"xs"} variant={"subtle"} rounded={"full"} {...props}>
         <AppLucideIcon icon={XIcon} />
       </IconButton>
     </DisclosureCloseTrigger>

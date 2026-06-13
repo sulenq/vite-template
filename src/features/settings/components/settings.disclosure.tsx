@@ -5,6 +5,7 @@
 import { usePopDisclosure } from "@/design-system/components/disclosure/hooks/use-pop-disclosure";
 import type { PopDisclosureTriggerProps } from "@/design-system/components/disclosure/types/disclosure.type";
 import { Disclosure } from "@/design-system/components/disclosure/ui/disclosure";
+import { HStack, VStack } from "@/design-system/components/layout/container";
 
 export const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   // Props
@@ -14,17 +15,21 @@ export const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   const { isOpen, open, close } = usePopDisclosure(dKey);
 
   return (
-    <Disclosure.Root opened={isOpen} open={open} close={close}>
+    <Disclosure.Root opened={isOpen} open={open} close={close} size={"xl"}>
       <Disclosure.Trigger asChild {...restProps}>
         {children}
       </Disclosure.Trigger>
 
       <Disclosure.Content>
-        <Disclosure.Header>
-          <Disclosure.CloseButton />
-        </Disclosure.Header>
+        <Disclosure.Body>
+          <HStack>
+            <VStack flexShrink={0}></VStack>
 
-        <Disclosure.Body>Content</Disclosure.Body>
+            <VStack flexShrink={0}>
+              <HStack></HStack>
+            </VStack>
+          </HStack>
+        </Disclosure.Body>
 
         <Disclosure.Footer></Disclosure.Footer>
       </Disclosure.Content>
