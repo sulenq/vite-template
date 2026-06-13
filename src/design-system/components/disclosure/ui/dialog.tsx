@@ -2,6 +2,7 @@
 
 "use client";
 
+import { forwardRef } from "react";
 import { back } from "@/design-system/components/disclosure/utils/navigation";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
 
@@ -9,37 +10,63 @@ const DialogRoot = (props: ChakraDialog.RootProps) => {
   return <ChakraDialog.Root onEscapeKeyDown={back} {...props} />;
 };
 
-const DialogTrigger = (props: ChakraDialog.TriggerProps) => {
-  return <ChakraDialog.Trigger {...props} />;
-};
+const DialogTrigger = forwardRef<HTMLButtonElement, ChakraDialog.TriggerProps>(
+  (props, ref) => {
+    return <ChakraDialog.Trigger ref={ref} {...props} />;
+  },
+);
+DialogTrigger.displayName = "DialogTrigger";
 
-const DialogBackdrop = (props: ChakraDialog.BackdropProps) => {
-  return <ChakraDialog.Backdrop {...props} />;
-};
+const DialogBackdrop = forwardRef<HTMLDivElement, ChakraDialog.BackdropProps>(
+  (props, ref) => {
+    return <ChakraDialog.Backdrop ref={ref} {...props} />;
+  },
+);
+DialogBackdrop.displayName = "DialogBackdrop";
 
-const DialogPositioner = (props: ChakraDialog.PositionerProps) => {
-  return <ChakraDialog.Positioner {...props} />;
-};
+const DialogPositioner = forwardRef<
+  HTMLDivElement,
+  ChakraDialog.PositionerProps
+>((props, ref) => {
+  return <ChakraDialog.Positioner ref={ref} {...props} />;
+});
+DialogPositioner.displayName = "DialogPositioner";
 
-const DialogContent = (props: ChakraDialog.ContentProps) => {
-  return <ChakraDialog.Content {...props} />;
-};
+const DialogContent = forwardRef<HTMLDivElement, ChakraDialog.ContentProps>(
+  (props, ref) => {
+    return <ChakraDialog.Content ref={ref} {...props} />;
+  },
+);
+DialogContent.displayName = "DialogContent";
 
-const DialogCloseTrigger = (props: ChakraDialog.CloseTriggerProps) => {
-  return <ChakraDialog.CloseTrigger {...props} />;
-};
+const DialogCloseTrigger = forwardRef<
+  HTMLButtonElement,
+  ChakraDialog.CloseTriggerProps
+>((props, ref) => {
+  return <ChakraDialog.CloseTrigger ref={ref} {...props} />;
+});
+DialogCloseTrigger.displayName = "DialogCloseTrigger";
 
-const DialogHeader = (props: ChakraDialog.HeaderProps) => {
-  return <ChakraDialog.Title {...props} />;
-};
+const DialogHeader = forwardRef<HTMLHeadingElement, ChakraDialog.TitleProps>(
+  (props, ref) => {
+    return <ChakraDialog.Title ref={ref} {...props} />;
+  },
+);
+DialogHeader.displayName = "DialogHeader";
 
-const DialogBody = (props: ChakraDialog.BodyProps) => {
-  return <ChakraDialog.Body {...props} />;
-};
+const DialogBody = forwardRef<HTMLDivElement, ChakraDialog.BodyProps>(
+  (props, ref) => {
+    return <ChakraDialog.Body ref={ref} {...props} />;
+  },
+);
+DialogBody.displayName = "DialogBody";
 
-const DialogFooter = (props: ChakraDialog.FooterProps) => {
-  return <ChakraDialog.Footer {...props} />;
-};
+const DialogFooter = forwardRef<HTMLDivElement, ChakraDialog.FooterProps>(
+  (props, ref) => {
+    return <ChakraDialog.Footer ref={ref} {...props} />;
+  },
+);
+DialogFooter.displayName = "DialogFooter";
 
 export const Dialog = {
   Root: DialogRoot,

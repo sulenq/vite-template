@@ -17,7 +17,7 @@ function RouteComponent() {
     <VStack h={"100vh"} gap={10}>
       <ColorModeToggleButton />
 
-      <SettingsTrigger dKey={"settings"} w={"fit"} mt={"auto"}>
+      <SettingsTrigger dKey={"settings"} w={"fit"} mb={"auto"}>
         <IconButton>
           <AppLucideIcon icon={SettingsIcon} />
         </IconButton>

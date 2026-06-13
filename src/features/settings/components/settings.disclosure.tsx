@@ -21,7 +21,7 @@ export const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
       </Disclosure.Trigger>
 
       <Disclosure.Content>
-        <Disclosure.Body>
+        <Disclosure.Body minH={"500px"}>
           <HStack>
             <VStack flexShrink={0}></VStack>
 

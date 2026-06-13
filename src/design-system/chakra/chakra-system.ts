@@ -29,6 +29,33 @@ export const chakraConfig = defineConfig({
     },
 
     keyframes: {
+      "scale-up-overshoot-from-click-origin": {
+        "0%": {
+          transform:
+            "translate(var(--dialog-offset-x), var(--dialog-offset-y)) scale(0)",
+          opacity: 0,
+        },
+        "50%": {
+          transform: "translate(0, 0) scale(1.025)",
+          opacity: 1,
+        },
+        "100%": {
+          transform: "scale(1)",
+        },
+      },
+
+      "scale-down-to-click-origin": {
+        "0%": {
+          transform: "translate(0, 0) scale(1)",
+          opacity: 1,
+        },
+        "100%": {
+          transform:
+            "translate(var(--dialog-offset-x), var(--dialog-offset-y)) scale(0)",
+          opacity: 0,
+        },
+      },
+
       "scale-up-overshoot": {
         "0%": {
           transform: "scale(0.25)",
@@ -557,17 +584,32 @@ export const chakraConfig = defineConfig({
 
       assets: {},
 
-      durations: {},
-
-      // Motion preset
-      animations: {
-        "scale-up-overshoot": {
-          value: "scale-up-overshoot 0.35s",
+      durations: {
+        fastest: {
+          value: "50ms",
         },
-        "scale-down": {
-          value: "scale-down 0.35s",
+        faster: {
+          value: "100ms",
+        },
+        fast: {
+          value: "150ms",
+        },
+        moderate: {
+          value: "200ms",
+        },
+        slow: {
+          value: "300ms",
+        },
+        slower: {
+          value: "400ms",
+        },
+        slowest: {
+          value: "500ms",
         },
       },
+
+      // Motion preset
+      animations: {},
 
       aspectRatios: {},
     },
