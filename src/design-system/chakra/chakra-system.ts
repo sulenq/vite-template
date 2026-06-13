@@ -28,7 +28,58 @@ export const chakraConfig = defineConfig({
       xl: "1200px",
     },
 
-    keyframes: {},
+    keyframes: {
+      scaleUpOvershootFromCursor: {
+        "0%": {
+          transform: "scale(0.25)",
+          opacity: 0,
+        },
+        "50%": {
+          transform: "scale(1.015)",
+          opacity: 1,
+        },
+        "100%": {
+          transform: "scale(1)",
+          opacity: 1,
+        },
+      },
+
+      scaleDownToCursor: {
+        "0%": {
+          transform: "scale(1)",
+          opacity: 1,
+        },
+        "100%": {
+          transform: "scale(0.25)",
+          opacity: 0,
+        },
+      },
+
+      scaleUpOvershoot: {
+        "0%": {
+          transform: "scale(0.25)",
+          opacity: 0,
+        },
+        "50%": {
+          transform: "scale(1.015)",
+          opacity: 1,
+        },
+        "100%": {
+          transform: "scale(1)",
+        },
+      },
+
+      scaleDown: {
+        "0%": {
+          transform: "scale(1)",
+          opacity: 1,
+        },
+        "100%": {
+          transform: "scale(0.75)",
+          opacity: 0,
+        },
+      },
+    },
 
     tokens: {
       colors: {
@@ -533,7 +584,15 @@ export const chakraConfig = defineConfig({
       assets: {},
 
       durations: {},
-      animations: {},
+
+      animations: {
+        "scale-up-overshoot": {
+          value: "scaleUpOvershoot 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+        },
+        "scale-down": {
+          value: "scaleDown 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
+        },
+      },
 
       aspectRatios: {},
     },

@@ -5,8 +5,12 @@
 import { back } from "@/design-system/components/disclosure/utils/navigation";
 import { Drawer as ChakraDrawer } from "@chakra-ui/react";
 
-export const DrawerRoot = (props: ChakraDrawer.RootProps) => {
+const DrawerRoot = (props: ChakraDrawer.RootProps) => {
   return <ChakraDrawer.Root onEscapeKeyDown={back} {...props} />;
+};
+
+const DrawerTrigger = (props: ChakraDrawer.TriggerProps) => {
+  return <ChakraDrawer.Trigger {...props} />;
 };
 
 const DrawerBackdrop = (props: ChakraDrawer.BackdropProps) => {
@@ -19,6 +23,10 @@ const DrawerPositioner = (props: ChakraDrawer.PositionerProps) => {
 
 const DrawerContent = (props: ChakraDrawer.ContentProps) => {
   return <ChakraDrawer.Content {...props} />;
+};
+
+const DrawerCloseTrigger = (props: ChakraDrawer.CloseTriggerProps) => {
+  return <ChakraDrawer.CloseTrigger {...props} />;
 };
 
 const DrawerHeader = (props: ChakraDrawer.HeaderProps) => {
@@ -35,9 +43,11 @@ const DrawerFooter = (props: ChakraDrawer.FooterProps) => {
 
 export const Drawer = {
   Root: DrawerRoot,
+  Trigger: DrawerTrigger,
   Backdrop: DrawerBackdrop,
   Positioner: DrawerPositioner,
   Content: DrawerContent,
+  CloseTrigger: DrawerCloseTrigger,
   Header: DrawerHeader,
   Body: DrawerBody,
   Footer: DrawerFooter,

@@ -25,7 +25,7 @@ export default defineConfig([
   },
 
   {
-    files: ["src/design-system/**/*.{ts,tsx}"],
+    files: ["src/**/*.{ts,tsx}"],
     rules: {
       "react-refresh/only-export-components": "off",
     },
@@ -48,13 +48,6 @@ export default defineConfig([
           ],
         },
       ],
-    },
-  },
-
-  {
-    files: ["src/routes/**/*.{ts,tsx}"],
-    rules: {
-      "react-refresh/only-export-components": "off",
     },
   },
 ]);

@@ -3,18 +3,19 @@
 import {
   Dialog as ChakraDialog,
   Drawer as ChakraDrawer,
-  type BoxProps,
   type DialogPositionerProps,
 } from "@chakra-ui/react";
 
-export interface DisclosureTrigger extends BoxProps {
+export type PopDisclosureTriggerProps = {
   dKey: string;
   portalled?: boolean;
   portalRef?: React.RefObject<HTMLElement | null>;
-}
+} & DisclosureTriggerProps;
 
 export type DisclosureRootProps = {
   opened?: boolean;
+  open: () => void;
+  close: () => void;
   portalled?: boolean;
   portalRef?: React.RefObject<HTMLElement | null>;
   backdrop?: boolean;
@@ -25,12 +26,24 @@ export type DisclosureRootProps = {
   | Omit<ChakraDialog.RootProps, "open">
 );
 
+export type DisclosureTriggerProps = {} & (
+  | ChakraDrawer.TriggerProps
+  | ChakraDialog.TriggerProps
+);
+
 export type DisclosureBackdropProps = {} & (
   | ChakraDrawer.BackdropProps
   | ChakraDialog.BackdropProps
 );
 
-export type DisclosureContentProps = {} & (
+export type DisclosureContentProps = {
+  portalled?: boolean;
+  portalRef?: React.RefObject<HTMLElement | null>;
+  backdrop?: boolean;
+  positionerProps?: DialogPositionerProps;
+} & (ChakraDrawer.ContentProps | ChakraDialog.ContentProps);
+
+export type DisclosureCloseTriggerProps = {} & (
   | ChakraDrawer.ContentProps
   | ChakraDialog.ContentProps
 );

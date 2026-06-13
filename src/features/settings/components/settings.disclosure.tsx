@@ -2,116 +2,36 @@
 
 "use client";
 
-import { Button } from "@/design-system/components/button/ui/button";
 import { usePopDisclosure } from "@/design-system/components/disclosure/hooks/use-pop-disclosure";
-import type { DisclosureTrigger } from "@/design-system/components/disclosure/types/disclosure.type";
+import type { PopDisclosureTriggerProps } from "@/design-system/components/disclosure/types/disclosure.type";
 import { Disclosure } from "@/design-system/components/disclosure/ui/disclosure";
-import { Box } from "@/design-system/components/layout/container";
-import { useRef } from "react";
 
-interface SettingsDisclosureProps {
-  isOpen?: boolean;
-}
-
-export const SettingsDisclosure = (props: SettingsDisclosureProps) => {
-  // Props
-  const { isOpen, ...restProps } = props;
-
-  // Refs
-  const bodyRef = useRef<HTMLElement>(null);
-
-  return (
-    <Disclosure.Root opened={isOpen} {...restProps}>
-      <Disclosure.Header>
-        <Disclosure.CloseButton />
-      </Disclosure.Header>
-
-      <Disclosure.Body>
-        <ResetPasswordTrigger
-          dKey={"settings.reset-password"}
-          portalled={false}
-          portalRef={bodyRef}
-        >
-          <Button>Reset Passwrod</Button>
-        </ResetPasswordTrigger>
-      </Disclosure.Body>
-
-      <Disclosure.Footer></Disclosure.Footer>
-    </Disclosure.Root>
-  );
-};
-
-export const SettingsTrigger = (props: DisclosureTrigger) => {
+export const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   // Props
   const { children, dKey, ...restProps } = props;
 
   // Hooks
-  const { isOpen, open } = usePopDisclosure(dKey);
-
-  //   console.log("settings open", isOpen);
+  const { isOpen, open, close } = usePopDisclosure(dKey);
 
   return (
-    <>
-      <Box w={"fit"} onClick={open} {...restProps}>
+    <Disclosure.Root opened={isOpen} open={open} close={close}>
+      <Disclosure.Trigger asChild {...restProps}>
         {children}
-      </Box>
+      </Disclosure.Trigger>
 
-      <SettingsDisclosure isOpen={isOpen} />
-    </>
+      <Disclosure.Content>
+        <Disclosure.Header>
+          <Disclosure.CloseButton />
+        </Disclosure.Header>
+
+        <Disclosure.Body>Content</Disclosure.Body>
+
+        <Disclosure.Footer></Disclosure.Footer>
+      </Disclosure.Content>
+    </Disclosure.Root>
   );
 };
 
-export const ResetPasswordTrigger = (props: DisclosureTrigger) => {
-  // Props
-  const { children, dKey, portalled, ...restProps } = props;
-
-  // Hooks
-  const { isOpen, open } = usePopDisclosure(dKey);
-
-  return (
-    <>
-      <Box w={"fit"} onClick={open} {...restProps}>
-        {children}
-      </Box>
-
-      <Disclosure.Root opened={isOpen} portalled={portalled}>
-        <Disclosure.Header></Disclosure.Header>
-
-        <Disclosure.Body>
-          <ResetPasswordTrigger2
-            dKey="settings.reset-password.nested"
-            portalled={false}
-          >
-            <Button>Nested</Button>
-          </ResetPasswordTrigger2>
-        </Disclosure.Body>
-
-        <Disclosure.Footer></Disclosure.Footer>
-      </Disclosure.Root>
-    </>
-  );
-};
-
-export const ResetPasswordTrigger2 = (props: DisclosureTrigger) => {
-  // Props
-  const { children, dKey, portalled, ...restProps } = props;
-
-  // Hooks
-  const { isOpen, open } = usePopDisclosure(dKey);
-
-  return (
-    <>
-      <Box w={"fit"} onClick={open} {...restProps}>
-        {children}
-      </Box>
-
-      <Disclosure.Root opened={isOpen} portalled={portalled}>
-        <Disclosure.Header></Disclosure.Header>
-
-        <Disclosure.Body>Reset Password 2 Nested</Disclosure.Body>
-
-        <Disclosure.Footer></Disclosure.Footer>
-      </Disclosure.Root>
-    </>
-  );
+export const Settings = {
+  Trigger: SettingsTrigger,
 };

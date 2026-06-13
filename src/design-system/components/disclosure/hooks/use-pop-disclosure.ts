@@ -32,17 +32,28 @@ export function usePopDisclosure(dKey: string) {
 
   function toggle() {
     if (isOpen) {
-      window.history.back();
+      navigate({
+        to: ".",
+        search: (old) => old,
+      });
       return;
     }
 
     open();
   }
 
+  function close() {
+    navigate({
+      to: ".",
+      search: (old) => old,
+    });
+  }
+
   return {
     isOpen,
     open,
     toggle,
+    close,
   };
 }
 

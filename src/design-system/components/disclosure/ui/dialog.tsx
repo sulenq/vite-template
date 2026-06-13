@@ -5,8 +5,12 @@
 import { back } from "@/design-system/components/disclosure/utils/navigation";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
 
-export const DialogRoot = (props: ChakraDialog.RootProps) => {
+const DialogRoot = (props: ChakraDialog.RootProps) => {
   return <ChakraDialog.Root onEscapeKeyDown={back} {...props} />;
+};
+
+const DialogTrigger = (props: ChakraDialog.TriggerProps) => {
+  return <ChakraDialog.Trigger {...props} />;
 };
 
 const DialogBackdrop = (props: ChakraDialog.BackdropProps) => {
@@ -19,6 +23,10 @@ const DialogPositioner = (props: ChakraDialog.PositionerProps) => {
 
 const DialogContent = (props: ChakraDialog.ContentProps) => {
   return <ChakraDialog.Content {...props} />;
+};
+
+const DialogCloseTrigger = (props: ChakraDialog.CloseTriggerProps) => {
+  return <ChakraDialog.CloseTrigger {...props} />;
 };
 
 const DialogHeader = (props: ChakraDialog.HeaderProps) => {
@@ -35,9 +43,11 @@ const DialogFooter = (props: ChakraDialog.FooterProps) => {
 
 export const Dialog = {
   Root: DialogRoot,
+  Trigger: DialogTrigger,
   Backdrop: DialogBackdrop,
   Positioner: DialogPositioner,
   Content: DialogContent,
+  CloseTrigger: DialogCloseTrigger,
   Header: DialogHeader,
   Body: DialogBody,
   Footer: DialogFooter,
