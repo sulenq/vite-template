@@ -2,3 +2,9 @@
     border: 1px solid red;
 }
 
+[data-disclosure-purging="true"] *,
+[data-disclosure-purging="true"] *::before,
+[data-disclosure-purging="true"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
