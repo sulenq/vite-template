@@ -18,9 +18,8 @@ function RouteComponent() {
       <ColorModeToggleButton />
 
       <Settings.Trigger dKey={"settings"} w={"fit"} my={"auto"}>
-        <IconButton>
+        <IconButton size={"2xl"}>
           <AppLucideIcon icon={SettingsIcon} />
-          Settings
         </IconButton>
       </Settings.Trigger>
     </VStack>

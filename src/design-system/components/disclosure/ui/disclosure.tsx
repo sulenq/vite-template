@@ -67,6 +67,13 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
     return (
       <Drawer.Root
         open={opened}
+        onOpenChange={(e) => {
+          if (e.open) {
+            open();
+          } else {
+            close();
+          }
+        }}
         placement={"bottom"}
         lazyMount
         unmountOnExit
