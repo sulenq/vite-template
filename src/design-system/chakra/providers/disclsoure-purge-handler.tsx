@@ -2,9 +2,14 @@
 
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { Route } from "@/routes/__root";
 
 export function DisclosurePurgeHandler() {
+  const navigate = Route.useNavigate();
+  const search = Route.useSearch();
+  const dRef = useRef(search.d);
+
   useEffect(() => {
     const navigationEntries = performance.getEntriesByType("navigation");
 
@@ -19,18 +24,20 @@ export function DisclosurePurgeHandler() {
       return;
     }
 
-    const url = new URL(window.location.href);
-
-    if (!url.searchParams.has("d")) {
+    if (!dRef.current) {
       return;
     }
 
     document.documentElement.dataset.disclosurePurging = "true";
 
     queueMicrotask(() => {
-      url.searchParams.delete("d");
-
-      window.history.replaceState(window.history.state, "", url);
+      navigate({
+        replace: false,
+        search: (prev) => ({
+          ...prev,
+          d: undefined,
+        }),
+      });
 
       requestAnimationFrame(() => {
         document.body.style.removeProperty("overflow");
@@ -43,7 +50,7 @@ export function DisclosurePurgeHandler() {
         });
       });
     });
-  }, []);
+  }, [navigate]);
 
   return null;
 }
