@@ -5,6 +5,7 @@
 import type { ButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
 import type {
+  DisclosureBackdropProps,
   DisclosureBodyProps,
   DisclosureCloseTriggerProps,
   DisclosureContentProps,
@@ -15,15 +16,44 @@ import type {
 } from "@/design-system/components/disclosure/types/disclosure.type";
 import { Dialog } from "@/design-system/components/disclosure/ui/dialog";
 import { Drawer } from "@/design-system/components/disclosure/ui/drawer";
+import {
+  updateClickOrigin,
+  updateDialogOffset,
+} from "@/design-system/components/disclosure/utils/click-origin";
+import { back } from "@/design-system/components/disclosure/utils/navigation";
 import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import {
   Dialog as ChakraDialog,
   Drawer as ChakraDrawer,
+  Portal,
 } from "@chakra-ui/react";
 import { XIcon } from "lucide-react";
+import { useRef } from "react";
+
+import { createContext, useContext } from "react";
+
+export type DialogAnimationContextValue = {
+  clickOriginAnimation: boolean;
+};
+
+export const DialogAnimationContext =
+  createContext<DialogAnimationContextValue | null>(null);
+
+export function useDialogAnimationContext() {
+  const context = useContext(DialogAnimationContext);
+
+  if (!context) {
+    throw new Error(
+      "useDialogAnimationContext must be used within Disclosure.Root",
+    );
+  }
+
+  return context;
+}
 
 const DisclosureRoot = (props: DisclosureRootProps) => {
+  // Props
   const {
     children,
     opened = false,
@@ -33,11 +63,34 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
     ...restProps
   } = props;
 
+  // Hooks
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
     return (
-      <Drawer.Root
+      <DialogAnimationContext.Provider
+        value={{
+          clickOriginAnimation: false,
+        }}
+      >
+        <Drawer.Root
+          open={opened}
+          placement={"bottom"}
+          {...(restProps as ChakraDrawer.RootProps)}
+        >
+          {children}
+        </Drawer.Root>
+      </DialogAnimationContext.Provider>
+    );
+  }
+
+  return (
+    <DialogAnimationContext.Provider
+      value={{
+        clickOriginAnimation,
+      }}
+    >
+      <Dialog.Root
         open={opened}
         onOpenChange={(e) => {
           if (e.open) {
@@ -46,59 +99,131 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
             close();
           }
         }}
-        {...(restProps as ChakraDrawer.RootProps)}
+        size={"xs"}
+        scrollBehavior={"inside"}
+        {...(restProps as ChakraDialog.RootProps)}
+        placement={"center"}
       >
         {children}
-      </Drawer.Root>
-    );
-  }
-
-  return (
-    <Dialog.Root
-      open={opened}
-      onOpenChange={(e) => {
-        if (e.open) {
-          open();
-        } else {
-          close();
-        }
-      }}
-      clickOriginAnimation={clickOriginAnimation}
-      {...(restProps as ChakraDialog.RootProps)}
-    >
-      {children}
-    </Dialog.Root>
+      </Dialog.Root>
+    </DialogAnimationContext.Provider>
   );
 };
 
 const DisclosureTrigger = (props: DisclosureTriggerProps) => {
+  // Constants
+  const { clickOriginAnimation } = useDialogAnimationContext();
+
+  // Hooks
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return <Drawer.Trigger {...props} />;
+    return <Drawer.Trigger {...(props as ChakraDrawer.TriggerProps)} />;
   }
 
-  return <Dialog.Trigger {...props} />;
+  return (
+    <Dialog.Trigger
+      {...(props as ChakraDialog.TriggerProps)}
+      onPointerDown={
+        clickOriginAnimation
+          ? (e) => updateClickOrigin(e.currentTarget)
+          : undefined
+      }
+    />
+  );
+};
+
+const DisclosureBackdrop = (props: DisclosureBackdropProps) => {
+  // Hooks
+  const isSmallViewport = useIsSmallViewport();
+
+  if (isSmallViewport) {
+    return <Drawer.Backdrop {...(props as ChakraDrawer.BackdropProps)} />;
+  }
+
+  return <Dialog.Backdrop {...(props as ChakraDialog.BackdropProps)} />;
 };
 
 const DisclosureContent = (props: DisclosureContentProps) => {
+  // Props
+  const {
+    children,
+    portalled = true,
+    portalRef,
+    backdrop = true,
+    positionerProps,
+    ...restProps
+  } = props;
+
+  // Contexts
+  const { clickOriginAnimation } = useDialogAnimationContext();
+
+  // Refs
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Hooks
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return <Drawer.Content {...props} />;
+    return (
+      <Portal disabled={!portalled} container={portalRef}>
+        <Drawer.Positioner {...positionerProps}>
+          {backdrop && (
+            <Drawer.Backdrop pointerEvents={"auto"} onClick={back} />
+          )}
+
+          <Drawer.Content>{children}</Drawer.Content>
+        </Drawer.Positioner>
+      </Portal>
+    );
   }
 
-  return <Dialog.Content {...props} />;
+  return (
+    <Portal disabled={!portalled} container={portalRef}>
+      <Dialog.Positioner {...positionerProps}>
+        {backdrop && <Dialog.Backdrop pointerEvents={"auto"} onClick={back} />}
+
+        <Dialog.Content
+          ref={contentRef}
+          bg={"bg.body"}
+          shadow={"md"}
+          onAnimationStart={() => {
+            if (contentRef.current) {
+              updateDialogOffset(contentRef.current);
+            }
+          }}
+          _open={{
+            animation: clickOriginAnimation
+              ? "scale-up-overshoot-from-click-origin"
+              : "scale-up-overshoot",
+            animationDuration: "slowest",
+          }}
+          _closed={{
+            animation: clickOriginAnimation
+              ? "scale-down-to-click-origin"
+              : "scale-down",
+            animationDuration: "slow",
+          }}
+          {...restProps}
+        >
+          {children}
+        </Dialog.Content>
+      </Dialog.Positioner>
+    </Portal>
+  );
 };
 
 const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
+  // Hooks
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return <Drawer.CloseTrigger {...props} />;
+    return (
+      <Drawer.CloseTrigger {...(props as ChakraDrawer.CloseTriggerProps)} />
+    );
   }
 
-  return <Dialog.CloseTrigger {...props} />;
+  return <Dialog.CloseTrigger {...(props as ChakraDialog.CloseTriggerProps)} />;
 };
 
 const DisclosureCloseButton = (props: ButtonProps) => {
@@ -112,37 +237,41 @@ const DisclosureCloseButton = (props: ButtonProps) => {
 };
 
 const DisclosureHeader = (props: DisclosureHeaderProps) => {
+  // Hooks
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return <Drawer.Header {...props} />;
+    return <Drawer.Header {...(props as ChakraDrawer.HeaderProps)} />;
   }
 
-  return <Dialog.Header {...props} />;
+  return <Dialog.Header {...(props as ChakraDialog.HeaderProps)} />;
 };
 
 const DisclosureBody = (props: DisclosureBodyProps) => {
+  // Hooks
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return <Drawer.Body {...props} />;
+    return <Drawer.Body {...(props as ChakraDrawer.BodyProps)} />;
   }
 
-  return <Dialog.Body {...props} />;
+  return <Dialog.Body {...(props as ChakraDialog.BodyProps)} />;
 };
 
 const DisclosureFooter = (props: DisclosureFooterProps) => {
+  // Hooks
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return <Drawer.Footer {...props} />;
+    return <Drawer.Footer {...(props as ChakraDrawer.FooterProps)} />;
   }
-  return <Dialog.Footer {...props} />;
+  return <Dialog.Footer {...(props as ChakraDialog.FooterProps)} />;
 };
 
 export const Disclosure = {
   Trigger: DisclosureTrigger,
   Root: DisclosureRoot,
+  Backdrop: DisclosureBackdrop,
   Content: DisclosureContent,
   CloseTrigger: DisclosureCloseTrigger,
   CloseButton: DisclosureCloseButton,
