@@ -194,13 +194,13 @@ const DisclosureContent = (props: DisclosureContentProps) => {
             animation: clickOriginAnimation
               ? "scale-up-overshoot-from-click-origin"
               : "scale-up-overshoot",
-            animationDuration: "slowest",
+            animationDuration: clickOriginAnimation ? "600ms" : "slowest",
           }}
           _closed={{
             animation: clickOriginAnimation
               ? "scale-down-to-click-origin"
               : "scale-down",
-            animationDuration: "slow",
+            animationDuration: clickOriginAnimation ? "slower" : "slow",
           }}
           {...restProps}
         >
