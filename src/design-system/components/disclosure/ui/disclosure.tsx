@@ -75,6 +75,13 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
       >
         <Drawer.Root
           open={opened}
+          onOpenChange={(e) => {
+            if (e.open) {
+              open();
+            } else {
+              close();
+            }
+          }}
           placement={"bottom"}
           {...(restProps as ChakraDrawer.RootProps)}
         >
