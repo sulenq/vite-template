@@ -19,6 +19,8 @@ function RootComponent() {
   return (
     <ColorModeProvider>
       <ChakraSystemProvider>
+        {/* <DisclosurePurgeHandler /> */}
+
         <Outlet />
       </ChakraSystemProvider>
     </ColorModeProvider>
