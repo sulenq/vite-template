@@ -1,3 +1,5 @@
+// src/libs/tanstack-query/query.keys.ts
+
 export const queryKeys = {
   auth: {
     all: ["auth"],

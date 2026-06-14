@@ -1,5 +1,7 @@
 // src/design-system/chakra/providers/disclsoure-purge-handler.tsx
 
+"use client";
+
 import { useEffect } from "react";
 
 export function DisclosurePurgeHandler() {
