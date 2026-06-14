@@ -8,22 +8,16 @@ import {
 
 export type PopDisclosureTriggerProps = {
   dKey: string;
-  portalled?: boolean;
-  portalRef?: React.RefObject<HTMLElement | null>;
 } & DisclosureTriggerProps;
 
 export type DisclosureRootProps = {
   opened?: boolean;
   open: () => void;
   close: () => void;
-  portalled?: boolean;
-  portalRef?: React.RefObject<HTMLElement | null>;
-  backdrop?: boolean;
-  positionerProps?: DialogPositionerProps;
-  contentProps?: DisclosureContentProps;
+  clickOriginAnimation?: boolean;
 } & (
-  | Omit<ChakraDrawer.RootProps, "open">
-  | Omit<ChakraDialog.RootProps, "open">
+  | Omit<ChakraDrawer.RootProps, "open" | "placement">
+  | Omit<ChakraDialog.RootProps, "open" | "placement">
 );
 
 export type DisclosureTriggerProps = {} & (

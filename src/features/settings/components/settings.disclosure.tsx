@@ -6,7 +6,7 @@ import { Button } from "@/design-system/components/button/ui/button";
 import { usePopDisclosure } from "@/design-system/components/disclosure/hooks/use-pop-disclosure";
 import type { PopDisclosureTriggerProps } from "@/design-system/components/disclosure/types/disclosure.type";
 import { Disclosure } from "@/design-system/components/disclosure/ui/disclosure";
-import { HStack, VStack } from "@/design-system/components/layout/container";
+import { HStack } from "@/design-system/components/layout/container";
 
 const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   // Props
@@ -16,7 +16,13 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   const { isOpen, open, close } = usePopDisclosure(dKey);
 
   return (
-    <Disclosure.Root opened={isOpen} open={open} close={close} size={"xl"}>
+    <Disclosure.Root
+      opened={isOpen}
+      open={open}
+      close={close}
+      clickOriginAnimation
+      size={"xl"}
+    >
       <Disclosure.Trigger asChild {...restProps}>
         {children}
       </Disclosure.Trigger>
@@ -49,18 +55,35 @@ export const SettingsTrigger2 = (props: PopDisclosureTriggerProps) => {
         {children}
       </Disclosure.Trigger>
 
-      <Disclosure.Content portalled={false}>
+      <Disclosure.Content>
         <Disclosure.Body minH={"500px"}>
-          Nasi apa yang gak pernah dimakan sama orang, tapi kalau disebut bikin
-          adem?
-          <HStack>
-            <VStack flexShrink={0}></VStack>
-
-            <VStack flexShrink={0}>
-              <HStack></HStack>
-            </VStack>
-          </HStack>
+          Nested 2
+          <SettingsTrigger3 dKey="settings.settings2.settings3">
+            <Button>Settings 3</Button>
+          </SettingsTrigger3>
         </Disclosure.Body>
+
+        <Disclosure.Footer></Disclosure.Footer>
+      </Disclosure.Content>
+    </Disclosure.Root>
+  );
+};
+
+export const SettingsTrigger3 = (props: PopDisclosureTriggerProps) => {
+  // Props
+  const { children, dKey, ...restProps } = props;
+
+  // Hooks
+  const { isOpen, open, close } = usePopDisclosure(dKey);
+
+  return (
+    <Disclosure.Root opened={isOpen} open={open} close={close}>
+      <Disclosure.Trigger asChild {...restProps}>
+        {children}
+      </Disclosure.Trigger>
+
+      <Disclosure.Content>
+        <Disclosure.Body minH={"200px"}>Nested 3</Disclosure.Body>
 
         <Disclosure.Footer></Disclosure.Footer>
       </Disclosure.Content>

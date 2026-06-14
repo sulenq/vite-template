@@ -14,12 +14,13 @@ export const Route = createLazyFileRoute("/")({
 
 function RouteComponent() {
   return (
-    <VStack h={"100vh"} gap={10}>
+    <VStack h={"100vh"}>
       <ColorModeToggleButton />
 
-      <Settings.Trigger dKey={"settings"} w={"fit"} mb={"auto"}>
+      <Settings.Trigger dKey={"settings"} w={"fit"} my={"auto"}>
         <IconButton>
           <AppLucideIcon icon={SettingsIcon} />
+          Settings
         </IconButton>
       </Settings.Trigger>
     </VStack>

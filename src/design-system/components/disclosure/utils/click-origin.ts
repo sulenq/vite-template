@@ -36,6 +36,13 @@ export function updateDialogOffset(dialogElement: HTMLElement | null) {
 
   const { x: clickOriginX, y: clickOriginY } = getClickOrigin();
 
+  if (clickOriginX === 0 && clickOriginY === 0) {
+    dialogElement.style.setProperty(DIALOG_OFFSET_X_VAR, "0px");
+    dialogElement.style.setProperty(DIALOG_OFFSET_Y_VAR, "0px");
+
+    return;
+  }
+
   const offsetX = clickOriginX - window.innerWidth / 2;
   const offsetY = clickOriginY - window.innerHeight / 2;
 

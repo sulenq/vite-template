@@ -31,6 +31,27 @@ import {
 import { XIcon } from "lucide-react";
 import { useRef } from "react";
 
+import { createContext, useContext } from "react";
+
+export type DialogAnimationContextValue = {
+  clickOriginAnimation: boolean;
+};
+
+export const DialogAnimationContext =
+  createContext<DialogAnimationContextValue | null>(null);
+
+export function useDialogAnimationContext() {
+  const context = useContext(DialogAnimationContext);
+
+  if (!context) {
+    throw new Error(
+      "useDialogAnimationContext must be used within Disclosure.Root",
+    );
+  }
+
+  return context;
+}
+
 const DisclosureRoot = (props: DisclosureRootProps) => {
   // Props
   const {
@@ -38,9 +59,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
     opened = false,
     open,
     close,
-    portalled = true,
-    portalRef,
-    backdrop = true,
+    clickOriginAnimation = false,
     ...restProps
   } = props;
 
@@ -52,38 +71,47 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
       <Drawer.Root
         open={opened}
         placement={"bottom"}
+        lazyMount
+        unmountOnExit
         {...(restProps as ChakraDrawer.RootProps)}
       >
-        <Portal disabled={!portalled} container={portalRef}>
-          {backdrop && <Drawer.Backdrop />}
-
-          <Drawer.Content>{children}</Drawer.Content>
-        </Portal>
+        {children}
       </Drawer.Root>
     );
   }
 
   return (
-    <Dialog.Root
-      open={opened}
-      onOpenChange={(e) => {
-        if (e.open) {
-          open();
-        } else {
-          close();
-        }
+    <DialogAnimationContext.Provider
+      value={{
+        clickOriginAnimation,
       }}
-      size={"xs"}
-      placement={"center"}
-      scrollBehavior={"inside"}
-      {...(restProps as ChakraDialog.RootProps)}
     >
-      {children}
-    </Dialog.Root>
+      <Dialog.Root
+        open={opened}
+        onOpenChange={(e) => {
+          if (e.open) {
+            open();
+          } else {
+            close();
+          }
+        }}
+        size={"xs"}
+        scrollBehavior={"inside"}
+        lazyMount
+        unmountOnExit
+        {...(restProps as ChakraDialog.RootProps)}
+        placement={"center"}
+      >
+        {children}
+      </Dialog.Root>
+    </DialogAnimationContext.Provider>
   );
 };
 
 const DisclosureTrigger = (props: DisclosureTriggerProps) => {
+  // Constants
+  const { clickOriginAnimation } = useDialogAnimationContext();
+
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
@@ -94,7 +122,11 @@ const DisclosureTrigger = (props: DisclosureTriggerProps) => {
   return (
     <Dialog.Trigger
       {...(props as ChakraDialog.TriggerProps)}
-      onPointerDown={(e) => updateClickOrigin(e.currentTarget)}
+      onPointerDown={
+        clickOriginAnimation
+          ? (e) => updateClickOrigin(e.currentTarget)
+          : undefined
+      }
     />
   );
 };
@@ -121,6 +153,9 @@ const DisclosureContent = (props: DisclosureContentProps) => {
     ...restProps
   } = props;
 
+  // Constants
+  const { clickOriginAnimation } = useDialogAnimationContext();
+
   // Refs
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -130,8 +165,13 @@ const DisclosureContent = (props: DisclosureContentProps) => {
   if (isSmallViewport) {
     return (
       <Portal disabled={!portalled} container={portalRef}>
-        {backdrop && <Drawer.Backdrop />}
-        <Drawer.Content>{children}</Drawer.Content>
+        <Drawer.Positioner {...positionerProps}>
+          {backdrop && (
+            <Drawer.Backdrop pointerEvents={"auto"} onClick={back} />
+          )}
+
+          <Drawer.Content>{children}</Drawer.Content>
+        </Drawer.Positioner>
       </Portal>
     );
   }
@@ -139,14 +179,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
   return (
     <Portal disabled={!portalled} container={portalRef}>
       <Dialog.Positioner {...positionerProps}>
-        {backdrop && (
-          <Dialog.Backdrop
-            pointerEvents={"auto"}
-            onClick={() => {
-              back();
-            }}
-          />
-        )}
+        {backdrop && <Dialog.Backdrop pointerEvents={"auto"} onClick={back} />}
 
         <Dialog.Content
           ref={contentRef}
@@ -158,12 +191,16 @@ const DisclosureContent = (props: DisclosureContentProps) => {
             }
           }}
           _open={{
-            animation: "scale-up-overshoot-from-click-origin",
+            animation: clickOriginAnimation
+              ? "scale-up-overshoot-from-click-origin"
+              : "scale-up-overshoot",
             animationDuration: "slowest",
           }}
           _closed={{
-            animation: "scale-down-to-click-origin",
-            animationDuration: "moderate",
+            animation: clickOriginAnimation
+              ? "scale-down-to-click-origin"
+              : "scale-down",
+            animationDuration: "slow",
           }}
           {...restProps}
         >
