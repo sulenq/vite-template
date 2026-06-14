@@ -2,13 +2,21 @@
 
 "use client";
 
-import { forwardRef, createContext, useContext, useState, useRef } from "react";
-import { back } from "@/design-system/components/disclosure/utils/navigation";
 import {
   updateClickOrigin,
   updateDialogOffset,
 } from "@/design-system/components/disclosure/utils/click-origin";
-import { Dialog as ChakraDialog, Portal } from "@chakra-ui/react";
+import { back } from "@/design-system/components/disclosure/utils/navigation";
+import { Dialog as ChakraDialog } from "@chakra-ui/react";
+import {
+  createContext,
+  forwardRef,
+  useContext,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { createPortal } from "react-dom";
 
 export type DialogContextValue = {
   depth: number;
@@ -25,6 +33,35 @@ export const DialogContext = createContext<DialogContextValue>({
 export function useDialogContext() {
   return useContext(DialogContext);
 }
+
+const ClientPortal = ({
+  children,
+  disabled,
+  container,
+}: {
+  children: React.ReactNode;
+  disabled?: boolean;
+  container?: React.RefObject<HTMLElement | null>;
+}) => {
+  const [mounted, setMounted] = useState(false);
+
+  useLayoutEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
+
+  if (disabled) {
+    return <>{children}</>;
+  }
+
+  if (!mounted) {
+    return null;
+  }
+
+  const target = container?.current ?? document.body;
+
+  return createPortal(children, target);
+};
 
 export type DialogRootProps = ChakraDialog.RootProps & {
   clickOriginAnimation?: boolean;
@@ -78,40 +115,12 @@ const DialogTrigger = forwardRef<HTMLButtonElement, ChakraDialog.TriggerProps>(
 );
 DialogTrigger.displayName = "DialogTrigger";
 
-const DialogBackdrop = forwardRef<HTMLDivElement, ChakraDialog.BackdropProps>(
-  (props, ref) => {
-    const { disableEntranceAnimation, depth } = useDialogContext();
-    const zIndex = 1400 + depth * 10;
-
-    const openStyle =
-      typeof props._open === "object" && props._open !== null
-        ? props._open
-        : {};
-    const animationDuration = disableEntranceAnimation
-      ? "0s"
-      : (openStyle as { animationDuration?: string }).animationDuration;
-
-    return (
-      <ChakraDialog.Backdrop
-        ref={ref}
-        zIndex={zIndex}
-        {...props}
-        _open={{
-          ...openStyle,
-          animationDuration,
-        }}
-      />
-    );
-  },
-);
-DialogBackdrop.displayName = "DialogBackdrop";
-
 const DialogPositioner = forwardRef<
   HTMLDivElement,
   ChakraDialog.PositionerProps
 >((props, ref) => {
   const { depth } = useDialogContext();
-  const zIndex = 1400 + depth * 10 + 1; // Explicitly higher than Backdrop
+  const zIndex = 1400 + depth * 10;
   return <ChakraDialog.Positioner ref={ref} zIndex={zIndex} {...props} />;
 });
 DialogPositioner.displayName = "DialogPositioner";
@@ -150,12 +159,11 @@ const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
         : {};
 
     return (
-      <Portal disabled={!portalled} container={portalRef}>
+      <ClientPortal disabled={!portalled} container={portalRef}>
         <ChakraDialog.Positioner zIndex={positionerZIndex} {...positionerProps}>
           {backdrop && (
             <ChakraDialog.Backdrop
               pointerEvents={"auto"}
-              bg={"red"}
               onClick={back}
               zIndex={backdropZIndex}
               _open={{
@@ -169,22 +177,23 @@ const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
               internalRef.current = node;
               if (typeof ref === "function") ref(node);
               else if (ref)
-                (ref as React.RefObject<HTMLDivElement | null>).current = node;
+                (ref as React.MutableRefObject<HTMLDivElement | null>).current =
+                  node;
             }}
             bg={"bg.body"}
             shadow={"md"}
-            onAnimationStart={(e) => {
-              if (internalRef.current) {
-                updateDialogOffset(internalRef.current);
-              }
-              if (props.onAnimationStart) props.onAnimationStart(e);
-            }}
             zIndex={contentZIndex}
             onClick={(e) => {
               e.stopPropagation();
             }}
             onPointerDown={(e) => {
               e.stopPropagation();
+            }}
+            onAnimationStart={(e) => {
+              if (internalRef.current) {
+                updateDialogOffset(internalRef.current);
+              }
+              if (props.onAnimationStart) props.onAnimationStart(e);
             }}
             {...restProps}
             _open={{
@@ -210,7 +219,7 @@ const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
             }}
           />
         </ChakraDialog.Positioner>
-      </Portal>
+      </ClientPortal>
     );
   },
 );
@@ -248,7 +257,6 @@ DialogFooter.displayName = "DialogFooter";
 export const Dialog = {
   Root: DialogRoot,
   Trigger: DialogTrigger,
-  Backdrop: DialogBackdrop,
   Positioner: DialogPositioner,
   Content: DialogContent,
   CloseTrigger: DialogCloseTrigger,

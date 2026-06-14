@@ -5,7 +5,6 @@
 import type { ButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
 import type {
-  DisclosureBackdropProps,
   DisclosureBodyProps,
   DisclosureCloseTriggerProps,
   DisclosureContentProps,
@@ -18,11 +17,11 @@ import { Dialog } from "@/design-system/components/disclosure/ui/dialog";
 import { Drawer } from "@/design-system/components/disclosure/ui/drawer";
 import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
-import { XIcon } from "lucide-react";
 import {
-  Drawer as ChakraDrawer,
   Dialog as ChakraDialog,
+  Drawer as ChakraDrawer,
 } from "@chakra-ui/react";
+import { XIcon } from "lucide-react";
 
 const DisclosureRoot = (props: DisclosureRootProps) => {
   const {
@@ -80,16 +79,6 @@ const DisclosureTrigger = (props: DisclosureTriggerProps) => {
   }
 
   return <Dialog.Trigger {...props} />;
-};
-
-const DisclosureBackdrop = (props: DisclosureBackdropProps) => {
-  const isSmallViewport = useIsSmallViewport();
-
-  if (isSmallViewport) {
-    return <Drawer.Backdrop {...props} />;
-  }
-
-  return <Dialog.Backdrop {...props} />;
 };
 
 const DisclosureContent = (props: DisclosureContentProps) => {
@@ -154,7 +143,6 @@ const DisclosureFooter = (props: DisclosureFooterProps) => {
 export const Disclosure = {
   Trigger: DisclosureTrigger,
   Root: DisclosureRoot,
-  Backdrop: DisclosureBackdrop,
   Content: DisclosureContent,
   CloseTrigger: DisclosureCloseTrigger,
   CloseButton: DisclosureCloseButton,
