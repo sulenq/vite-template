@@ -1,6 +1,10 @@
 // src/design-system/chakra/chakra-system.ts
 
 import { SM_SCREEN_BREAKPOINT } from "@/design-system/chakra/constants/styles";
+import {
+  DIALOG_OFFSET_X_VAR,
+  DIALOG_OFFSET_Y_VAR,
+} from "@/design-system/components/disclosure/utils/click-origin";
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
 
 export const chakraConfig = defineConfig({
@@ -31,8 +35,7 @@ export const chakraConfig = defineConfig({
     keyframes: {
       "scale-up-overshoot-from-click-origin": {
         "0%": {
-          transform:
-            "translate(var(--dialog-offset-x), var(--dialog-offset-y)) scale(0)",
+          transform: `translate(var(${DIALOG_OFFSET_X_VAR}), var(${DIALOG_OFFSET_Y_VAR})) scale(0)`,
           opacity: 0,
         },
         "50%": {
@@ -50,8 +53,7 @@ export const chakraConfig = defineConfig({
           opacity: 1,
         },
         "100%": {
-          transform:
-            "translate(var(--dialog-offset-x), var(--dialog-offset-y)) scale(0)",
+          transform: `translate(var(${DIALOG_OFFSET_X_VAR}), var(${DIALOG_OFFSET_Y_VAR})) scale(0)`,
           opacity: 0,
         },
       },

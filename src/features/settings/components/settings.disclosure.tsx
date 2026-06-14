@@ -31,7 +31,7 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
         <Disclosure.Body>
           <HStack className="debug" h={"500px"}>
             <SettingsTrigger2 dKey="settings.settings2" mt={"auto"}>
-              <Button>Buka untuk dibeliin jajan di luar</Button>
+              <Button>Settings 2</Button>
             </SettingsTrigger2>
           </HStack>
         </Disclosure.Body>

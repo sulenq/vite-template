@@ -2,17 +2,71 @@
 
 "use client";
 
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
 import { back } from "@/design-system/components/disclosure/utils/navigation";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
+import { createContext, useContext } from "react";
+import {
+  updateClickOrigin,
+  updateDialogOffset,
+} from "@/design-system/components/disclosure/utils/click-origin";
 
-const DialogRoot = (props: ChakraDialog.RootProps) => {
-  return <ChakraDialog.Root onEscapeKeyDown={back} {...props} />;
+export type DialogAnimationContextValue = {
+  clickOriginAnimation: boolean;
+};
+
+export const DialogAnimationContext =
+  createContext<DialogAnimationContextValue | null>(null);
+
+export function useDialogAnimationContext() {
+  const context = useContext(DialogAnimationContext);
+
+  if (!context) {
+    throw new Error(
+      "useDialogAnimationContext must be used within Dialog.Root",
+    );
+  }
+
+  return context;
+}
+
+interface DialogRootProps extends ChakraDialog.RootProps {
+  clickOriginAnimation?: boolean;
+}
+
+const DialogRoot = (props: DialogRootProps) => {
+  // Props
+  const { clickOriginAnimation = false, ...restProps } = props;
+
+  return (
+    <DialogAnimationContext.Provider
+      value={{
+        clickOriginAnimation,
+      }}
+    >
+      <ChakraDialog.Root onEscapeKeyDown={back} {...restProps} />
+    </DialogAnimationContext.Provider>
+  );
 };
 
 const DialogTrigger = forwardRef<HTMLButtonElement, ChakraDialog.TriggerProps>(
   (props, ref) => {
-    return <ChakraDialog.Trigger ref={ref} {...props} />;
+    // Contexts
+    const { clickOriginAnimation } = useDialogAnimationContext();
+
+    return (
+      <ChakraDialog.Trigger
+        ref={ref}
+        onPointerDown={
+          clickOriginAnimation
+            ? (e) => {
+                updateClickOrigin(e.currentTarget);
+              }
+            : undefined
+        }
+        {...props}
+      />
+    );
   },
 );
 
@@ -31,7 +85,37 @@ const DialogPositioner = forwardRef<
 
 const DialogContent = forwardRef<HTMLDivElement, ChakraDialog.ContentProps>(
   (props, ref) => {
-    return <ChakraDialog.Content ref={ref} {...props} />;
+    // Contexts
+    const { clickOriginAnimation } = useDialogAnimationContext();
+
+    // Refs
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    return (
+      <ChakraDialog.Content
+        ref={ref}
+        onAnimationStart={() => {
+          if (contentRef.current) {
+            updateDialogOffset(contentRef.current);
+          }
+        }}
+        bg={"bg.body"}
+        shadow={"md"}
+        {...props}
+        _open={{
+          animation: clickOriginAnimation
+            ? "scale-up-overshoot-from-click-origin"
+            : "scale-up-overshoot",
+          animationDuration: "slowest",
+        }}
+        _closed={{
+          animation: clickOriginAnimation
+            ? "scale-down-to-click-origin"
+            : "scale-down",
+          animationDuration: "slow",
+        }}
+      />
+    );
   },
 );
 

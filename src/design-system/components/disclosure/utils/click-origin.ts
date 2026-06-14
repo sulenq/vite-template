@@ -1,8 +1,8 @@
-const CLICK_ORIGIN_X_VAR = "--click-origin-x";
-const CLICK_ORIGIN_Y_VAR = "--click-origin-y";
+export const CLICK_ORIGIN_X_VAR = "--click-origin-x";
+export const CLICK_ORIGIN_Y_VAR = "--click-origin-y";
 
-const DIALOG_OFFSET_X_VAR = "--dialog-offset-x";
-const DIALOG_OFFSET_Y_VAR = "--dialog-offset-y";
+export const DIALOG_OFFSET_X_VAR = "--dialog-offset-x";
+export const DIALOG_OFFSET_Y_VAR = "--dialog-offset-y";
 
 export function updateClickOrigin(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) {
@@ -15,18 +15,21 @@ export function updateClickOrigin(target: EventTarget | null) {
   const y = rect.top + rect.height / 2;
 
   const root = document.documentElement;
-
   root.style.setProperty(CLICK_ORIGIN_X_VAR, `${x}px`);
   root.style.setProperty(CLICK_ORIGIN_Y_VAR, `${y}px`);
 }
 
 export function getClickOrigin() {
-  const styles = getComputedStyle(document.documentElement);
-
-  return {
+  const root = document.documentElement;
+  const styles = getComputedStyle(root);
+  const clickOrigin = {
     x: parseFloat(styles.getPropertyValue(CLICK_ORIGIN_X_VAR)) || 0,
     y: parseFloat(styles.getPropertyValue(CLICK_ORIGIN_Y_VAR)) || 0,
   };
+
+  // console.log(clickOrigin);
+
+  return clickOrigin;
 }
 
 export function updateDialogOffset(dialogElement: HTMLElement | null) {
