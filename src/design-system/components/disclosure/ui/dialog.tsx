@@ -3,7 +3,7 @@
 "use client";
 
 import { forwardRef, useRef } from "react";
-import { back } from "@/design-system/components/disclosure/utils/navigation";
+import { closeDisclosure } from "@/design-system/components/disclosure/utils/navigation";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
 import { createContext, useContext } from "react";
 import {
@@ -44,7 +44,7 @@ const DialogRoot = (props: DialogRootProps) => {
         clickOriginAnimation,
       }}
     >
-      <ChakraDialog.Root onEscapeKeyDown={back} {...restProps} />
+      <ChakraDialog.Root onEscapeKeyDown={closeDisclosure} {...restProps} />
     </DialogAnimationContext.Provider>
   );
 };

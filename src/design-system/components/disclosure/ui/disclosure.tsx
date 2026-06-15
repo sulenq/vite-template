@@ -17,7 +17,7 @@ import type {
 import { Dialog } from "@/design-system/components/disclosure/ui/dialog";
 import { Drawer } from "@/design-system/components/disclosure/ui/drawer";
 import { updateDialogOffset } from "@/design-system/components/disclosure/utils/click-origin";
-import { back } from "@/design-system/components/disclosure/utils/navigation";
+import { closeDisclosure } from "@/design-system/components/disclosure/utils/navigation";
 import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import {
@@ -151,7 +151,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
       <Portal disabled={!portalled} container={portalRef}>
         <Drawer.Positioner {...positionerProps}>
           {backdrop && (
-            <Drawer.Backdrop pointerEvents={"auto"} onClick={back} />
+            <Drawer.Backdrop pointerEvents={"auto"} onClick={closeDisclosure} />
           )}
 
           <Drawer.Content>{children}</Drawer.Content>
@@ -163,7 +163,9 @@ const DisclosureContent = (props: DisclosureContentProps) => {
   return (
     <Portal disabled={!portalled} container={portalRef}>
       <Dialog.Positioner {...positionerProps}>
-        {backdrop && <Dialog.Backdrop pointerEvents={"auto"} onClick={back} />}
+        {backdrop && (
+          <Dialog.Backdrop pointerEvents={"auto"} onClick={closeDisclosure} />
+        )}
 
         <Dialog.Content
           ref={contentRef}

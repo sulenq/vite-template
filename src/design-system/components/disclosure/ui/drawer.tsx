@@ -3,11 +3,11 @@
 "use client";
 
 import { forwardRef } from "react";
-import { back } from "@/design-system/components/disclosure/utils/navigation";
+import { closeDisclosure } from "@/design-system/components/disclosure/utils/navigation";
 import { Drawer as ChakraDrawer } from "@chakra-ui/react";
 
 const DrawerRoot = (props: ChakraDrawer.RootProps) => {
-  return <ChakraDrawer.Root onEscapeKeyDown={back} {...props} />;
+  return <ChakraDrawer.Root onEscapeKeyDown={closeDisclosure} {...props} />;
 };
 
 const DrawerTrigger = forwardRef<HTMLButtonElement, ChakraDrawer.TriggerProps>(
