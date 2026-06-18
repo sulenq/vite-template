@@ -1,7 +1,13 @@
 // src/design-system/components/icon/ui/app-icon.tsx
 
-import { BASE_ICON_BOX_SIZE } from "@/design-system/chakra/constants/styles";
-import type { AppLucideIconProps } from "@/design-system/components/icon/types/app-icon.type";
+import {
+  LUCIDE_ICON_BASE_ICON_BOX_SIZE,
+  TABLER_ICON_BASE_ICON_BOX_SIZE,
+} from "@/design-system/constants/styles";
+import type {
+  AppLucideIconProps,
+  AppTablerIconProps,
+} from "@/design-system/components/icon/types/app-icon.type";
 import { LucideIcon } from "@/design-system/components/icon/ui/lucide-icon";
 import { Icon } from "@/design-system/components/icon/ui/icon";
 
@@ -11,11 +17,22 @@ export const AppLucideIcon = (props: AppLucideIconProps) => {
 
   return (
     icon && (
-      <Icon boxSize={BASE_ICON_BOX_SIZE} {...restProps}>
+      <Icon boxSize={LUCIDE_ICON_BASE_ICON_BOX_SIZE} {...restProps}>
         <LucideIcon icon={icon} {...lucideIconProps} />
       </Icon>
     )
   );
 };
 
-export const AppTablerIcon = () => {};
+export const AppTablerIcon = (props: AppTablerIconProps) => {
+  // Props
+  const { icon: TablerIcon, tablerIconProps, ...restProps } = props;
+
+  return (
+    TablerIcon && (
+      <Icon boxSize={TABLER_ICON_BASE_ICON_BOX_SIZE} {...restProps}>
+        <TablerIcon {...tablerIconProps} />
+      </Icon>
+    )
+  );
+};

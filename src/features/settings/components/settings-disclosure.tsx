@@ -7,23 +7,24 @@ import { ColorModeToggleButton } from "@/design-system/components/button/ui/colo
 import { usePopDisclosure } from "@/design-system/components/disclosure/hooks/use-pop-disclosure";
 import type { PopDisclosureTriggerProps } from "@/design-system/components/disclosure/types/disclosure.type";
 import { Disclosure } from "@/design-system/components/disclosure/ui/disclosure";
-import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
+import {
+  AppLucideIcon,
+  AppTablerIcon,
+} from "@/design-system/components/icon/ui/app-icon";
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/p";
-import { SettingsNavs } from "@/features/settings/components/settings.navs";
-import { SettingsView } from "@/features/settings/components/settings.view";
-import {
-  ChevronLeftIcon,
-  MaximizeIcon,
-  MinimizeIcon,
-  SearchIcon,
-} from "lucide-react";
+import { SettingsNavs } from "@/features/settings/components/settings-navs";
+import { SettingsView } from "@/features/settings/components/settings-view";
+import { IconSearch, IconSquare, IconSquares } from "@tabler/icons-react";
+import { ChevronLeftIcon } from "lucide-react";
 import React, { createContext, useContext, useState } from "react";
 
 export type SettingsContextValue = {
   isFullscreen: boolean;
   setIsFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
+export const SettingsContext = createContext<SettingsContextValue | null>(null);
 
 export function useSettingsContext() {
   const context = useContext(SettingsContext);
@@ -34,8 +35,6 @@ export function useSettingsContext() {
 
   return context;
 }
-
-export const SettingsContext = createContext<SettingsContextValue | null>(null);
 
 const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   // Props
@@ -84,14 +83,10 @@ const SettingsContent = () => {
       <VStack overflowY={"auto"} bg={"bg.body"}>
         <HStack align={"center"} justify={"space-between"} p={2}>
           <IconButton>
-            <AppLucideIcon icon={SearchIcon} />
+            <AppTablerIcon icon={IconSearch} />
           </IconButton>
 
           <P textAlign={"center"}>Settings</P>
-
-          {/* <IconButton>
-            <AppLucideIcon icon={EllipsisIcon} />
-          </IconButton> */}
 
           <ColorModeToggleButton />
         </HStack>
@@ -111,11 +106,9 @@ const SettingsContent = () => {
             Profile
           </P>
 
-          <HStack justify={"end"} gap={2} w={"32px"} pr={1}>
+          <HStack justify={"end"} gap={3} w={"32px"} pr={1}>
             <IconButton
-              minW={"28px"}
-              h={"28px"}
-              size={"xs"}
+              size={"2xs"}
               variant={"subtle"}
               bg={"an2"}
               _hover={{
@@ -126,9 +119,10 @@ const SettingsContent = () => {
                 setIsFullscreen((ps) => !ps);
               }}
             >
-              <AppLucideIcon
-                icon={isFullscreen ? MinimizeIcon : MaximizeIcon}
-                boxSize={4}
+              <AppTablerIcon
+                icon={isFullscreen ? IconSquares : IconSquare}
+                transform={"scaleX(-1)"}
+                boxSize={3}
               />
             </IconButton>
 

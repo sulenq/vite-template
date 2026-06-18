@@ -4,7 +4,7 @@ import { IconButton } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
 import { VStack } from "@/design-system/components/layout/ui/container";
-import { Settings } from "@/features/settings/components/settings.disclosure";
+import { Settings } from "@/features/settings/components/settings-disclosure";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { SettingsIcon } from "lucide-react";
 

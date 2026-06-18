@@ -1,6 +1,6 @@
 // src/design-system/chakra/chakra-system.ts
 
-import { SM_SCREEN_BREAKPOINT } from "@/design-system/chakra/constants/styles";
+import { SM_SCREEN_BREAKPOINT } from "@/design-system/constants/styles";
 import {
   DIALOG_OFFSET_X_VAR,
   DIALOG_OFFSET_Y_VAR,

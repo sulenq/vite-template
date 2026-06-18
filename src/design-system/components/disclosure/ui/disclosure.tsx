@@ -18,14 +18,15 @@ import { Dialog } from "@/design-system/components/disclosure/ui/dialog";
 import { Drawer } from "@/design-system/components/disclosure/ui/drawer";
 import { updateDialogOffset } from "@/design-system/components/disclosure/utils/click-origin";
 import { closeDisclosure } from "@/design-system/components/disclosure/utils/navigation";
-import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import {
   Dialog as ChakraDialog,
   Drawer as ChakraDrawer,
   Portal,
 } from "@chakra-ui/react";
-import { XIcon } from "lucide-react";
+import { IconX } from "@tabler/icons-react";
 import { useRef } from "react";
 
 const DisclosureRoot = (props: DisclosureRootProps) => {
@@ -119,6 +120,9 @@ const DisclosureContent = (props: DisclosureContentProps) => {
     ...restProps
   } = props;
 
+  // Store
+  const { theme } = useThemeStore();
+
   // Refs
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -152,6 +156,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
           bg={"bg.body"}
           border={"1px solid"}
           borderColor={"border.subtle"}
+          rounded={theme.radii.container}
           transition={"200ms"}
           onAnimationStart={() => {
             if (contentRef.current) {
@@ -183,15 +188,13 @@ const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
 const DisclosureCloseButton = (props: ButtonProps) => {
   return (
     <IconButton
-      minW={"28px"}
-      h={"28px"}
-      size={"xs"}
+      size={"2xs"}
       variant={"subtle"}
       rounded={"full"}
       {...props}
       onClick={closeDisclosure}
     >
-      <AppLucideIcon icon={XIcon} />
+      <AppTablerIcon icon={IconX} boxSize={3.5} />
     </IconButton>
   );
 };

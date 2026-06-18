@@ -1,4 +1,4 @@
-import { SM_SCREEN_BREAKPOINT } from "@/design-system/chakra/constants/styles";
+import { SM_SCREEN_BREAKPOINT } from "@/design-system/constants/styles";
 import { useViewport } from "@/design-system/hooks/use-viewport";
 
 export const useIsSmallViewport = () => {

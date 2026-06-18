@@ -17,6 +17,7 @@
     "@chakra-ui/react": "^3.35.0",
     "@emotion/react": "^11.14.0",
     "@fontsource-variable/plus-jakarta-sans": "^5.2.8",
+    "@tabler/icons-react": "^3.44.0",
     "@tanstack/react-query": "^5.101.0",
     "@tanstack/react-router": "^1.170.15",
     "html-react-parser": "^6.1.3",
@@ -25,7 +26,8 @@
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "react-icons": "^5.6.0",
-    "zod": "^4.4.3"
+    "zod": "^4.4.3",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@chakra-ui/cli": "^3.36.0",

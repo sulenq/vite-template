@@ -109,9 +109,9 @@ export const SettingsNavs = (props: SettingsNavsProps) => {
 
   return (
     <VScrollContainer gap={1} minW={"250px"} {...restProps}>
-      {SETTINGS_NAVS.map((nav) => {
+      {SETTINGS_NAVS.map((nav, index) => {
         if (nav === "divider") {
-          return <Divider my={1} />;
+          return <Divider key={index} my={1} />;
         }
 
         return (
