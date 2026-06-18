@@ -3,7 +3,6 @@
 import "@/app.css";
 import { ChakraSystemProvider } from "@/design-system/chakra/providers/chakra-system.provider";
 import { ColorModeProvider } from "@/design-system/chakra/providers/color-mode-provider";
-import { DisclosurePurgeHandler } from "@/design-system/chakra/providers/disclsoure-purge-handler";
 import "@fontsource-variable/plus-jakarta-sans";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import z from "zod";
@@ -11,6 +10,7 @@ import z from "zod";
 export const Route = createRootRoute({
   validateSearch: z.object({
     d: z.string().optional(),
+    "settings-tab": z.string().optional(),
   }),
 
   component: RootComponent,
@@ -20,7 +20,7 @@ function RootComponent() {
   return (
     <ColorModeProvider>
       <ChakraSystemProvider>
-        <DisclosurePurgeHandler />
+        {/* <DisclosurePurgeHandler /> */}
 
         <Outlet />
       </ChakraSystemProvider>

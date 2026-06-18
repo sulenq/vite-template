@@ -28,27 +28,6 @@ import {
 import { XIcon } from "lucide-react";
 import { useRef } from "react";
 
-import { createContext, useContext } from "react";
-
-export type DialogAnimationContextValue = {
-  clickOriginAnimation: boolean;
-};
-
-export const DialogAnimationContext =
-  createContext<DialogAnimationContextValue | null>(null);
-
-export function useDialogAnimationContext() {
-  const context = useContext(DialogAnimationContext);
-
-  if (!context) {
-    throw new Error(
-      "useDialogAnimationContext must be used within Disclosure.Root",
-    );
-  }
-
-  return context;
-}
-
 const DisclosureRoot = (props: DisclosureRootProps) => {
   // Props
   const {
@@ -123,10 +102,10 @@ const DisclosureBackdrop = (props: DisclosureBackdropProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return <Dialog.Backdrop {...(props as ChakraDialog.BackdropProps)} />;
+    return <Drawer.Backdrop {...(props as ChakraDrawer.BackdropProps)} />;
   }
 
-  return <Drawer.Backdrop {...(props as ChakraDrawer.BackdropProps)} />;
+  return <Dialog.Backdrop {...(props as ChakraDialog.BackdropProps)} />;
 };
 
 const DisclosureContent = (props: DisclosureContentProps) => {
@@ -169,8 +148,11 @@ const DisclosureContent = (props: DisclosureContentProps) => {
 
         <Dialog.Content
           ref={contentRef}
+          overflow={"clip"}
           bg={"bg.body"}
-          shadow={"md"}
+          border={"1px solid"}
+          borderColor={"border.subtle"}
+          transition={"200ms"}
           onAnimationStart={() => {
             if (contentRef.current) {
               updateDialogOffset(contentRef.current);
@@ -200,11 +182,17 @@ const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
 
 const DisclosureCloseButton = (props: ButtonProps) => {
   return (
-    <DisclosureCloseTrigger asChild position={"static"}>
-      <IconButton size={"xs"} variant={"subtle"} rounded={"full"} {...props}>
-        <AppLucideIcon icon={XIcon} />
-      </IconButton>
-    </DisclosureCloseTrigger>
+    <IconButton
+      minW={"28px"}
+      h={"28px"}
+      size={"xs"}
+      variant={"subtle"}
+      rounded={"full"}
+      {...props}
+      onClick={closeDisclosure}
+    >
+      <AppLucideIcon icon={XIcon} />
+    </IconButton>
   );
 };
 

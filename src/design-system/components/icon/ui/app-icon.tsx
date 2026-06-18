@@ -1,9 +1,9 @@
-// src/design-system/components/icon/ui/app-icon
+// src/design-system/components/icon/ui/app-icon.tsx
 
 import { BASE_ICON_BOX_SIZE } from "@/design-system/chakra/constants/styles";
 import type { AppLucideIconProps } from "@/design-system/components/icon/types/app-icon.type";
 import { LucideIcon } from "@/design-system/components/icon/ui/lucide-icon";
-import { Icon } from "@chakra-ui/react";
+import { Icon } from "@/design-system/components/icon/ui/icon";
 
 export const AppLucideIcon = (props: AppLucideIconProps) => {
   // Props
@@ -18,5 +18,4 @@ export const AppLucideIcon = (props: AppLucideIconProps) => {
   );
 };
 
-// TODO: Implement AppTablerIcon
 export const AppTablerIcon = () => {};

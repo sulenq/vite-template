@@ -2,11 +2,40 @@
 
 "use client";
 
-import { Button } from "@/design-system/components/button/ui/button";
+import { IconButton } from "@/design-system/components/button/ui/button";
+import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { usePopDisclosure } from "@/design-system/components/disclosure/hooks/use-pop-disclosure";
 import type { PopDisclosureTriggerProps } from "@/design-system/components/disclosure/types/disclosure.type";
 import { Disclosure } from "@/design-system/components/disclosure/ui/disclosure";
-import { HStack } from "@/design-system/components/layout/container";
+import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
+import { HStack, VStack } from "@/design-system/components/layout/ui/container";
+import { P } from "@/design-system/components/typography/p";
+import { SettingsNavs } from "@/features/settings/components/settings.navs";
+import { SettingsView } from "@/features/settings/components/settings.view";
+import {
+  ChevronLeftIcon,
+  MaximizeIcon,
+  MinimizeIcon,
+  SearchIcon,
+} from "lucide-react";
+import React, { createContext, useContext, useState } from "react";
+
+export type SettingsContextValue = {
+  isFullscreen: boolean;
+  setIsFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export function useSettingsContext() {
+  const context = useContext(SettingsContext);
+
+  if (!context) {
+    throw new Error("useSettingsContext must be used within SettingsContent");
+  }
+
+  return context;
+}
+
+export const SettingsContext = createContext<SettingsContextValue | null>(null);
 
 const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   // Props
@@ -15,82 +44,110 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   // Hooks
   const { isOpen, open, close } = usePopDisclosure(dKey);
 
+  // States
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
   return (
-    <Disclosure.Root
-      opened={isOpen}
-      open={open}
-      close={close}
-      clickOriginAnimation
-      size={"xl"}
+    <SettingsContext.Provider
+      value={{
+        isFullscreen,
+        setIsFullscreen,
+      }}
     >
-      <Disclosure.Trigger asChild {...restProps}>
-        {children}
-      </Disclosure.Trigger>
+      <Disclosure.Root
+        opened={isOpen}
+        open={open}
+        close={close}
+        clickOriginAnimation
+        size={isFullscreen ? "full" : "xl"}
+      >
+        <Disclosure.Trigger asChild {...restProps}>
+          {children}
+        </Disclosure.Trigger>
 
-      <Disclosure.Content>
-        <Disclosure.Body>
-          <HStack className="debug" h={"500px"}>
-            <SettingsTrigger2 dKey="settings.settings2" mt={"auto"}>
-              <Button>Settings 2</Button>
-            </SettingsTrigger2>
+        <Disclosure.Content overflowY={"auto"}>
+          <Disclosure.Body overflowY={"auto"} p={0}>
+            <SettingsContent />
+          </Disclosure.Body>
+        </Disclosure.Content>
+      </Disclosure.Root>
+    </SettingsContext.Provider>
+  );
+};
+
+const SettingsContent = () => {
+  // Contexts
+  const { isFullscreen, setIsFullscreen } = useSettingsContext();
+
+  return (
+    <HStack maxH={isFullscreen ? "" : "500px"} overflowY={"auto"}>
+      <VStack overflowY={"auto"} bg={"bg.body"}>
+        <HStack align={"center"} justify={"space-between"} p={2}>
+          <IconButton>
+            <AppLucideIcon icon={SearchIcon} />
+          </IconButton>
+
+          <P textAlign={"center"}>Settings</P>
+
+          {/* <IconButton>
+            <AppLucideIcon icon={EllipsisIcon} />
+          </IconButton> */}
+
+          <ColorModeToggleButton />
+        </HStack>
+
+        <SettingsNavs p={2} />
+      </VStack>
+
+      <VStack flex={1} overflowY={"auto"} bg={"bg.canvas"}>
+        <HStack align={"center"} justify={"space-between"} p={2}>
+          <HStack w={"32px"}>
+            <IconButton>
+              <AppLucideIcon icon={ChevronLeftIcon} />
+            </IconButton>
           </HStack>
-        </Disclosure.Body>
 
-        <Disclosure.Footer></Disclosure.Footer>
-      </Disclosure.Content>
-    </Disclosure.Root>
-  );
-};
+          <P fontWeight={"semibold"} textAlign={"center"}>
+            Profile
+          </P>
 
-export const SettingsTrigger2 = (props: PopDisclosureTriggerProps) => {
-  // Props
-  const { children, dKey, ...restProps } = props;
+          <HStack justify={"end"} gap={2} w={"32px"} pr={1}>
+            <IconButton
+              minW={"28px"}
+              h={"28px"}
+              size={"xs"}
+              variant={"subtle"}
+              bg={"an2"}
+              _hover={{
+                bg: "an3",
+              }}
+              rounded={"full"}
+              onClick={() => {
+                setIsFullscreen((ps) => !ps);
+              }}
+            >
+              <AppLucideIcon
+                icon={isFullscreen ? MinimizeIcon : MaximizeIcon}
+                boxSize={4}
+              />
+            </IconButton>
 
-  // Hooks
-  const { isOpen, open, close } = usePopDisclosure(dKey);
+            <Disclosure.CloseButton
+              bg={"an2"}
+              _hover={{
+                bg: "an3",
+              }}
+            />
+          </HStack>
+        </HStack>
 
-  return (
-    <Disclosure.Root opened={isOpen} open={open} close={close} size={"sm"}>
-      <Disclosure.Trigger asChild {...restProps}>
-        {children}
-      </Disclosure.Trigger>
-
-      <Disclosure.Content>
-        <Disclosure.Body minH={"500px"}>
-          Nested 2
-          <SettingsTrigger3 dKey="settings.settings2.settings3">
-            <Button>Settings 3</Button>
-          </SettingsTrigger3>
-        </Disclosure.Body>
-
-        <Disclosure.Footer></Disclosure.Footer>
-      </Disclosure.Content>
-    </Disclosure.Root>
-  );
-};
-
-export const SettingsTrigger3 = (props: PopDisclosureTriggerProps) => {
-  // Props
-  const { children, dKey, ...restProps } = props;
-
-  // Hooks
-  const { isOpen, open, close } = usePopDisclosure(dKey);
-
-  return (
-    <Disclosure.Root opened={isOpen} open={open} close={close}>
-      <Disclosure.Trigger asChild {...restProps}>
-        {children}
-      </Disclosure.Trigger>
-
-      <Disclosure.Content>
-        <Disclosure.Body minH={"200px"}>Nested 3</Disclosure.Body>
-
-        <Disclosure.Footer></Disclosure.Footer>
-      </Disclosure.Content>
-    </Disclosure.Root>
+        <SettingsView />
+      </VStack>
+    </HStack>
   );
 };
 
 export const Settings = {
   Trigger: SettingsTrigger,
+  Content: SettingsContent,
 };

@@ -19,6 +19,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <ChakraButton
         ref={ref}
         size={MAIN_BUTTON_SIZE}
+        variant={"ghost"}
         colorPalette={"neutral"}
         fontWeight={"normal"}
         {...props}
@@ -33,6 +34,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       <ChakraIconButton
         ref={ref}
         size={MAIN_BUTTON_SIZE}
+        variant={"ghost"}
         colorPalette={"neutral"}
         {...props}
       />

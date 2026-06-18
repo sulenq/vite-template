@@ -2,11 +2,11 @@
 
 import { useEffect, useMemo } from "react";
 import { useSearch, useNavigate } from "@tanstack/react-router";
-import { Route as RootRoute } from "@/routes/__root";
+import { Route } from "@/routes/__root";
 
 export function usePopDisclosure(dKey: string) {
   const { d } = useSearch({
-    from: RootRoute.id,
+    from: Route.fullPath,
   });
   const navigate = useNavigate();
 
