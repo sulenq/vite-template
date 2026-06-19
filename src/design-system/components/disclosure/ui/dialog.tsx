@@ -48,11 +48,7 @@ const DialogRoot = (props: DialogRootProps) => {
         clickOriginAnimation,
       }}
     >
-      <ChakraDialog.Root
-        onEscapeKeyDown={closeDisclosure}
-        modal={false}
-        {...restProps}
-      />
+      <ChakraDialog.Root onEscapeKeyDown={closeDisclosure} {...restProps} />
     </DialogAnimationContext.Provider>
   );
 };

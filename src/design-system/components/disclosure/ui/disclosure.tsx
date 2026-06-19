@@ -26,7 +26,7 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { IconX } from "@tabler/icons-react";
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 export type DisclosureContextValue = {
   dKey: string;
@@ -64,6 +64,26 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
+  // Add delayed opened state to ensure correct Zag.js focus trap / modal stacking
+  // on refresh when multiple nested disclosures mount simultaneously.
+  const [delayedOpened, setDelayedOpened] = useState(false);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    if (opened) {
+      const depth = dKey.split(".").length;
+      const delay = depth > 1 ? (depth - 1) * 20 : 0;
+      timer = setTimeout(() => {
+        setDelayedOpened(true);
+      }, delay);
+    } else {
+      timer = setTimeout(() => {
+        setDelayedOpened(false);
+      }, 0);
+    }
+    return () => clearTimeout(timer);
+  }, [opened, dKey]);
+
   useEffect(() => {
     if (opened) {
       close();
@@ -81,7 +101,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
         }}
       >
         <Drawer.Root
-          open={opened}
+          open={delayedOpened}
           onOpenChange={(e) => {
             if (e.open) {
               open();
@@ -110,7 +130,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
       }}
     >
       <Dialog.Root
-        open={opened}
+        open={delayedOpened}
         onOpenChange={(e) => {
           if (e.open) {
             open();

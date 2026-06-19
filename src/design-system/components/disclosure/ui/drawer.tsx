@@ -7,13 +7,7 @@ import { closeDisclosure } from "@/design-system/components/disclosure/utils/nav
 import { Drawer as ChakraDrawer } from "@chakra-ui/react";
 
 const DrawerRoot = (props: ChakraDrawer.RootProps) => {
-  return (
-    <ChakraDrawer.Root
-      onEscapeKeyDown={closeDisclosure}
-      modal={false}
-      {...props}
-    />
-  );
+  return <ChakraDrawer.Root onEscapeKeyDown={closeDisclosure} {...props} />;
 };
 
 const DrawerTrigger = forwardRef<HTMLButtonElement, ChakraDrawer.TriggerProps>(

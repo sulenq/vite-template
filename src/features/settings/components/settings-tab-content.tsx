@@ -73,6 +73,8 @@ export const ResetPassword = () => {
         <Disclosure.Body>Reset Password Content</Disclosure.Body>
 
         <Disclosure.Footer>
+          <Button>Cancel</Button>
+
           <Button>Reset</Button>
         </Disclosure.Footer>
       </Disclosure.Content>
