@@ -65,8 +65,18 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
           {children}
         </Disclosure.Trigger>
 
-        <Disclosure.Content overflowY={"auto"} maxW={"1000px"}>
-          <Disclosure.Body overflowY={"auto"} p={0}>
+        <Disclosure.Content
+          display={"flex"}
+          flexDir={"column"}
+          overflowY={"auto"}
+          maxW={"1000px"}
+        >
+          <Disclosure.Body
+            display={"flex"}
+            flexDir={"column"}
+            overflowY={"auto"}
+            p={0}
+          >
             <SettingsView />
           </Disclosure.Body>
         </Disclosure.Content>
