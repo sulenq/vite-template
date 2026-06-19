@@ -27,12 +27,34 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { IconX } from "@tabler/icons-react";
-import { useRef } from "react";
+import { createContext, useContext, useRef } from "react";
+
+export type DisclosureContextValue = {
+  dKey: string;
+  opened: boolean;
+  open: () => void;
+  close: () => void;
+};
+
+export const DisclosureContext = createContext<DisclosureContextValue | null>(
+  null,
+);
+
+export function useDisclosureContext() {
+  const context = useContext(DisclosureContext);
+
+  if (!context) {
+    throw new Error("useDisclosureContext must be used within Disclosure.Root");
+  }
+
+  return context;
+}
 
 const DisclosureRoot = (props: DisclosureRootProps) => {
   // Props
   const {
     children,
+    dKey,
     opened = false,
     open,
     close,
@@ -45,7 +67,44 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
 
   if (isSmallViewport) {
     return (
-      <Drawer.Root
+      <DisclosureContext.Provider
+        value={{
+          dKey,
+          opened,
+          open,
+          close,
+        }}
+      >
+        <Drawer.Root
+          open={opened}
+          onOpenChange={(e) => {
+            if (e.open) {
+              open();
+            } else {
+              close();
+            }
+          }}
+          placement={"bottom"}
+          lazyMount
+          unmountOnExit
+          {...(restProps as ChakraDrawer.RootProps)}
+        >
+          {children}
+        </Drawer.Root>
+      </DisclosureContext.Provider>
+    );
+  }
+
+  return (
+    <DisclosureContext.Provider
+      value={{
+        dKey,
+        opened,
+        open,
+        close,
+      }}
+    >
+      <Dialog.Root
         open={opened}
         onOpenChange={(e) => {
           if (e.open) {
@@ -54,36 +113,17 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
             close();
           }
         }}
-        placement={"bottom"}
+        clickOriginAnimation={clickOriginAnimation}
+        size={"xs"}
+        scrollBehavior={"inside"}
         lazyMount
         unmountOnExit
-        {...(restProps as ChakraDrawer.RootProps)}
+        {...(restProps as ChakraDialog.RootProps)}
+        placement={"center"}
       >
         {children}
-      </Drawer.Root>
-    );
-  }
-
-  return (
-    <Dialog.Root
-      open={opened}
-      onOpenChange={(e) => {
-        if (e.open) {
-          open();
-        } else {
-          close();
-        }
-      }}
-      clickOriginAnimation={clickOriginAnimation}
-      size={"xs"}
-      scrollBehavior={"inside"}
-      lazyMount
-      unmountOnExit
-      {...(restProps as ChakraDialog.RootProps)}
-      placement={"center"}
-    >
-      {children}
-    </Dialog.Root>
+      </Dialog.Root>
+    </DisclosureContext.Provider>
   );
 };
 

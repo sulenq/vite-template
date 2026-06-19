@@ -11,7 +11,8 @@ export type PopDisclosureTriggerProps = {
 } & DisclosureTriggerProps;
 
 export type DisclosureRootProps = {
-  opened?: boolean;
+  dKey: string;
+  opened: boolean;
   open: () => void;
   close: () => void;
   clickOriginAnimation?: boolean;

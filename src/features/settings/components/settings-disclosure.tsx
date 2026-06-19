@@ -54,6 +54,7 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
       }}
     >
       <Disclosure.Root
+        dKey={dKey}
         opened={isOpen}
         open={open}
         close={close}
@@ -64,7 +65,7 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
           {children}
         </Disclosure.Trigger>
 
-        <Disclosure.Content overflowY={"auto"}>
+        <Disclosure.Content overflowY={"auto"} maxW={"1000px"}>
           <Disclosure.Body overflowY={"auto"} p={0}>
             <SettingsContent />
           </Disclosure.Body>
@@ -79,7 +80,7 @@ const SettingsContent = () => {
   const { isFullscreen, setIsFullscreen } = useSettingsContext();
 
   return (
-    <HStack maxH={isFullscreen ? "" : "500px"} overflowY={"auto"}>
+    <HStack maxH={isFullscreen ? "" : "600px"} overflowY={"auto"}>
       <VStack overflowY={"auto"} bg={"bg.body"}>
         <HStack align={"center"} justify={"space-between"} p={2}>
           <IconButton>

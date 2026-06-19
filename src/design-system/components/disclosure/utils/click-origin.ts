@@ -27,8 +27,6 @@ export function getClickOrigin() {
     y: parseFloat(styles.getPropertyValue(CLICK_ORIGIN_Y_VAR)) || 0,
   };
 
-  // console.log(clickOrigin);
-
   return clickOrigin;
 }
 

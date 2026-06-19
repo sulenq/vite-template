@@ -2,14 +2,24 @@
 
 "use client";
 
-import { forwardRef, useRef } from "react";
+import { useDisclosureContext } from "@/design-system/components/disclosure/ui/disclosure";
 import { closeDisclosure } from "@/design-system/components/disclosure/utils/navigation";
-import { Dialog as ChakraDialog } from "@chakra-ui/react";
-import { createContext, useContext } from "react";
 import {
+  DIALOG_OFFSET_X_VAR,
+  DIALOG_OFFSET_Y_VAR,
+  getDialogOffset,
   updateClickOrigin,
   updateDialogOffset,
-} from "@/design-system/components/disclosure/utils/click-origin";
+} from "@/design-system/stores/use-dialog-animation-store";
+import { Dialog as ChakraDialog } from "@chakra-ui/react";
+import {
+  createContext,
+  forwardRef,
+  useContext,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 export type DialogAnimationContextValue = {
   clickOriginAnimation: boolean;
@@ -52,6 +62,7 @@ const DialogRoot = (props: DialogRootProps) => {
 const DialogTrigger = forwardRef<HTMLButtonElement, ChakraDialog.TriggerProps>(
   (props, ref) => {
     // Contexts
+    const { dKey } = useDisclosureContext();
     const { clickOriginAnimation } = useDialogAnimationContext();
 
     return (
@@ -60,7 +71,7 @@ const DialogTrigger = forwardRef<HTMLButtonElement, ChakraDialog.TriggerProps>(
         onPointerDown={
           clickOriginAnimation
             ? (e) => {
-                updateClickOrigin(e.currentTarget);
+                updateClickOrigin(dKey, e.currentTarget);
               }
             : undefined
         }
@@ -86,21 +97,49 @@ const DialogPositioner = forwardRef<
 const DialogContent = forwardRef<HTMLDivElement, ChakraDialog.ContentProps>(
   (props, ref) => {
     // Contexts
+    const { dKey } = useDisclosureContext();
     const { clickOriginAnimation } = useDialogAnimationContext();
 
     // Refs
     const contentRef = useRef<HTMLDivElement>(null);
 
+    // Hooks
+    const [, forceUpdate] = useState(0);
+
+    useLayoutEffect(() => {
+      if (!contentRef.current) {
+        return;
+      }
+
+      updateDialogOffset(dKey, contentRef.current);
+
+      forceUpdate((value) => value + 1);
+    }, [dKey]);
+
+    const { x, y } = getDialogOffset(dKey);
+
     return (
       <ChakraDialog.Content
-        ref={ref}
-        onAnimationStart={() => {
-          if (contentRef.current) {
-            updateDialogOffset(contentRef.current);
+        ref={(node) => {
+          contentRef.current = node;
+
+          if (typeof ref === "function") {
+            ref(node);
+          } else if (ref) {
+            ref.current = node;
           }
         }}
         bg={"bg.body"}
         shadow={"md"}
+        style={
+          {
+            [DIALOG_OFFSET_X_VAR]: `${x}px`,
+            [DIALOG_OFFSET_Y_VAR]: `${y}px`,
+          } as React.CSSProperties
+        }
+        // onAnimationStart={(event) => {
+        //   updateDialogOffset(dKey, event.currentTarget as HTMLDivElement);
+        // }}
         {...props}
         _open={{
           animation: clickOriginAnimation
