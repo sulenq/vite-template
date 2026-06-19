@@ -14,7 +14,7 @@ import {
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/p";
 import { SettingsNavs } from "@/features/settings/components/settings-navs";
-import { SettingsView } from "@/features/settings/components/settings-view";
+import { SettingsTabContent } from "@/features/settings/components/settings-tab-content";
 import { IconSearch, IconSquare, IconSquares } from "@tabler/icons-react";
 import { ChevronLeftIcon } from "lucide-react";
 import React, { createContext, useContext, useState } from "react";
@@ -67,7 +67,7 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
 
         <Disclosure.Content overflowY={"auto"} maxW={"1000px"}>
           <Disclosure.Body overflowY={"auto"} p={0}>
-            <SettingsContent />
+            <SettingsView />
           </Disclosure.Body>
         </Disclosure.Content>
       </Disclosure.Root>
@@ -75,12 +75,12 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   );
 };
 
-const SettingsContent = () => {
+const SettingsView = () => {
   // Contexts
   const { isFullscreen, setIsFullscreen } = useSettingsContext();
 
   return (
-    <HStack maxH={isFullscreen ? "" : "600px"} overflowY={"auto"}>
+    <HStack overflowY={"auto"}>
       <VStack overflowY={"auto"} bg={"bg.body"}>
         <HStack align={"center"} justify={"space-between"} p={2}>
           <IconButton>
@@ -136,7 +136,7 @@ const SettingsContent = () => {
           </HStack>
         </HStack>
 
-        <SettingsView />
+        <SettingsTabContent />
       </VStack>
     </HStack>
   );
@@ -144,5 +144,5 @@ const SettingsContent = () => {
 
 export const Settings = {
   Trigger: SettingsTrigger,
-  Content: SettingsContent,
+  View: SettingsView,
 };

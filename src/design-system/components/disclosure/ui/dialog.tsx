@@ -7,19 +7,12 @@ import { closeDisclosure } from "@/design-system/components/disclosure/utils/nav
 import {
   DIALOG_OFFSET_X_VAR,
   DIALOG_OFFSET_Y_VAR,
-  getDialogOffset,
   updateClickOrigin,
   updateDialogOffset,
+  getDialogOffset,
 } from "@/design-system/stores/use-dialog-animation-store";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
-import {
-  createContext,
-  forwardRef,
-  useContext,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { createContext, forwardRef, useContext, useRef } from "react";
 
 export type DialogAnimationContextValue = {
   clickOriginAnimation: boolean;
@@ -103,21 +96,6 @@ const DialogContent = forwardRef<HTMLDivElement, ChakraDialog.ContentProps>(
     // Refs
     const contentRef = useRef<HTMLDivElement>(null);
 
-    // Hooks
-    const [, forceUpdate] = useState(0);
-
-    useLayoutEffect(() => {
-      if (!contentRef.current) {
-        return;
-      }
-
-      updateDialogOffset(dKey, contentRef.current);
-
-      forceUpdate((value) => value + 1);
-    }, [dKey]);
-
-    const { x, y } = getDialogOffset(dKey);
-
     return (
       <ChakraDialog.Content
         ref={(node) => {
@@ -131,15 +109,18 @@ const DialogContent = forwardRef<HTMLDivElement, ChakraDialog.ContentProps>(
         }}
         bg={"bg.body"}
         shadow={"md"}
-        style={
-          {
-            [DIALOG_OFFSET_X_VAR]: `${x}px`,
-            [DIALOG_OFFSET_Y_VAR]: `${y}px`,
-          } as React.CSSProperties
-        }
-        // onAnimationStart={(event) => {
-        //   updateDialogOffset(dKey, event.currentTarget as HTMLDivElement);
-        // }}
+        // tabIndex={-1} memastikan focus-trap selalu punya elemen yang bisa difokus
+        tabIndex={-1}
+        onAnimationStart={() => {
+          if (!clickOriginAnimation || !contentRef.current) return;
+
+          // Hitung offset dari click origin ke viewport center,
+          // lalu set CSS var langsung ke element sebelum keyframe jalan
+          updateDialogOffset(dKey);
+          const { x, y } = getDialogOffset(dKey);
+          contentRef.current.style.setProperty(DIALOG_OFFSET_X_VAR, `${x}px`);
+          contentRef.current.style.setProperty(DIALOG_OFFSET_Y_VAR, `${y}px`);
+        }}
         {...props}
         _open={{
           animation: clickOriginAnimation

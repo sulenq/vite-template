@@ -16,10 +16,16 @@ import type {
 } from "@/design-system/components/disclosure/types/disclosure.type";
 import { Dialog } from "@/design-system/components/disclosure/ui/dialog";
 import { Drawer } from "@/design-system/components/disclosure/ui/drawer";
-import { updateDialogOffset } from "@/design-system/components/disclosure/utils/click-origin";
 import { closeDisclosure } from "@/design-system/components/disclosure/utils/navigation";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { DISCLOSURE_BASE_ZINDEX } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
+import {
+  DIALOG_OFFSET_X_VAR,
+  DIALOG_OFFSET_Y_VAR,
+  getDialogOffset,
+  updateDialogOffset,
+} from "@/design-system/stores/use-dialog-animation-store";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import {
   Dialog as ChakraDialog,
@@ -27,7 +33,7 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { IconX } from "@tabler/icons-react";
-import { createContext, useContext, useRef } from "react";
+import { createContext, useContext, useEffect, useRef } from "react";
 
 export type DisclosureContextValue = {
   dKey: string;
@@ -64,6 +70,12 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
 
   // Hooks
   const isSmallViewport = useIsSmallViewport();
+
+  useEffect(() => {
+    if (opened) {
+      close();
+    }
+  }, [isSmallViewport, opened, close]);
 
   if (isSmallViewport) {
     return (
@@ -167,17 +179,20 @@ const DisclosureContent = (props: DisclosureContentProps) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   // Hooks
+  const { dKey } = useDisclosureContext();
   const isSmallViewport = useIsSmallViewport();
+
+  const zIndex = DISCLOSURE_BASE_ZINDEX + dKey.split(".").length;
 
   if (isSmallViewport) {
     return (
       <Portal disabled={!portalled} container={portalRef}>
-        <Drawer.Positioner {...positionerProps}>
+        <Drawer.Positioner zIndex={zIndex} {...positionerProps}>
           {backdrop && (
             <Drawer.Backdrop pointerEvents={"auto"} onClick={closeDisclosure} />
           )}
 
-          <Drawer.Content>{children}</Drawer.Content>
+          <Drawer.Content tabIndex={-1}>{children}</Drawer.Content>
         </Drawer.Positioner>
       </Portal>
     );
@@ -185,7 +200,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
 
   return (
     <Portal disabled={!portalled} container={portalRef}>
-      <Dialog.Positioner {...positionerProps}>
+      <Dialog.Positioner zIndex={zIndex} {...positionerProps}>
         {backdrop && (
           <Dialog.Backdrop pointerEvents={"auto"} onClick={closeDisclosure} />
         )}
@@ -198,10 +213,15 @@ const DisclosureContent = (props: DisclosureContentProps) => {
           borderColor={"border.subtle"}
           rounded={theme.radii.container}
           transition={"200ms"}
+          // tabIndex={-1} memastikan focus-trap selalu punya elemen yang bisa difokus
+          tabIndex={-1}
           onAnimationStart={() => {
-            if (contentRef.current) {
-              updateDialogOffset(contentRef.current);
-            }
+            if (!contentRef.current) return;
+
+            updateDialogOffset(dKey);
+            const { x, y } = getDialogOffset(dKey);
+            contentRef.current.style.setProperty(DIALOG_OFFSET_X_VAR, `${x}px`);
+            contentRef.current.style.setProperty(DIALOG_OFFSET_Y_VAR, `${y}px`);
           }}
           {...restProps}
         >

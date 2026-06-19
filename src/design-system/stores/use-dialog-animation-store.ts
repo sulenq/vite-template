@@ -1,6 +1,7 @@
 // src/design-system/stores/use-dialog-animation-store.ts
 
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export const DIALOG_OFFSET_X_VAR = "--dialog-offset-x";
 export const DIALOG_OFFSET_Y_VAR = "--dialog-offset-y";
@@ -17,6 +18,7 @@ type DialogAnimationState = {
 
 type DialogAnimationStore = {
   dialogs: Record<string, DialogAnimationState>;
+  zIndexCounter: number;
 
   setClickOrigin: (dKey: string, clickOrigin: Point) => void;
   setDialogOffset: (dKey: string, dialogOffset: Point) => void;
@@ -27,59 +29,70 @@ type DialogAnimationStore = {
   clear: (dKey: string) => void;
 };
 
-const DEFAULT_POINT: Point = {
-  x: 0,
-  y: 0,
-};
+const DEFAULT_POINT: Point = { x: 0, y: 0 };
 
 export const useDialogAnimationStore = create<DialogAnimationStore>()(
-  (set, get) => ({
-    dialogs: {},
+  persist(
+    (set, get) => ({
+      dialogs: {},
+      zIndexCounter: 0,
 
-    setClickOrigin(dKey, clickOrigin) {
-      set((state) => ({
-        dialogs: {
-          ...state.dialogs,
-          [dKey]: {
-            clickOrigin,
-            dialogOffset: state.dialogs[dKey]?.dialogOffset ?? DEFAULT_POINT,
+      setClickOrigin(dKey, clickOrigin) {
+        set((state) => ({
+          dialogs: {
+            ...state.dialogs,
+            [dKey]: {
+              clickOrigin,
+              dialogOffset: state.dialogs[dKey]?.dialogOffset ?? DEFAULT_POINT,
+            },
           },
-        },
-      }));
-    },
+        }));
+      },
 
-    setDialogOffset(dKey, dialogOffset) {
-      set((state) => ({
-        dialogs: {
-          ...state.dialogs,
-          [dKey]: {
-            clickOrigin: state.dialogs[dKey]?.clickOrigin ?? DEFAULT_POINT,
-            dialogOffset,
+      setDialogOffset(dKey, dialogOffset) {
+        set((state) => ({
+          dialogs: {
+            ...state.dialogs,
+            [dKey]: {
+              clickOrigin: state.dialogs[dKey]?.clickOrigin ?? DEFAULT_POINT,
+              dialogOffset,
+            },
           },
-        },
-      }));
+        }));
+      },
+
+      getClickOrigin(dKey) {
+        return get().dialogs[dKey]?.clickOrigin ?? DEFAULT_POINT;
+      },
+
+      getDialogOffset(dKey) {
+        return get().dialogs[dKey]?.dialogOffset ?? DEFAULT_POINT;
+      },
+
+      clear(dKey) {
+        set((state) => {
+          const dialogs = { ...state.dialogs };
+          delete dialogs[dKey];
+          return { dialogs };
+        });
+      },
+    }),
+    {
+      name: "dialog-animation",
+
+      partialize: (state) => ({
+        dialogs: Object.fromEntries(
+          Object.entries(state.dialogs).map(([dKey, data]) => [
+            dKey,
+            {
+              clickOrigin: data.clickOrigin,
+              dialogOffset: DEFAULT_POINT,
+            },
+          ]),
+        ),
+      }),
     },
-
-    getClickOrigin(dKey) {
-      return get().dialogs[dKey]?.clickOrigin ?? DEFAULT_POINT;
-    },
-
-    getDialogOffset(dKey) {
-      return get().dialogs[dKey]?.dialogOffset ?? DEFAULT_POINT;
-    },
-
-    clear(dKey) {
-      set((state) => {
-        const dialogs = { ...state.dialogs };
-
-        delete dialogs[dKey];
-
-        return {
-          dialogs,
-        };
-      });
-    },
-  }),
+  ),
 );
 
 export function updateClickOrigin(dKey: string, target: EventTarget | null) {
@@ -95,46 +108,24 @@ export function updateClickOrigin(dKey: string, target: EventTarget | null) {
   });
 }
 
-export function updateDialogOffset(
-  dKey: string,
-  dialogElement: HTMLElement | null,
-) {
-  if (!dialogElement) {
-    return;
-  }
-
+export function updateDialogOffset(dKey: string) {
   const { x: clickOriginX, y: clickOriginY } = useDialogAnimationStore
     .getState()
     .getClickOrigin(dKey);
 
-  const rect = dialogElement.getBoundingClientRect();
-
-  const dialogCenterX = rect.left + rect.width / 2;
-  const dialogCenterY = rect.top + rect.height / 2;
-
-  // const offsetX = clickOriginX - dialogCenterX;
-  // const offsetY = clickOriginY - dialogCenterY;
+  // Jika click origin belum pernah di-set sama sekali, offset = 0 (tetap centered)
+  if (clickOriginX === 0 && clickOriginY === 0) {
+    useDialogAnimationStore.getState().setDialogOffset(dKey, { x: 0, y: 0 });
+    return;
+  }
 
   const offsetX = clickOriginX - window.innerWidth / 2;
   const offsetY = clickOriginY - window.innerHeight / 2;
-
-  console.log({
-    clickOriginX,
-    clickOriginY,
-    dialogCenterX,
-    dialogCenterY,
-    offsetX,
-    offsetY,
-  });
 
   useDialogAnimationStore.getState().setDialogOffset(dKey, {
     x: offsetX,
     y: offsetY,
   });
-
-  dialogElement.style.setProperty(DIALOG_OFFSET_X_VAR, `${offsetX}px`);
-
-  dialogElement.style.setProperty(DIALOG_OFFSET_Y_VAR, `${offsetY}px`);
 }
 
 export function getDialogOffset(dKey: string) {

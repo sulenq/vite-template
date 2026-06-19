@@ -13,3 +13,6 @@ export const LUCIDE_ICON_BASE_ICON_BOX_SIZE = 4.5;
 export const LUCIDE_ICON_MENU_ICON_BOX_SIZE = 4.5;
 export const TABLER_ICON_BASE_ICON_BOX_SIZE = 4.5;
 export const TABLER_ICON_MENU_ICON_BOX_SIZE = 4.5;
+
+// Layout/Stack
+export const DISCLOSURE_BASE_ZINDEX = 1400;
