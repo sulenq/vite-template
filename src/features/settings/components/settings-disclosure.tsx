@@ -13,6 +13,7 @@ import {
 } from "@/design-system/components/icon/ui/app-icon";
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/p";
+import { DISCLOSURE_CONTROL_CONTAINER_SPACING_R } from "@/design-system/constants/styles";
 import { SettingsNavs } from "@/features/settings/components/settings-navs";
 import { SettingsTabContent } from "@/features/settings/components/settings-tab-content";
 import { IconSearch, IconSquare, IconSquares } from "@tabler/icons-react";
@@ -69,7 +70,9 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
           display={"flex"}
           flexDir={"column"}
           overflowY={"auto"}
-          maxW={"1000px"}
+          maxW={isFullscreen ? "full" : "1000px"}
+          maxH={isFullscreen ? "100svh" : "600px"}
+          minH={isFullscreen ? "100svh" : ""}
         >
           <Disclosure.Body
             display={"flex"}
@@ -117,7 +120,12 @@ const SettingsView = () => {
             Profile
           </P>
 
-          <HStack justify={"end"} gap={3} w={"32px"} pr={1}>
+          <HStack
+            justify={"end"}
+            gap={3}
+            minW={"32px"}
+            pr={DISCLOSURE_CONTROL_CONTAINER_SPACING_R}
+          >
             <IconButton
               size={"2xs"}
               variant={"subtle"}

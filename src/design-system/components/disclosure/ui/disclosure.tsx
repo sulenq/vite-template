@@ -21,19 +21,12 @@ import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { DISCLOSURE_BASE_ZINDEX } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import {
-  DIALOG_OFFSET_X_VAR,
-  DIALOG_OFFSET_Y_VAR,
-  getDialogOffset,
-  updateDialogOffset,
-} from "@/design-system/stores/use-dialog-animation-store";
-import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import {
   Dialog as ChakraDialog,
   Drawer as ChakraDrawer,
   Portal,
 } from "@chakra-ui/react";
 import { IconX } from "@tabler/icons-react";
-import { createContext, useContext, useEffect, useRef } from "react";
+import { createContext, useContext, useEffect } from "react";
 
 export type DisclosureContextValue = {
   dKey: string;
@@ -172,12 +165,6 @@ const DisclosureContent = (props: DisclosureContentProps) => {
     ...restProps
   } = props;
 
-  // Store
-  const { theme } = useThemeStore();
-
-  // Refs
-  const contentRef = useRef<HTMLDivElement>(null);
-
   // Hooks
   const { dKey } = useDisclosureContext();
   const isSmallViewport = useIsSmallViewport();
@@ -192,7 +179,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
             <Drawer.Backdrop pointerEvents={"auto"} onClick={closeDisclosure} />
           )}
 
-          <Drawer.Content tabIndex={-1}>{children}</Drawer.Content>
+          <Drawer.Content>{children}</Drawer.Content>
         </Drawer.Positioner>
       </Portal>
     );
@@ -205,28 +192,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
           <Dialog.Backdrop pointerEvents={"auto"} onClick={closeDisclosure} />
         )}
 
-        <Dialog.Content
-          ref={contentRef}
-          overflow={"clip"}
-          bg={"bg.body"}
-          border={"1px solid"}
-          borderColor={"border.subtle"}
-          rounded={theme.radii.container}
-          transition={"200ms"}
-          // tabIndex={-1} memastikan focus-trap selalu punya elemen yang bisa difokus
-          tabIndex={-1}
-          onAnimationStart={() => {
-            if (!contentRef.current) return;
-
-            updateDialogOffset(dKey);
-            const { x, y } = getDialogOffset(dKey);
-            contentRef.current.style.setProperty(DIALOG_OFFSET_X_VAR, `${x}px`);
-            contentRef.current.style.setProperty(DIALOG_OFFSET_Y_VAR, `${y}px`);
-          }}
-          {...restProps}
-        >
-          {children}
-        </Dialog.Content>
+        <Dialog.Content {...restProps}>{children}</Dialog.Content>
       </Dialog.Positioner>
     </Portal>
   );

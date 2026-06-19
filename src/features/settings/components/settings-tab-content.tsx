@@ -19,7 +19,7 @@ export const SettingsTabContent = (props: SettingsViewProps) => {
   const { ...restProps } = props;
 
   return (
-    <VScrollContainer align={"center"} maxH={"600px"} p={4} {...restProps}>
+    <VScrollContainer align={"center"} p={4} {...restProps}>
       <VStack gap={4} w={"full"} maxW={"500px"}>
         <ResetPassword />
 
@@ -71,6 +71,10 @@ export const ResetPassword = () => {
 
       <Disclosure.Content>
         <Disclosure.Body>Reset Password Content</Disclosure.Body>
+
+        <Disclosure.Footer>
+          <Button>Reset</Button>
+        </Disclosure.Footer>
       </Disclosure.Content>
     </Disclosure.Root>
   );

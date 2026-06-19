@@ -11,6 +11,7 @@ import {
   updateDialogOffset,
   getDialogOffset,
 } from "@/design-system/stores/use-dialog-animation-store";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
 import { createContext, forwardRef, useContext, useRef } from "react";
 
@@ -93,6 +94,9 @@ const DialogContent = forwardRef<HTMLDivElement, ChakraDialog.ContentProps>(
     const { dKey } = useDisclosureContext();
     const { clickOriginAnimation } = useDialogAnimationContext();
 
+    // Store
+    const { theme } = useThemeStore();
+
     // Refs
     const contentRef = useRef<HTMLDivElement>(null);
 
@@ -107,21 +111,22 @@ const DialogContent = forwardRef<HTMLDivElement, ChakraDialog.ContentProps>(
             ref.current = node;
           }
         }}
+        overflow={"clip"}
         bg={"bg.body"}
         shadow={"md"}
-        // tabIndex={-1} memastikan focus-trap selalu punya elemen yang bisa difokus
-        tabIndex={-1}
+        border={"1px solid"}
+        borderColor={"border.subtle"}
+        rounded={theme.radii.container}
+        transition={"200ms"}
+        {...props}
         onAnimationStart={() => {
-          if (!clickOriginAnimation || !contentRef.current) return;
+          if (!contentRef.current) return;
 
-          // Hitung offset dari click origin ke viewport center,
-          // lalu set CSS var langsung ke element sebelum keyframe jalan
           updateDialogOffset(dKey);
           const { x, y } = getDialogOffset(dKey);
           contentRef.current.style.setProperty(DIALOG_OFFSET_X_VAR, `${x}px`);
           contentRef.current.style.setProperty(DIALOG_OFFSET_Y_VAR, `${y}px`);
         }}
-        {...props}
         _open={{
           animation: clickOriginAnimation
             ? "scale-up-overshoot-from-click-origin"
