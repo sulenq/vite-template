@@ -27,6 +27,8 @@ import {
 import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
 import { createContext, useContext, useEffect, useState } from "react";
 
+// -----------------------------------------------------------------
+
 export type DisclosureContextValue = {
   dKey: string;
   opened: boolean;
@@ -49,6 +51,8 @@ export function useDisclosureContext() {
 
   return context;
 }
+
+// -----------------------------------------------------------------
 
 const DisclosureRoot = (props: DisclosureRootProps) => {
   // Props
@@ -209,7 +213,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
   );
 };
 
-export const DisclosureFullscreenButton = (props: IconButtonProps) => {
+const DisclosureFullscreenButton = (props: IconButtonProps) => {
   // Contexts
   const { fullscreen, setFullscreen } = useDisclosureContext();
 

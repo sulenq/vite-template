@@ -12,7 +12,9 @@ import {
 } from "@/design-system/stores/use-dialog-animation-store";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
-import { createContext, forwardRef, useContext, useRef } from "react";
+import { createContext, useContext, useRef } from "react";
+
+// -----------------------------------------------------------------
 
 export type DialogAnimationContextValue = {
   clickOriginAnimation: boolean;
@@ -37,6 +39,8 @@ interface DialogRootProps extends ChakraDialog.RootProps {
   clickOriginAnimation?: boolean;
 }
 
+// -----------------------------------------------------------------
+
 const DialogRoot = (props: DialogRootProps) => {
   // Props
   const { clickOriginAnimation = false, ...restProps } = props;
@@ -55,140 +59,104 @@ const DialogRoot = (props: DialogRootProps) => {
   );
 };
 
-const DialogTrigger = forwardRef<HTMLButtonElement, ChakraDialog.TriggerProps>(
-  (props, ref) => {
-    // Contexts
-    const { dKey } = useDisclosureContext();
-    const { clickOriginAnimation } = useDialogAnimationContext();
+const DialogTrigger = (props: ChakraDialog.TriggerProps) => {
+  // Contexts
+  const { dKey } = useDisclosureContext();
+  const { clickOriginAnimation } = useDialogAnimationContext();
 
-    return (
-      <ChakraDialog.Trigger
-        ref={ref}
-        onPointerDown={
-          clickOriginAnimation
-            ? (e) => {
-                updateClickOrigin(dKey, e.currentTarget);
-              }
-            : undefined
-        }
-        {...props}
-      />
-    );
-  },
-);
+  return (
+    <ChakraDialog.Trigger
+      onPointerDown={
+        clickOriginAnimation
+          ? (e) => {
+              updateClickOrigin(dKey, e.currentTarget);
+            }
+          : undefined
+      }
+      {...props}
+    />
+  );
+};
 
-const DialogBackdrop = forwardRef<HTMLDivElement, ChakraDialog.BackdropProps>(
-  (props, ref) => {
-    // Contexts
-    const { close } = useDisclosureContext();
+const DialogBackdrop = (props: ChakraDialog.BackdropProps) => {
+  // Contexts
+  const { close } = useDisclosureContext();
 
-    return (
-      <ChakraDialog.Backdrop
-        ref={ref}
-        pointerEvents={"auto"}
-        onClick={close}
-        {...props}
-      />
-    );
-  },
-);
+  return (
+    <ChakraDialog.Backdrop pointerEvents={"auto"} onClick={close} {...props} />
+  );
+};
 
-const DialogPositioner = forwardRef<
-  HTMLDivElement,
-  ChakraDialog.PositionerProps
->((props, ref) => {
-  return <ChakraDialog.Positioner ref={ref} {...props} />;
-});
+const DialogPositioner = (props: ChakraDialog.PositionerProps) => {
+  return <ChakraDialog.Positioner {...props} />;
+};
 
-const DialogContent = forwardRef<HTMLDivElement, ChakraDialog.ContentProps>(
-  (props, ref) => {
-    // Contexts
-    const { dKey } = useDisclosureContext();
-    const { clickOriginAnimation } = useDialogAnimationContext();
+const DialogContent = (props: ChakraDialog.ContentProps) => {
+  // Contexts
+  const { dKey, fullscreen } = useDisclosureContext();
+  const { clickOriginAnimation } = useDialogAnimationContext();
 
-    // Store
-    const { theme } = useThemeStore();
+  // Store
+  const { theme } = useThemeStore();
 
-    // Refs
-    const contentRef = useRef<HTMLDivElement>(null);
+  // Refs
+  const contentRef = useRef<HTMLDivElement>(null);
 
-    return (
-      <ChakraDialog.Content
-        ref={(node) => {
-          contentRef.current = node;
+  return (
+    <ChakraDialog.Content
+      ref={contentRef}
+      overflow={"clip"}
+      bg={"bg.canvas"}
+      shadow={"md"}
+      border={"1px solid"}
+      borderColor={"shadowLine"}
+      rounded={theme.radii.container}
+      transition={"200ms"}
+      minH={fullscreen ? "full" : 0}
+      minW={0}
+      {...props}
+      onAnimationStart={() => {
+        if (!contentRef.current) return;
 
-          if (typeof ref === "function") {
-            ref(node);
-          } else if (ref) {
-            ref.current = node;
-          }
-        }}
-        overflow={"clip"}
-        bg={"bg.canvas"}
-        shadow={"md"}
-        border={"1px solid"}
-        borderColor={"shadowLine"}
-        rounded={theme.radii.container}
-        transition={"200ms"}
-        {...props}
-        onAnimationStart={() => {
-          if (!contentRef.current) return;
+        updateDialogOffset(dKey);
 
-          updateDialogOffset(dKey);
-          const { x, y } = getDialogOffset(dKey);
-          contentRef.current.style.setProperty(DIALOG_OFFSET_X_VAR, `${x}px`);
-          contentRef.current.style.setProperty(DIALOG_OFFSET_Y_VAR, `${y}px`);
-        }}
-        _open={{
-          animation: clickOriginAnimation
-            ? "scale-up-overshoot-from-click-origin"
-            : "scale-up-overshoot",
-          animationDuration: "slowest",
-        }}
-        _closed={{
-          animation: clickOriginAnimation
-            ? "scale-down-to-click-origin"
-            : "scale-down",
-          animationDuration: "slow",
-        }}
-      />
-    );
-  },
-);
+        const { x, y } = getDialogOffset(dKey);
 
-const DialogCloseTrigger = forwardRef<
-  HTMLButtonElement,
-  ChakraDialog.CloseTriggerProps
->((props, ref) => {
-  return <ChakraDialog.CloseTrigger ref={ref} {...props} />;
-});
+        contentRef.current.style.setProperty(DIALOG_OFFSET_X_VAR, `${x}px`);
 
-const DialogHeader = forwardRef<HTMLHeadingElement, ChakraDialog.TitleProps>(
-  (props, ref) => {
-    return <ChakraDialog.Title ref={ref} {...props} />;
-  },
-);
+        contentRef.current.style.setProperty(DIALOG_OFFSET_Y_VAR, `${y}px`);
+      }}
+      _open={{
+        animation: clickOriginAnimation
+          ? "scale-up-overshoot-from-click-origin"
+          : "scale-up-overshoot",
+        animationDuration: "slowest",
+      }}
+      _closed={{
+        animation: clickOriginAnimation
+          ? "scale-down-to-click-origin"
+          : "scale-down",
+        animationDuration: "slow",
+      }}
+    />
+  );
+};
 
-const DialogBody = forwardRef<HTMLDivElement, ChakraDialog.BodyProps>(
-  (props, ref) => {
-    return <ChakraDialog.Body ref={ref} {...props} />;
-  },
-);
+const DialogCloseTrigger = (props: ChakraDialog.CloseTriggerProps) => {
+  return <ChakraDialog.CloseTrigger {...props} />;
+};
 
-const DialogFooter = forwardRef<HTMLDivElement, ChakraDialog.FooterProps>(
-  (props, ref) => {
-    return <ChakraDialog.Footer ref={ref} {...props} />;
-  },
-);
+const DialogHeader = (props: ChakraDialog.TitleProps) => {
+  return <ChakraDialog.Title {...props} />;
+};
 
-DialogTrigger.displayName = "DialogTrigger";
-DialogBackdrop.displayName = "DialogBackdrop";
-DialogPositioner.displayName = "DialogPositioner";
-DialogContent.displayName = "DialogContent";
-DialogCloseTrigger.displayName = "DialogCloseTrigger";
-DialogHeader.displayName = "DialogHeader";
-DialogBody.displayName = "DialogBody";
-DialogFooter.displayName = "DialogFooter";
+const DialogBody = (props: ChakraDialog.BodyProps) => {
+  return <ChakraDialog.Body {...props} />;
+};
+
+const DialogFooter = (props: ChakraDialog.FooterProps) => {
+  return <ChakraDialog.Footer {...props} />;
+};
 
 export const Dialog = {
   Root: DialogRoot,
