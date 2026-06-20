@@ -3,13 +3,12 @@
 "use client";
 
 import { useDisclosureContext } from "@/design-system/components/disclosure/ui/disclosure";
-import { closeDisclosure } from "@/design-system/components/disclosure/utils/navigation";
 import {
   DIALOG_OFFSET_X_VAR,
   DIALOG_OFFSET_Y_VAR,
+  getDialogOffset,
   updateClickOrigin,
   updateDialogOffset,
-  getDialogOffset,
 } from "@/design-system/stores/use-dialog-animation-store";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
@@ -42,13 +41,16 @@ const DialogRoot = (props: DialogRootProps) => {
   // Props
   const { clickOriginAnimation = false, ...restProps } = props;
 
+  // Contexts
+  const { close } = useDisclosureContext();
+
   return (
     <DialogAnimationContext.Provider
       value={{
         clickOriginAnimation,
       }}
     >
-      <ChakraDialog.Root onEscapeKeyDown={closeDisclosure} {...restProps} />
+      <ChakraDialog.Root onEscapeKeyDown={close} {...restProps} />
     </DialogAnimationContext.Provider>
   );
 };
@@ -77,7 +79,17 @@ const DialogTrigger = forwardRef<HTMLButtonElement, ChakraDialog.TriggerProps>(
 
 const DialogBackdrop = forwardRef<HTMLDivElement, ChakraDialog.BackdropProps>(
   (props, ref) => {
-    return <ChakraDialog.Backdrop ref={ref} {...props} />;
+    // Contexts
+    const { close } = useDisclosureContext();
+
+    return (
+      <ChakraDialog.Backdrop
+        ref={ref}
+        pointerEvents={"auto"}
+        onClick={close}
+        {...props}
+      />
+    );
   },
 );
 

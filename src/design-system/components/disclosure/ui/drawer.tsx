@@ -2,12 +2,15 @@
 
 "use client";
 
-import { forwardRef } from "react";
-import { closeDisclosure } from "@/design-system/components/disclosure/utils/navigation";
+import { useDisclosureContext } from "@/design-system/components/disclosure/ui/disclosure";
 import { Drawer as ChakraDrawer } from "@chakra-ui/react";
+import { forwardRef } from "react";
 
 const DrawerRoot = (props: ChakraDrawer.RootProps) => {
-  return <ChakraDrawer.Root onEscapeKeyDown={closeDisclosure} {...props} />;
+  // Contexts
+  const { close } = useDisclosureContext();
+
+  return <ChakraDrawer.Root onEscapeKeyDown={close} {...props} />;
 };
 
 const DrawerTrigger = forwardRef<HTMLButtonElement, ChakraDrawer.TriggerProps>(
@@ -18,7 +21,17 @@ const DrawerTrigger = forwardRef<HTMLButtonElement, ChakraDrawer.TriggerProps>(
 
 const DrawerBackdrop = forwardRef<HTMLDivElement, ChakraDrawer.BackdropProps>(
   (props, ref) => {
-    return <ChakraDrawer.Backdrop ref={ref} {...props} />;
+    // Contexts
+    const { close } = useDisclosureContext();
+
+    return (
+      <ChakraDrawer.Backdrop
+        ref={ref}
+        pointerEvents={"auto"}
+        onClick={close}
+        {...props}
+      />
+    );
   },
 );
 

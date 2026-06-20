@@ -1,10 +1,11 @@
 // src/design-system/components/disclosure/hooks/use-pop-disclosure.ts
 
-import { useEffect, useMemo } from "react";
-import { useSearch, useNavigate } from "@tanstack/react-router";
 import { Route } from "@/routes/__root";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import { useEffect, useMemo, useRef } from "react";
 
 export function usePopDisclosure(dKey: string) {
+  const lastCloseAtRef = useRef(0);
   const { d } = useSearch({
     from: Route.fullPath,
   });
@@ -43,10 +44,15 @@ export function usePopDisclosure(dKey: string) {
   }
 
   function close() {
-    navigate({
-      to: ".",
-      search: (old) => old,
-    });
+    const now = Date.now();
+
+    if (now - lastCloseAtRef.current < 300) {
+      return;
+    }
+
+    lastCloseAtRef.current = now;
+
+    window.history.back();
   }
 
   return {

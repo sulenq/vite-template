@@ -130,10 +130,6 @@ const SettingsView = () => {
             <IconButton
               size={"2xs"}
               variant={"subtle"}
-              bg={"an2"}
-              _hover={{
-                bg: "an3",
-              }}
               rounded={"full"}
               onClick={() => {
                 setIsFullscreen((ps) => !ps);
@@ -146,12 +142,7 @@ const SettingsView = () => {
               />
             </IconButton>
 
-            <Disclosure.CloseButton
-              bg={"an2"}
-              _hover={{
-                bg: "an3",
-              }}
-            />
+            <Disclosure.CloseButton />
           </HStack>
         </HStack>
 

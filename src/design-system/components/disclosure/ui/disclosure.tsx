@@ -16,7 +16,6 @@ import type {
 } from "@/design-system/components/disclosure/types/disclosure.type";
 import { Dialog } from "@/design-system/components/disclosure/ui/dialog";
 import { Drawer } from "@/design-system/components/disclosure/ui/drawer";
-import { closeDisclosure } from "@/design-system/components/disclosure/utils/navigation";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { DISCLOSURE_BASE_ZINDEX } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
@@ -64,9 +63,8 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
-  // Add delayed opened state to ensure correct Zag.js focus trap / modal stacking
-  // on refresh when multiple nested disclosures mount simultaneously.
-  const [delayedOpened, setDelayedOpened] = useState(false);
+  // States
+  const [delayedOpened, setDelayedOpened] = useState(false); // on refresh when multiple nested disclosures mount simultaneously.
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -83,12 +81,6 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
     }
     return () => clearTimeout(timer);
   }, [opened, dKey]);
-
-  useEffect(() => {
-    if (opened) {
-      close();
-    }
-  }, [isSmallViewport, opened, close]);
 
   if (isSmallViewport) {
     return (
@@ -195,9 +187,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
     return (
       <Portal disabled={!portalled} container={portalRef}>
         <Drawer.Positioner zIndex={zIndex} {...positionerProps}>
-          {backdrop && (
-            <Drawer.Backdrop pointerEvents={"auto"} onClick={closeDisclosure} />
-          )}
+          {backdrop && <Drawer.Backdrop pointerEvents={"auto"} />}
 
           <Drawer.Content>{children}</Drawer.Content>
         </Drawer.Positioner>
@@ -208,9 +198,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
   return (
     <Portal disabled={!portalled} container={portalRef}>
       <Dialog.Positioner zIndex={zIndex} {...positionerProps}>
-        {backdrop && (
-          <Dialog.Backdrop pointerEvents={"auto"} onClick={closeDisclosure} />
-        )}
+        {backdrop && <Dialog.Backdrop pointerEvents={"auto"} />}
 
         <Dialog.Content {...restProps}>{children}</Dialog.Content>
       </Dialog.Positioner>
@@ -232,13 +220,15 @@ const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
 };
 
 const DisclosureCloseButton = (props: ButtonProps) => {
+  const { close } = useDisclosureContext();
+
   return (
     <IconButton
       size={"2xs"}
       variant={"subtle"}
       rounded={"full"}
       {...props}
-      onClick={closeDisclosure}
+      onClick={close}
     >
       <AppTablerIcon icon={IconX} boxSize={3.5} />
     </IconButton>

@@ -113,7 +113,6 @@ export function updateDialogOffset(dKey: string) {
     .getState()
     .getClickOrigin(dKey);
 
-  // Jika click origin belum pernah di-set sama sekali, offset = 0 (tetap centered)
   if (clickOriginX === 0 && clickOriginY === 0) {
     useDialogAnimationStore.getState().setDialogOffset(dKey, { x: 0, y: 0 });
     return;
@@ -130,4 +129,8 @@ export function updateDialogOffset(dKey: string) {
 
 export function getDialogOffset(dKey: string) {
   return useDialogAnimationStore.getState().getDialogOffset(dKey);
+}
+
+export function clearDialogOffset(dKey: string) {
+  useDialogAnimationStore.getState().clear(dKey);
 }

@@ -637,6 +637,24 @@ export const chakraConfig = defineConfig({
     semanticTokens: {
       colors: {
         bg: {
+          subtle: {
+            value: {
+              base: "{colors.an1} !important",
+              _dark: "{colors.an1} !important",
+            },
+          },
+          muted: {
+            value: {
+              base: "{colors.an2} !important",
+              _dark: "{colors.an2} !important",
+            },
+          },
+          emphasized: {
+            value: {
+              base: "{colors.an3} !important",
+              _dark: "{colors.an3} !important",
+            },
+          },
           canvas: {
             value: {
               base: "{colors.canvasLight}",
@@ -670,6 +688,12 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.neutral.800} !important",
             },
           },
+          emphasized: {
+            value: {
+              base: "{colors.neutral.300} !important",
+              _dark: "{colors.neutral.700} !important",
+            },
+          },
         },
 
         neutral: {
@@ -687,20 +711,20 @@ export const chakraConfig = defineConfig({
           },
           subtle: {
             value: {
-              base: "{colors.neutral.100}",
-              _dark: "{colors.neutral.800}",
+              base: "{colors.an1} !important",
+              _dark: "{colors.an1} !important",
             },
           },
           muted: {
             value: {
-              base: "{colors.neutral.200}",
-              _dark: "{colors.neutral.700}",
+              base: "{colors.an2} !important",
+              _dark: "{colors.an2} !important",
             },
           },
           emphasized: {
             value: {
-              base: "{colors.neutral.300}",
-              _dark: "{colors.neutral.600}",
+              base: "{colors.an3} !important",
+              _dark: "{colors.an3} !important",
             },
           },
           solid: {
