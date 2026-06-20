@@ -104,7 +104,7 @@ export const chakraConfig = defineConfig({
         bodyLight: { value: "#ffffff" },
         bodyDark: { value: "#1f1f1f" },
 
-        shadowLine: { value: "#8a90960a" },
+        shadowLine: { value: "#8a90960c" },
 
         an0: { value: "#8a909614" },
         an1: { value: "#8a90961a" },

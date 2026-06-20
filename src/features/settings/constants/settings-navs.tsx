@@ -5,13 +5,13 @@ import type { Nav } from "@/design-system/components/layout/types/nav.type";
 import {
   IconBell,
   IconClock,
+  IconDeviceDesktop,
   IconHelpCircle,
   IconInfoCircle,
   IconKey,
   IconLanguage,
   IconLock,
   IconPlug,
-  IconSun,
   IconUser,
   IconUserCircle,
 } from "@tabler/icons-react";
@@ -34,7 +34,7 @@ export const SETTINGS_NAVS = {
     label: "Notification",
   },
   appearance: {
-    icon: <AppTablerIcon icon={IconSun} />,
+    icon: <AppTablerIcon icon={IconDeviceDesktop} />,
     label: "Appearance",
   },
   language: {

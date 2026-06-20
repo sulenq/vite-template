@@ -7,10 +7,7 @@ import { ColorModeToggleButton } from "@/design-system/components/button/ui/colo
 import { usePopDisclosure } from "@/design-system/components/disclosure/hooks/use-pop-disclosure";
 import type { PopDisclosureTriggerProps } from "@/design-system/components/disclosure/types/disclosure.type";
 import { Disclosure } from "@/design-system/components/disclosure/ui/disclosure";
-import {
-  AppLucideIcon,
-  AppTablerIcon,
-} from "@/design-system/components/icon/ui/app-icon";
+import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/p";
 import {
@@ -23,7 +20,6 @@ import { SettingsMenu } from "@/features/settings/components/settings-menu";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
 import { RootRoute } from "@/routes/typed";
 import { IconSearch } from "@tabler/icons-react";
-import { ChevronLeftIcon } from "lucide-react";
 
 const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   // Props
@@ -71,13 +67,17 @@ const SettingsView = () => {
       <VStack overflowY={"auto"} bg={"bg.body"}>
         {/* Nav Header */}
         <HStack align={"center"} justify={"space-between"} h={HEADER_H} p={2}>
-          <IconButton>
-            <AppTablerIcon icon={IconSearch} />
-          </IconButton>
+          <HStack w={"40px"}>
+            <IconButton>
+              <AppTablerIcon icon={IconSearch} />
+            </IconButton>
+          </HStack>
 
           <P textAlign={"center"}>Settings</P>
 
-          <ColorModeToggleButton />
+          <HStack w={"40px"}>
+            <ColorModeToggleButton />
+          </HStack>
         </HStack>
 
         <SettingsMenu p={2} />
@@ -87,9 +87,9 @@ const SettingsView = () => {
         {/* Tab Header */}
         <HStack align={"center"} justify={"space-between"} h={HEADER_H} p={2}>
           <HStack w={DISCLOSURE_CONTROL_CONTAINER_W}>
-            <IconButton>
-              <AppLucideIcon icon={ChevronLeftIcon} />
-            </IconButton>
+            {/* <IconButton>
+              <AppTablerIcon icon={IconChevronLeft} />
+            </IconButton> */}
           </HStack>
 
           <P fontWeight={"semibold"} textAlign={"center"}>
