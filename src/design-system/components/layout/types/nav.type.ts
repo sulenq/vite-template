@@ -6,15 +6,7 @@ export type Nav = {
   labelKey?: string;
 };
 
-export type TabNav =
-  | ({
-      tab: string;
-    } & Nav)
-  | "divider";
-
-export type RouteNav =
-  | ({
-      path?: string;
-      backPath?: string;
-    } & Nav)
-  | "divider";
+export type RouteNav = {
+  path?: string;
+  backPath?: string;
+} & Nav;

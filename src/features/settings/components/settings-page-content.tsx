@@ -8,12 +8,21 @@ import { Disclosure } from "@/design-system/components/disclosure/ui/disclosure"
 import type { StackProps } from "@/design-system/components/layout/types/container.type";
 import { Box, VStack } from "@/design-system/components/layout/ui/container";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
+import { Route } from "@/routes/__root";
+import { useSearch } from "@tanstack/react-router";
 
 interface SettingsViewProps extends StackProps {}
 
-export const SettingsTabContent = (props: SettingsViewProps) => {
+export const SettingsPageContent = (props: SettingsViewProps) => {
   // Props
   const { ...restProps } = props;
+
+  // Hooks
+  const { settingsPage } = useSearch({
+    from: Route.fullPath,
+  });
+
+  console.log(settingsPage);
 
   return (
     <VScrollContainer align={"center"} p={4} {...restProps}>

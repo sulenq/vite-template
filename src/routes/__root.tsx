@@ -10,7 +10,7 @@ import z from "zod";
 export const Route = createRootRoute({
   validateSearch: z.object({
     d: z.string().optional(),
-    "settings-tab": z.string().optional(),
+    settingsPage: z.string().optional(),
   }),
 
   component: RootComponent,
