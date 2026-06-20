@@ -3,8 +3,8 @@
 "use client";
 
 import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
+import type { StackProps } from "@/design-system/components/layout/types/container.type";
 import type { TabNav } from "@/design-system/components/layout/types/nav.type";
-import { type StackProps } from "@/design-system/components/layout/ui/container";
 import { Divider } from "@/design-system/components/layout/ui/divider";
 import { NavItem } from "@/design-system/components/layout/ui/nav";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";

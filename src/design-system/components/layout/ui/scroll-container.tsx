@@ -2,15 +2,11 @@
 
 "use client";
 
-import {
-  VStack,
-  type StackProps,
-} from "@/design-system/components/layout/ui/container";
+import type { VScrollContainerProps } from "@/design-system/components/layout/types/scroll-container.type";
+import { VStack } from "@/design-system/components/layout/ui/container";
 import { useEffect, useRef, useState } from "react";
 
-interface ScrollContainerProps extends StackProps {}
-
-export const VScrollContainer = (props: ScrollContainerProps) => {
+export const VScrollContainer = (props: VScrollContainerProps) => {
   // Props
   const { children, borderColor = "an1", ...restProps } = props;
 

@@ -5,6 +5,7 @@ export type Nav = {
   label?: string;
   labelKey?: string;
 };
+
 export type TabNav =
   | ({
       tab: string;

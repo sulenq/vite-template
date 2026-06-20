@@ -2,10 +2,8 @@
 
 "use client";
 
-import {
-  Box,
-  type BoxProps,
-} from "@/design-system/components/layout/ui/container";
+import type { BoxProps } from "@/design-system/components/layout/types/container.type";
+import { Box } from "@/design-system/components/layout/ui/container";
 
 interface DividerProps extends BoxProps {
   orientation?: "horizontal" | "vertical";
