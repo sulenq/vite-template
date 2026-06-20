@@ -17,7 +17,7 @@ import {
   DISCLOSURE_CONTROL_CONTAINER_SPACING_R,
   DISCLOSURE_CONTROL_CONTAINER_W,
 } from "@/design-system/constants/styles";
-import { SettingsNavigation } from "@/features/settings/components/settings-navigation";
+import { SettingsPageNavs } from "@/features/settings/components/settings-page-navs";
 import { SettingsPageContent } from "@/features/settings/components/settings-page-content";
 import { IconSearch } from "@tabler/icons-react";
 import { ChevronLeftIcon } from "lucide-react";
@@ -74,7 +74,7 @@ const SettingsView = () => {
           <ColorModeToggleButton />
         </HStack>
 
-        <SettingsNavigation p={2} />
+        <SettingsPageNavs p={2} />
       </VStack>
 
       <VStack flex={1} overflowY={"auto"} bg={"bg.canvas"}>

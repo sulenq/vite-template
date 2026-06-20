@@ -13,7 +13,7 @@ import { useNavigate } from "@tanstack/react-router";
 
 interface SettingsNavsProps extends StackProps {}
 
-export const SettingsNavigation = (props: SettingsNavsProps) => {
+export const SettingsPageNavs = (props: SettingsNavsProps) => {
   // Props
   const { ...restProps } = props;
 
