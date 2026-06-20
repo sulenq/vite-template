@@ -103,6 +103,8 @@ export const chakraConfig = defineConfig({
         bodyLight: { value: "#ffffff" },
         bodyDark: { value: "#1f1f1f" },
 
+        shadowLine: { value: "#8a90960a" },
+
         an0: { value: "#8a909614" },
         an1: { value: "#8a90961a" },
         an2: { value: "#8a90962b" },
@@ -678,20 +680,20 @@ export const chakraConfig = defineConfig({
         border: {
           subtle: {
             value: {
-              base: "{colors.neutral.100} !important",
-              _dark: "{colors.neutral.900} !important",
+              base: "{colors.an2} !important",
+              _dark: "{colors.an2} !important",
             },
           },
           muted: {
             value: {
-              base: "{colors.neutral.200} !important",
-              _dark: "{colors.neutral.800} !important",
+              base: "{colors.an3} !important",
+              _dark: "{colors.an3} !important",
             },
           },
           emphasized: {
             value: {
-              base: "{colors.neutral.300} !important",
-              _dark: "{colors.neutral.700} !important",
+              base: "{colors.an4} !important",
+              _dark: "{colors.an4} !important",
             },
           },
         },

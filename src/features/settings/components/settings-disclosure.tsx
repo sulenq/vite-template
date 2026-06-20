@@ -96,6 +96,7 @@ const SettingsView = () => {
   return (
     <HStack flex={1} overflowY={"auto"}>
       <VStack overflowY={"auto"} bg={"bg.body"}>
+        {/* Header */}
         <HStack align={"center"} justify={"space-between"} p={2}>
           <IconButton>
             <AppTablerIcon icon={IconSearch} />
@@ -110,6 +111,7 @@ const SettingsView = () => {
       </VStack>
 
       <VStack flex={1} overflowY={"auto"} bg={"bg.canvas"}>
+        {/* Header */}
         <HStack align={"center"} justify={"space-between"} p={2}>
           <HStack w={DISCLOSURE_CONTROL_CONTAINER_W}>
             <IconButton>

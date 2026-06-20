@@ -124,10 +124,10 @@ const DialogContent = forwardRef<HTMLDivElement, ChakraDialog.ContentProps>(
           }
         }}
         overflow={"clip"}
-        bg={"bg.body"}
+        bg={"bg.canvas"}
         shadow={"md"}
         border={"1px solid"}
-        borderColor={"border.subtle"}
+        borderColor={"shadowLine"}
         rounded={theme.radii.container}
         transition={"200ms"}
         {...props}

@@ -32,6 +32,8 @@ export type DisclosureContextValue = {
   opened: boolean;
   open: () => void;
   close: () => void;
+  fullscreen?: boolean;
+  setFullscreen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const DisclosureContext = createContext<DisclosureContextValue | null>(
@@ -57,6 +59,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
     open,
     close,
     clickOriginAnimation = false,
+    size = "xs",
     ...restProps
   } = props;
 
@@ -64,7 +67,8 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   // States
-  const [delayedOpened, setDelayedOpened] = useState(false); // on refresh when multiple nested disclosures mount simultaneously.
+  const [delayedOpened, setDelayedOpened] = useState(false);
+  const [fullscreen, setFullscreen] = useState<boolean>(false);
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
@@ -119,22 +123,17 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
         opened,
         open,
         close,
+        fullscreen,
+        setFullscreen,
       }}
     >
       <Dialog.Root
-        open={delayedOpened}
-        onOpenChange={(e) => {
-          if (e.open) {
-            open();
-          } else {
-            close();
-          }
-        }}
-        clickOriginAnimation={clickOriginAnimation}
-        size={"xs"}
-        scrollBehavior={"inside"}
         lazyMount
         unmountOnExit
+        open={delayedOpened}
+        size={fullscreen ? "full" : size}
+        scrollBehavior={"inside"}
+        clickOriginAnimation={clickOriginAnimation}
         {...(restProps as ChakraDialog.RootProps)}
         placement={"center"}
       >
@@ -145,14 +144,29 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
 };
 
 const DisclosureTrigger = (props: DisclosureTriggerProps) => {
+  // Contexts
+  const { open } = useDisclosureContext();
+
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return <Drawer.Trigger asChild {...(props as ChakraDrawer.TriggerProps)} />;
+    return (
+      <Drawer.Trigger
+        asChild
+        onClick={open}
+        {...(props as ChakraDrawer.TriggerProps)}
+      />
+    );
   }
 
-  return <Dialog.Trigger asChild {...(props as ChakraDialog.TriggerProps)} />;
+  return (
+    <Dialog.Trigger
+      asChild
+      onClick={open}
+      {...(props as ChakraDialog.TriggerProps)}
+    />
+  );
 };
 
 const DisclosureBackdrop = (props: DisclosureBackdropProps) => {
@@ -207,31 +221,46 @@ const DisclosureContent = (props: DisclosureContentProps) => {
 };
 
 const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
+  // Props
+  const { onClick, ...restProps } = props;
+
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
     return (
-      <Drawer.CloseTrigger {...(props as ChakraDrawer.CloseTriggerProps)} />
+      <Drawer.CloseTrigger
+        asChild
+        {...(restProps as ChakraDrawer.CloseTriggerProps)}
+        position={"static"}
+        onClick={(event) => {
+          close();
+          onClick?.(event);
+        }}
+      />
     );
   }
 
-  return <Dialog.CloseTrigger {...(props as ChakraDialog.CloseTriggerProps)} />;
+  return (
+    <Dialog.CloseTrigger
+      asChild
+      {...(restProps as ChakraDialog.CloseTriggerProps)}
+      position={"static"}
+      onClick={(event) => {
+        close();
+        onClick?.(event);
+      }}
+    />
+  );
 };
 
 const DisclosureCloseButton = (props: ButtonProps) => {
-  const { close } = useDisclosureContext();
-
   return (
-    <IconButton
-      size={"2xs"}
-      variant={"subtle"}
-      rounded={"full"}
-      {...props}
-      onClick={close}
-    >
-      <AppTablerIcon icon={IconX} boxSize={3.5} />
-    </IconButton>
+    <Disclosure.CloseTrigger>
+      <IconButton size={"2xs"} variant={"subtle"} rounded={"full"} {...props}>
+        <AppTablerIcon icon={IconX} boxSize={3.5} />
+      </IconButton>
+    </Disclosure.CloseTrigger>
   );
 };
 
