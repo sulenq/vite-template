@@ -13,7 +13,10 @@ import {
 } from "@/design-system/components/icon/ui/app-icon";
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/p";
-import { DISCLOSURE_CONTROL_CONTAINER_SPACING_R } from "@/design-system/constants/styles";
+import {
+  DISCLOSURE_CONTROL_CONTAINER_SPACING_R,
+  DISCLOSURE_CONTROL_CONTAINER_W,
+} from "@/design-system/constants/styles";
 import { SettingsNavs } from "@/features/settings/components/settings-navs";
 import { SettingsTabContent } from "@/features/settings/components/settings-tab-content";
 import { IconSearch, IconSquare, IconSquares } from "@tabler/icons-react";
@@ -62,9 +65,7 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
         clickOriginAnimation
         size={isFullscreen ? "full" : "xl"}
       >
-        <Disclosure.Trigger asChild {...restProps}>
-          {children}
-        </Disclosure.Trigger>
+        <Disclosure.Trigger {...restProps}>{children}</Disclosure.Trigger>
 
         <Disclosure.Content
           display={"flex"}
@@ -93,7 +94,7 @@ const SettingsView = () => {
   const { isFullscreen, setIsFullscreen } = useSettingsContext();
 
   return (
-    <HStack overflowY={"auto"}>
+    <HStack flex={1} overflowY={"auto"}>
       <VStack overflowY={"auto"} bg={"bg.body"}>
         <HStack align={"center"} justify={"space-between"} p={2}>
           <IconButton>
@@ -110,7 +111,7 @@ const SettingsView = () => {
 
       <VStack flex={1} overflowY={"auto"} bg={"bg.canvas"}>
         <HStack align={"center"} justify={"space-between"} p={2}>
-          <HStack w={"32px"}>
+          <HStack w={DISCLOSURE_CONTROL_CONTAINER_W}>
             <IconButton>
               <AppLucideIcon icon={ChevronLeftIcon} />
             </IconButton>
@@ -123,7 +124,7 @@ const SettingsView = () => {
           <HStack
             justify={"end"}
             gap={3}
-            minW={"32px"}
+            w={DISCLOSURE_CONTROL_CONTAINER_W}
             pr={DISCLOSURE_CONTROL_CONTAINER_SPACING_R}
           >
             <IconButton

@@ -20,7 +20,7 @@ export const SettingsTabContent = (props: SettingsViewProps) => {
 
   return (
     <VScrollContainer align={"center"} p={4} {...restProps}>
-      <VStack gap={4} w={"full"} maxW={"500px"}>
+      <VStack gap={4} w={"full"} maxW={"600px"}>
         <ResetPassword />
 
         <Box
@@ -53,13 +53,11 @@ export const SettingsTabContent = (props: SettingsViewProps) => {
 
 export const ResetPassword = () => {
   // Hooks
-  const { isOpen, open, close } = usePopDisclosure(
-    "settings.reset-password-drawer",
-  );
+  const { isOpen, open, close } = usePopDisclosure("settings.reset-password");
 
   return (
     <Disclosure.Root
-      dKey="settings.reset-password-drawer"
+      dKey="settings.reset-password"
       opened={isOpen}
       open={open}
       close={close}
@@ -70,7 +68,38 @@ export const ResetPassword = () => {
       </Disclosure.Trigger>
 
       <Disclosure.Content>
-        <Disclosure.Body>Reset Password Content</Disclosure.Body>
+        <Disclosure.Body></Disclosure.Body>
+
+        <Disclosure.Footer>
+          <Button>Cancel</Button>
+
+          <ResetPasswordConfirmation />
+        </Disclosure.Footer>
+      </Disclosure.Content>
+    </Disclosure.Root>
+  );
+};
+
+export const ResetPasswordConfirmation = () => {
+  // Hooks
+  const { isOpen, open, close } = usePopDisclosure(
+    "settings.reset-password.confirmation",
+  );
+
+  return (
+    <Disclosure.Root
+      dKey="settings.reset-password.confirmation"
+      opened={isOpen}
+      open={open}
+      close={close}
+      clickOriginAnimation
+    >
+      <Disclosure.Trigger>
+        <Button>Reset</Button>
+      </Disclosure.Trigger>
+
+      <Disclosure.Content>
+        <Disclosure.Body>Reset Password Confirmation Content</Disclosure.Body>
 
         <Disclosure.Footer>
           <Button>Cancel</Button>

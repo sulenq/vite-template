@@ -157,10 +157,10 @@ const DisclosureTrigger = (props: DisclosureTriggerProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return <Drawer.Trigger {...(props as ChakraDrawer.TriggerProps)} />;
+    return <Drawer.Trigger asChild {...(props as ChakraDrawer.TriggerProps)} />;
   }
 
-  return <Dialog.Trigger {...(props as ChakraDialog.TriggerProps)} />;
+  return <Dialog.Trigger asChild {...(props as ChakraDialog.TriggerProps)} />;
 };
 
 const DisclosureBackdrop = (props: DisclosureBackdropProps) => {
