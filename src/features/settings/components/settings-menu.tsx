@@ -6,6 +6,7 @@ import type { StackProps } from "@/design-system/components/layout/types/contain
 import { Divider } from "@/design-system/components/layout/ui/divider";
 import { NavItem } from "@/design-system/components/layout/ui/nav";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
+import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
 import { SETTINGS_NAV_ITEMS } from "@/features/settings/constants/settings.nav-items";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
@@ -19,6 +20,7 @@ export const SettingsMenu = (props: SettingsNavsProps) => {
 
   // Hooks
   const navigate = RootRoute.useNavigate();
+  const isSmallViewport = useIsSmallViewport();
 
   // Utils
   function handleNavItemClick(navKey: SettingNavKey) {
@@ -27,12 +29,12 @@ export const SettingsMenu = (props: SettingsNavsProps) => {
         ...prev,
         currentSettingNavKey: navKey,
       }),
-      replace: true,
+      replace: isSmallViewport ? false : true,
     });
   }
 
   return (
-    <VScrollContainer gap={1} minW={"250px"} {...restProps}>
+    <VScrollContainer gap={1} {...restProps}>
       {SETTINGS_NAV_ITEMS.map((navKey, index) => {
         if (navKey === "divider") {
           return <Divider key={index} my={1} />;

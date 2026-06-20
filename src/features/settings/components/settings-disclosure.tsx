@@ -20,6 +20,7 @@ import { CurrentSettingPage } from "@/features/settings/components/current-setti
 import { SettingsMenu } from "@/features/settings/components/settings-menu";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
 import { RootRoute } from "@/routes/typed";
+import { back } from "@/utils/client/nanvigation";
 import { IconChevronLeft, IconSearch } from "@tabler/icons-react";
 
 const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
@@ -64,56 +65,71 @@ const SettingsView = () => {
   const { currentSettingNavKey } = RootRoute.useSearch();
   const isSmallViewport = useIsSmallViewport();
 
+  // Derived Values
+  const shouldShowSettingMenu =
+    (isSmallViewport && !currentSettingNavKey) || !isSmallViewport;
+  const shouldShowSettingPage =
+    (isSmallViewport && currentSettingNavKey) || !isSmallViewport;
+
   return (
     <HStack flex={1} overflowY={"auto"}>
-      <VStack overflowY={"auto"} bg={"bg.body"}>
-        {/* Nav Header */}
-        <HStack align={"center"} justify={"space-between"} h={HEADER_H} p={2}>
-          <HStack w={"40px"}>
-            <IconButton>
-              <AppTablerIcon icon={IconSearch} />
-            </IconButton>
-          </HStack>
-
-          <P textAlign={"center"}>Settings</P>
-
-          <HStack w={"40px"}>
-            <ColorModeToggleButton />
-          </HStack>
-        </HStack>
-
-        <SettingsMenu p={2} />
-      </VStack>
-
-      <VStack flex={1} overflowY={"auto"} bg={"bg.canvas"}>
-        {/* Tab Header */}
-        <HStack align={"center"} justify={"space-between"} h={HEADER_H} p={2}>
-          <HStack w={DISCLOSURE_CONTROL_CONTAINER_W}>
-            {isSmallViewport && (
+      {shouldShowSettingMenu && (
+        <VStack
+          overflowY={"auto"}
+          minW={["full", null, "250px"]}
+          bg={"bg.body"}
+        >
+          {/* Menu Header */}
+          <HStack align={"center"} justify={"space-between"} h={HEADER_H} p={2}>
+            <HStack w={"40px"}>
               <IconButton>
-                <AppTablerIcon icon={IconChevronLeft} />
+                <AppTablerIcon icon={IconSearch} />
               </IconButton>
-            )}
+            </HStack>
+
+            <P textAlign={"center"}>Settings</P>
+
+            <HStack w={"40px"}>
+              <ColorModeToggleButton />
+            </HStack>
           </HStack>
 
-          <P fontWeight={"semibold"} textAlign={"center"}>
-            {currentSettingNavKey && SETTINGS_NAVS[currentSettingNavKey].label}
-          </P>
+          <SettingsMenu p={2} />
+        </VStack>
+      )}
 
-          <HStack
-            justify={"end"}
-            gap={3}
-            w={DISCLOSURE_CONTROL_CONTAINER_W}
-            pr={DISCLOSURE_CONTROL_CONTAINER_SPACING_R}
-          >
-            <Disclosure.FullscreenButton />
+      {shouldShowSettingPage && (
+        <VStack flex={1} overflowY={"auto"} bg={"bg.canvas"}>
+          {/* Tab Header */}
+          <HStack align={"center"} justify={"space-between"} h={HEADER_H} p={2}>
+            <HStack w={DISCLOSURE_CONTROL_CONTAINER_W}>
+              {isSmallViewport && (
+                <IconButton onClick={back}>
+                  <AppTablerIcon icon={IconChevronLeft} />
+                </IconButton>
+              )}
+            </HStack>
 
-            <Disclosure.CloseButton />
+            <P fontWeight={"semibold"} textAlign={"center"}>
+              {currentSettingNavKey &&
+                SETTINGS_NAVS[currentSettingNavKey].label}
+            </P>
+
+            <HStack
+              justify={"end"}
+              gap={3}
+              w={DISCLOSURE_CONTROL_CONTAINER_W}
+              pr={DISCLOSURE_CONTROL_CONTAINER_SPACING_R}
+            >
+              <Disclosure.FullscreenButton />
+
+              <Disclosure.CloseButton />
+            </HStack>
           </HStack>
-        </HStack>
 
-        <CurrentSettingPage />
-      </VStack>
+          <CurrentSettingPage />
+        </VStack>
+      )}
     </HStack>
   );
 };
