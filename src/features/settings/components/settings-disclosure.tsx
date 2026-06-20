@@ -19,26 +19,8 @@ import {
 } from "@/design-system/constants/styles";
 import { SettingsNavs } from "@/features/settings/components/settings-navs";
 import { SettingsTabContent } from "@/features/settings/components/settings-tab-content";
-import { IconSearch, IconSquare, IconSquares } from "@tabler/icons-react";
+import { IconSearch } from "@tabler/icons-react";
 import { ChevronLeftIcon } from "lucide-react";
-import React, { createContext, useContext, useState } from "react";
-
-export type SettingsContextValue = {
-  isFullscreen: boolean;
-  setIsFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export const SettingsContext = createContext<SettingsContextValue | null>(null);
-
-export function useSettingsContext() {
-  const context = useContext(SettingsContext);
-
-  if (!context) {
-    throw new Error("useSettingsContext must be used within SettingsContent");
-  }
-
-  return context;
-}
 
 const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   // Props
@@ -47,52 +29,37 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   // Hooks
   const { isOpen, open, close } = usePopDisclosure(dKey);
 
-  // States
-  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
-
   return (
-    <SettingsContext.Provider
-      value={{
-        isFullscreen,
-        setIsFullscreen,
-      }}
+    <Disclosure.Root
+      dKey={dKey}
+      opened={isOpen}
+      open={open}
+      close={close}
+      clickOriginAnimation
+      size={"2xl"}
     >
-      <Disclosure.Root
-        dKey={dKey}
-        opened={isOpen}
-        open={open}
-        close={close}
-        clickOriginAnimation
-        size={isFullscreen ? "full" : "xl"}
-      >
-        <Disclosure.Trigger {...restProps}>{children}</Disclosure.Trigger>
+      <Disclosure.Trigger {...restProps}>{children}</Disclosure.Trigger>
 
-        <Disclosure.Content
+      <Disclosure.Content
+        display={"flex"}
+        flexDir={"column"}
+        overflowY={"auto"}
+        maxH={"600px"}
+      >
+        <Disclosure.Body
           display={"flex"}
           flexDir={"column"}
           overflowY={"auto"}
-          maxW={isFullscreen ? "full" : "1000px"}
-          maxH={isFullscreen ? "100svh" : "600px"}
-          minH={isFullscreen ? "100svh" : ""}
+          p={0}
         >
-          <Disclosure.Body
-            display={"flex"}
-            flexDir={"column"}
-            overflowY={"auto"}
-            p={0}
-          >
-            <SettingsView />
-          </Disclosure.Body>
-        </Disclosure.Content>
-      </Disclosure.Root>
-    </SettingsContext.Provider>
+          <SettingsView />
+        </Disclosure.Body>
+      </Disclosure.Content>
+    </Disclosure.Root>
   );
 };
 
 const SettingsView = () => {
-  // Contexts
-  const { isFullscreen, setIsFullscreen } = useSettingsContext();
-
   return (
     <HStack flex={1} overflowY={"auto"}>
       <VStack overflowY={"auto"} bg={"bg.body"}>
@@ -129,20 +96,7 @@ const SettingsView = () => {
             w={DISCLOSURE_CONTROL_CONTAINER_W}
             pr={DISCLOSURE_CONTROL_CONTAINER_SPACING_R}
           >
-            <IconButton
-              size={"2xs"}
-              variant={"subtle"}
-              rounded={"full"}
-              onClick={() => {
-                setIsFullscreen((ps) => !ps);
-              }}
-            >
-              <AppTablerIcon
-                icon={isFullscreen ? IconSquares : IconSquare}
-                transform={"scaleX(-1)"}
-                boxSize={3}
-              />
-            </IconButton>
+            <Disclosure.FullscreenButton />
 
             <Disclosure.CloseButton />
           </HStack>

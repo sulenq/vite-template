@@ -2,7 +2,7 @@
 
 "use client";
 
-import type { ButtonProps } from "@/design-system/components/button/types/button.type";
+import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
 import type {
   DisclosureBackdropProps,
@@ -24,7 +24,7 @@ import {
   Drawer as ChakraDrawer,
   Portal,
 } from "@chakra-ui/react";
-import { IconX } from "@tabler/icons-react";
+import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
 import { createContext, useContext, useEffect, useState } from "react";
 
 export type DisclosureContextValue = {
@@ -32,8 +32,8 @@ export type DisclosureContextValue = {
   opened: boolean;
   open: () => void;
   close: () => void;
-  fullscreen?: boolean;
-  setFullscreen?: React.Dispatch<React.SetStateAction<boolean>>;
+  fullscreen: boolean;
+  setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const DisclosureContext = createContext<DisclosureContextValue | null>(
@@ -86,16 +86,18 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
     return () => clearTimeout(timer);
   }, [opened, dKey]);
 
-  if (isSmallViewport) {
-    return (
-      <DisclosureContext.Provider
-        value={{
-          dKey,
-          opened,
-          open,
-          close,
-        }}
-      >
+  return (
+    <DisclosureContext.Provider
+      value={{
+        dKey,
+        opened,
+        open,
+        close,
+        fullscreen,
+        setFullscreen,
+      }}
+    >
+      {isSmallViewport ? (
         <Drawer.Root
           open={delayedOpened}
           onOpenChange={(e) => {
@@ -112,33 +114,20 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
         >
           {children}
         </Drawer.Root>
-      </DisclosureContext.Provider>
-    );
-  }
-
-  return (
-    <DisclosureContext.Provider
-      value={{
-        dKey,
-        opened,
-        open,
-        close,
-        fullscreen,
-        setFullscreen,
-      }}
-    >
-      <Dialog.Root
-        lazyMount
-        unmountOnExit
-        open={delayedOpened}
-        size={fullscreen ? "full" : size}
-        scrollBehavior={"inside"}
-        clickOriginAnimation={clickOriginAnimation}
-        {...(restProps as ChakraDialog.RootProps)}
-        placement={"center"}
-      >
-        {children}
-      </Dialog.Root>
+      ) : (
+        <Dialog.Root
+          lazyMount
+          unmountOnExit
+          open={delayedOpened}
+          size={fullscreen ? "full" : size}
+          scrollBehavior={"inside"}
+          clickOriginAnimation={clickOriginAnimation}
+          {...(restProps as ChakraDialog.RootProps)}
+          placement={"center"}
+        >
+          {children}
+        </Dialog.Root>
+      )}
     </DisclosureContext.Provider>
   );
 };
@@ -220,9 +209,35 @@ const DisclosureContent = (props: DisclosureContentProps) => {
   );
 };
 
+export const DisclosureFullscreenButton = (props: IconButtonProps) => {
+  // Contexts
+  const { fullscreen, setFullscreen } = useDisclosureContext();
+
+  return (
+    <IconButton
+      size={"2xs"}
+      variant={"subtle"}
+      rounded={"full"}
+      onClick={() => {
+        setFullscreen((ps) => !ps);
+      }}
+      {...props}
+    >
+      <AppTablerIcon
+        icon={fullscreen ? IconSquares : IconSquare}
+        transform={"scaleX(-1)"}
+        boxSize={3.5}
+      />
+    </IconButton>
+  );
+};
+
 const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
   // Props
   const { onClick, ...restProps } = props;
+
+  // Contexts
+  const { close } = useDisclosureContext();
 
   // Hooks
   const isSmallViewport = useIsSmallViewport();
@@ -247,6 +262,7 @@ const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
       {...(restProps as ChakraDialog.CloseTriggerProps)}
       position={"static"}
       onClick={(event) => {
+        console.log("close clicked");
         close();
         onClick?.(event);
       }}
@@ -254,11 +270,11 @@ const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
   );
 };
 
-const DisclosureCloseButton = (props: ButtonProps) => {
+const DisclosureCloseButton = (props: IconButtonProps) => {
   return (
     <Disclosure.CloseTrigger>
       <IconButton size={"2xs"} variant={"subtle"} rounded={"full"} {...props}>
-        <AppTablerIcon icon={IconX} boxSize={3.5} />
+        <AppTablerIcon icon={IconX} boxSize={4} />
       </IconButton>
     </Disclosure.CloseTrigger>
   );
@@ -301,6 +317,7 @@ export const Disclosure = {
   Root: DisclosureRoot,
   Backdrop: DisclosureBackdrop,
   Content: DisclosureContent,
+  FullscreenButton: DisclosureFullscreenButton,
   CloseTrigger: DisclosureCloseTrigger,
   CloseButton: DisclosureCloseButton,
   Header: DisclosureHeader,

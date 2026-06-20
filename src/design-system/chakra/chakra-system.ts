@@ -6,6 +6,7 @@ import {
   DIALOG_OFFSET_Y_VAR,
 } from "@/design-system/components/disclosure/utils/click-origin";
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
+import { dialogRecipe } from "@/design-system/chakra/recipes/dialog.recipe";
 
 export const chakraConfig = defineConfig({
   // conditions: {
@@ -2169,7 +2170,9 @@ export const chakraConfig = defineConfig({
 
     recipes: {},
 
-    slotRecipes: {},
+    slotRecipes: {
+      dialog: dialogRecipe,
+    },
   },
 });
 
