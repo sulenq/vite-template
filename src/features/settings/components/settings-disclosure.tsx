@@ -1,4 +1,4 @@
-// src/features/settings/components/settings.disclosure
+// src/features/settings/components/settings-disclosure
 
 "use client";
 
@@ -15,11 +15,12 @@ import {
   DISCLOSURE_CONTROL_CONTAINER_W,
   HEADER_H,
 } from "@/design-system/constants/styles";
+import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { CurrentSettingPage } from "@/features/settings/components/current-setting-page";
 import { SettingsMenu } from "@/features/settings/components/settings-menu";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
 import { RootRoute } from "@/routes/typed";
-import { IconSearch } from "@tabler/icons-react";
+import { IconChevronLeft, IconSearch } from "@tabler/icons-react";
 
 const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   // Props
@@ -61,6 +62,7 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
 const SettingsView = () => {
   // Hooks
   const { currentSettingNavKey } = RootRoute.useSearch();
+  const isSmallViewport = useIsSmallViewport();
 
   return (
     <HStack flex={1} overflowY={"auto"}>
@@ -87,9 +89,11 @@ const SettingsView = () => {
         {/* Tab Header */}
         <HStack align={"center"} justify={"space-between"} h={HEADER_H} p={2}>
           <HStack w={DISCLOSURE_CONTROL_CONTAINER_W}>
-            {/* <IconButton>
-              <AppTablerIcon icon={IconChevronLeft} />
-            </IconButton> */}
+            {isSmallViewport && (
+              <IconButton>
+                <AppTablerIcon icon={IconChevronLeft} />
+              </IconButton>
+            )}
           </HStack>
 
           <P fontWeight={"semibold"} textAlign={"center"}>
