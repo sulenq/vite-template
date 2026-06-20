@@ -110,7 +110,7 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
       shadow={"md"}
       border={"1px solid"}
       borderColor={"shadowLine"}
-      rounded={theme.radii.container}
+      rounded={fullscreen ? 0 : theme.radii.container}
       transition={"200ms"}
       minH={fullscreen ? "full" : 0}
       minW={0}
