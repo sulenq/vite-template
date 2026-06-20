@@ -6,7 +6,7 @@ export const SETTINGS_NAV_ITEMS = [
   "profile",
   "account",
   "privacy",
-  "notifications",
+  "notification",
 
   "divider",
 
@@ -16,7 +16,7 @@ export const SETTINGS_NAV_ITEMS = [
 
   "divider",
 
-  "integrations",
+  "integration",
   "api",
 
   "divider",

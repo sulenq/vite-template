@@ -1,14 +1,12 @@
 // src/design-system/components/disclosure/hooks/use-pop-disclosure.ts
 
-import { Route } from "@/routes/__root";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { RootRoute } from "@/routes/typed";
+import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef } from "react";
 
 export function usePopDisclosure(dKey: string) {
   const lastCloseAtRef = useRef(0);
-  const { d } = useSearch({
-    from: Route.fullPath,
-  });
+  const { d } = RootRoute.useSearch();
   const navigate = useNavigate();
 
   useEffect(() => {

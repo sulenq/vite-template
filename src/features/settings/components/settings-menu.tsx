@@ -8,26 +8,24 @@ import { NavItem } from "@/design-system/components/layout/ui/nav";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
 import { SETTINGS_NAV_ITEMS } from "@/features/settings/constants/settings.nav-items";
-import { Route } from "@/routes/__root";
-import { useNavigate } from "@tanstack/react-router";
+import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
+import { RootRoute } from "@/routes/typed";
 
 interface SettingsNavsProps extends StackProps {}
 
-export const SettingsPageNavs = (props: SettingsNavsProps) => {
+export const SettingsMenu = (props: SettingsNavsProps) => {
   // Props
   const { ...restProps } = props;
 
   // Hooks
-  const navigate = useNavigate({
-    from: Route.fullPath,
-  });
+  const navigate = RootRoute.useNavigate();
 
   // Utils
-  function handleNavItemClick(tab: string) {
+  function handleNavItemClick(navKey: SettingNavKey) {
     navigate({
       search: (prev) => ({
         ...prev,
-        settingsPage: tab,
+        currentSettingNavKey: navKey,
       }),
       replace: true,
     });

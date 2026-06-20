@@ -266,7 +266,6 @@ const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
       {...(restProps as ChakraDialog.CloseTriggerProps)}
       position={"static"}
       onClick={(event) => {
-        console.log("close clicked");
         close();
         onClick?.(event);
       }}

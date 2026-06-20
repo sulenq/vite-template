@@ -16,9 +16,12 @@ import { P } from "@/design-system/components/typography/p";
 import {
   DISCLOSURE_CONTROL_CONTAINER_SPACING_R,
   DISCLOSURE_CONTROL_CONTAINER_W,
+  HEADER_H,
 } from "@/design-system/constants/styles";
-import { SettingsPageNavs } from "@/features/settings/components/settings-page-navs";
-import { SettingsPageContent } from "@/features/settings/components/settings-page-content";
+import { CurrentSettingPage } from "@/features/settings/components/current-setting-page";
+import { SettingsMenu } from "@/features/settings/components/settings-menu";
+import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
+import { RootRoute } from "@/routes/typed";
 import { IconSearch } from "@tabler/icons-react";
 import { ChevronLeftIcon } from "lucide-react";
 
@@ -60,11 +63,14 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
 };
 
 const SettingsView = () => {
+  // Hooks
+  const { currentSettingNavKey } = RootRoute.useSearch();
+
   return (
     <HStack flex={1} overflowY={"auto"}>
       <VStack overflowY={"auto"} bg={"bg.body"}>
         {/* Nav Header */}
-        <HStack align={"center"} justify={"space-between"} p={2}>
+        <HStack align={"center"} justify={"space-between"} h={HEADER_H} p={2}>
           <IconButton>
             <AppTablerIcon icon={IconSearch} />
           </IconButton>
@@ -74,12 +80,12 @@ const SettingsView = () => {
           <ColorModeToggleButton />
         </HStack>
 
-        <SettingsPageNavs p={2} />
+        <SettingsMenu p={2} />
       </VStack>
 
       <VStack flex={1} overflowY={"auto"} bg={"bg.canvas"}>
         {/* Tab Header */}
-        <HStack align={"center"} justify={"space-between"} p={2}>
+        <HStack align={"center"} justify={"space-between"} h={HEADER_H} p={2}>
           <HStack w={DISCLOSURE_CONTROL_CONTAINER_W}>
             <IconButton>
               <AppLucideIcon icon={ChevronLeftIcon} />
@@ -87,7 +93,7 @@ const SettingsView = () => {
           </HStack>
 
           <P fontWeight={"semibold"} textAlign={"center"}>
-            Profile
+            {currentSettingNavKey && SETTINGS_NAVS[currentSettingNavKey].label}
           </P>
 
           <HStack
@@ -102,7 +108,7 @@ const SettingsView = () => {
           </HStack>
         </HStack>
 
-        <SettingsPageContent />
+        <CurrentSettingPage />
       </VStack>
     </HStack>
   );

@@ -29,9 +29,9 @@ export const SETTINGS_NAVS = {
     icon: <AppTablerIcon icon={IconLock} />,
     label: "Privacy",
   },
-  notifications: {
+  notification: {
     icon: <AppTablerIcon icon={IconBell} />,
-    label: "Notifications",
+    label: "Notification",
   },
   appearance: {
     icon: <AppTablerIcon icon={IconSun} />,
@@ -45,9 +45,9 @@ export const SETTINGS_NAVS = {
     icon: <AppTablerIcon icon={IconClock} />,
     label: "Date & Time",
   },
-  integrations: {
+  integration: {
     icon: <AppTablerIcon icon={IconPlug} />,
-    label: "Integrations",
+    label: "Integration",
   },
   api: {
     icon: <AppTablerIcon icon={IconKey} />,

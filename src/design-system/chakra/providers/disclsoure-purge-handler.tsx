@@ -3,11 +3,11 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Route } from "@/routes/__root";
+import { RootRoute } from "@/routes/typed";
 
 export function DisclosurePurgeHandler() {
-  const navigate = Route.useNavigate();
-  const search = Route.useSearch();
+  const navigate = RootRoute.useNavigate();
+  const search = RootRoute.useSearch();
   const dRef = useRef(search.d);
 
   useEffect(() => {
