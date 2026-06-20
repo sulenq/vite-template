@@ -35,6 +35,7 @@ export const VScrollContainer = (props: VScrollContainerProps) => {
   return (
     <VStack
       ref={containerRef}
+      tabIndex={-1}
       overflowY={"auto"}
       borderTop={"1px solid"}
       borderColor={scrollTop !== 0 ? borderColor : "transparent"}

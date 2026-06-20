@@ -5,11 +5,8 @@
 import { Button } from "@/design-system/components/button/ui/button";
 import { usePopDisclosure } from "@/design-system/components/disclosure/hooks/use-pop-disclosure";
 import { Disclosure } from "@/design-system/components/disclosure/ui/disclosure";
-import {
-  Box,
-  VStack,
-  type StackProps,
-} from "@/design-system/components/layout/ui/container";
+import type { StackProps } from "@/design-system/components/layout/types/container.type";
+import { Box, VStack } from "@/design-system/components/layout/ui/container";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 
 interface SettingsViewProps extends StackProps {}
