@@ -9,7 +9,7 @@ import {
   getDialogOffset,
   updateClickOrigin,
   updateDialogOffset,
-} from "@/design-system/stores/use-dialog-animation-store";
+} from "@/design-system/components/disclosure/stores/use-dialog-animation-store";
 import {
   registerFullscreenAnimator,
   unregisterFullscreenAnimator,
@@ -98,10 +98,13 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
   // Contexts
   const { dKey, fullscreen } = useDisclosureContext();
   const { size, clickOriginAnimation } = useDialogContext();
+
   // Store
   const { theme } = useThemeStore();
+
   // Refs
   const contentRef = useRef<HTMLDivElement>(null);
+
   // Derived Values
   const isFullscreen = fullscreen || size === "full";
 
@@ -112,27 +115,26 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
       const el = contentRef.current;
       if (!el) return;
 
-      // cancel animasi fullscreen sebelumnya kalau masih jalan
+      // cancel fullscreen animation
       currentAnimation?.cancel();
 
       currentAnimation = el.animate(
         next
           ? [
-              { transform: "scale(0.92)", opacity: 0.6 },
+              { transform: "scale(0.75)", opacity: 0 },
               { transform: "scale(1)", opacity: 1 },
             ]
           : [
+              { transform: "scale(1.25)", opacity: 0 },
               { transform: "scale(1)", opacity: 1 },
-              { transform: "scale(0.96)", opacity: 0.8 },
             ],
         {
-          duration: 400,
+          duration: 300,
           easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
           fill: "forwards",
         },
       );
 
-      // begitu kelar, commit ke inline style biasa & lepas dari animation stack
       currentAnimation.onfinish = () => {
         currentAnimation?.commitStyles();
         currentAnimation?.cancel();

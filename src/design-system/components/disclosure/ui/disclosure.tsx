@@ -61,6 +61,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
     close,
     clickOriginAnimation = false,
     size = "xs",
+    displayMode = "auto",
     ...restProps
   } = props;
 
