@@ -17,6 +17,7 @@ import { createContext, useContext, useRef } from "react";
 // -----------------------------------------------------------------
 
 export type DialogContextValue = {
+  size: ChakraDialog.RootProps["size"];
   clickOriginAnimation: boolean;
 };
 
@@ -40,7 +41,7 @@ interface DialogRootProps extends ChakraDialog.RootProps {
 
 const DialogRoot = (props: DialogRootProps) => {
   // Props
-  const { clickOriginAnimation = false, ...restProps } = props;
+  const { size = "xs", clickOriginAnimation = false, ...restProps } = props;
 
   // Contexts
   const { close } = useDisclosureContext();
@@ -48,10 +49,11 @@ const DialogRoot = (props: DialogRootProps) => {
   return (
     <DialogContext.Provider
       value={{
+        size,
         clickOriginAnimation,
       }}
     >
-      <ChakraDialog.Root onEscapeKeyDown={close} {...restProps} />
+      <ChakraDialog.Root size={size} onEscapeKeyDown={close} {...restProps} />
     </DialogContext.Provider>
   );
 };
@@ -91,13 +93,16 @@ const DialogPositioner = (props: ChakraDialog.PositionerProps) => {
 const DialogContent = (props: ChakraDialog.ContentProps) => {
   // Contexts
   const { dKey, fullscreen } = useDisclosureContext();
-  const { clickOriginAnimation } = useDialogContext();
+  const { size, clickOriginAnimation } = useDialogContext();
 
   // Store
   const { theme } = useThemeStore();
 
   // Refs
   const contentRef = useRef<HTMLDivElement>(null);
+
+  // Derived Values
+  const isFullscreen = fullscreen || size === "full";
 
   return (
     <ChakraDialog.Content
@@ -107,10 +112,16 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
       shadow={"md"}
       border={"1px solid"}
       borderColor={"shadowLine"}
-      rounded={fullscreen ? 0 : theme.radii.container}
-      transition={"200ms"}
-      minH={fullscreen ? "full" : 0}
-      minW={0}
+      rounded={isFullscreen ? 0 : theme.radii.container}
+      w={isFullscreen ? "100vw" : undefined}
+      h={isFullscreen ? "100dvh" : undefined}
+      maxW={isFullscreen ? "100vw" : undefined}
+      maxH={isFullscreen ? "100dvh" : undefined}
+      opacity={1}
+      transform={"translateZ(0)"}
+      transitionProperty={"border-radius, opacity, transform"}
+      transitionDuration={"300ms"}
+      transitionTimingFunction={"cubic-bezier(0.2, 0.8, 0.2, 1)"}
       {...props}
       onAnimationStart={() => {
         if (!contentRef.current) return;
@@ -120,7 +131,6 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
         const { x, y } = getDialogOffset(dKey);
 
         contentRef.current.style.setProperty(DIALOG_OFFSET_X_VAR, `${x}px`);
-
         contentRef.current.style.setProperty(DIALOG_OFFSET_Y_VAR, `${y}px`);
       }}
       _open={{

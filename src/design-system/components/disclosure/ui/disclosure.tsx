@@ -103,6 +103,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
           size={size as DrawerRootProps["size"]}
           lazyMount
           unmountOnExit
+          swipeToDismiss={false}
           {...restProps}
           placement={"bottom"}
         >

@@ -11,6 +11,7 @@ import { createContext, useContext, useRef, type TouchEvent } from "react";
 type GestureMode = "drag" | "scroll" | null;
 
 type DrawerContextValue = {
+  size: ChakraDrawer.RootProps["size"];
   placement: ChakraDrawer.RootProps["placement"];
   swipeToDismiss: boolean;
 };
@@ -48,20 +49,26 @@ function getScrollableAncestor(el: HTMLElement | null): HTMLElement | null {
 const DrawerRoot = (
   props: ChakraDrawer.RootProps & { swipeToDismiss?: boolean },
 ) => {
+  // Props
+  const { size = "sm", placement, swipeToDismiss = true, ...restProps } = props;
+
+  // Contexts
   const { close } = useDisclosureContext();
-
-  const placement = props?.placement;
-
-  const swipeToDismiss = props.swipeToDismiss ?? true;
 
   return (
     <DrawerContext.Provider
       value={{
+        size,
         placement,
         swipeToDismiss,
       }}
     >
-      <ChakraDrawer.Root onEscapeKeyDown={close} {...props} />
+      <ChakraDrawer.Root
+        size={size}
+        placement={placement}
+        onEscapeKeyDown={close}
+        {...restProps}
+      />
     </DrawerContext.Provider>
   );
 };
@@ -83,12 +90,15 @@ const DrawerPositioner = (props: ChakraDrawer.PositionerProps) => {
 };
 
 const DrawerContent = (props: ChakraDrawer.ContentProps) => {
+  // Props
   const { children, ...restProps } = props;
 
-  const { close } = useDisclosureContext();
+  // Contexts
+  const { close, fullscreen } = useDisclosureContext();
   const { theme } = useThemeStore();
-  const { placement, swipeToDismiss } = useDrawerContext();
+  const { size, placement, swipeToDismiss } = useDrawerContext();
 
+  // Refs
   const startYRef = useRef<number>(0);
   const startTimeRef = useRef<number>(0);
   const offsetYRef = useRef<number>(0);
@@ -98,6 +108,7 @@ const DrawerContent = (props: ChakraDrawer.ContentProps) => {
 
   const contentRef = useRef<HTMLDivElement | null>(null);
 
+  // Handlers
   function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
     const target = event.target as HTMLElement;
 
@@ -172,8 +183,8 @@ const DrawerContent = (props: ChakraDrawer.ContentProps) => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       data-placement={placement}
-      rounded={theme.radii.container}
-      bg="bg.body"
+      rounded={fullscreen || size === "full" ? 0 : theme.radii.container}
+      bg={"bg.body"}
       {...restProps}
     >
       {swipeToDismiss && (
