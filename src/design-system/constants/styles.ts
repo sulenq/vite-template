@@ -6,6 +6,7 @@ import type { ButtonProps, InputProps } from "@chakra-ui/react";
 export const SM_SCREEN_BREAKPOINT = "720px";
 export const DISCLOSURE_CONTROL_CONTAINER_W = "70px";
 export const HEADER_H = "56px";
+export const MIN_H_FEEDBACK_CONTAINER = "250px";
 
 // Layout/Stack
 export const DISCLOSURE_BASE_ZINDEX = 1400;

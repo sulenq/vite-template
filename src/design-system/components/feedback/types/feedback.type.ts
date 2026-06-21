@@ -1,0 +1,9 @@
+// src/design-system/components/feedback/types/feedback.type.ts
+
+import type { StackProps } from "@/design-system/components/layout/types/container.type";
+
+export interface FeedbackStateProps extends StackProps {
+  icon: React.ReactNode;
+  title?: string;
+  description?: string;
+}
