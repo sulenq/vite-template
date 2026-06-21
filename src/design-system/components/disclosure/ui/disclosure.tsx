@@ -19,6 +19,7 @@ import { Drawer } from "@/design-system/components/disclosure/ui/drawer";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { DISCLOSURE_BASE_ZINDEX } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
+import { triggerFullscreenAnimation } from "@/design-system/components/disclosure/utils/fullscreen-animation-registry";
 import { Portal, type DrawerRootProps } from "@chakra-ui/react";
 import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
 import { createContext, useContext, useEffect, useState } from "react";
@@ -194,7 +195,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
 
 const DisclosureFullscreenButton = (props: IconButtonProps) => {
   // Contexts
-  const { fullscreen, setFullscreen } = useDisclosureContext();
+  const { dKey, fullscreen, setFullscreen } = useDisclosureContext();
 
   return (
     <IconButton
@@ -202,7 +203,9 @@ const DisclosureFullscreenButton = (props: IconButtonProps) => {
       variant={"subtle"}
       rounded={"full"}
       onClick={() => {
-        setFullscreen((ps) => !ps);
+        const next = !fullscreen;
+        triggerFullscreenAnimation(dKey, next);
+        setFullscreen(next);
       }}
       {...props}
     >

@@ -10,9 +10,13 @@ import {
   updateClickOrigin,
   updateDialogOffset,
 } from "@/design-system/stores/use-dialog-animation-store";
+import {
+  registerFullscreenAnimator,
+  unregisterFullscreenAnimator,
+} from "@/design-system/components/disclosure/utils/fullscreen-animation-registry";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
-import { createContext, useContext, useRef } from "react";
+import { createContext, useContext, useLayoutEffect, useRef } from "react";
 
 // -----------------------------------------------------------------
 
@@ -94,15 +98,53 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
   // Contexts
   const { dKey, fullscreen } = useDisclosureContext();
   const { size, clickOriginAnimation } = useDialogContext();
-
   // Store
   const { theme } = useThemeStore();
-
   // Refs
   const contentRef = useRef<HTMLDivElement>(null);
-
   // Derived Values
   const isFullscreen = fullscreen || size === "full";
+
+  useLayoutEffect(() => {
+    let currentAnimation: Animation | null = null;
+
+    registerFullscreenAnimator(dKey, (next) => {
+      const el = contentRef.current;
+      if (!el) return;
+
+      // cancel animasi fullscreen sebelumnya kalau masih jalan
+      currentAnimation?.cancel();
+
+      currentAnimation = el.animate(
+        next
+          ? [
+              { transform: "scale(0.92)", opacity: 0.6 },
+              { transform: "scale(1)", opacity: 1 },
+            ]
+          : [
+              { transform: "scale(1)", opacity: 1 },
+              { transform: "scale(0.96)", opacity: 0.8 },
+            ],
+        {
+          duration: 400,
+          easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+          fill: "forwards",
+        },
+      );
+
+      // begitu kelar, commit ke inline style biasa & lepas dari animation stack
+      currentAnimation.onfinish = () => {
+        currentAnimation?.commitStyles();
+        currentAnimation?.cancel();
+        currentAnimation = null;
+      };
+    });
+
+    return () => {
+      currentAnimation?.cancel();
+      unregisterFullscreenAnimator(dKey);
+    };
+  }, [dKey]);
 
   return (
     <ChakraDialog.Content
@@ -113,26 +155,14 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
       border={"1px solid"}
       borderColor={"shadowLine"}
       rounded={isFullscreen ? 0 : theme.radii.container}
-      w={isFullscreen ? "100vw" : undefined}
-      h={isFullscreen ? "100dvh" : undefined}
-      maxW={isFullscreen ? "100vw" : undefined}
-      maxH={isFullscreen ? "100dvh" : undefined}
-      opacity={1}
-      transform={"translateZ(0)"}
-      transitionProperty={"border-radius, opacity, transform"}
-      transitionDuration={"300ms"}
-      transitionTimingFunction={"cubic-bezier(0.2, 0.8, 0.2, 1)"}
-      {...props}
       onAnimationStart={() => {
         if (!contentRef.current) return;
-
         updateDialogOffset(dKey);
-
         const { x, y } = getDialogOffset(dKey);
-
         contentRef.current.style.setProperty(DIALOG_OFFSET_X_VAR, `${x}px`);
         contentRef.current.style.setProperty(DIALOG_OFFSET_Y_VAR, `${y}px`);
       }}
+      {...props}
       _open={{
         animation: clickOriginAnimation
           ? "scale-up-overshoot-from-click-origin"

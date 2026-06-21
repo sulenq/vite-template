@@ -1,13 +1,13 @@
 // src/design-system/chakra/chakra-system.ts
 
 import { SM_SCREEN_BREAKPOINT } from "@/design-system/constants/styles";
-import {
-  DIALOG_OFFSET_X_VAR,
-  DIALOG_OFFSET_Y_VAR,
-} from "@/design-system/components/disclosure/utils/click-origin";
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
 import { dialogRecipe } from "@/design-system/chakra/recipes/dialog.recipe";
 import { drawerRecipe } from "@/design-system/chakra/recipes/drawer.recipe";
+import {
+  DIALOG_OFFSET_X_VAR,
+  DIALOG_OFFSET_Y_VAR,
+} from "@/design-system/stores/use-dialog-animation-store";
 
 export const chakraConfig = defineConfig({
   // conditions: {
