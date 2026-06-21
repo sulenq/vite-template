@@ -16,20 +16,17 @@ import { createContext, useContext, useRef } from "react";
 
 // -----------------------------------------------------------------
 
-export type DialogAnimationContextValue = {
+export type DialogContextValue = {
   clickOriginAnimation: boolean;
 };
 
-export const DialogAnimationContext =
-  createContext<DialogAnimationContextValue | null>(null);
+export const DialogContext = createContext<DialogContextValue | null>(null);
 
-export function useDialogAnimationContext() {
-  const context = useContext(DialogAnimationContext);
+export function useDialogContext() {
+  const context = useContext(DialogContext);
 
   if (!context) {
-    throw new Error(
-      "useDialogAnimationContext must be used within Dialog.Root",
-    );
+    throw new Error("useDialogContext must be used within Dialog.Root");
   }
 
   return context;
@@ -49,20 +46,20 @@ const DialogRoot = (props: DialogRootProps) => {
   const { close } = useDisclosureContext();
 
   return (
-    <DialogAnimationContext.Provider
+    <DialogContext.Provider
       value={{
         clickOriginAnimation,
       }}
     >
       <ChakraDialog.Root onEscapeKeyDown={close} {...restProps} />
-    </DialogAnimationContext.Provider>
+    </DialogContext.Provider>
   );
 };
 
 const DialogTrigger = (props: ChakraDialog.TriggerProps) => {
   // Contexts
   const { dKey } = useDisclosureContext();
-  const { clickOriginAnimation } = useDialogAnimationContext();
+  const { clickOriginAnimation } = useDialogContext();
 
   return (
     <ChakraDialog.Trigger
@@ -94,7 +91,7 @@ const DialogPositioner = (props: ChakraDialog.PositionerProps) => {
 const DialogContent = (props: ChakraDialog.ContentProps) => {
   // Contexts
   const { dKey, fullscreen } = useDisclosureContext();
-  const { clickOriginAnimation } = useDialogAnimationContext();
+  const { clickOriginAnimation } = useDialogContext();
 
   // Store
   const { theme } = useThemeStore();

@@ -7,6 +7,7 @@ import {
 } from "@/design-system/components/disclosure/utils/click-origin";
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
 import { dialogRecipe } from "@/design-system/chakra/recipes/dialog.recipe";
+import { drawerRecipe } from "@/design-system/chakra/recipes/drawer.recipe";
 
 export const chakraConfig = defineConfig({
   // conditions: {
@@ -2172,6 +2173,7 @@ export const chakraConfig = defineConfig({
 
     slotRecipes: {
       dialog: dialogRecipe,
+      drawer: drawerRecipe,
     },
   },
 });

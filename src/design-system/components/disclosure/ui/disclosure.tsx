@@ -19,11 +19,7 @@ import { Drawer } from "@/design-system/components/disclosure/ui/drawer";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { DISCLOSURE_BASE_ZINDEX } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
-import {
-  Dialog as ChakraDialog,
-  Drawer as ChakraDrawer,
-  Portal,
-} from "@chakra-ui/react";
+import { Portal, type DrawerRootProps } from "@chakra-ui/react";
 import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
 import { createContext, useContext, useEffect, useState } from "react";
 
@@ -104,17 +100,11 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
       {isSmallViewport ? (
         <Drawer.Root
           open={delayedOpened}
-          onOpenChange={(e) => {
-            if (e.open) {
-              open();
-            } else {
-              close();
-            }
-          }}
-          placement={"bottom"}
+          size={size as DrawerRootProps["size"]}
           lazyMount
           unmountOnExit
-          {...(restProps as ChakraDrawer.RootProps)}
+          {...restProps}
+          placement={"bottom"}
         >
           {children}
         </Drawer.Root>
@@ -126,7 +116,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
           size={fullscreen ? "full" : size}
           scrollBehavior={"inside"}
           clickOriginAnimation={clickOriginAnimation}
-          {...(restProps as ChakraDialog.RootProps)}
+          {...restProps}
           placement={"center"}
         >
           {children}
@@ -144,22 +134,10 @@ const DisclosureTrigger = (props: DisclosureTriggerProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return (
-      <Drawer.Trigger
-        asChild
-        onClick={open}
-        {...(props as ChakraDrawer.TriggerProps)}
-      />
-    );
+    return <Drawer.Trigger asChild onClick={open} {...props} />;
   }
 
-  return (
-    <Dialog.Trigger
-      asChild
-      onClick={open}
-      {...(props as ChakraDialog.TriggerProps)}
-    />
-  );
+  return <Dialog.Trigger asChild onClick={open} {...props} />;
 };
 
 const DisclosureBackdrop = (props: DisclosureBackdropProps) => {
@@ -167,10 +145,10 @@ const DisclosureBackdrop = (props: DisclosureBackdropProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return <Drawer.Backdrop {...(props as ChakraDrawer.BackdropProps)} />;
+    return <Drawer.Backdrop {...props} />;
   }
 
-  return <Dialog.Backdrop {...(props as ChakraDialog.BackdropProps)} />;
+  return <Dialog.Backdrop {...props} />;
 };
 
 const DisclosureContent = (props: DisclosureContentProps) => {
@@ -196,7 +174,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
         <Drawer.Positioner zIndex={zIndex} {...positionerProps}>
           {backdrop && <Drawer.Backdrop pointerEvents={"auto"} />}
 
-          <Drawer.Content>{children}</Drawer.Content>
+          <Drawer.Content {...restProps}>{children}</Drawer.Content>
         </Drawer.Positioner>
       </Portal>
     );
@@ -250,7 +228,7 @@ const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
     return (
       <Drawer.CloseTrigger
         asChild
-        {...(restProps as ChakraDrawer.CloseTriggerProps)}
+        {...restProps}
         position={"static"}
         onClick={(event) => {
           close();
@@ -263,7 +241,7 @@ const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
   return (
     <Dialog.CloseTrigger
       asChild
-      {...(restProps as ChakraDialog.CloseTriggerProps)}
+      {...restProps}
       position={"static"}
       onClick={(event) => {
         close();
@@ -288,10 +266,10 @@ const DisclosureHeader = (props: DisclosureHeaderProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return <Drawer.Header {...(props as ChakraDrawer.HeaderProps)} />;
+    return <Drawer.Header {...props} />;
   }
 
-  return <Dialog.Header {...(props as ChakraDialog.HeaderProps)} />;
+  return <Dialog.Header {...props} />;
 };
 
 const DisclosureBody = (props: DisclosureBodyProps) => {
@@ -299,10 +277,10 @@ const DisclosureBody = (props: DisclosureBodyProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return <Drawer.Body {...(props as ChakraDrawer.BodyProps)} />;
+    return <Drawer.Body {...props} />;
   }
 
-  return <Dialog.Body {...(props as ChakraDialog.BodyProps)} />;
+  return <Dialog.Body {...props} />;
 };
 
 const DisclosureFooter = (props: DisclosureFooterProps) => {
@@ -310,9 +288,9 @@ const DisclosureFooter = (props: DisclosureFooterProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   if (isSmallViewport) {
-    return <Drawer.Footer {...(props as ChakraDrawer.FooterProps)} />;
+    return <Drawer.Footer {...props} />;
   }
-  return <Dialog.Footer {...(props as ChakraDialog.FooterProps)} />;
+  return <Dialog.Footer {...props} />;
 };
 
 export const Disclosure = {

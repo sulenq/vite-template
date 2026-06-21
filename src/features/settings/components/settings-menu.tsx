@@ -12,9 +12,7 @@ import { SETTINGS_NAV_ITEMS } from "@/features/settings/constants/settings.nav-i
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
 import { RootRoute } from "@/routes/typed";
 
-interface SettingsNavsProps extends StackProps {}
-
-export const SettingsMenu = (props: SettingsNavsProps) => {
+export const SettingsMenu = (props: StackProps) => {
   // Props
   const { ...restProps } = props;
 
@@ -35,6 +33,26 @@ export const SettingsMenu = (props: SettingsNavsProps) => {
 
   return (
     <VScrollContainer gap={1} {...restProps}>
+      {SETTINGS_NAV_ITEMS.map((navKey, index) => {
+        if (navKey === "divider") {
+          return <Divider key={index} my={1} />;
+        }
+
+        const nav = SETTINGS_NAVS[navKey];
+
+        return (
+          <NavItem
+            key={navKey}
+            onClick={() => {
+              handleNavItemClick(navKey);
+            }}
+          >
+            {nav.icon}
+            {nav.label}
+          </NavItem>
+        );
+      })}
+
       {SETTINGS_NAV_ITEMS.map((navKey, index) => {
         if (navKey === "divider") {
           return <Divider key={index} my={1} />;

@@ -29,6 +29,7 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
 
   // Hooks
   const { isOpen, open, close } = usePopDisclosure(dKey);
+  const isSmallViewport = useIsSmallViewport();
 
   return (
     <Disclosure.Root
@@ -37,7 +38,7 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
       open={open}
       close={close}
       clickOriginAnimation
-      size={"2xl"}
+      size={isSmallViewport ? "full" : "2xl"}
     >
       <Disclosure.Trigger {...restProps}>{children}</Disclosure.Trigger>
 
@@ -45,7 +46,7 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
         display={"flex"}
         flexDir={"column"}
         overflowY={"auto"}
-        maxH={"600px"}
+        maxH={!isSmallViewport ? "600px" : "full"}
       >
         <Disclosure.Body
           display={"flex"}
@@ -121,9 +122,13 @@ const SettingsView = () => {
               w={DISCLOSURE_CONTROL_CONTAINER_W}
               pr={DISCLOSURE_CONTROL_CONTAINER_SPACING_R}
             >
-              <Disclosure.FullscreenButton />
+              {!isSmallViewport && (
+                <>
+                  <Disclosure.FullscreenButton />
 
-              <Disclosure.CloseButton />
+                  <Disclosure.CloseButton />
+                </>
+              )}
             </HStack>
           </HStack>
 
