@@ -9,6 +9,7 @@ import type {
   DisclosureBodyProps,
   DisclosureCloseTriggerProps,
   DisclosureContentProps,
+  DisclosureDisplayMode,
   DisclosureFooterProps,
   DisclosureHeaderProps,
   DisclosureRootProps,
@@ -33,6 +34,7 @@ export type DisclosureContextValue = {
   close: () => void;
   fullscreen: boolean;
   setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
+  displayMode: DisclosureDisplayMode;
 };
 
 export const DisclosureContext = createContext<DisclosureContextValue | null>(
@@ -97,6 +99,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
         close,
         fullscreen,
         setFullscreen,
+        displayMode,
       }}
     >
       {isSmallViewport ? (
@@ -131,12 +134,12 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
 
 const DisclosureTrigger = (props: DisclosureTriggerProps) => {
   // Contexts
-  const { open } = useDisclosureContext();
+  const { open, displayMode } = useDisclosureContext();
 
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
-  if (isSmallViewport) {
+  if (isSmallViewport || displayMode === "drawer") {
     return <Drawer.Trigger asChild onClick={open} {...props} />;
   }
 
@@ -144,10 +147,13 @@ const DisclosureTrigger = (props: DisclosureTriggerProps) => {
 };
 
 const DisclosureBackdrop = (props: DisclosureBackdropProps) => {
+  // Contexts
+  const { displayMode } = useDisclosureContext();
+
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
-  if (isSmallViewport) {
+  if (isSmallViewport || displayMode === "drawer") {
     return <Drawer.Backdrop {...props} />;
   }
 
@@ -165,13 +171,15 @@ const DisclosureContent = (props: DisclosureContentProps) => {
     ...restProps
   } = props;
 
+  // Contexts
+
   // Hooks
-  const { dKey } = useDisclosureContext();
+  const { dKey, displayMode } = useDisclosureContext();
   const isSmallViewport = useIsSmallViewport();
 
   const zIndex = DISCLOSURE_BASE_ZINDEX + dKey.split(".").length;
 
-  if (isSmallViewport) {
+  if (isSmallViewport || displayMode === "drawer") {
     return (
       <Portal disabled={!portalled} container={portalRef}>
         <Drawer.Positioner zIndex={zIndex} {...positionerProps}>
@@ -224,12 +232,12 @@ const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
   const { onClick, ...restProps } = props;
 
   // Contexts
-  const { close } = useDisclosureContext();
+  const { close, displayMode } = useDisclosureContext();
 
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
-  if (isSmallViewport) {
+  if (isSmallViewport || displayMode === "drawer") {
     return (
       <Drawer.CloseTrigger
         asChild
@@ -267,10 +275,13 @@ const DisclosureCloseButton = (props: IconButtonProps) => {
 };
 
 const DisclosureHeader = (props: DisclosureHeaderProps) => {
+  // Contexts
+  const { displayMode } = useDisclosureContext();
+
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
-  if (isSmallViewport) {
+  if (isSmallViewport || displayMode === "drawer") {
     return <Drawer.Header {...props} />;
   }
 
@@ -278,10 +289,13 @@ const DisclosureHeader = (props: DisclosureHeaderProps) => {
 };
 
 const DisclosureBody = (props: DisclosureBodyProps) => {
+  // Contexts
+  const { displayMode } = useDisclosureContext();
+
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
-  if (isSmallViewport) {
+  if (isSmallViewport || displayMode === "drawer") {
     return <Drawer.Body {...props} />;
   }
 
@@ -289,10 +303,13 @@ const DisclosureBody = (props: DisclosureBodyProps) => {
 };
 
 const DisclosureFooter = (props: DisclosureFooterProps) => {
+  // Contexts
+  const { displayMode } = useDisclosureContext();
+
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
-  if (isSmallViewport) {
+  if (isSmallViewport || displayMode === "drawer") {
     return <Drawer.Footer {...props} />;
   }
   return <Dialog.Footer {...props} />;
