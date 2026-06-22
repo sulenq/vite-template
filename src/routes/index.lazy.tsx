@@ -44,7 +44,7 @@ const KeyFeatures = () => {
       <HStack wrap={"wrap"} align={"center"} gap={2}>
         <SettingsTrigger modalKey={"settings"} w={"fit"}>
           <IconButton>
-            <AppLucideIcon icon={CogIcon} />
+            <AppLucideIcon icon={CogIcon} strokeWidth={1.3} boxSize={"22px"} />
           </IconButton>
         </SettingsTrigger>
 
