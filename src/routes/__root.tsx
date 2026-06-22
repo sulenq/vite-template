@@ -5,6 +5,7 @@ import { ChakraSystemProvider } from "@/design-system/chakra/providers/chakra-sy
 import { ColorModeProvider } from "@/design-system/chakra/providers/color-mode-provider";
 import { modalSchema } from "@/design-system/components/overlay/schemas/modal.schema";
 import { settingsNavKeySchema } from "@/features/settings/schemas/setting-nav-key.schema";
+import { LocaleProvider } from "@/libs/i18n/locale-provider";
 import "@fontsource-variable/plus-jakarta-sans";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import z from "zod";
@@ -22,9 +23,11 @@ function RootComponent() {
   return (
     <ColorModeProvider>
       <ChakraSystemProvider>
-        {/* <ModalPurgeHandler /> */}
+        <LocaleProvider>
+          {/* <ModalPurgeHandler /> */}
 
-        <Outlet />
+          <Outlet />
+        </LocaleProvider>
       </ChakraSystemProvider>
     </ColorModeProvider>
   );

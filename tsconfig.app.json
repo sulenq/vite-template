@@ -23,12 +23,11 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
-  
 
     /* Path Alias */
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "src/paraglide"]
 }

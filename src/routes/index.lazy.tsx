@@ -1,6 +1,9 @@
 // src/routes/index.lazy.tsx
 
-import { IconButton } from "@/design-system/components/button/ui/button";
+import {
+  Button,
+  IconButton,
+} from "@/design-system/components/button/ui/button";
 import { FeedbackEmptyData } from "@/design-system/components/feedback/ui/feedback-empty-data";
 import { FeedbackForbidden } from "@/design-system/components/feedback/ui/feedback-forbidden";
 import { FeedbackNotFound } from "@/design-system/components/feedback/ui/feedback-not-found";
@@ -11,6 +14,8 @@ import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { SettingsTrigger } from "@/features/settings/components/settings-modal";
+import { getLocale, getLocaleLabel, t } from "@/libs/i18n";
+import { useLocale } from "@/libs/i18n/locale-provider";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { SettingsIcon } from "lucide-react";
 
@@ -21,20 +26,38 @@ export const Route = createLazyFileRoute("/")({
 function RouteComponent() {
   return (
     <VStack gap={4} minH={"100dvh"} bg={"bg.canvas"} p={4}>
-      <ItemContainer w={"full"}>
-        <P fontWeight={"semibold"}>Key Features</P>
-
-        <SettingsTrigger modalKey={"settings"} w={"fit"}>
-          <IconButton size={"2xl"}>
-            <AppLucideIcon icon={SettingsIcon} />
-          </IconButton>
-        </SettingsTrigger>
-      </ItemContainer>
+      <KeyFeatures />
 
       <FeedbackSection />
     </VStack>
   );
 }
+
+const KeyFeatures = () => {
+  const { setLocale } = useLocale();
+
+  return (
+    <ItemContainer w={"full"}>
+      <P fontWeight={"semibold"}>{t.keyFeatures()}</P>
+
+      <HStack wrap={"wrap"} align={"center"}>
+        <SettingsTrigger modalKey={"settings"} w={"fit"}>
+          <IconButton>
+            <AppLucideIcon icon={SettingsIcon} />
+          </IconButton>
+        </SettingsTrigger>
+
+        <Button
+          onClick={() => {
+            setLocale(getLocale() === "id" ? "en" : "id");
+          }}
+        >
+          {getLocaleLabel(getLocale())}
+        </Button>
+      </HStack>
+    </ItemContainer>
+  );
+};
 
 const ItemContainer = (props: StackProps) => {
   // Store
@@ -58,7 +81,7 @@ const ItemContainer = (props: StackProps) => {
 const FeedbackSection = () => {
   return (
     <ItemContainer w={"full"}>
-      <P fontWeight={"semibold"}>Feedback</P>
+      <P fontWeight={"semibold"}>{t.feedback()}</P>
 
       <HStack wrap={"wrap"}>
         <FeedbackEmptyData />
