@@ -7,11 +7,11 @@ import {
 } from "@chakra-ui/react";
 
 export type PopModalTriggerProps = {
-  dKey: string;
+  modalKey: string;
 } & ModalTriggerProps;
 
 export type ModalRootProps = {
-  dKey: string;
+  modalKey: string;
   opened: boolean;
   open: () => void;
   close: () => void;

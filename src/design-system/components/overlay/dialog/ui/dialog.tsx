@@ -8,7 +8,7 @@ import {
   getDialogOffset,
   updateClickOrigin,
   updateDialogOffset,
-} from "@/design-system/components/overlay/modal/stores/use-dialog-animation-store";
+} from "@/design-system/components/overlay/dialog/stores/use-dialog-animation-store";
 import {
   registerFullscreenAnimator,
   unregisterFullscreenAnimator,
@@ -20,7 +20,7 @@ import { createContext, useContext, useLayoutEffect, useRef } from "react";
 // -----------------------------------------------------------------
 
 export type DialogContextValue = {
-  dKey: string;
+  modalKey: string;
   size: ChakraDialog.RootProps["size"];
   clickOriginAnimation: boolean;
   fullscreen: boolean;
@@ -40,7 +40,7 @@ export function useDialogContext() {
 }
 
 interface DialogRootProps extends ChakraDialog.RootProps {
-  dKey?: string;
+  modalKey?: string;
   onClose?: () => void;
   fullscreen?: boolean;
   clickOriginAnimation?: boolean;
@@ -51,7 +51,7 @@ interface DialogRootProps extends ChakraDialog.RootProps {
 const DialogRoot = (props: DialogRootProps) => {
   // Props
   const {
-    dKey = "dialog",
+    modalKey = "dialog",
     size = "xs",
     clickOriginAnimation = false,
     fullscreen = false,
@@ -62,7 +62,7 @@ const DialogRoot = (props: DialogRootProps) => {
   return (
     <DialogContext.Provider
       value={{
-        dKey,
+        modalKey,
         size,
         clickOriginAnimation,
         fullscreen,
@@ -76,14 +76,14 @@ const DialogRoot = (props: DialogRootProps) => {
 
 const DialogTrigger = (props: ChakraDialog.TriggerProps) => {
   // Contexts
-  const { dKey, clickOriginAnimation } = useDialogContext();
+  const { modalKey, clickOriginAnimation } = useDialogContext();
 
   return (
     <ChakraDialog.Trigger
       onPointerDown={
         clickOriginAnimation
           ? (e) => {
-              updateClickOrigin(dKey, e.currentTarget);
+              updateClickOrigin(modalKey, e.currentTarget);
             }
           : undefined
       }
@@ -111,7 +111,8 @@ const DialogPositioner = (props: ChakraDialog.PositionerProps) => {
 
 const DialogContent = (props: ChakraDialog.ContentProps) => {
   // Contexts
-  const { dKey, fullscreen, size, clickOriginAnimation } = useDialogContext();
+  const { modalKey, fullscreen, size, clickOriginAnimation } =
+    useDialogContext();
 
   // Store
   const { theme } = useThemeStore();
@@ -125,7 +126,7 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
   useLayoutEffect(() => {
     let currentAnimation: Animation | null = null;
 
-    registerFullscreenAnimator(dKey, (next) => {
+    registerFullscreenAnimator(modalKey, (next) => {
       const el = contentRef.current;
       if (!el) return;
 
@@ -169,9 +170,9 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
 
     return () => {
       currentAnimation?.cancel();
-      unregisterFullscreenAnimator(dKey);
+      unregisterFullscreenAnimator(modalKey);
     };
-  }, [dKey]);
+  }, [modalKey]);
 
   return (
     <ChakraDialog.Content
@@ -184,8 +185,8 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
       rounded={isFullscreen ? 0 : theme.radii.container}
       onAnimationStart={() => {
         if (!contentRef.current) return;
-        updateDialogOffset(dKey);
-        const { x, y } = getDialogOffset(dKey);
+        updateDialogOffset(modalKey);
+        const { x, y } = getDialogOffset(modalKey);
         contentRef.current.style.setProperty(DIALOG_OFFSET_X_VAR, `${x}px`);
         contentRef.current.style.setProperty(DIALOG_OFFSET_Y_VAR, `${y}px`);
       }}

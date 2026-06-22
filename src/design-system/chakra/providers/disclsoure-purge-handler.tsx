@@ -8,7 +8,7 @@ import { RootRoute } from "@/routes/typed";
 export function ModalPurgeHandler() {
   const navigate = RootRoute.useNavigate();
   const search = RootRoute.useSearch();
-  const dRef = useRef(search.d);
+  const modalKeylRef = useRef(search.activeModalKey);
 
   useEffect(() => {
     const navigationEntries = performance.getEntriesByType("navigation");
@@ -24,7 +24,7 @@ export function ModalPurgeHandler() {
       return;
     }
 
-    if (!dRef.current) {
+    if (!modalKeylRef.current) {
       return;
     }
 
@@ -35,7 +35,7 @@ export function ModalPurgeHandler() {
         replace: false,
         search: (prev) => ({
           ...prev,
-          d: undefined,
+          activeModalKey: undefined,
         }),
       });
 

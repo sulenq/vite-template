@@ -11,8 +11,8 @@ import z from "zod";
 
 export const Route = createRootRoute({
   validateSearch: z.object({
-    d: modalSchema.optional(),
-    currentSettingNavKey: settingsNavKeySchema.optional(),
+    activeModalKey: modalSchema.optional(),
+    activeSettingNavKey: settingsNavKeySchema.optional(),
   }),
 
   component: RootComponent,

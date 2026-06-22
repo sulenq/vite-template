@@ -19,17 +19,17 @@ export const SettingsActivePage = (props: SettingsViewProps) => {
   const { ...restProps } = props;
 
   // Hooks
-  const { currentSettingNavKey } = RootRoute.useSearch();
+  const { activeSettingNavKey } = RootRoute.useSearch();
 
   // States
-  const [displayKey, setDisplayKey] = useState(currentSettingNavKey);
+  const [displayKey, setDisplayKey] = useState(activeSettingNavKey);
 
   // Derived Values
   const ActiveSettingPage = displayKey ? SETTINGS_PAGES[displayKey] : null;
 
   // Handle nav key changes
-  if (currentSettingNavKey && currentSettingNavKey !== displayKey) {
-    setDisplayKey(currentSettingNavKey);
+  if (activeSettingNavKey && activeSettingNavKey !== displayKey) {
+    setDisplayKey(activeSettingNavKey);
   }
 
   return (

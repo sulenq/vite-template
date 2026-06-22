@@ -27,7 +27,7 @@ function RouteComponent() {
       <ItemContainer w={"full"}>
         <P fontWeight={"semibold"}>Key Features</P>
 
-        <SettingsTrigger dKey={"settings"} w={"fit"}>
+        <SettingsTrigger modalKey={"settings"} w={"fit"}>
           <IconButton size={"2xl"}>
             <AppLucideIcon icon={SettingsIcon} />
           </IconButton>

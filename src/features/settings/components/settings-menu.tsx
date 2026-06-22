@@ -26,7 +26,7 @@ export const SettingsMenu = (props: StackProps) => {
     navigate({
       search: (prev) => ({
         ...prev,
-        currentSettingNavKey: navKey,
+        activeSettingNavKey: navKey,
       }),
       replace: isSmallViewport ? false : true,
     });

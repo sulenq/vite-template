@@ -25,15 +25,15 @@ import { IconChevronLeft, IconSearch } from "@tabler/icons-react";
 
 export const SettingsTrigger = (props: PopModalTriggerProps) => {
   // Props
-  const { children, dKey, ...restProps } = props;
+  const { children, modalKey, ...restProps } = props;
 
   // Hooks
-  const { isOpen, open, close } = usePopModal(dKey);
+  const { isOpen, open, close } = usePopModal(modalKey);
   const isSmallViewport = useIsSmallViewport();
 
   return (
     <Modal.Root
-      dKey={dKey}
+      modalKey={modalKey}
       opened={isOpen}
       open={open}
       close={close}
@@ -63,14 +63,14 @@ export const SettingsTrigger = (props: PopModalTriggerProps) => {
 
 const SettingsView = () => {
   // Hooks
-  const { currentSettingNavKey } = RootRoute.useSearch();
+  const { activeSettingNavKey } = RootRoute.useSearch();
   const isSmallViewport = useIsSmallViewport();
 
   // Derived Values
   const shouldShowSettingMenu =
-    (isSmallViewport && !currentSettingNavKey) || !isSmallViewport;
+    (isSmallViewport && !activeSettingNavKey) || !isSmallViewport;
   const shouldShowSettingPage =
-    (isSmallViewport && currentSettingNavKey) || !isSmallViewport;
+    (isSmallViewport && activeSettingNavKey) || !isSmallViewport;
 
   return (
     <HStack flex={1} overflowY={"auto"}>
@@ -114,8 +114,7 @@ const SettingsView = () => {
             </HStack>
 
             <P fontWeight={"semibold"} textAlign={"center"}>
-              {currentSettingNavKey &&
-                SETTINGS_NAVS[currentSettingNavKey].label}
+              {activeSettingNavKey && SETTINGS_NAVS[activeSettingNavKey].label}
             </P>
 
             <HStack

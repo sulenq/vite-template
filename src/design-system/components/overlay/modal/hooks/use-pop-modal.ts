@@ -4,28 +4,30 @@ import { RootRoute } from "@/routes/typed";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef } from "react";
 
-export function usePopModal(dKey: string) {
+export function usePopModal(modalKey: string) {
   const lastCloseAtRef = useRef(0);
-  const { d } = RootRoute.useSearch();
+  const { activeModalKey } = RootRoute.useSearch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!d) {
+    if (!activeModalKey) {
       document.body.style.overflow = "";
       document.body.style.pointerEvents = "";
     }
-  }, [d]);
+  }, [activeModalKey]);
 
   const isOpen = useMemo(() => {
-    if (typeof d !== "string") return false;
+    if (typeof activeModalKey !== "string") return false;
 
-    return d === dKey || d.startsWith(dKey + ".");
-  }, [dKey, d]);
+    return (
+      activeModalKey === modalKey || activeModalKey.startsWith(modalKey + ".")
+    );
+  }, [modalKey, activeModalKey]);
 
   function open() {
     navigate({
       to: ".",
-      search: { d: dKey },
+      search: { activeModalKey: modalKey },
     });
   }
 
@@ -65,21 +67,21 @@ export function usePopModal(dKey: string) {
 // import { useMemo } from "react";
 // import { useRouter, useSearchParams } from "next/navigation";
 
-// export function usePopModal(dKey: string) {
+// export function usePopModal(modalKey: string) {
 //   const router = useRouter();
 //   const searchParams = useSearchParams();
 
-//   const d = searchParams.get("d") ?? undefined;
+//   const activeModalKey = searchParams.get("activeModalKey") ?? undefined;
 
 //   const isOpen = useMemo(() => {
-//     if (typeof d !== "string") return false;
+//     if (typeof activeModalKey !== "string") return false;
 
-//     return d === dKey || d.startsWith(dKey + ".");
-//   }, [dKey, d]);
+//     return activeModalKey === modalKey || activeModalKey.startsWith(modalKey + ".");
+//   }, [modalKey, activeModalKey]);
 
 //   function open() {
 //     const params = new URLSearchParams(searchParams.toString());
-//     params.set("d", dKey);
+//     params.set("activeModalKey", modalKey);
 
 //     router.push("?" + params.toString());
 //   }

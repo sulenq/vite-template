@@ -20,13 +20,13 @@ type DialogAnimationStore = {
   dialogs: Record<string, DialogAnimationState>;
   zIndexCounter: number;
 
-  setClickOrigin: (dKey: string, clickOrigin: Point) => void;
-  setDialogOffset: (dKey: string, dialogOffset: Point) => void;
+  setClickOrigin: (modalKey: string, clickOrigin: Point) => void;
+  setDialogOffset: (modalKey: string, dialogOffset: Point) => void;
 
-  getClickOrigin: (dKey: string) => Point;
-  getDialogOffset: (dKey: string) => Point;
+  getClickOrigin: (modalKey: string) => Point;
+  getDialogOffset: (modalKey: string) => Point;
 
-  clear: (dKey: string) => void;
+  clear: (modalKey: string) => void;
 };
 
 const DEFAULT_POINT: Point = { x: 0, y: 0 };
@@ -37,42 +37,44 @@ export const useDialogAnimationStore = create<DialogAnimationStore>()(
       dialogs: {},
       zIndexCounter: 0,
 
-      setClickOrigin(dKey, clickOrigin) {
+      setClickOrigin(modalKey, clickOrigin) {
         set((state) => ({
           dialogs: {
             ...state.dialogs,
-            [dKey]: {
+            [modalKey]: {
               clickOrigin,
-              dialogOffset: state.dialogs[dKey]?.dialogOffset ?? DEFAULT_POINT,
+              dialogOffset:
+                state.dialogs[modalKey]?.dialogOffset ?? DEFAULT_POINT,
             },
           },
         }));
       },
 
-      setDialogOffset(dKey, dialogOffset) {
+      setDialogOffset(modalKey, dialogOffset) {
         set((state) => ({
           dialogs: {
             ...state.dialogs,
-            [dKey]: {
-              clickOrigin: state.dialogs[dKey]?.clickOrigin ?? DEFAULT_POINT,
+            [modalKey]: {
+              clickOrigin:
+                state.dialogs[modalKey]?.clickOrigin ?? DEFAULT_POINT,
               dialogOffset,
             },
           },
         }));
       },
 
-      getClickOrigin(dKey) {
-        return get().dialogs[dKey]?.clickOrigin ?? DEFAULT_POINT;
+      getClickOrigin(modalKey) {
+        return get().dialogs[modalKey]?.clickOrigin ?? DEFAULT_POINT;
       },
 
-      getDialogOffset(dKey) {
-        return get().dialogs[dKey]?.dialogOffset ?? DEFAULT_POINT;
+      getDialogOffset(modalKey) {
+        return get().dialogs[modalKey]?.dialogOffset ?? DEFAULT_POINT;
       },
 
-      clear(dKey) {
+      clear(modalKey) {
         set((state) => {
           const dialogs = { ...state.dialogs };
-          delete dialogs[dKey];
+          delete dialogs[modalKey];
           return { dialogs };
         });
       },
@@ -82,8 +84,8 @@ export const useDialogAnimationStore = create<DialogAnimationStore>()(
 
       partialize: (state) => ({
         dialogs: Object.fromEntries(
-          Object.entries(state.dialogs).map(([dKey, data]) => [
-            dKey,
+          Object.entries(state.dialogs).map(([modalKey, data]) => [
+            modalKey,
             {
               clickOrigin: data.clickOrigin,
               dialogOffset: DEFAULT_POINT,
@@ -95,42 +97,47 @@ export const useDialogAnimationStore = create<DialogAnimationStore>()(
   ),
 );
 
-export function updateClickOrigin(dKey: string, target: EventTarget | null) {
+export function updateClickOrigin(
+  modalKey: string,
+  target: EventTarget | null,
+) {
   if (!(target instanceof HTMLElement)) {
     return;
   }
 
   const rect = target.getBoundingClientRect();
 
-  useDialogAnimationStore.getState().setClickOrigin(dKey, {
+  useDialogAnimationStore.getState().setClickOrigin(modalKey, {
     x: rect.left + rect.width / 2,
     y: rect.top + rect.height / 2,
   });
 }
 
-export function updateDialogOffset(dKey: string) {
+export function updateDialogOffset(modalKey: string) {
   const { x: clickOriginX, y: clickOriginY } = useDialogAnimationStore
     .getState()
-    .getClickOrigin(dKey);
+    .getClickOrigin(modalKey);
 
   if (clickOriginX === 0 && clickOriginY === 0) {
-    useDialogAnimationStore.getState().setDialogOffset(dKey, { x: 0, y: 0 });
+    useDialogAnimationStore
+      .getState()
+      .setDialogOffset(modalKey, { x: 0, y: 0 });
     return;
   }
 
   const offsetX = clickOriginX - window.innerWidth / 2;
   const offsetY = clickOriginY - window.innerHeight / 2;
 
-  useDialogAnimationStore.getState().setDialogOffset(dKey, {
+  useDialogAnimationStore.getState().setDialogOffset(modalKey, {
     x: offsetX,
     y: offsetY,
   });
 }
 
-export function getDialogOffset(dKey: string) {
-  return useDialogAnimationStore.getState().getDialogOffset(dKey);
+export function getDialogOffset(modalKey: string) {
+  return useDialogAnimationStore.getState().getDialogOffset(modalKey);
 }
 
-export function clearDialogOffset(dKey: string) {
-  useDialogAnimationStore.getState().clear(dKey);
+export function clearDialogOffset(modalKey: string) {
+  useDialogAnimationStore.getState().clear(modalKey);
 }

@@ -5,16 +5,16 @@ type FullscreenAnimator = (next: boolean) => void;
 const registry = new Map<string, FullscreenAnimator>();
 
 export function registerFullscreenAnimator(
-  dKey: string,
+  modalKey: string,
   fn: FullscreenAnimator,
 ) {
-  registry.set(dKey, fn);
+  registry.set(modalKey, fn);
 }
 
-export function unregisterFullscreenAnimator(dKey: string) {
-  registry.delete(dKey);
+export function unregisterFullscreenAnimator(modalKey: string) {
+  registry.delete(modalKey);
 }
 
-export function triggerFullscreenAnimation(dKey: string, next: boolean) {
-  registry.get(dKey)?.(next);
+export function triggerFullscreenAnimation(modalKey: string, next: boolean) {
+  registry.get(modalKey)?.(next);
 }

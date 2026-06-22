@@ -14,8 +14,8 @@ import type {
   ModalRootProps,
   ModalTriggerProps,
 } from "@/design-system/components/overlay/modal/types/modal.type";
-import { Dialog } from "@/design-system/components/overlay/modal/ui/dialog";
-import { Drawer } from "@/design-system/components/overlay/modal/ui/drawer";
+import { Dialog } from "@/design-system/components/overlay/dialog/ui/dialog";
+import { Drawer } from "@/design-system/components/overlay/drawer/ui/drawer";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { MODAL_BASE_ZINDEX } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
@@ -27,7 +27,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 // -----------------------------------------------------------------
 
 export type ModalContextValue = {
-  dKey: string;
+  modalKey: string;
   opened: boolean;
   open: () => void;
   close: () => void;
@@ -53,7 +53,7 @@ const ModalRoot = (props: ModalRootProps) => {
   // Props
   const {
     children,
-    dKey,
+    modalKey,
     opened = false,
     open,
     close,
@@ -78,7 +78,7 @@ const ModalRoot = (props: ModalRootProps) => {
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if (opened) {
-      const depth = dKey.split(".").length;
+      const depth = modalKey.split(".").length;
       const delay = depth > 1 ? (depth - 1) * 20 : 50;
       timer = setTimeout(() => {
         setDelayedOpened(true);
@@ -89,12 +89,12 @@ const ModalRoot = (props: ModalRootProps) => {
       }, 0);
     }
     return () => clearTimeout(timer);
-  }, [opened, dKey, isSmallViewport]);
+  }, [opened, modalKey, isSmallViewport]);
 
   return (
     <ModalContext.Provider
       value={{
-        dKey,
+        modalKey,
         opened,
         open,
         close,
@@ -104,7 +104,7 @@ const ModalRoot = (props: ModalRootProps) => {
     >
       {isSmallViewport ? (
         <Drawer.Root
-          dKey={dKey}
+          modalKey={modalKey}
           open={delayedOpened}
           onClose={close}
           fullscreen={fullscreen}
@@ -119,7 +119,7 @@ const ModalRoot = (props: ModalRootProps) => {
         </Drawer.Root>
       ) : (
         <Dialog.Root
-          dKey={dKey}
+          modalKey={modalKey}
           open={delayedOpened}
           onClose={close}
           fullscreen={fullscreen}
@@ -175,10 +175,10 @@ const ModalContent = (props: ModalContentProps) => {
   } = props;
 
   // Hooks
-  const { dKey } = useModalContext();
+  const { modalKey } = useModalContext();
   const isSmallViewport = useIsSmallViewport();
 
-  const zIndex = MODAL_BASE_ZINDEX + dKey.split(".").length;
+  const zIndex = MODAL_BASE_ZINDEX + modalKey.split(".").length;
 
   if (isSmallViewport) {
     return (
@@ -205,7 +205,7 @@ const ModalContent = (props: ModalContentProps) => {
 
 const ModalFullscreenButton = (props: IconButtonProps) => {
   // Contexts
-  const { dKey, fullscreen, setFullscreen } = useModalContext();
+  const { modalKey, fullscreen, setFullscreen } = useModalContext();
 
   return (
     <IconButton
@@ -214,7 +214,7 @@ const ModalFullscreenButton = (props: IconButtonProps) => {
       rounded={"full"}
       onClick={() => {
         const next = !fullscreen;
-        triggerFullscreenAnimation(dKey, next);
+        triggerFullscreenAnimation(modalKey, next);
         setFullscreen(next);
       }}
       {...props}

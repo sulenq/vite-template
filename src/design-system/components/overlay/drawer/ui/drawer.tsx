@@ -10,7 +10,7 @@ import { createContext, useContext, useRef, type TouchEvent } from "react";
 type GestureMode = "drag" | "scroll" | null;
 
 type DrawerContextValue = {
-  dKey: string;
+  modalKey: string;
   size: ChakraDrawer.RootProps["size"];
   placement: ChakraDrawer.RootProps["placement"];
   swipeToDismiss: boolean;
@@ -49,7 +49,7 @@ function getScrollableAncestor(el: HTMLElement | null): HTMLElement | null {
 }
 
 interface DrawerRootProps extends ChakraDrawer.RootProps {
-  dKey?: string;
+  modalKey?: string;
   swipeToDismiss?: boolean;
   fullscreen?: boolean;
   onClose?: () => void;
@@ -58,7 +58,7 @@ interface DrawerRootProps extends ChakraDrawer.RootProps {
 const DrawerRoot = (props: DrawerRootProps) => {
   // Props
   const {
-    dKey = "drawer",
+    modalKey = "drawer",
     size = "sm",
     placement,
     swipeToDismiss = true,
@@ -70,7 +70,7 @@ const DrawerRoot = (props: DrawerRootProps) => {
   return (
     <DrawerContext.Provider
       value={{
-        dKey,
+        modalKey,
         size,
         placement,
         swipeToDismiss,
