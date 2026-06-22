@@ -1,6 +1,6 @@
 // src/design-system/components/modal/hooks/use-pop-modal.ts
 
-import { RootRoute } from "@/routes/typed";
+import { RootRoute } from "@/routes/-typed";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef } from "react";
 

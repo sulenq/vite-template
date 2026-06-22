@@ -10,7 +10,7 @@ import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport"
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
 import { SETTINGS_MENUS } from "@/features/settings/constants/settings-menus";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
-import { RootRoute } from "@/routes/typed";
+import { RootRoute } from "@/routes/-typed";
 import { Separator } from "@/design-system/components/layout/ui/separator";
 
 export const SettingsMenu = (props: StackProps) => {

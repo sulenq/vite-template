@@ -8,7 +8,7 @@ import { VStack } from "@/design-system/components/layout/ui/container";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { HEADER_H } from "@/design-system/constants/styles";
 import { SETTINGS_PAGES } from "@/features/settings/constants/settings-pages";
-import { RootRoute } from "@/routes/typed";
+import { RootRoute } from "@/routes/-typed";
 import { useState } from "react";
 
 interface SettingsViewProps extends StackProps {}

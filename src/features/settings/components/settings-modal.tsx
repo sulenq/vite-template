@@ -19,7 +19,7 @@ import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport"
 import { SettingsActivePage } from "@/features/settings/components/settings-active-page";
 import { SettingsMenu } from "@/features/settings/components/settings-menu";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
-import { RootRoute } from "@/routes/typed";
+import { RootRoute } from "@/routes/-typed";
 import { back } from "@/utils/client/navigation";
 import { IconChevronLeft, IconSearch } from "@tabler/icons-react";
 

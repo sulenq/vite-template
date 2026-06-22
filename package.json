@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "paraglide-js compile --watch & vite",
+    "dev": "vite",
     "preview": "vite preview",
     "build": "eslint . && tsc -b && vite build",
     "lint": "eslint .",

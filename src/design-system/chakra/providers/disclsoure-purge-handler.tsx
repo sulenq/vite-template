@@ -3,7 +3,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { RootRoute } from "@/routes/typed";
+import { RootRoute } from "@/routes/-typed";
 
 export function ModalPurgeHandler() {
   const navigate = RootRoute.useNavigate();
