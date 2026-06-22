@@ -1,28 +1,35 @@
-// src/design-system/components/feedback-state/feedback-forbidden.tsx
+// src/design-system/components/feedback/ui/feedback-forbidden.tsx
 
 "use client";
 
 import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback.type";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { VStack } from "@/design-system/components/layout/ui/container";
 import { MIN_H_FEEDBACK_CONTAINER } from "@/design-system/constants/styles";
 import { IconForbid } from "@tabler/icons-react";
 
-export default function FeedbackForbidden(props: FeedbackStateProps) {
+export const FeedbackForbidden = (props: FeedbackStateProps) => {
   // Props
-  const { title, description, icon, children, ...restProps } = props;
+  const {
+    icon,
+    tablerIcon = IconForbid,
+    title = "Forbidden",
+    description = "You do not have access to this resource.",
+    children,
+    ...restProps
+  } = props;
 
   return (
     <VStack
-      m={"auto"}
       align={"center"}
-      minH={MIN_H_FEEDBACK_CONTAINER}
       justify={"center"}
+      minH={MIN_H_FEEDBACK_CONTAINER}
+      m={"auto"}
       {...restProps}
     >
       <FeedbackState
-        icon={icon ?? <AppTablerIcon icon={IconForbid} />}
+        icon={icon}
+        tablerIcon={tablerIcon}
         title={title}
         description={description}
         maxW={"300px"}
@@ -31,4 +38,5 @@ export default function FeedbackForbidden(props: FeedbackStateProps) {
       {children}
     </VStack>
   );
-}
+};
+

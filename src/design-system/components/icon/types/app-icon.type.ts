@@ -1,7 +1,10 @@
 // src/design-system/components/icon/types/app-icon.type.ts
 
 import type { IconProps } from "@chakra-ui/react";
-import type { IconProps as TablerIconProps } from "@tabler/icons-react";
+import type {
+  TablerIcon,
+  IconProps as TablerIconProps,
+} from "@tabler/icons-react";
 import type { LucideIcon, LucideProps } from "lucide-react";
 
 export interface AppLucideIconProps extends IconProps {
@@ -10,8 +13,6 @@ export interface AppLucideIconProps extends IconProps {
 }
 
 export interface AppTablerIconProps extends IconProps {
-  icon?: React.ForwardRefExoticComponent<
-    TablerIconProps & React.RefAttributes<SVGSVGElement>
-  >;
+  icon?: TablerIcon;
   tablerIconProps?: TablerIconProps;
 }

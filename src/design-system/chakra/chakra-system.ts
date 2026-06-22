@@ -2124,38 +2124,44 @@ export const chakraConfig = defineConfig({
       shadows: {
         xs: {
           value: {
-            base: "0 1px 2px rgba(0,0,0,0.04) !important",
-            _dark: "0 1px 2px rgba(0,0,0,0.20) !important",
+            base: "0 0 2px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.02) !important",
+            _dark:
+              "0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.10) !important",
           },
         },
         sm: {
           value: {
-            base: "0 2px 3px rgba(0,0,0,0.06) !important",
-            _dark: "0 2px 3px rgba(0,0,0,0.24) !important",
+            base: "0 0 4px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.03) !important",
+            _dark:
+              "0 0 4px rgba(0,0,0,0.14), 0 2px 4px rgba(0,0,0,0.12) !important",
           },
         },
         md: {
           value: {
-            base: "0 3px 5px rgba(0,0,0,0.08) !important",
-            _dark: "0 3px 5px rgba(0,0,0,0.28) !important",
+            base: "0 0 6px rgba(0,0,0,0.05), 0 3px 6px rgba(0,0,0,0.04) !important",
+            _dark:
+              "0 0 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.14) !important",
           },
         },
         lg: {
           value: {
-            base: "0 4px 7px rgba(0,0,0,0.10) !important",
-            _dark: "0 4px 7px rgba(0,0,0,0.32) !important",
+            base: "0 0 10px rgba(0,0,0,0.06), 0 4px 8px rgba(0,0,0,0.05) !important",
+            _dark:
+              "0 0 10px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.16) !important",
           },
         },
         xl: {
           value: {
-            base: "0 6px 10px rgba(0,0,0,0.12) !important",
-            _dark: "0 6px 10px rgba(0,0,0,0.36) !important",
+            base: "0 0 14px rgba(0,0,0,0.07), 0 6px 12px rgba(0,0,0,0.06) !important",
+            _dark:
+              "0 0 14px rgba(0,0,0,0.20), 0 6px 12px rgba(0,0,0,0.18) !important",
           },
         },
         "2xl": {
           value: {
-            base: "0 8px 14px rgba(0,0,0,0.16) !important",
-            _dark: "0 8px 14px rgba(0,0,0,0.42) !important",
+            base: "0 0 20px rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.07) !important",
+            _dark:
+              "0 0 20px rgba(0,0,0,0.24), 0 8px 16px rgba(0,0,0,0.22) !important",
           },
         },
       },

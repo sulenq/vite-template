@@ -120,14 +120,8 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
 
       currentAnimation = el.animate(
         next
-          ? [
-              { transform: "scale(0.75)", opacity: 0 },
-              { transform: "scale(1)", opacity: 1 },
-            ]
-          : [
-              { transform: "scale(1.25)", opacity: 0 },
-              { transform: "scale(1)", opacity: 1 },
-            ],
+          ? [{ transform: "scale(0.75)" }, { transform: "scale(1)" }]
+          : [{ transform: "scale(1.25)" }, { transform: "scale(1)" }],
         {
           duration: 300,
           easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",

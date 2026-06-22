@@ -4,25 +4,32 @@
 
 import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback.type";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { VStack } from "@/design-system/components/layout/ui/container";
 import { MIN_H_FEEDBACK_CONTAINER } from "@/design-system/constants/styles";
 import { IconHourglassEmpty } from "@tabler/icons-react";
 
-export default function FeedbackNoData(props: FeedbackStateProps) {
+export const FeedbackEmptyData = (props: FeedbackStateProps) => {
   // Props
-  const { title, description, icon, children, ...restProps } = props;
+  const {
+    icon,
+    tablerIcon = IconHourglassEmpty,
+    title = "Empty",
+    description = "No data to display.",
+    children,
+    ...restProps
+  } = props;
 
   return (
     <VStack
-      m={"auto"}
       align={"center"}
-      minH={MIN_H_FEEDBACK_CONTAINER}
       justify={"center"}
+      minH={MIN_H_FEEDBACK_CONTAINER}
+      m={"auto"}
       {...restProps}
     >
       <FeedbackState
-        icon={icon ?? <AppTablerIcon icon={IconHourglassEmpty} />}
+        icon={icon}
+        tablerIcon={tablerIcon}
         title={title}
         description={description}
         maxW={"300px"}
@@ -31,4 +38,4 @@ export default function FeedbackNoData(props: FeedbackStateProps) {
       {children}
     </VStack>
   );
-}
+};

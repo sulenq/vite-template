@@ -3,26 +3,40 @@
 "use client";
 
 import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback.type";
+import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { VStack } from "@/design-system/components/layout/ui/container";
-import { P } from "@/design-system/components/typography/p";
+import { MIN_H_FEEDBACK_CONTAINER } from "@/design-system/constants/styles";
+import { IconSearch } from "@tabler/icons-react";
 
-export default function FeedbackNotFound(props: FeedbackStateProps) {
+export const FeedbackNotFound = (props: FeedbackStateProps) => {
   // Props
-  const { children, ...restProps } = props;
+  const {
+    icon,
+    tablerIcon = IconSearch,
+    title = "Not Found",
+    description = "The resource you are looking for could not be found.",
+    children,
+    ...restProps
+  } = props;
 
   return (
     <VStack
-      m={"auto"}
-      minH={"100px"}
-      justify={"center"}
       align={"center"}
-      color={"fg.subtle"}
-      gap={1}
+      justify={"center"}
+      minH={MIN_H_FEEDBACK_CONTAINER}
+      m={"auto"}
       {...restProps}
     >
-      <P textAlign={"center"}>Not Found</P>
+      <FeedbackState
+        icon={icon}
+        tablerIcon={tablerIcon}
+        title={title}
+        description={description}
+        maxW={"300px"}
+      />
 
       {children}
     </VStack>
   );
-}
+};
+

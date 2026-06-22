@@ -16,7 +16,7 @@ import {
   HEADER_H,
 } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
-import { CurrentSettingPage } from "@/features/settings/components/current-setting-page";
+import { SettingsActivePage } from "@/features/settings/components/settings-active-page";
 import { SettingsMenu } from "@/features/settings/components/settings-menu";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
 import { RootRoute } from "@/routes/typed";
@@ -88,7 +88,9 @@ const SettingsView = () => {
               </IconButton>
             </HStack>
 
-            <P textAlign={"center"}>Settings</P>
+            <P fontWeight={"semibold"} textAlign={"center"}>
+              Settings
+            </P>
 
             <HStack w={"40px"}>
               <ColorModeToggleButton />
@@ -132,7 +134,7 @@ const SettingsView = () => {
             </HStack>
           </HStack>
 
-          <CurrentSettingPage />
+          <SettingsActivePage />
         </VStack>
       )}
     </HStack>
