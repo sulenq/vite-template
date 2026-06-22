@@ -2,6 +2,9 @@
 
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { FeedbackEmptyData } from "@/design-system/components/feedback/ui/feedback-empty-data";
+import { FeedbackForbidden } from "@/design-system/components/feedback/ui/feedback-forbidden";
+import { FeedbackNotFound } from "@/design-system/components/feedback/ui/feedback-not-found";
+import { FeedbackRetry } from "@/design-system/components/feedback/ui/feedback-retry";
 import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { StackProps } from "@/design-system/components/layout/types/container.type";
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
@@ -21,9 +24,11 @@ const ItemContainer = (props: StackProps) => {
 
   return (
     <VStack
+      align={"center"}
       gap={4}
       w={"fit"}
       h={"fit"}
+      bg={"bg.body"}
       p={4}
       rounded={theme.radii.container}
       shadow={"md"}
@@ -34,9 +39,9 @@ const ItemContainer = (props: StackProps) => {
 
 function RouteComponent() {
   return (
-    <HStack wrap={"wrap"} gap={4} p={4}>
+    <VStack gap={4} minH={"100dvh"} bg={"bg.canvas"} p={4}>
       <ItemContainer w={"full"}>
-        <P fontWeight={"semibold"}>Features</P>
+        <P fontWeight={"semibold"}>Key Features</P>
 
         <SettingsTrigger dKey={"settings"} w={"fit"}>
           <IconButton size={"2xl"}>
@@ -45,11 +50,25 @@ function RouteComponent() {
         </SettingsTrigger>
       </ItemContainer>
 
-      <ItemContainer w={"full"}>
-        <P fontWeight={"semibold"}>Feedback</P>
-
-        <FeedbackEmptyData />
-      </ItemContainer>
-    </HStack>
+      <FeedbackSection />
+    </VStack>
   );
 }
+
+const FeedbackSection = () => {
+  return (
+    <ItemContainer w={"full"}>
+      <P fontWeight={"semibold"}>Feedback</P>
+
+      <HStack wrap={"wrap"}>
+        <FeedbackEmptyData />
+
+        <FeedbackForbidden />
+
+        <FeedbackNotFound />
+
+        <FeedbackRetry />
+      </HStack>
+    </ItemContainer>
+  );
+};

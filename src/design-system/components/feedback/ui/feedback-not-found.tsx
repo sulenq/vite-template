@@ -14,7 +14,7 @@ export const FeedbackNotFound = (props: FeedbackStateProps) => {
     icon,
     tablerIcon = IconSearch,
     title = "Not Found",
-    description = "The resource you are looking for could not be found.",
+    description = "What you are looking for could not be found.",
     children,
     ...restProps
   } = props;
@@ -39,4 +39,3 @@ export const FeedbackNotFound = (props: FeedbackStateProps) => {
     </VStack>
   );
 };
-
