@@ -8,8 +8,8 @@
     "preview": "vite preview",
     "build": "eslint . && tsc -b && vite build",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit",
-    "typecheck:watch": "tsc --noEmit --watch --preserveWatchOutput",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit",
+  "typecheck:watch": "tsc -p tsconfig.app.json --noEmit --watch --preserveWatchOutput",
     "sitemap:generate": "node src/scripts/generate-sitemap.js",
     "chakra:typegen": "pnpm exec chakra typegen ./src/design-system/chakra/chakra-system.ts"
   },

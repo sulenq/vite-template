@@ -107,11 +107,11 @@ export const chakraConfig = defineConfig({
 
         shadowLine: { value: "#8a90960c" },
 
-        an0: { value: "#8a909614" },
-        an1: { value: "#8a90961a" },
-        an2: { value: "#8a90962b" },
-        an3: { value: "#8a90963c" },
-        an4: { value: "#8a90964an" },
+        an0: { value: "#757b8014" },
+        an1: { value: "#757b801a" },
+        an2: { value: "#757b802b" },
+        an3: { value: "#757b803c" },
+        an4: { value: "#757b804a" },
 
         placeholder: { value: "#96969691" },
 

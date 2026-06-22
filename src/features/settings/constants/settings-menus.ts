@@ -8,18 +8,18 @@ export const SETTINGS_MENUS = [
   "privacy",
   "notification",
 
-  "divider",
+  "separator",
 
   "appearance",
   "language",
   "datetime",
 
-  "divider",
+  "separator",
 
   "integration",
   "api",
 
-  "divider",
+  "separator",
 
   "support",
   "about",

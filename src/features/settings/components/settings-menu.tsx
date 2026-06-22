@@ -4,7 +4,6 @@
 
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { StackProps } from "@/design-system/components/layout/types/container.type";
-import { Divider } from "@/design-system/components/layout/ui/divider";
 import { Nav } from "@/design-system/components/layout/ui/nav";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
@@ -12,6 +11,7 @@ import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
 import { SETTINGS_MENUS } from "@/features/settings/constants/settings-menus";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
 import { RootRoute } from "@/routes/typed";
+import { Separator } from "@/design-system/components/layout/ui/separator";
 
 export const SettingsMenu = (props: StackProps) => {
   // Props
@@ -35,8 +35,8 @@ export const SettingsMenu = (props: StackProps) => {
   return (
     <VScrollContainer gap={1} {...restProps}>
       {SETTINGS_MENUS.map((navKey, index) => {
-        if (navKey === "divider") {
-          return <Divider key={index} my={1} />;
+        if (navKey === "separator") {
+          return <Separator key={index} my={1} />;
         }
 
         const nav = SETTINGS_NAVS[navKey];
