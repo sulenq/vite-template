@@ -52,26 +52,6 @@ export const SettingsMenu = (props: StackProps) => {
           </NavItem>
         );
       })}
-
-      {SETTINGS_NAV_ITEMS.map((navKey, index) => {
-        if (navKey === "divider") {
-          return <Divider key={index} my={1} />;
-        }
-
-        const nav = SETTINGS_NAVS[navKey];
-
-        return (
-          <NavItem
-            key={navKey}
-            onClick={() => {
-              handleNavItemClick(navKey);
-            }}
-          >
-            {nav.icon}
-            {nav.label}
-          </NavItem>
-        );
-      })}
     </VScrollContainer>
   );
 };

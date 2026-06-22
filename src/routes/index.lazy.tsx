@@ -34,7 +34,7 @@ const ItemContainer = (props: StackProps) => {
 
 function RouteComponent() {
   return (
-    <HStack wrap={"wrap"} gap={4} h={"100vh"} p={4}>
+    <HStack wrap={"wrap"} gap={4} p={4}>
       <ItemContainer w={"full"}>
         <P fontWeight={"semibold"}>Features</P>
 
