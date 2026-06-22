@@ -136,24 +136,20 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
         next
           ? [
               {
-                opacity: 0.85,
                 filter: "blur(5px)",
                 transform: "scale(0.96)",
               },
               {
-                opacity: 1,
                 filter: "blur(0px)",
                 transform: "scale(1)",
               },
             ]
           : [
               {
-                opacity: 0.9,
                 filter: "blur(5px)",
                 transform: "scale(1.04)",
               },
               {
-                opacity: 1,
                 filter: "blur(0px)",
                 transform: "scale(1)",
               },
