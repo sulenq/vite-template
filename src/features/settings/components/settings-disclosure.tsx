@@ -37,8 +37,8 @@ const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
       opened={isOpen}
       open={open}
       close={close}
-      clickOriginAnimation
       size={isSmallViewport ? "full" : "2xl"}
+      clickOriginAnimation
     >
       <Disclosure.Trigger {...restProps}>{children}</Disclosure.Trigger>
 

@@ -102,7 +102,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
         displayMode,
       }}
     >
-      {isSmallViewport ? (
+      {isSmallViewport || displayMode === "drawer" ? (
         <Drawer.Root
           open={delayedOpened}
           size={size as DrawerRootProps["size"]}
@@ -111,6 +111,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
           swipeToDismiss={false}
           {...restProps}
           placement={"bottom"}
+          modal={false}
         >
           {children}
         </Drawer.Root>
@@ -123,6 +124,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
           scrollBehavior={"inside"}
           clickOriginAnimation={clickOriginAnimation}
           {...restProps}
+          modal={false}
           placement={"center"}
         >
           {children}
