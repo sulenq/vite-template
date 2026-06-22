@@ -7,7 +7,7 @@ import { drawerRecipe } from "@/design-system/chakra/recipes/drawer.recipe";
 import {
   DIALOG_OFFSET_X_VAR,
   DIALOG_OFFSET_Y_VAR,
-} from "@/design-system/components/modal/stores/use-dialog-animation-store";
+} from "@/design-system/components/overlay/modal/stores/use-dialog-animation-store";
 
 export const chakraConfig = defineConfig({
   // conditions: {

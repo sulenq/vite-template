@@ -13,13 +13,13 @@ import type {
   ModalHeaderProps,
   ModalRootProps,
   ModalTriggerProps,
-} from "@/design-system/components/modal/types/modal.type";
-import { Dialog } from "@/design-system/components/modal/ui/dialog";
-import { Drawer } from "@/design-system/components/modal/ui/drawer";
+} from "@/design-system/components/overlay/modal/types/modal.type";
+import { Dialog } from "@/design-system/components/overlay/modal/ui/dialog";
+import { Drawer } from "@/design-system/components/overlay/modal/ui/drawer";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { MODAL_BASE_ZINDEX } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
-import { triggerFullscreenAnimation } from "@/design-system/components/modal/utils/fullscreen-animation-registry";
+import { triggerFullscreenAnimation } from "@/design-system/components/overlay/modal/utils/fullscreen-animation-registry";
 import { Portal, type DrawerRootProps } from "@chakra-ui/react";
 import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
 import { createContext, useContext, useEffect, useState } from "react";

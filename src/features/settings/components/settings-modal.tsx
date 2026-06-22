@@ -4,9 +4,9 @@
 
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
-import { usePopModal } from "@/design-system/components/modal/hooks/use-pop-modal";
-import type { PopModalTriggerProps } from "@/design-system/components/modal/types/modal.type";
-import { Modal } from "@/design-system/components/modal/ui/modal";
+import { usePopModal } from "@/design-system/components/overlay/modal/hooks/use-pop-modal";
+import type { PopModalTriggerProps } from "@/design-system/components/overlay/modal/types/modal.type";
+import { Modal } from "@/design-system/components/overlay/modal/ui/modal";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/p";
