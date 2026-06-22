@@ -12,7 +12,13 @@ export const Nav = (props: NavProps) => {
   const { children, ...restProps } = props;
 
   return (
-    <Button justifyContent={"start"} px={2} variant={"ghost"} {...restProps}>
+    <Button
+      justifyContent={"start"}
+      gap={3}
+      variant={"ghost"}
+      px={2}
+      {...restProps}
+    >
       {children}
     </Button>
   );

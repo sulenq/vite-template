@@ -20,7 +20,7 @@ import { SettingsActivePage } from "@/features/settings/components/settings-acti
 import { SettingsMenu } from "@/features/settings/components/settings-menu";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
 import { RootRoute } from "@/routes/typed";
-import { back } from "@/utils/client/nanvigation";
+import { back } from "@/utils/client/navigation";
 import { IconChevronLeft, IconSearch } from "@tabler/icons-react";
 
 export const SettingsTrigger = (props: PopModalTriggerProps) => {

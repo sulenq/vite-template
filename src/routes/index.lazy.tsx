@@ -4,6 +4,7 @@ import {
   Button,
   IconButton,
 } from "@/design-system/components/button/ui/button";
+import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { FeedbackEmptyData } from "@/design-system/components/feedback/ui/feedback-empty-data";
 import { FeedbackForbidden } from "@/design-system/components/feedback/ui/feedback-forbidden";
 import { FeedbackNotFound } from "@/design-system/components/feedback/ui/feedback-not-found";
@@ -17,7 +18,7 @@ import { SettingsTrigger } from "@/features/settings/components/settings-modal";
 import { getLocale, getLocaleLabel, t } from "@/libs/i18n";
 import { useLocale } from "@/libs/i18n/locale-provider";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { SettingsIcon } from "lucide-react";
+import { CogIcon } from "lucide-react";
 
 export const Route = createLazyFileRoute("/")({
   component: RouteComponent,
@@ -40,12 +41,14 @@ const KeyFeatures = () => {
     <ItemContainer w={"full"}>
       <P fontWeight={"semibold"}>{t.keyFeatures()}</P>
 
-      <HStack wrap={"wrap"} align={"center"}>
+      <HStack wrap={"wrap"} align={"center"} gap={2}>
         <SettingsTrigger modalKey={"settings"} w={"fit"}>
           <IconButton>
-            <AppLucideIcon icon={SettingsIcon} />
+            <AppLucideIcon icon={CogIcon} />
           </IconButton>
         </SettingsTrigger>
+
+        <ColorModeToggleButton />
 
         <Button
           onClick={() => {
