@@ -123,7 +123,7 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
           ? [{ transform: "scale(0.75)" }, { transform: "scale(1)" }]
           : [{ transform: "scale(1.25)" }, { transform: "scale(1)" }],
         {
-          duration: 300,
+          duration: 200,
           easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
           fill: "forwards",
         },
