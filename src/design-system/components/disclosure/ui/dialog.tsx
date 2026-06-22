@@ -2,7 +2,6 @@
 
 "use client";
 
-import { useDisclosureContext } from "@/design-system/components/disclosure/ui/disclosure";
 import {
   DIALOG_OFFSET_X_VAR,
   DIALOG_OFFSET_Y_VAR,
@@ -21,8 +20,11 @@ import { createContext, useContext, useLayoutEffect, useRef } from "react";
 // -----------------------------------------------------------------
 
 export type DialogContextValue = {
+  dKey: string;
   size: ChakraDialog.RootProps["size"];
   clickOriginAnimation: boolean;
+  fullscreen: boolean;
+  onClose?: () => void;
 };
 
 export const DialogContext = createContext<DialogContextValue | null>(null);
@@ -38,6 +40,9 @@ export function useDialogContext() {
 }
 
 interface DialogRootProps extends ChakraDialog.RootProps {
+  dKey?: string;
+  onClose?: () => void;
+  fullscreen?: boolean;
   clickOriginAnimation?: boolean;
 }
 
@@ -45,27 +50,33 @@ interface DialogRootProps extends ChakraDialog.RootProps {
 
 const DialogRoot = (props: DialogRootProps) => {
   // Props
-  const { size = "xs", clickOriginAnimation = false, ...restProps } = props;
-
-  // Contexts
-  const { close } = useDisclosureContext();
+  const {
+    dKey = "dialog",
+    size = "xs",
+    clickOriginAnimation = false,
+    fullscreen = false,
+    onClose,
+    ...restProps
+  } = props;
 
   return (
     <DialogContext.Provider
       value={{
+        dKey,
         size,
         clickOriginAnimation,
+        fullscreen,
+        onClose,
       }}
     >
-      <ChakraDialog.Root size={size} onEscapeKeyDown={close} {...restProps} />
+      <ChakraDialog.Root size={size} onEscapeKeyDown={onClose} {...restProps} />
     </DialogContext.Provider>
   );
 };
 
 const DialogTrigger = (props: ChakraDialog.TriggerProps) => {
   // Contexts
-  const { dKey } = useDisclosureContext();
-  const { clickOriginAnimation } = useDialogContext();
+  const { dKey, clickOriginAnimation } = useDialogContext();
 
   return (
     <ChakraDialog.Trigger
@@ -83,10 +94,10 @@ const DialogTrigger = (props: ChakraDialog.TriggerProps) => {
 
 const DialogBackdrop = (props: ChakraDialog.BackdropProps) => {
   // Contexts
-  const { close } = useDisclosureContext();
+  const { onClose } = useDialogContext();
 
   return (
-    <ChakraDialog.Backdrop pointerEvents={"auto"} onClick={close} {...props} />
+    <ChakraDialog.Backdrop pointerEvents={"auto"} onClick={onClose} {...props} />
   );
 };
 
@@ -96,8 +107,7 @@ const DialogPositioner = (props: ChakraDialog.PositionerProps) => {
 
 const DialogContent = (props: ChakraDialog.ContentProps) => {
   // Contexts
-  const { dKey, fullscreen } = useDisclosureContext();
-  const { size, clickOriginAnimation } = useDialogContext();
+  const { dKey, fullscreen, size, clickOriginAnimation } = useDialogContext();
 
   // Store
   const { theme } = useThemeStore();

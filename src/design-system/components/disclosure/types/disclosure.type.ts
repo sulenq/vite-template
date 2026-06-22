@@ -10,15 +10,12 @@ export type PopDisclosureTriggerProps = {
   dKey: string;
 } & DisclosureTriggerProps;
 
-export type DisclosureDisplayMode = "auto" | "dialog" | "drawer";
-
 export type DisclosureRootProps = {
   dKey: string;
   opened: boolean;
   open: () => void;
   close: () => void;
   clickOriginAnimation?: boolean;
-  displayMode?: DisclosureDisplayMode;
 } & (
   | Omit<ChakraDrawer.RootProps, "open" | "placement">
   | Omit<ChakraDialog.RootProps, "open" | "placement">

@@ -2,7 +2,6 @@
 
 "use client";
 
-import { useDisclosureContext } from "@/design-system/components/disclosure/ui/disclosure";
 import { Box } from "@/design-system/components/layout/ui/container";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Drawer as ChakraDrawer } from "@chakra-ui/react";
@@ -11,9 +10,12 @@ import { createContext, useContext, useRef, type TouchEvent } from "react";
 type GestureMode = "drag" | "scroll" | null;
 
 type DrawerContextValue = {
+  dKey: string;
   size: ChakraDrawer.RootProps["size"];
   placement: ChakraDrawer.RootProps["placement"];
   swipeToDismiss: boolean;
+  fullscreen: boolean;
+  onClose?: () => void;
 };
 
 const DrawerContext = createContext<DrawerContextValue | null>(null);
@@ -46,27 +48,40 @@ function getScrollableAncestor(el: HTMLElement | null): HTMLElement | null {
   return null;
 }
 
-const DrawerRoot = (
-  props: ChakraDrawer.RootProps & { swipeToDismiss?: boolean },
-) => {
-  // Props
-  const { size = "sm", placement, swipeToDismiss = true, ...restProps } = props;
+interface DrawerRootProps extends ChakraDrawer.RootProps {
+  dKey?: string;
+  swipeToDismiss?: boolean;
+  fullscreen?: boolean;
+  onClose?: () => void;
+}
 
-  // Contexts
-  const { close } = useDisclosureContext();
+const DrawerRoot = (props: DrawerRootProps) => {
+  // Props
+  const {
+    dKey = "drawer",
+    size = "sm",
+    placement,
+    swipeToDismiss = true,
+    fullscreen = false,
+    onClose,
+    ...restProps
+  } = props;
 
   return (
     <DrawerContext.Provider
       value={{
+        dKey,
         size,
         placement,
         swipeToDismiss,
+        fullscreen,
+        onClose,
       }}
     >
       <ChakraDrawer.Root
         size={size}
         placement={placement}
-        onEscapeKeyDown={close}
+        onEscapeKeyDown={onClose}
         {...restProps}
       />
     </DrawerContext.Provider>
@@ -78,10 +93,10 @@ const DrawerTrigger = (props: ChakraDrawer.TriggerProps) => {
 };
 
 const DrawerBackdrop = (props: ChakraDrawer.BackdropProps) => {
-  const { close } = useDisclosureContext();
+  const { onClose } = useDrawerContext();
 
   return (
-    <ChakraDrawer.Backdrop pointerEvents="auto" onClick={close} {...props} />
+    <ChakraDrawer.Backdrop pointerEvents="auto" onClick={onClose} {...props} />
   );
 };
 
@@ -94,9 +109,8 @@ const DrawerContent = (props: ChakraDrawer.ContentProps) => {
   const { children, ...restProps } = props;
 
   // Contexts
-  const { close, fullscreen } = useDisclosureContext();
+  const { onClose, fullscreen, size, placement, swipeToDismiss } = useDrawerContext();
   const { theme } = useThemeStore();
-  const { size, placement, swipeToDismiss } = useDrawerContext();
 
   // Refs
   const startYRef = useRef<number>(0);
@@ -165,7 +179,7 @@ const DrawerContent = (props: ChakraDrawer.ContentProps) => {
       contentRef.current.style.transform = `translateY(${height}px)`;
 
       window.setTimeout(() => {
-        close();
+        onClose?.();
       }, 200);
     } else {
       contentRef.current.style.transform = "translateY(0)";
