@@ -1,4 +1,4 @@
-// src/design-system/components/disclosure/types/disclosure.type.ts
+// src/design-system/components/disclosure/types/modal.type.ts
 
 import {
   Dialog as ChakraDialog,
@@ -6,11 +6,11 @@ import {
   type DialogPositionerProps,
 } from "@chakra-ui/react";
 
-export type PopDisclosureTriggerProps = {
+export type PopModalTriggerProps = {
   dKey: string;
-} & DisclosureTriggerProps;
+} & ModalTriggerProps;
 
-export type DisclosureRootProps = {
+export type ModalRootProps = {
   dKey: string;
   opened: boolean;
   open: () => void;
@@ -21,39 +21,39 @@ export type DisclosureRootProps = {
   | Omit<ChakraDialog.RootProps, "open" | "placement">
 );
 
-export type DisclosureTriggerProps = {} & (
+export type ModalTriggerProps = {} & (
   | ChakraDrawer.TriggerProps
   | ChakraDialog.TriggerProps
 );
 
-export type DisclosureBackdropProps = {} & (
+export type ModalBackdropProps = {} & (
   | ChakraDrawer.BackdropProps
   | ChakraDialog.BackdropProps
 );
 
-export type DisclosureContentProps = {
+export type ModalContentProps = {
   portalled?: boolean;
   portalRef?: React.RefObject<HTMLElement | null>;
   backdrop?: boolean;
   positionerProps?: DialogPositionerProps;
 } & (ChakraDrawer.ContentProps | ChakraDialog.ContentProps);
 
-export type DisclosureCloseTriggerProps = {} & (
+export type ModalCloseTriggerProps = {} & (
   | ChakraDrawer.ContentProps
   | ChakraDialog.ContentProps
 );
 
-export type DisclosureHeaderProps = {} & (
+export type ModalHeaderProps = {} & (
   | ChakraDrawer.HeaderProps
   | ChakraDialog.HeaderProps
 );
 
-export type DisclosureBodyProps = {} & (
+export type ModalBodyProps = {} & (
   | ChakraDrawer.BodyProps
   | ChakraDialog.BodyProps
 );
 
-export type DisclosureFooterProps = {} & (
+export type ModalFooterProps = {} & (
   | ChakraDrawer.FooterProps
   | ChakraDialog.FooterProps
 );

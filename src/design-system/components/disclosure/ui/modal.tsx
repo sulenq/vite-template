@@ -5,15 +5,15 @@
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
 import type {
-  DisclosureBackdropProps,
-  DisclosureBodyProps,
-  DisclosureCloseTriggerProps,
-  DisclosureContentProps,
-  DisclosureFooterProps,
-  DisclosureHeaderProps,
-  DisclosureRootProps,
-  DisclosureTriggerProps,
-} from "@/design-system/components/disclosure/types/disclosure.type";
+  ModalBackdropProps,
+  ModalBodyProps,
+  ModalCloseTriggerProps,
+  ModalContentProps,
+  ModalFooterProps,
+  ModalHeaderProps,
+  ModalRootProps,
+  ModalTriggerProps,
+} from "@/design-system/components/disclosure/types/modal.type";
 import { Dialog } from "@/design-system/components/disclosure/ui/dialog";
 import { Drawer } from "@/design-system/components/disclosure/ui/drawer";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
@@ -26,7 +26,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 // -----------------------------------------------------------------
 
-export type DisclosureContextValue = {
+export type ModalContextValue = {
   dKey: string;
   opened: boolean;
   open: () => void;
@@ -35,15 +35,13 @@ export type DisclosureContextValue = {
   setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const DisclosureContext = createContext<DisclosureContextValue | null>(
-  null,
-);
+export const ModalContext = createContext<ModalContextValue | null>(null);
 
-export function useDisclosureContext() {
-  const context = useContext(DisclosureContext);
+export function useModalContext() {
+  const context = useContext(ModalContext);
 
   if (!context) {
-    throw new Error("useDisclosureContext must be used within Disclosure.Root");
+    throw new Error("useModalContext must be used within Modal.Root");
   }
 
   return context;
@@ -51,7 +49,7 @@ export function useDisclosureContext() {
 
 // -----------------------------------------------------------------
 
-const DisclosureRoot = (props: DisclosureRootProps) => {
+const ModalRoot = (props: ModalRootProps) => {
   // Props
   const {
     children,
@@ -94,7 +92,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
   }, [opened, dKey, isSmallViewport]);
 
   return (
-    <DisclosureContext.Provider
+    <ModalContext.Provider
       value={{
         dKey,
         opened,
@@ -136,13 +134,13 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
           {children}
         </Dialog.Root>
       )}
-    </DisclosureContext.Provider>
+    </ModalContext.Provider>
   );
 };
 
-const DisclosureTrigger = (props: DisclosureTriggerProps) => {
+const ModalTrigger = (props: ModalTriggerProps) => {
   // Contexts
-  const { open } = useDisclosureContext();
+  const { open } = useModalContext();
 
   // Hooks
   const isSmallViewport = useIsSmallViewport();
@@ -154,7 +152,7 @@ const DisclosureTrigger = (props: DisclosureTriggerProps) => {
   return <Dialog.Trigger asChild onClick={open} {...props} />;
 };
 
-const DisclosureBackdrop = (props: DisclosureBackdropProps) => {
+const ModalBackdrop = (props: ModalBackdropProps) => {
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
@@ -165,7 +163,7 @@ const DisclosureBackdrop = (props: DisclosureBackdropProps) => {
   return <Dialog.Backdrop {...props} />;
 };
 
-const DisclosureContent = (props: DisclosureContentProps) => {
+const ModalContent = (props: ModalContentProps) => {
   // Props
   const {
     children,
@@ -177,7 +175,7 @@ const DisclosureContent = (props: DisclosureContentProps) => {
   } = props;
 
   // Hooks
-  const { dKey } = useDisclosureContext();
+  const { dKey } = useModalContext();
   const isSmallViewport = useIsSmallViewport();
 
   const zIndex = DISCLOSURE_BASE_ZINDEX + dKey.split(".").length;
@@ -205,9 +203,9 @@ const DisclosureContent = (props: DisclosureContentProps) => {
   );
 };
 
-const DisclosureFullscreenButton = (props: IconButtonProps) => {
+const ModalFullscreenButton = (props: IconButtonProps) => {
   // Contexts
-  const { dKey, fullscreen, setFullscreen } = useDisclosureContext();
+  const { dKey, fullscreen, setFullscreen } = useModalContext();
 
   return (
     <IconButton
@@ -230,12 +228,12 @@ const DisclosureFullscreenButton = (props: IconButtonProps) => {
   );
 };
 
-const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
+const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {
   // Props
   const { onClick, ...restProps } = props;
 
   // Contexts
-  const { close } = useDisclosureContext();
+  const { close } = useModalContext();
 
   // Hooks
   const isSmallViewport = useIsSmallViewport();
@@ -267,17 +265,17 @@ const DisclosureCloseTrigger = (props: DisclosureCloseTriggerProps) => {
   );
 };
 
-const DisclosureCloseButton = (props: IconButtonProps) => {
+const ModalCloseButton = (props: IconButtonProps) => {
   return (
-    <Disclosure.CloseTrigger>
+    <Modal.CloseTrigger>
       <IconButton size={"2xs"} variant={"subtle"} rounded={"full"} {...props}>
         <AppTablerIcon icon={IconX} boxSize={4} />
       </IconButton>
-    </Disclosure.CloseTrigger>
+    </Modal.CloseTrigger>
   );
 };
 
-const DisclosureHeader = (props: DisclosureHeaderProps) => {
+const ModalHeader = (props: ModalHeaderProps) => {
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
@@ -288,7 +286,7 @@ const DisclosureHeader = (props: DisclosureHeaderProps) => {
   return <Dialog.Header {...props} />;
 };
 
-const DisclosureBody = (props: DisclosureBodyProps) => {
+const ModalBody = (props: ModalBodyProps) => {
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
@@ -299,7 +297,7 @@ const DisclosureBody = (props: DisclosureBodyProps) => {
   return <Dialog.Body {...props} />;
 };
 
-const DisclosureFooter = (props: DisclosureFooterProps) => {
+const ModalFooter = (props: ModalFooterProps) => {
   // Hooks
   const isSmallViewport = useIsSmallViewport();
 
@@ -309,15 +307,15 @@ const DisclosureFooter = (props: DisclosureFooterProps) => {
   return <Dialog.Footer {...props} />;
 };
 
-export const Disclosure = {
-  Trigger: DisclosureTrigger,
-  Root: DisclosureRoot,
-  Backdrop: DisclosureBackdrop,
-  Content: DisclosureContent,
-  FullscreenButton: DisclosureFullscreenButton,
-  CloseTrigger: DisclosureCloseTrigger,
-  CloseButton: DisclosureCloseButton,
-  Header: DisclosureHeader,
-  Body: DisclosureBody,
-  Footer: DisclosureFooter,
+export const Modal = {
+  Trigger: ModalTrigger,
+  Root: ModalRoot,
+  Backdrop: ModalBackdrop,
+  Content: ModalContent,
+  FullscreenButton: ModalFullscreenButton,
+  CloseTrigger: ModalCloseTrigger,
+  CloseButton: ModalCloseButton,
+  Header: ModalHeader,
+  Body: ModalBody,
+  Footer: ModalFooter,
 };

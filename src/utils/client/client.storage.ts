@@ -1,12 +1,10 @@
-import { isClient } from "@/utils/client/client.core";
-
 export function setStorage(
   key: string,
   value: string,
   type: "local" | "session" = "local",
   expireInMs?: number,
 ): void {
-  if (!isClient()) return;
+  if (window.document === undefined) return;
   const storage = type === "local" ? localStorage : sessionStorage;
   const payload = {
     value,
@@ -19,7 +17,7 @@ export function getStorage(
   key: string,
   type: "local" | "session" = "local",
 ): string | null {
-  if (!isClient()) return null;
+  if (window.document === undefined) return null;
   const storage = type === "local" ? localStorage : sessionStorage;
   const raw = storage.getItem(key);
   if (!raw) return null;
@@ -40,7 +38,7 @@ export function removeStorage(
   key: string,
   type: "local" | "session" = "local",
 ): void {
-  if (!isClient()) return;
+  if (window.document === undefined) return;
   const storage = type === "local" ? localStorage : sessionStorage;
   storage.removeItem(key);
 }

@@ -1,5 +1,6 @@
 // src/routes/index.lazy.tsx
 
+import { resolveSemanticColor } from "@/design-system/chakra/utils/chakra-system-resolver";
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { FeedbackEmptyData } from "@/design-system/components/feedback/ui/feedback-empty-data";
 import { FeedbackForbidden } from "@/design-system/components/feedback/ui/feedback-forbidden";
@@ -17,6 +18,26 @@ import { SettingsIcon } from "lucide-react";
 export const Route = createLazyFileRoute("/")({
   component: RouteComponent,
 });
+
+function RouteComponent() {
+  console.log(resolveSemanticColor("bg.subtle", "dark"));
+
+  return (
+    <VStack gap={4} minH={"100dvh"} bg={"bg.canvas"} p={4}>
+      <ItemContainer w={"full"}>
+        <P fontWeight={"semibold"}>Key Features</P>
+
+        <SettingsTrigger dKey={"settings"} w={"fit"}>
+          <IconButton size={"2xl"}>
+            <AppLucideIcon icon={SettingsIcon} />
+          </IconButton>
+        </SettingsTrigger>
+      </ItemContainer>
+
+      <FeedbackSection />
+    </VStack>
+  );
+}
 
 const ItemContainer = (props: StackProps) => {
   // Store
@@ -36,24 +57,6 @@ const ItemContainer = (props: StackProps) => {
     />
   );
 };
-
-function RouteComponent() {
-  return (
-    <VStack gap={4} minH={"100dvh"} bg={"bg.canvas"} p={4}>
-      <ItemContainer w={"full"}>
-        <P fontWeight={"semibold"}>Key Features</P>
-
-        <SettingsTrigger dKey={"settings"} w={"fit"}>
-          <IconButton size={"2xl"}>
-            <AppLucideIcon icon={SettingsIcon} />
-          </IconButton>
-        </SettingsTrigger>
-      </ItemContainer>
-
-      <FeedbackSection />
-    </VStack>
-  );
-}
 
 const FeedbackSection = () => {
   return (

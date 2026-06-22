@@ -4,9 +4,9 @@
 
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
-import { usePopDisclosure } from "@/design-system/components/disclosure/hooks/use-pop-disclosure";
-import type { PopDisclosureTriggerProps } from "@/design-system/components/disclosure/types/disclosure.type";
-import { Disclosure } from "@/design-system/components/disclosure/ui/disclosure";
+import { usePopModal } from "@/design-system/components/disclosure/hooks/use-pop-modal";
+import type { PopModalTriggerProps } from "@/design-system/components/disclosure/types/modal.type";
+import { Modal } from "@/design-system/components/disclosure/ui/modal";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/p";
@@ -23,16 +23,16 @@ import { RootRoute } from "@/routes/typed";
 import { back } from "@/utils/client/nanvigation";
 import { IconChevronLeft, IconSearch } from "@tabler/icons-react";
 
-export const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
+export const SettingsTrigger = (props: PopModalTriggerProps) => {
   // Props
   const { children, dKey, ...restProps } = props;
 
   // Hooks
-  const { isOpen, open, close } = usePopDisclosure(dKey);
+  const { isOpen, open, close } = usePopModal(dKey);
   const isSmallViewport = useIsSmallViewport();
 
   return (
-    <Disclosure.Root
+    <Modal.Root
       dKey={dKey}
       opened={isOpen}
       open={open}
@@ -40,24 +40,24 @@ export const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
       size={isSmallViewport ? "full" : "2xl"}
       clickOriginAnimation
     >
-      <Disclosure.Trigger {...restProps}>{children}</Disclosure.Trigger>
+      <Modal.Trigger {...restProps}>{children}</Modal.Trigger>
 
-      <Disclosure.Content
+      <Modal.Content
         display={"flex"}
         flexDir={"column"}
         overflowY={"auto"}
         maxH={!isSmallViewport ? "600px" : "full"}
       >
-        <Disclosure.Body
+        <Modal.Body
           display={"flex"}
           flexDir={"column"}
           overflowY={"auto"}
           p={0}
         >
           <SettingsView />
-        </Disclosure.Body>
-      </Disclosure.Content>
-    </Disclosure.Root>
+        </Modal.Body>
+      </Modal.Content>
+    </Modal.Root>
   );
 };
 
@@ -126,9 +126,9 @@ const SettingsView = () => {
             >
               {!isSmallViewport && (
                 <>
-                  <Disclosure.FullscreenButton />
+                  <Modal.FullscreenButton />
 
-                  <Disclosure.CloseButton />
+                  <Modal.CloseButton />
                 </>
               )}
             </HStack>

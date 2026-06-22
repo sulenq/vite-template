@@ -3,6 +3,21 @@
 import { chakraConfig } from "@/design-system/chakra/chakra-system";
 import type { ColorMode } from "@/design-system/hooks/use-color-mode";
 
+type TokenValue =
+  | string
+  | {
+      base?: string;
+      _dark?: string;
+    };
+
+type TokenNode = {
+  value?: TokenValue;
+};
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
 export const resolveSemanticColor = (
   token: string | null,
   colorMode: ColorMode,
@@ -10,22 +25,25 @@ export const resolveSemanticColor = (
   if (!token) return null;
 
   const semanticColors = chakraConfig.theme?.semanticTokens?.colors;
-
-  if (!semanticColors) return null;
+  if (!semanticColors || !isObject(semanticColors)) return null;
 
   const cleanPath = token.replace(/^colors\./, "");
   const parts = cleanPath.split(".");
 
-  const semanticColorValue = semanticColors[parts[0]][parts[1]].value;
+  const group = semanticColors[parts[0]];
+  if (!isObject(group)) return null;
 
-  if (!semanticColorValue) return null;
+  const tokenNode = group[parts[1]];
+  if (!isObject(tokenNode)) return null;
 
-  if (typeof semanticColorValue === "string") return semanticColorValue;
+  const value = (tokenNode as TokenNode).value;
+  if (!value) return null;
 
-  const resolvedToken =
-    colorMode === "light" ? semanticColorValue.base : semanticColorValue._dark;
-  if (typeof resolvedToken !== "string") return "";
+  if (typeof value === "string") return value;
 
-  // Remove !important and {}
-  return resolvedToken.replace(/\s*!important/g, "").replace(/[{}]/g, "");
+  const resolved = colorMode === "light" ? value.base : value._dark;
+
+  if (typeof resolved !== "string") return "";
+
+  return resolved.replace(/\s*!important/g, "").replace(/[{}]/g, "");
 };

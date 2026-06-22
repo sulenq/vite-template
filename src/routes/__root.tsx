@@ -3,14 +3,15 @@
 import "@/app.css";
 import { ChakraSystemProvider } from "@/design-system/chakra/providers/chakra-system.provider";
 import { ColorModeProvider } from "@/design-system/chakra/providers/color-mode-provider";
-import { settingsNavKeySchema } from "@/features/settings/schemas/setting-nav-key.scheama";
+import { modalSchema } from "@/design-system/components/disclosure/schemas/modal.schema";
+import { settingsNavKeySchema } from "@/features/settings/schemas/setting-nav-key.schema";
 import "@fontsource-variable/plus-jakarta-sans";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import z from "zod";
 
 export const Route = createRootRoute({
   validateSearch: z.object({
-    d: z.string().optional(),
+    d: modalSchema.optional(),
     currentSettingNavKey: settingsNavKeySchema.optional(),
   }),
 

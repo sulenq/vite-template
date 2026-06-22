@@ -1,10 +1,10 @@
-// src/design-system/components/disclosure/hooks/use-pop-disclosure.ts
+// src/design-system/components/disclosure/hooks/use-pop-modal.ts
 
 import { RootRoute } from "@/routes/typed";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef } from "react";
 
-export function usePopDisclosure(dKey: string) {
+export function usePopModal(dKey: string) {
   const lastCloseAtRef = useRef(0);
   const { d } = RootRoute.useSearch();
   const navigate = useNavigate();
@@ -65,7 +65,7 @@ export function usePopDisclosure(dKey: string) {
 // import { useMemo } from "react";
 // import { useRouter, useSearchParams } from "next/navigation";
 
-// export function usePopDisclosure(dKey: string) {
+// export function usePopModal(dKey: string) {
 //   const router = useRouter();
 //   const searchParams = useSearchParams();
 

@@ -19,12 +19,17 @@ const FeedbackState = (props: FeedbackStateProps) => {
   return (
     <VStack align={"center"} gap={4} p={4} {...restProps}>
       {tablerIcon ? (
-        <AppTablerIcon icon={tablerIcon} boxSize={8} color={"fg.subtle"} />
+        <AppTablerIcon
+          icon={tablerIcon}
+          boxSize={9}
+          strokeWidth={1.5}
+          color={"fg.subtle"}
+        />
       ) : (
         icon
       )}
 
-      <VStack align={"center"} gap={1}>
+      <VStack align={"center"} gap={2}>
         {isTitleString && (
           <P textAlign={"center"} fontWeight={"medium"}>
             {title}

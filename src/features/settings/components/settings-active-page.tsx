@@ -1,4 +1,4 @@
-// src/feature/settings/components/current-setting-page.tsx
+// src/feature/settings/components/settings-active-page.tsx
 
 "use client";
 
@@ -40,7 +40,8 @@ export const SettingsActivePage = (props: SettingsViewProps) => {
         {!ActiveSettingPage && (
           <FeedbackState
             tablerIcon={IconSettings}
-            description={"Please select setting menu"}
+            title={"Select setting menu"}
+            description={"Selected setting will be display here"}
             pb={HEADER_H}
             m={"auto"}
           />
