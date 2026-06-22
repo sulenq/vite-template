@@ -8,11 +8,11 @@ import {
   getDialogOffset,
   updateClickOrigin,
   updateDialogOffset,
-} from "@/design-system/components/overlay/dialog/stores/use-dialog-animation-store";
+} from "@/design-system/components/overlay/stores/use-dialog-animation-store";
 import {
   registerFullscreenAnimator,
   unregisterFullscreenAnimator,
-} from "@/design-system/components/overlay/modal/utils/fullscreen-animation-registry";
+} from "@/design-system/components/overlay/utils/fullscreen-animation-registry";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
 import { createContext, useContext, useLayoutEffect, useRef } from "react";

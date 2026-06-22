@@ -9,7 +9,7 @@ import { FeedbackRetry } from "@/design-system/components/feedback/ui/feedback-r
 import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { StackProps } from "@/design-system/components/layout/types/container.type";
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
-import { P } from "@/design-system/components/typography/p";
+import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { SettingsTrigger } from "@/features/settings/components/settings-modal";
 import { createLazyFileRoute } from "@tanstack/react-router";
