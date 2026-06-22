@@ -1,18 +1,18 @@
-// src/features/settings/components/settings-disclosure
+// src/features/settings/components/settings-modal
 
 "use client";
 
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
-import { usePopModal } from "@/design-system/components/disclosure/hooks/use-pop-modal";
-import type { PopModalTriggerProps } from "@/design-system/components/disclosure/types/modal.type";
-import { Modal } from "@/design-system/components/disclosure/ui/modal";
+import { usePopModal } from "@/design-system/components/modal/hooks/use-pop-modal";
+import type { PopModalTriggerProps } from "@/design-system/components/modal/types/modal.type";
+import { Modal } from "@/design-system/components/modal/ui/modal";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/p";
 import {
-  DISCLOSURE_CONTROL_CONTAINER_SPACING_R,
-  DISCLOSURE_CONTROL_CONTAINER_W,
+  MODAL_CONTROL_CONTAINER_SPACING_R,
+  MODAL_CONTROL_CONTAINER_W,
   HEADER_H,
 } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
@@ -105,7 +105,7 @@ const SettingsView = () => {
         <VStack flex={1} overflowY={"auto"} bg={"bg.canvas"}>
           {/* Tab Header */}
           <HStack align={"center"} justify={"space-between"} h={HEADER_H} p={2}>
-            <HStack w={DISCLOSURE_CONTROL_CONTAINER_W}>
+            <HStack w={MODAL_CONTROL_CONTAINER_W}>
               {isSmallViewport && (
                 <IconButton onClick={back}>
                   <AppTablerIcon icon={IconChevronLeft} />
@@ -121,8 +121,8 @@ const SettingsView = () => {
             <HStack
               justify={"end"}
               gap={3}
-              w={DISCLOSURE_CONTROL_CONTAINER_W}
-              pr={DISCLOSURE_CONTROL_CONTAINER_SPACING_R}
+              w={MODAL_CONTROL_CONTAINER_W}
+              pr={MODAL_CONTROL_CONTAINER_SPACING_R}
             >
               {!isSmallViewport && (
                 <>

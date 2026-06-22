@@ -11,7 +11,7 @@ import type { StackProps } from "@/design-system/components/layout/types/contain
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import { SettingsTrigger } from "@/features/settings/components/settings-disclosure";
+import { SettingsTrigger } from "@/features/settings/components/settings-modal";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { SettingsIcon } from "lucide-react";
 

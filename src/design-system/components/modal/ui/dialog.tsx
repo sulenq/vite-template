@@ -1,4 +1,4 @@
-// src/design-system/components/disclosure/ui/dialog.tsx
+// src/design-system/components/modal/ui/dialog.tsx
 
 "use client";
 
@@ -8,11 +8,11 @@ import {
   getDialogOffset,
   updateClickOrigin,
   updateDialogOffset,
-} from "@/design-system/components/disclosure/stores/use-dialog-animation-store";
+} from "@/design-system/components/modal/stores/use-dialog-animation-store";
 import {
   registerFullscreenAnimator,
   unregisterFullscreenAnimator,
-} from "@/design-system/components/disclosure/utils/fullscreen-animation-registry";
+} from "@/design-system/components/modal/utils/fullscreen-animation-registry";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
 import { createContext, useContext, useLayoutEffect, useRef } from "react";

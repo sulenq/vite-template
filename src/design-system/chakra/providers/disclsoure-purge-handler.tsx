@@ -5,7 +5,7 @@
 import { useEffect, useRef } from "react";
 import { RootRoute } from "@/routes/typed";
 
-export function DisclosurePurgeHandler() {
+export function ModalPurgeHandler() {
   const navigate = RootRoute.useNavigate();
   const search = RootRoute.useSearch();
   const dRef = useRef(search.d);
@@ -28,7 +28,7 @@ export function DisclosurePurgeHandler() {
       return;
     }
 
-    document.documentElement.dataset.disclosurePurging = "true";
+    document.documentElement.dataset.modalPurging = "true";
 
     queueMicrotask(() => {
       navigate({
@@ -46,7 +46,7 @@ export function DisclosurePurgeHandler() {
         document.body.removeAttribute("data-scroll-locked");
 
         requestAnimationFrame(() => {
-          delete document.documentElement.dataset.disclosurePurging;
+          delete document.documentElement.dataset.modalPurging;
         });
       });
     });

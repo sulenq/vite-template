@@ -1,4 +1,4 @@
-// src/design-system/components/disclosure/ui/drawer.tsx
+// src/design-system/components/modal/ui/drawer.tsx
 
 "use client";
 
@@ -109,7 +109,8 @@ const DrawerContent = (props: ChakraDrawer.ContentProps) => {
   const { children, ...restProps } = props;
 
   // Contexts
-  const { onClose, fullscreen, size, placement, swipeToDismiss } = useDrawerContext();
+  const { onClose, fullscreen, size, placement, swipeToDismiss } =
+    useDrawerContext();
   const { theme } = useThemeStore();
 
   // Refs
