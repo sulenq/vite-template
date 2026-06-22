@@ -7,7 +7,7 @@ import type { StackProps } from "@/design-system/components/layout/types/contain
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import { Settings } from "@/features/settings/components/settings-disclosure";
+import { SettingsTrigger } from "@/features/settings/components/settings-disclosure";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { SettingsIcon } from "lucide-react";
 
@@ -38,11 +38,11 @@ function RouteComponent() {
       <ItemContainer w={"full"}>
         <P fontWeight={"semibold"}>Features</P>
 
-        <Settings.Trigger dKey={"settings"} w={"fit"}>
+        <SettingsTrigger dKey={"settings"} w={"fit"}>
           <IconButton size={"2xl"}>
             <AppLucideIcon icon={SettingsIcon} />
           </IconButton>
-        </Settings.Trigger>
+        </SettingsTrigger>
       </ItemContainer>
 
       <ItemContainer w={"full"}>

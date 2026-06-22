@@ -23,7 +23,7 @@ import { RootRoute } from "@/routes/typed";
 import { back } from "@/utils/client/nanvigation";
 import { IconChevronLeft, IconSearch } from "@tabler/icons-react";
 
-const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
+export const SettingsTrigger = (props: PopDisclosureTriggerProps) => {
   // Props
   const { children, dKey, ...restProps } = props;
 
@@ -139,9 +139,4 @@ const SettingsView = () => {
       )}
     </HStack>
   );
-};
-
-export const Settings = {
-  Trigger: SettingsTrigger,
-  View: SettingsView,
 };
