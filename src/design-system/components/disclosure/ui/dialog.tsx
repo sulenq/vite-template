@@ -97,7 +97,11 @@ const DialogBackdrop = (props: ChakraDialog.BackdropProps) => {
   const { onClose } = useDialogContext();
 
   return (
-    <ChakraDialog.Backdrop pointerEvents={"auto"} onClick={onClose} {...props} />
+    <ChakraDialog.Backdrop
+      pointerEvents={"auto"}
+      onClick={onClose}
+      {...props}
+    />
   );
 };
 
@@ -130,17 +134,38 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
 
       currentAnimation = el.animate(
         next
-          ? [{ transform: "scale(0.75)" }, { transform: "scale(1)" }]
-          : [{ transform: "scale(1.25)" }, { transform: "scale(1)" }],
+          ? [
+              {
+                opacity: 0.85,
+                filter: "blur(5px)",
+                transform: "scale(0.96)",
+              },
+              {
+                opacity: 1,
+                filter: "blur(0px)",
+                transform: "scale(1)",
+              },
+            ]
+          : [
+              {
+                opacity: 0.9,
+                filter: "blur(5px)",
+                transform: "scale(1.04)",
+              },
+              {
+                opacity: 1,
+                filter: "blur(0px)",
+                transform: "scale(1)",
+              },
+            ],
         {
-          duration: 200,
-          easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
-          fill: "forwards",
+          duration: 300,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+          fill: "both",
         },
       );
 
       currentAnimation.onfinish = () => {
-        currentAnimation?.commitStyles();
         currentAnimation?.cancel();
         currentAnimation = null;
       };
