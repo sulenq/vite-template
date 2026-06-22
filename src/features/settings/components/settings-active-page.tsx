@@ -7,7 +7,7 @@ import type { StackProps } from "@/design-system/components/layout/types/contain
 import { VStack } from "@/design-system/components/layout/ui/container";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { HEADER_H } from "@/design-system/constants/styles";
-import { SETTINGS_CONTENTS } from "@/features/settings/constants/settings-contents";
+import { SETTINGS_PAGES } from "@/features/settings/constants/settings-pages";
 import { RootRoute } from "@/routes/typed";
 import { IconSettings } from "@tabler/icons-react";
 import { useState } from "react";
@@ -24,6 +24,10 @@ export const SettingsActivePage = (props: SettingsViewProps) => {
   // States
   const [displayKey, setDisplayKey] = useState(currentSettingNavKey);
 
+  // Derived Values
+  const ActiveSettingPage = displayKey ? SETTINGS_PAGES[displayKey] : null;
+
+  // Handle nav key changes
   if (currentSettingNavKey && currentSettingNavKey !== displayKey) {
     setDisplayKey(currentSettingNavKey);
   }
@@ -31,8 +35,9 @@ export const SettingsActivePage = (props: SettingsViewProps) => {
   return (
     <VScrollContainer flex={1} align={"center"} p={4} {...restProps}>
       <VStack flex={1} gap={4} w={"full"} maxW={"600px"}>
-        {displayKey && SETTINGS_CONTENTS[displayKey]}
-        {!displayKey && (
+        {ActiveSettingPage && <ActiveSettingPage />}
+
+        {!ActiveSettingPage && (
           <FeedbackState
             tablerIcon={IconSettings}
             description={"Please select setting menu"}

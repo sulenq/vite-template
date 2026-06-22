@@ -1,6 +1,5 @@
 // src/features/settings/constants/settings-navs.tsx
 
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { Nav } from "@/design-system/components/layout/types/nav.type";
 import {
   IconBell,
@@ -18,47 +17,47 @@ import {
 
 export const SETTINGS_NAVS = {
   profile: {
-    icon: <AppTablerIcon icon={IconUser} />,
+    icon: IconUser,
     label: "Profile",
   },
   account: {
-    icon: <AppTablerIcon icon={IconUserCircle} />,
+    icon: IconUserCircle,
     label: "Account",
   },
   privacy: {
-    icon: <AppTablerIcon icon={IconLock} />,
+    icon: IconLock,
     label: "Privacy",
   },
   notification: {
-    icon: <AppTablerIcon icon={IconBell} />,
+    icon: IconBell,
     label: "Notification",
   },
   appearance: {
-    icon: <AppTablerIcon icon={IconDeviceDesktop} />,
+    icon: IconDeviceDesktop,
     label: "Appearance",
   },
   language: {
-    icon: <AppTablerIcon icon={IconLanguage} />,
+    icon: IconLanguage,
     label: "Language",
   },
   datetime: {
-    icon: <AppTablerIcon icon={IconClock} />,
+    icon: IconClock,
     label: "Date & Time",
   },
   integration: {
-    icon: <AppTablerIcon icon={IconPlug} />,
+    icon: IconPlug,
     label: "Integration",
   },
   api: {
-    icon: <AppTablerIcon icon={IconKey} />,
+    icon: IconKey,
     label: "API",
   },
   support: {
-    icon: <AppTablerIcon icon={IconHelpCircle} />,
+    icon: IconHelpCircle,
     label: "Support",
   },
   about: {
-    icon: <AppTablerIcon icon={IconInfoCircle} />,
+    icon: IconInfoCircle,
     label: "About",
   },
 } satisfies Record<string, Nav>;

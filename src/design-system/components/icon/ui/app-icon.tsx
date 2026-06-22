@@ -30,7 +30,11 @@ export const AppTablerIcon = (props: AppTablerIconProps) => {
 
   return (
     TablerIcon && (
-      <Icon boxSize={TABLER_ICON_BASE_ICON_BOX_SIZE} {...restProps}>
+      <Icon
+        boxSize={TABLER_ICON_BASE_ICON_BOX_SIZE}
+        strokeWidth={1.8}
+        {...restProps}
+      >
         <TablerIcon {...tablerIconProps} />
       </Icon>
     )

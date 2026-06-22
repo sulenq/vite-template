@@ -2,7 +2,7 @@
 
 import type { SettingsNavitem } from "@/features/settings/types/settings-navs.type";
 
-export const SETTINGS_NAV_ITEMS = [
+export const SETTINGS_MENUS = [
   "profile",
   "account",
   "privacy",
