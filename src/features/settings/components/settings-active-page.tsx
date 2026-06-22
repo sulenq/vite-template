@@ -9,7 +9,6 @@ import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-co
 import { HEADER_H } from "@/design-system/constants/styles";
 import { SETTINGS_PAGES } from "@/features/settings/constants/settings-pages";
 import { RootRoute } from "@/routes/typed";
-import { IconSettings } from "@tabler/icons-react";
 import { useState } from "react";
 
 interface SettingsViewProps extends StackProps {}
@@ -39,7 +38,6 @@ export const SettingsActivePage = (props: SettingsViewProps) => {
 
         {!ActiveSettingPage && (
           <FeedbackState
-            tablerIcon={IconSettings}
             title={"Select setting menu"}
             description={"Selected setting will be display here"}
             pb={HEADER_H}
