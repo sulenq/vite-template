@@ -1,6 +1,5 @@
 // src/routes/index.lazy.tsx
 
-import { resolveSemanticColor } from "@/design-system/chakra/utils/chakra-system-resolver";
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { FeedbackEmptyData } from "@/design-system/components/feedback/ui/feedback-empty-data";
 import { FeedbackForbidden } from "@/design-system/components/feedback/ui/feedback-forbidden";
@@ -20,8 +19,6 @@ export const Route = createLazyFileRoute("/")({
 });
 
 function RouteComponent() {
-  console.log(resolveSemanticColor("bg.subtle", "dark"));
-
   return (
     <VStack gap={4} minH={"100dvh"} bg={"bg.canvas"} p={4}>
       <ItemContainer w={"full"}>
