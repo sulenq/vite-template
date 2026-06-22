@@ -68,14 +68,20 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   // States
+  const [prevViewport, setPrevViewport] = useState(isSmallViewport);
   const [delayedOpened, setDelayedOpened] = useState(false);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
+
+  if (isSmallViewport !== prevViewport) {
+    setPrevViewport(isSmallViewport);
+    setDelayedOpened(false);
+  }
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if (opened) {
       const depth = dKey.split(".").length;
-      const delay = depth > 1 ? (depth - 1) * 20 : 0;
+      const delay = depth > 1 ? (depth - 1) * 20 : 50;
       timer = setTimeout(() => {
         setDelayedOpened(true);
       }, delay);
@@ -85,7 +91,7 @@ const DisclosureRoot = (props: DisclosureRootProps) => {
       }, 0);
     }
     return () => clearTimeout(timer);
-  }, [opened, dKey]);
+  }, [opened, dKey, isSmallViewport]);
 
   return (
     <DisclosureContext.Provider
