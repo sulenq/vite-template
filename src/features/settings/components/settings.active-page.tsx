@@ -33,22 +33,18 @@ export const SettingsActivePage = () => {
   );
 };
 
-export interface SettingsActivePageHeader extends StackProps {
-  title?: string;
-}
-
-export const SettingsActivePageHeader = (props: SettingsActivePageHeader) => {
+export const SettingsActivePageHeader = (props: StackProps) => {
   // Props
-  const { title, ...restProps } = props;
+  const { ...restProps } = props;
 
   // Hooks
   const { activeSettingNavKey } = RootRoute.useSearch();
   const isSmallViewport = useIsSmallViewport();
 
   // Resolved Values
-  const resolvedTitle =
-    title ||
-    (activeSettingNavKey ? t[`settings.${activeSettingNavKey}.label`]() : "");
+  const resolvedTitle = activeSettingNavKey
+    ? t[`settings.${activeSettingNavKey}.label`]()
+    : "";
 
   return (
     <HStack
@@ -88,9 +84,7 @@ export const SettingsActivePageHeader = (props: SettingsActivePageHeader) => {
   );
 };
 
-interface SettingsViewProps extends StackProps {}
-
-export const SettingsActivePageBody = (props: SettingsViewProps) => {
+export const SettingsActivePageBody = (props: StackProps) => {
   // Props
   const { ...restProps } = props;
 
@@ -103,8 +97,8 @@ export const SettingsActivePageBody = (props: SettingsViewProps) => {
   // Derived Values
   const ActiveSettingPage = displayKey ? SETTINGS_PAGES[displayKey] : null;
 
-  // Handle nav key changes
-  if (activeSettingNavKey && activeSettingNavKey !== displayKey) {
+  // Handle key changes
+  if (activeSettingNavKey !== displayKey) {
     setDisplayKey(activeSettingNavKey);
   }
 
