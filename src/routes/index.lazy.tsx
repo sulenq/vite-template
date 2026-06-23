@@ -17,7 +17,7 @@ import type { StackProps } from "@/design-system/components/layout/types/contain
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import { SettingsTrigger } from "@/features/settings/components/settings-modal";
+import { SettingsTrigger } from "@/features/settings/components/settings";
 import { getLocale, getLocaleLabel, t } from "@/libs/i18n";
 import { useLocale } from "@/libs/i18n/locale-provider";
 import { IconLanguage } from "@tabler/icons-react";

@@ -16,6 +16,7 @@ export type ModalRootProps = {
   open: () => void;
   close: () => void;
   clickOriginAnimation?: boolean;
+  drawerPlacement?: ChakraDrawer.RootProps["placement"];
 } & (
   | Omit<ChakraDrawer.RootProps, "open" | "placement">
   | Omit<ChakraDialog.RootProps, "open" | "placement">

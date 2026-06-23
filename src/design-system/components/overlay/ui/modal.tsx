@@ -59,6 +59,7 @@ const ModalRoot = (props: ModalRootProps) => {
     close,
     clickOriginAnimation = false,
     size = "xs",
+    drawerPlacement = "bottom",
     ...restProps
   } = props;
 
@@ -113,7 +114,7 @@ const ModalRoot = (props: ModalRootProps) => {
           unmountOnExit
           swipeToDismiss={false}
           {...restProps}
-          placement={"bottom"}
+          placement={drawerPlacement}
         >
           {children}
         </Drawer.Root>

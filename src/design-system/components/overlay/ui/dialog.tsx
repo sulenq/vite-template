@@ -80,6 +80,7 @@ const DialogTrigger = (props: ChakraDialog.TriggerProps) => {
 
   return (
     <ChakraDialog.Trigger
+      asChild
       onPointerDown={
         clickOriginAnimation
           ? (e) => {

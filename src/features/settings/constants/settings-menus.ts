@@ -3,24 +3,17 @@
 import type { SettingsNavitem } from "@/features/settings/types/settings-navs.type";
 
 export const SETTINGS_MENUS = [
-  "profile",
-  "account",
-  "privacy",
-  "notification",
+  {
+    list: ["profile", "account", "privacy", "notification"],
+  },
 
-  "separator",
+  {
+    list: ["appearance", "language", "datetime"],
+  },
 
-  "appearance",
-  "language",
-  "datetime",
+  {
+    list: ["integration", "api"],
+  },
 
-  "separator",
-
-  "integration",
-  "api",
-
-  "separator",
-
-  "support",
-  "about",
-] as const satisfies readonly SettingsNavitem[];
+  { list: ["support", "about"] },
+] as SettingsNavitem[];

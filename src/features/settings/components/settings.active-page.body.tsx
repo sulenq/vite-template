@@ -14,7 +14,7 @@ import { useState } from "react";
 
 interface SettingsViewProps extends StackProps {}
 
-export const SettingsActivePage = (props: SettingsViewProps) => {
+export const SettingsActivePageBody = (props: SettingsViewProps) => {
   // Props
   const { ...restProps } = props;
 

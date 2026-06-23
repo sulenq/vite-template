@@ -89,7 +89,7 @@ const DrawerRoot = (props: DrawerRootProps) => {
 };
 
 const DrawerTrigger = (props: ChakraDrawer.TriggerProps) => {
-  return <ChakraDrawer.Trigger {...props} />;
+  return <ChakraDrawer.Trigger asChild {...props} />;
 };
 
 const DrawerBackdrop = (props: ChakraDrawer.BackdropProps) => {
