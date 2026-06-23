@@ -12,6 +12,7 @@ import { SETTINGS_MENUS } from "@/features/settings/constants/settings-menus";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
 import { RootRoute } from "@/routes/-typed";
 import { Separator } from "@/design-system/components/layout/ui/separator";
+import { t } from "@/libs/i18n";
 
 export const SettingsMenu = (props: StackProps) => {
   // Props
@@ -49,7 +50,7 @@ export const SettingsMenu = (props: StackProps) => {
             }}
           >
             <AppTablerIcon icon={nav.icon} />
-            {nav.label}
+            {t[`settings.${navKey}.label`]()}
           </Nav>
         );
       })}
