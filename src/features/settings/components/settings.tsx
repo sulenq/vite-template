@@ -7,6 +7,7 @@ import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-mo
 import type { PopModalTriggerProps } from "@/design-system/components/overlay/types/modal.type";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
+import { SettingsActivePage } from "@/features/settings/components/settings.active-page";
 import { SettingsActivePageBody } from "@/features/settings/components/settings.active-page.body";
 import { SettingsActivePageHeader } from "@/features/settings/components/settings.active-page.header";
 import { SettingsMenuBody } from "@/features/settings/components/settings.menu.body";
@@ -60,7 +61,7 @@ const SettingsView = () => {
   // Derived Values
   const shouldShowSettingMenu =
     (isSmallViewport && !activeSettingNavKey) || !isSmallViewport;
-  const shouldShowSettingPage =
+  const shouldShowSettingsActivePage =
     (isSmallViewport && activeSettingNavKey) || !isSmallViewport;
 
   return (
@@ -77,13 +78,7 @@ const SettingsView = () => {
         </VStack>
       )}
 
-      {shouldShowSettingPage && (
-        <VStack flex={1} overflowY={"auto"} bg={"bg.canvas"}>
-          <SettingsActivePageHeader />
-
-          <SettingsActivePageBody />
-        </VStack>
-      )}
+      {shouldShowSettingsActivePage && <SettingsActivePage />}
     </HStack>
   );
 };
