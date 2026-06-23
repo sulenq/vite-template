@@ -6,6 +6,7 @@ import type { FeedbackStateProps } from "@/design-system/components/feedback/typ
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { VStack } from "@/design-system/components/layout/ui/container";
 import { MIN_H_FEEDBACK_CONTAINER } from "@/design-system/constants/styles";
+import { t } from "@/libs/i18n";
 import { IconForbid } from "@tabler/icons-react";
 
 export const FeedbackForbidden = (props: FeedbackStateProps) => {
@@ -13,8 +14,8 @@ export const FeedbackForbidden = (props: FeedbackStateProps) => {
   const {
     icon,
     tablerIcon = IconForbid,
-    title = "Forbidden",
-    description = "You do not have access to this resource.",
+    title = t["common.forbidden"](),
+    description = t["common.dont_have_access"](),
     children,
     ...restProps
   } = props;
@@ -39,4 +40,3 @@ export const FeedbackForbidden = (props: FeedbackStateProps) => {
     </VStack>
   );
 };
-

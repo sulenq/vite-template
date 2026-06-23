@@ -29,7 +29,7 @@ const FeedbackState = (props: FeedbackStateProps) => {
         icon
       )}
 
-      <VStack align={"center"} gap={2}>
+      <VStack align={"center"} gap={2} maxW={"300px"}>
         {isTitleString && (
           <P textAlign={"center"} fontWeight={"medium"}>
             {title}
@@ -39,7 +39,7 @@ const FeedbackState = (props: FeedbackStateProps) => {
         {!isTitleString && title}
 
         {isDescriptionString && (
-          <P maxW={"300px"} textAlign={"center"} color={"fg.subtle"}>
+          <P textAlign={"center"} color={"fg.subtle"}>
             {description}
           </P>
         )}

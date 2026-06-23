@@ -5,7 +5,7 @@ import {
   IconButton,
 } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
-import { FeedbackEmptyData } from "@/design-system/components/feedback/ui/feedback-empty-data";
+import { FeedbackNoData } from "@/design-system/components/feedback/ui/feedback-no-data";
 import { FeedbackForbidden } from "@/design-system/components/feedback/ui/feedback-forbidden";
 import { FeedbackNotFound } from "@/design-system/components/feedback/ui/feedback-not-found";
 import { FeedbackRetry } from "@/design-system/components/feedback/ui/feedback-retry";
@@ -39,7 +39,7 @@ const KeyFeatures = () => {
 
   return (
     <ItemContainer w={"full"}>
-      <P fontWeight={"semibold"}>{t.keyFeatures()}</P>
+      <P fontWeight={"semibold"}>{t["demo.features.title"]()}</P>
 
       <HStack wrap={"wrap"} align={"center"} gap={2}>
         <SettingsTrigger modalKey={"settings"} w={"fit"}>
@@ -84,10 +84,10 @@ const ItemContainer = (props: StackProps) => {
 const FeedbackSection = () => {
   return (
     <ItemContainer w={"full"}>
-      <P fontWeight={"semibold"}>{t.feedback()}</P>
+      <P fontWeight={"semibold"}>{t["demo.feedback.title"]()}</P>
 
       <HStack wrap={"wrap"}>
-        <FeedbackEmptyData />
+        <FeedbackNoData />
 
         <FeedbackForbidden />
 

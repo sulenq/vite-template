@@ -6,15 +6,16 @@ import type { FeedbackStateProps } from "@/design-system/components/feedback/typ
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { VStack } from "@/design-system/components/layout/ui/container";
 import { MIN_H_FEEDBACK_CONTAINER } from "@/design-system/constants/styles";
+import { t } from "@/libs/i18n";
 import { IconHourglassEmpty } from "@tabler/icons-react";
 
-export const FeedbackEmptyData = (props: FeedbackStateProps) => {
+export const FeedbackNoData = (props: FeedbackStateProps) => {
   // Props
   const {
     icon,
     tablerIcon = IconHourglassEmpty,
-    title = "Empty",
-    description = "No data to display.",
+    title = t["common.no_data"](),
+    description,
     children,
     ...restProps
   } = props;

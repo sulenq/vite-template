@@ -11,7 +11,8 @@
     "typecheck": "tsc -p tsconfig.app.json --noEmit",
     "typecheck:watch": "tsc -p tsconfig.app.json --noEmit --watch --preserveWatchOutput",
     "sitemap:generate": "node src/scripts/generate-sitemap.js",
-    "chakra:typegen": "pnpm exec chakra typegen ./src/design-system/chakra/chakra-system.ts"
+    "chakra:typegen": "pnpm exec chakra typegen ./src/design-system/chakra/chakra-system.ts",
+    "i18n:compile": "npx @inlang/paraglide-js compile --project ./project.inlang"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.35.0",

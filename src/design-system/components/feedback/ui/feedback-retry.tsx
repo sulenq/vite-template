@@ -8,6 +8,7 @@ import FeedbackState from "@/design-system/components/feedback/ui/feedback-state
 import { VStack } from "@/design-system/components/layout/ui/container";
 import { MIN_H_FEEDBACK_CONTAINER } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
+import { t } from "@/libs/i18n";
 import { IconExclamationCircle } from "@tabler/icons-react";
 
 interface FeedbackRetryProps extends FeedbackStateProps {
@@ -20,7 +21,7 @@ export const FeedbackRetry = (props: FeedbackRetryProps) => {
     icon,
     tablerIcon = IconExclamationCircle,
     title = "Error",
-    description = "Something went wrong.",
+    description = t["common.something_went_wrong"](),
     onRetry,
     children,
     ...restProps
@@ -54,7 +55,7 @@ export const FeedbackRetry = (props: FeedbackRetryProps) => {
           size={"sm"}
           onClick={onRetry}
         >
-          Retry
+          {t["action.retry"]()}
         </Button>
 
         {children}
