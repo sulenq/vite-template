@@ -2,12 +2,12 @@
 
 import type { Nav } from "@/design-system/components/layout/types/nav.type";
 import {
+  IconAdjustmentsHorizontal,
   IconBell,
   IconClock,
   IconDeviceDesktop,
   IconHelpCircle,
   IconInfoCircle,
-  IconKey,
   IconLanguage,
   IconLock,
   IconPlug,
@@ -18,46 +18,35 @@ import {
 export const SETTINGS_NAVS = {
   profile: {
     icon: IconUser,
-    label: "Profile",
   },
   account: {
     icon: IconUserCircle,
-    label: "Account",
   },
   privacy: {
     icon: IconLock,
-    label: "Privacy",
   },
   notification: {
     icon: IconBell,
-    label: "Notification",
   },
   appearance: {
     icon: IconDeviceDesktop,
-    label: "Appearance",
   },
   language: {
     icon: IconLanguage,
-    label: "Language",
   },
   datetime: {
     icon: IconClock,
-    label: "Date & Time",
   },
   integration: {
     icon: IconPlug,
-    label: "Integration",
   },
-  api: {
-    icon: IconKey,
-    label: "API",
+  advanced: {
+    icon: IconAdjustmentsHorizontal,
   },
   support: {
     icon: IconHelpCircle,
-    label: "Support",
   },
   about: {
     icon: IconInfoCircle,
-    label: "About",
   },
 } satisfies Record<string, Nav>;

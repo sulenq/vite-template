@@ -12,7 +12,7 @@ export const SETTINGS_MENUS = [
   },
 
   {
-    list: ["integration", "api"],
+    list: ["integration", "advanced"],
   },
 
   { list: ["support", "about"] },
