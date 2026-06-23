@@ -6,8 +6,8 @@ import {
 } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { FeedbackNoData } from "@/design-system/components/feedback/ui/feedback-no-data";
-import { FeedbackForbidden } from "@/design-system/components/feedback/ui/feedback-forbidden";
-import { FeedbackNotFound } from "@/design-system/components/feedback/ui/feedback-not-found";
+import { FeedbackAccessDenied } from "@/design-system/components/feedback/ui/feedback-access-denied";
+import { FeedbackNotResult } from "@/design-system/components/feedback/ui/feedback-no-result";
 import { FeedbackRetry } from "@/design-system/components/feedback/ui/feedback-retry";
 import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { StackProps } from "@/design-system/components/layout/types/container.type";
@@ -89,9 +89,9 @@ const FeedbackSection = () => {
       <HStack wrap={"wrap"}>
         <FeedbackNoData />
 
-        <FeedbackForbidden />
+        <FeedbackAccessDenied />
 
-        <FeedbackNotFound />
+        <FeedbackNotResult />
 
         <FeedbackRetry />
       </HStack>

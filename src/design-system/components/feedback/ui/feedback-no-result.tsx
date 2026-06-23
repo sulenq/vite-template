@@ -10,14 +10,14 @@ import { MIN_H_FEEDBACK_CONTAINER } from "@/design-system/constants/styles";
 import { t } from "@/libs/i18n";
 import { IconMoodPuzzled, type TablerIcon } from "@tabler/icons-react";
 
-export interface FeedbackNotFound {
+export interface FeedbackNotResult {
   icon?: React.ReactNode;
   tablerIcon?: TablerIcon;
   query?: string;
 }
 
-export const FeedbackNotFound = (
-  props: FeedbackNotFound & FeedbackStateProps,
+export const FeedbackNotResult = (
+  props: FeedbackNotResult & FeedbackStateProps,
 ) => {
   // Props
   const {

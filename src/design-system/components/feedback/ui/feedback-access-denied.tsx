@@ -9,7 +9,7 @@ import { MIN_H_FEEDBACK_CONTAINER } from "@/design-system/constants/styles";
 import { t } from "@/libs/i18n";
 import { IconForbid } from "@tabler/icons-react";
 
-export const FeedbackForbidden = (props: FeedbackStateProps) => {
+export const FeedbackAccessDenied = (props: FeedbackStateProps) => {
   // Props
   const {
     icon,
