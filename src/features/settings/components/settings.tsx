@@ -2,16 +2,13 @@
 
 "use client";
 
-import { HStack, VStack } from "@/design-system/components/layout/ui/container";
+import { HStack } from "@/design-system/components/layout/ui/container";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import type { PopModalTriggerProps } from "@/design-system/components/overlay/types/modal.type";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { SettingsActivePage } from "@/features/settings/components/settings.active-page";
-import { SettingsActivePageBody } from "@/features/settings/components/settings.active-page.body";
-import { SettingsActivePageHeader } from "@/features/settings/components/settings.active-page.header";
-import { SettingsMenuBody } from "@/features/settings/components/settings.menu.body";
-import { SettingsMenuHeader } from "@/features/settings/components/settings.menu.header";
+import { SettingsMenu } from "@/features/settings/components/settings.menu";
 import { RootRoute } from "@/routes/-typed";
 
 export const SettingsTrigger = (props: PopModalTriggerProps) => {
@@ -66,17 +63,7 @@ const SettingsView = () => {
 
   return (
     <HStack flex={1} overflowY={"auto"}>
-      {shouldShowSettingMenu && (
-        <VStack
-          overflowY={"auto"}
-          minW={["full", null, "250px"]}
-          bg={isSmallViewport ? "bg.canvas" : "bg.body"}
-        >
-          <SettingsMenuHeader />
-
-          <SettingsMenuBody p={2} />
-        </VStack>
-      )}
+      {shouldShowSettingMenu && <SettingsMenu />}
 
       {shouldShowSettingsActivePage && <SettingsActivePage />}
     </HStack>
@@ -85,8 +72,5 @@ const SettingsView = () => {
 
 export const Settings = {
   Trigger: SettingsTrigger,
-  MenuHeader: SettingsMenuHeader,
-  MenuBody: SettingsMenuBody,
-  ActivePageHeader: SettingsActivePageHeader,
-  ActivePageBody: SettingsActivePageBody,
+  View: SettingsView,
 };
