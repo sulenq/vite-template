@@ -1,3 +1,7 @@
+// src/feature/settings/components/settings.active-page.header.tsx
+
+"use client";
+
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { StackProps } from "@/design-system/components/layout/types/container.type";
@@ -10,7 +14,7 @@ import {
   MODAL_CONTROL_CONTAINER_W,
 } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
-import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
+import { t } from "@/libs/i18n";
 import { RootRoute } from "@/routes/-typed";
 import { back } from "@/utils/client/navigation";
 import { IconChevronLeft } from "@tabler/icons-react";
@@ -29,7 +33,8 @@ export const SettingsActivePageHeader = (props: SettingsActivePageHeader) => {
 
   // Resolved Values
   const resolvedTitle =
-    title || (activeSettingNavKey && SETTINGS_NAVS[activeSettingNavKey].label);
+    title ||
+    (activeSettingNavKey ? t[`settings.${activeSettingNavKey}.label`]() : "");
 
   return (
     <HStack

@@ -1,4 +1,4 @@
-// src/features/settings/components/settings-modal
+// src/features/settings/components/settings
 
 "use client";
 

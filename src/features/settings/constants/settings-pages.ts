@@ -14,7 +14,7 @@ export const SETTINGS_PAGES = {
   language: ProfileSettingsPage,
   datetime: ProfileSettingsPage,
   integration: ProfileSettingsPage,
-  api: ProfileSettingsPage,
+  advanced: ProfileSettingsPage,
   support: ProfileSettingsPage,
   about: ProfileSettingsPage,
 } as const satisfies Record<SettingNavKey, ComponentType>;

@@ -1,4 +1,4 @@
-// src/features/settings/components/settings-menu.tsx
+// src/features/settings/components/settings-menu-body.tsx
 
 "use client";
 
@@ -44,7 +44,7 @@ export const SettingsMenuBody = (props: StackProps) => {
               rounded={theme.radii.container}
               p={isSmallViewport ? 2 : 0}
             >
-              {group.groupLabel && (
+              {group?.groupLabel && (
                 <P fontSize={"sm"} color={"fg.subtle"}>
                   {group.groupLabel}
                 </P>

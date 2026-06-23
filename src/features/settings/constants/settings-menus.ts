@@ -1,8 +1,8 @@
-// src/features/settings/constants/settings-nav-items.tsx
+// src/features/settings/constants/settings-menus.tsx
 
 import type { SettingsNavitem } from "@/features/settings/types/settings-navs.type";
 
-export const SETTINGS_MENUS = [
+export const SETTINGS_MENUS: readonly SettingsNavitem[] = [
   {
     list: ["profile", "account", "privacy", "notification"],
   },
@@ -16,4 +16,4 @@ export const SETTINGS_MENUS = [
   },
 
   { list: ["support", "about"] },
-] as SettingsNavitem[];
+];
