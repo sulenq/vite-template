@@ -20,8 +20,8 @@ export const FeedbackRetry = (props: FeedbackRetryProps) => {
   const {
     icon,
     tablerIcon = IconAlertTriangle,
-    title = "Error",
-    description = t["common.something_went_wrong"](),
+    title = t["common.something_went_wrong"](),
+    description = t["common.please_try_again"](),
     onRetry,
     children,
     ...restProps
