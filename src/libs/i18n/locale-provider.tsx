@@ -7,10 +7,12 @@ import {
   type Locale,
 } from "@/paraglide/runtime";
 
-const LocaleContext = createContext<{
+export type LocaleContextValue = {
   locale: Locale;
   setLocale: (locale: Locale) => void;
-} | null>(null);
+};
+
+const LocaleContext = createContext<LocaleContextValue | null>(null);
 
 export function LocaleProvider({ children }: { children: React.ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>(getLocale());

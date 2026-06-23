@@ -80,7 +80,7 @@ const SettingsView = () => {
           minW={["full", null, "250px"]}
           bg={"bg.body"}
         >
-          {/* Menu Header */}
+          {/* Menu header */}
           <HStack align={"center"} justify={"space-between"} h={HEADER_H} p={2}>
             <HStack w={"40px"}>
               <IconButton>
@@ -103,7 +103,7 @@ const SettingsView = () => {
 
       {shouldShowSettingPage && (
         <VStack flex={1} overflowY={"auto"} bg={"bg.canvas"}>
-          {/* Tab Header */}
+          {/* Active page header */}
           <HStack align={"center"} justify={"space-between"} h={HEADER_H} p={2}>
             <HStack w={MODAL_CONTROL_CONTAINER_W}>
               {isSmallViewport && (
