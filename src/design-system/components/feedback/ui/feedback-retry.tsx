@@ -9,7 +9,7 @@ import { VStack } from "@/design-system/components/layout/ui/container";
 import { MIN_H_FEEDBACK_CONTAINER } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { t } from "@/libs/i18n";
-import { IconExclamationCircle } from "@tabler/icons-react";
+import { IconAlertTriangle } from "@tabler/icons-react";
 
 interface FeedbackRetryProps extends FeedbackStateProps {
   onRetry?: () => void;
@@ -19,7 +19,7 @@ export const FeedbackRetry = (props: FeedbackRetryProps) => {
   // Props
   const {
     icon,
-    tablerIcon = IconExclamationCircle,
+    tablerIcon = IconAlertTriangle,
     title = "Error",
     description = t["common.something_went_wrong"](),
     onRetry,
