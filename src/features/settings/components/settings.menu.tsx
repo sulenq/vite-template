@@ -120,7 +120,7 @@ export const SettingsMenuBody = (props: StackProps) => {
                             ...prev,
                             activeSettingNavKey: navKey,
                           }),
-                          replace: isSmallViewport ? false : true,
+                          replace: !!activeSettingNavKey,
                         });
                       }}
                     >

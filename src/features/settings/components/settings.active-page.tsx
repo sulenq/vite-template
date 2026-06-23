@@ -21,7 +21,6 @@ import { t } from "@/libs/i18n";
 import { RootRoute } from "@/routes/-typed";
 import { back } from "@/utils/client/navigation";
 import { IconChevronLeft } from "@tabler/icons-react";
-import { useState } from "react";
 
 export const SettingsActivePage = () => {
   return (
@@ -91,16 +90,12 @@ export const SettingsActivePageBody = (props: StackProps) => {
   // Hooks
   const { activeSettingNavKey } = RootRoute.useSearch();
 
-  // States
-  const [displayKey, setDisplayKey] = useState(activeSettingNavKey);
-
   // Derived Values
-  const ActiveSettingPage = displayKey ? SETTINGS_PAGES[displayKey] : null;
+  const ActiveSettingPage = activeSettingNavKey
+    ? SETTINGS_PAGES[activeSettingNavKey]
+    : null;
 
   // Handle key changes
-  if (activeSettingNavKey !== displayKey) {
-    setDisplayKey(activeSettingNavKey);
-  }
 
   return (
     <VScrollContainer flex={1} align={"center"} p={4} {...restProps}>
