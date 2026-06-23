@@ -5,11 +5,14 @@ import {
   IconButton,
 } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
-import { FeedbackNoData } from "@/design-system/components/feedback/ui/feedback-no-data";
 import { FeedbackAccessDenied } from "@/design-system/components/feedback/ui/feedback-access-denied";
+import { FeedbackNoData } from "@/design-system/components/feedback/ui/feedback-no-data";
 import { FeedbackNotResult } from "@/design-system/components/feedback/ui/feedback-no-result";
 import { FeedbackRetry } from "@/design-system/components/feedback/ui/feedback-retry";
-import { AppLucideIcon } from "@/design-system/components/icon/ui/app-icon";
+import {
+  AppLucideIcon,
+  AppTablerIcon,
+} from "@/design-system/components/icon/ui/app-icon";
 import type { StackProps } from "@/design-system/components/layout/types/container.type";
 import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/ui/p";
@@ -17,6 +20,7 @@ import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { SettingsTrigger } from "@/features/settings/components/settings-modal";
 import { getLocale, getLocaleLabel, t } from "@/libs/i18n";
 import { useLocale } from "@/libs/i18n/locale-provider";
+import { IconLanguage } from "@tabler/icons-react";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { CogIcon } from "lucide-react";
 
@@ -55,6 +59,7 @@ const KeyFeatures = () => {
             setLocale(getLocale() === "id" ? "en" : "id");
           }}
         >
+          <AppTablerIcon icon={IconLanguage} />
           {getLocaleLabel(getLocale())}
         </Button>
       </HStack>
