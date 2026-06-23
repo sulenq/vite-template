@@ -26,6 +26,7 @@ export const SettingsMenuBody = (props: StackProps) => {
   const { theme } = useThemeStore();
 
   // Hooks
+  const { activeSettingNavKey } = RootRoute.useSearch();
   const navigate = RootRoute.useNavigate();
   const isSmallViewport = useIsSmallViewport();
 
@@ -50,13 +51,15 @@ export const SettingsMenuBody = (props: StackProps) => {
                 </P>
               )}
 
-              <VStack className={"nav-list"}>
+              <VStack className={"nav-list"} gap={1}>
                 {group.list.map((navKey) => {
                   const nav = SETTINGS_NAVS[navKey];
+                  const isNavActive = activeSettingNavKey === navKey;
 
                   return (
                     <NavButton
                       key={navKey}
+                      variant={isNavActive ? "subtle" : "ghost"}
                       onClick={() => {
                         navigate({
                           search: (prev) => ({
