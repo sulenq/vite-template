@@ -8,6 +8,7 @@ import { VStack } from "@/design-system/components/layout/ui/container";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { HEADER_H } from "@/design-system/constants/styles";
 import { SETTINGS_PAGES } from "@/features/settings/constants/settings-pages";
+import { t } from "@/libs/i18n";
 import { RootRoute } from "@/routes/-typed";
 import { useState } from "react";
 
@@ -38,8 +39,8 @@ export const SettingsActivePage = (props: SettingsViewProps) => {
 
         {!ActiveSettingPage && (
           <FeedbackState
-            title={"Select setting menu"}
-            description={"Selected setting will be display here"}
+            title={t["settings.index.title"]()}
+            description={t["settings.index.description"]()}
             pb={HEADER_H}
             m={"auto"}
           />
