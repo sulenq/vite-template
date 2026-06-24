@@ -128,14 +128,16 @@ export const SettingsActivePageHeader = (props: StackProps) => {
   );
 };
 
-export const ActiveSettingsPageContentIndex = (
-  <FeedbackState
-    title={t["settings.index.title"]()}
-    description={t["settings.index.description"]()}
-    pb={HEADER_H}
-    m={"auto"}
-  />
-);
+export const ActiveSettingsPageContentIndex = () => {
+  return (
+    <FeedbackState
+      title={t["settings.index.title"]()}
+      description={t["settings.index.description"]()}
+      pb={HEADER_H}
+      m={"auto"}
+    />
+  );
+};
 
 export const SettingsActivePageBody = (props: StackProps) => {
   // Props
@@ -177,7 +179,7 @@ export const SettingsActivePageBody = (props: StackProps) => {
             <VStack overflowY={"auto"}>
               {ActiveSettingPageContent && <ActiveSettingPageContent />}
 
-              {!ActiveSettingPageContent && ActiveSettingsPageContentIndex}
+              {!ActiveSettingPageContent && <ActiveSettingsPageContentIndex />}
             </VStack>
           </Modal.Body>
         </Modal.Content>
@@ -196,7 +198,7 @@ export const SettingsActivePageBody = (props: StackProps) => {
       <VStack flex={1} gap={4} w={"full"} maxW={"600px"}>
         {ActiveSettingPageContent && <ActiveSettingPageContent />}
 
-        {!ActiveSettingPageContent && ActiveSettingsPageContentIndex}
+        {!ActiveSettingPageContent && <ActiveSettingsPageContentIndex />}
       </VStack>
     </VScrollContainer>
   );
