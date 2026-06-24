@@ -5,24 +5,23 @@
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import type { StackProps } from "@/design-system/components/layout/types/container.type";
-import { HStack, VStack } from "@/design-system/components/layout/ui/container";
-import { NavButton } from "@/design-system/components/layout/ui/nav";
-import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
+import { HStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/ui/p";
 import { HEADER_H } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
+import { back } from "@/utils/client/navigation";
+import { IconChevronLeft, IconSearch } from "@tabler/icons-react";
+import type { StackProps } from "@/design-system/components/layout/types/container.type";
+import { VStack } from "@/design-system/components/layout/ui/container";
+import { NavButton } from "@/design-system/components/layout/ui/nav";
+import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
+import { Separator } from "@/design-system/components/layout/ui/separator";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { SETTINGS_NAV_GROUPS } from "@/features/settings/constants/settings-nav-groups";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
 import { t } from "@/libs/i18n";
 import { RootRoute } from "@/routes/-typed";
-import { back } from "@/utils/client/navigation";
-import {
-  IconChevronLeft,
-  IconChevronRight,
-  IconSearch,
-} from "@tabler/icons-react";
+import { IconChevronRight } from "@tabler/icons-react";
 import { Fragment } from "react/jsx-runtime";
 
 export const SettingsMenu = () => {
@@ -93,10 +92,18 @@ export const SettingsMenuBody = (props: StackProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   return (
-    <VScrollContainer className={"settings-menu__body"} gap={4} {...restProps}>
+    <VScrollContainer
+      className={"settings-menu__body"}
+      gap={isSmallViewport ? 4 : 2}
+      {...restProps}
+    >
       {SETTINGS_NAV_GROUPS.map((group, index) => {
+        const isFirstIndex = index === 0;
+
         return (
           <Fragment key={index}>
+            {!isSmallViewport && !isFirstIndex && <Separator />}
+
             <VStack className={"nav-group"}>
               {(group?.label || group?.labelKey) && (
                 <P fontSize={"xs"} color={"fg.subtle"} px={2} mb={2}>
