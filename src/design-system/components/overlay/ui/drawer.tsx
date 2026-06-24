@@ -221,7 +221,7 @@ const DrawerContent = (props: ChakraDrawer.ContentProps) => {
     >
       {swipeToDismiss && (
         <Box
-          w={"100px"}
+          w={"80px"}
           h={"4px"}
           rounded={"full"}
           bg={"bg.muted"}

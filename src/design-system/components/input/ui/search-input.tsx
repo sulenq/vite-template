@@ -11,47 +11,45 @@ import {
 import { useSearchParam } from "@/design-system/hooks/use-search-param";
 import { InputGroup } from "@chakra-ui/react";
 import { IconSearch, IconX } from "@tabler/icons-react";
-import { forwardRef, useRef, useState } from "react";
+import { forwardRef, useRef } from "react";
 
 interface SearchInputProps extends InputProps {
   queryKey?: string;
+  value?: string;
+  onValueChange?: (value: string) => void;
 }
 
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ queryKey, onChange, ...restProps }, ref) => {
+  ({ queryKey, value: controlledValue, onValueChange, ...restProps }, ref) => {
     // Refs
     const internalRef = useRef<HTMLInputElement | null>(null);
 
     // Hooks
     const {
       isUrlMode,
-      value: urlValue,
-      setValue,
-      clearValue,
+      queryValue: urlValue,
+      setQueryValue,
+      clearQueryValue,
     } = useSearchParam(queryKey);
 
-    // States
-    const [internalValue, setInternalValue] = useState("");
-
     // Resolved Values
-    const value = isUrlMode ? urlValue : internalValue;
+    const value = isUrlMode ? urlValue : controlledValue;
 
     // Handlers
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
       const next = e.currentTarget.value;
       if (isUrlMode) {
-        setValue(next);
+        setQueryValue(next);
       } else {
-        setInternalValue(next);
+        onValueChange?.(next);
       }
-      onChange?.(e);
     }
 
     function handleClear() {
       if (isUrlMode) {
-        clearValue();
+        clearQueryValue();
       } else {
-        setInternalValue("");
+        onValueChange?.("");
       }
       internalRef.current?.focus();
     }

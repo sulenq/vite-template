@@ -8,9 +8,9 @@ export function useSearchParam(queryKey?: string) {
   const search = RootRoute.useSearch() as Record<string, string | undefined>;
 
   const isUrlMode = queryKey !== undefined;
-  const value = isUrlMode ? (search?.[queryKey] ?? "") : undefined;
+  const queryValue = isUrlMode ? (search?.[queryKey] ?? "") : undefined;
 
-  function setValue(next: string) {
+  function setQueryValue(next: string) {
     if (!queryKey) return;
     navigate({
       to: ".",
@@ -27,9 +27,9 @@ export function useSearchParam(queryKey?: string) {
     });
   }
 
-  function clearValue() {
-    setValue("");
+  function clearQueryValue() {
+    setQueryValue("");
   }
 
-  return { isUrlMode, value, setValue, clearValue };
+  return { isUrlMode, queryValue, setQueryValue, clearQueryValue };
 }

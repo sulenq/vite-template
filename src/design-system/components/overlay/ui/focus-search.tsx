@@ -4,6 +4,7 @@
 
 import { SearchInput } from "@/design-system/components/input/ui/search-input";
 import { HStack } from "@/design-system/components/layout/ui/container";
+import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { Kbd } from "@/design-system/components/typography/kbd";
@@ -14,11 +15,12 @@ interface FocusSearchProps {
   children: React.ReactNode;
   modalKey: string;
   queryKey: string;
+  results: React.ReactNode;
 }
 
-export const FocusSearch = (props: FocusSearchProps) => {
+export const FocusSearchTrigger = (props: FocusSearchProps) => {
   // Props
-  const { children, modalKey, queryKey, ...restProps } = props;
+  const { children, modalKey, queryKey, results, ...restProps } = props;
 
   // Hooks
   const { isOpen, open, close } = usePopModal(modalKey);
@@ -33,11 +35,15 @@ export const FocusSearch = (props: FocusSearchProps) => {
     >
       <Modal.Trigger>{children}</Modal.Trigger>
       <Modal.Content>
-        <Modal.Body p={2}>
-          <SearchInput
-            queryKey={queryKey}
-            placeholder={t["settings.search.placeholder"]()}
-          />
+        <Modal.Body display={"flex"} flexDir={"column"} p={0}>
+          <HStack p={2}>
+            <SearchInput
+              queryKey={queryKey}
+              placeholder={t["settings.search.placeholder"]()}
+            />
+          </HStack>
+
+          <VScrollContainer p={2}>{results}</VScrollContainer>
         </Modal.Body>
 
         <Modal.Footer borderTop={"1px solid"} borderColor={"border.subtle"}>

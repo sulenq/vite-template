@@ -6,6 +6,7 @@ import type { FeedbackStateProps } from "@/design-system/components/feedback/typ
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { VStack } from "@/design-system/components/layout/ui/container";
 import { P } from "@/design-system/components/typography/ui/p";
+import { MIN_H_FEEDBACK_CONTAINER } from "@/design-system/constants/styles";
 
 const FeedbackState = (props: FeedbackStateProps) => {
   // Props
@@ -17,7 +18,15 @@ const FeedbackState = (props: FeedbackStateProps) => {
   const isDescriptionString = typeof description === "string";
 
   return (
-    <VStack align={"center"} gap={4} p={4} {...restProps}>
+    <VStack
+      align={"center"}
+      justify={"center"}
+      gap={4}
+      minH={MIN_H_FEEDBACK_CONTAINER}
+      p={4}
+      m={"auto"}
+      {...restProps}
+    >
       {tablerIcon ? (
         <AppTablerIcon
           icon={tablerIcon}
@@ -31,7 +40,7 @@ const FeedbackState = (props: FeedbackStateProps) => {
 
       <VStack align={"center"} gap={2} maxW={"300px"}>
         {isTitleString && (
-          <P textAlign={"center"} fontWeight={"medium"}>
+          <P textAlign={"center"} fontWeight={"medium"} color={"fg.muted"}>
             {title}
           </P>
         )}

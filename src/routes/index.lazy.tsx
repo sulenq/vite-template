@@ -7,7 +7,7 @@ import {
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { FeedbackAccessDenied } from "@/design-system/components/feedback/ui/feedback-access-denied";
 import { FeedbackNoData } from "@/design-system/components/feedback/ui/feedback-no-data";
-import { FeedbackNotResult } from "@/design-system/components/feedback/ui/feedback-no-result";
+import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-no-result";
 import { FeedbackRetry } from "@/design-system/components/feedback/ui/feedback-retry";
 import {
   AppLucideIcon,
@@ -96,7 +96,7 @@ const FeedbackSection = () => {
 
         <FeedbackAccessDenied />
 
-        <FeedbackNotResult />
+        <FeedbackNoResult />
 
         <FeedbackRetry />
       </HStack>
