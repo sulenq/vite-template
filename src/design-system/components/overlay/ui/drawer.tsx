@@ -60,7 +60,7 @@ const DrawerRoot = (props: DrawerRootProps) => {
   const {
     modalKey = "drawer",
     size = "sm",
-    placement,
+    placement = "bottom",
     swipeToDismiss = true,
     fullscreen = false,
     onClose,
@@ -122,6 +122,21 @@ const DrawerContent = (props: ChakraDrawer.ContentProps) => {
   const scrollElRef = useRef<HTMLElement | null>(null);
 
   const contentRef = useRef<HTMLDivElement | null>(null);
+
+  const rounded = {
+    start: {
+      roundedRight: theme.radii.container,
+    },
+    end: {
+      roundedLeft: theme.radii.container,
+    },
+    top: {
+      roundedBottom: theme.radii.container,
+    },
+    bottom: {
+      roundedTop: theme.radii.container,
+    },
+  };
 
   // Handlers
   function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
@@ -198,18 +213,20 @@ const DrawerContent = (props: ChakraDrawer.ContentProps) => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
       data-placement={placement}
-      rounded={fullscreen || size === "full" ? 0 : theme.radii.container}
+      {...(fullscreen || size === "full"
+        ? { rounded: 0 }
+        : rounded[placement as keyof typeof rounded])}
       bg={"bg.body"}
       {...restProps}
     >
       {swipeToDismiss && (
         <Box
-          w="100px"
-          h="4px"
-          rounded="full"
-          bg="bg.muted"
+          w={"100px"}
+          h={"4px"}
+          rounded={"full"}
+          bg={"bg.muted"}
           my={1.5}
-          mx="auto"
+          mx={"auto"}
         />
       )}
 
@@ -223,15 +240,15 @@ const DrawerCloseTrigger = (props: ChakraDrawer.CloseTriggerProps) => {
 };
 
 const DrawerHeader = (props: ChakraDrawer.HeaderProps) => {
-  return <ChakraDrawer.Header {...props} />;
+  return <ChakraDrawer.Header p={4} {...props} />;
 };
 
 const DrawerBody = (props: ChakraDrawer.BodyProps) => {
-  return <ChakraDrawer.Body {...props} />;
+  return <ChakraDrawer.Body p={4} {...props} />;
 };
 
 const DrawerFooter = (props: ChakraDrawer.FooterProps) => {
-  return <ChakraDrawer.Footer {...props} />;
+  return <ChakraDrawer.Footer justifyContent={"stretch"} p={4} {...props} />;
 };
 
 export const Drawer = {

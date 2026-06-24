@@ -29,8 +29,9 @@ export const SettingsTrigger = (props: PopModalTriggerProps) => {
       open={open}
       close={close}
       size={isSmallViewport ? "full" : "2xl"}
-      clickOriginAnimation
+      dialogClickOriginAnimation
       drawerPlacement={"end"}
+      drawerSwipeToDismiss={false}
     >
       <Modal.Trigger {...restProps}>{children}</Modal.Trigger>
 

@@ -57,9 +57,10 @@ const ModalRoot = (props: ModalRootProps) => {
     opened = false,
     open,
     close,
-    clickOriginAnimation = false,
     size = "xs",
+    dialogClickOriginAnimation = true,
     drawerPlacement = "bottom",
+    drawerSwipeToDismiss = true,
     ...restProps
   } = props;
 
@@ -112,7 +113,7 @@ const ModalRoot = (props: ModalRootProps) => {
           size={size as DrawerRootProps["size"]}
           lazyMount
           unmountOnExit
-          swipeToDismiss={false}
+          swipeToDismiss={drawerSwipeToDismiss}
           {...restProps}
           placement={drawerPlacement}
         >
@@ -128,7 +129,7 @@ const ModalRoot = (props: ModalRootProps) => {
           unmountOnExit
           size={fullscreen ? "full" : size}
           scrollBehavior={"inside"}
-          clickOriginAnimation={clickOriginAnimation}
+          dialogClickOriginAnimation={dialogClickOriginAnimation}
           {...restProps}
           placement={"center"}
         >

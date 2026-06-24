@@ -36,7 +36,7 @@ export const FeedbackNotResult = (
       m={"auto"}
       {...restProps}
     >
-      <VStack align={"center"} p={4} maxW={"300px"}>
+      <VStack align={"center"} maxW={"300px"} p={4}>
         {tablerIcon ? (
           <AppTablerIcon
             icon={tablerIcon}
@@ -51,7 +51,7 @@ export const FeedbackNotResult = (
 
         <P textAlign={"center"}>{t["common.no_results_found_for"]()}</P>
 
-        <P textAlign={"center"}>{`"${query}"`}</P>
+        <P fontWeight={"semibold"} textAlign={"center"}>{`"${query}"`}</P>
       </VStack>
 
       {children}

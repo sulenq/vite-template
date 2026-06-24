@@ -5,23 +5,28 @@
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import { HStack } from "@/design-system/components/layout/ui/container";
-import { P } from "@/design-system/components/typography/ui/p";
-import { HEADER_H } from "@/design-system/constants/styles";
-import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
-import { back } from "@/utils/client/navigation";
-import { IconChevronLeft, IconSearch } from "@tabler/icons-react";
 import type { StackProps } from "@/design-system/components/layout/types/container.type";
-import { VStack } from "@/design-system/components/layout/ui/container";
+import { HStack, VStack } from "@/design-system/components/layout/ui/container";
 import { NavButton } from "@/design-system/components/layout/ui/nav";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { Separator } from "@/design-system/components/layout/ui/separator";
+import { useModalContext } from "@/design-system/components/overlay/ui/modal";
+import { P } from "@/design-system/components/typography/ui/p";
+import { HEADER_H } from "@/design-system/constants/styles";
+import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import { SETTINGS_NAV_GROUPS } from "@/features/settings/constants/settings-nav-groups";
-import { SETTINGS_NAVS } from "@/features/settings/constants/settings-navs";
+import { SettingsSearchTrigger } from "@/features/settings/components/settings.search";
+import { SETTINGS_NAV_GROUPS } from "@/features/settings/constants/settings.nav-groups";
+import { SETTINGS_NAVS } from "@/features/settings/constants/settings.navs";
+import type { SettingNav } from "@/features/settings/types/settings-navs.type";
 import { t } from "@/libs/i18n";
 import { RootRoute } from "@/routes/-typed";
-import { IconChevronRight } from "@tabler/icons-react";
+import { back } from "@/utils/client/navigation";
+import {
+  IconChevronLeft,
+  IconChevronRight,
+  IconSearch,
+} from "@tabler/icons-react";
 import { Fragment } from "react/jsx-runtime";
 
 export const SettingsMenu = () => {
@@ -39,6 +44,22 @@ export const SettingsMenu = () => {
 
       <SettingsMenuBody p={2} />
     </VStack>
+  );
+};
+
+const SettingsSearchButton = () => {
+  // Contexts
+  const { modalKey } = useModalContext();
+
+  return (
+    <SettingsSearchTrigger
+      modalKey={modalKey + ".search"}
+      queryKey={"settingsSearch"}
+    >
+      <IconButton>
+        <AppTablerIcon icon={IconSearch} />
+      </IconButton>
+    </SettingsSearchTrigger>
   );
 };
 
@@ -61,11 +82,7 @@ export const SettingsMenuHeader = () => {
           </IconButton>
         )}
 
-        {!isSmallViewport && (
-          <IconButton>
-            <AppTablerIcon icon={IconSearch} />
-          </IconButton>
-        )}
+        {!isSmallViewport && <SettingsSearchButton />}
       </HStack>
 
       <P fontWeight={"semibold"} textAlign={"center"}>
@@ -73,7 +90,9 @@ export const SettingsMenuHeader = () => {
       </P>
 
       <HStack w={"40px"}>
-        <ColorModeToggleButton />
+        {isSmallViewport && <SettingsSearchButton />}
+
+        {!isSmallViewport && <ColorModeToggleButton />}
       </HStack>
     </HStack>
   );
@@ -99,15 +118,18 @@ export const SettingsMenuBody = (props: StackProps) => {
     >
       {SETTINGS_NAV_GROUPS.map((group, index) => {
         const isFirstIndex = index === 0;
+        const groupTitle = group?.titleKey
+          ? t[group.titleKey]()
+          : group.titleKey;
 
         return (
           <Fragment key={index}>
             {!isSmallViewport && !isFirstIndex && <Separator />}
 
             <VStack className={"nav-group"}>
-              {(group?.label || group?.labelKey) && (
+              {groupTitle && (
                 <P fontSize={"xs"} color={"fg.subtle"} px={2} mb={2}>
-                  {group.label || (group.labelKey ? t[group.labelKey]() : "")}
+                  {groupTitle}
                 </P>
               )}
 
@@ -119,8 +141,11 @@ export const SettingsMenuBody = (props: StackProps) => {
                 p={isSmallViewport ? 2 : 0}
               >
                 {group.list.map((navKey) => {
-                  const nav = SETTINGS_NAVS[navKey];
                   const isNavActive = activeSettingNavKey === navKey;
+                  const nav = SETTINGS_NAVS[navKey] as SettingNav;
+                  const navTitle = nav?.titleKey
+                    ? t[nav.titleKey]()
+                    : nav.titleKey;
 
                   return (
                     <NavButton
@@ -138,7 +163,7 @@ export const SettingsMenuBody = (props: StackProps) => {
                     >
                       <AppTablerIcon icon={nav.icon} />
 
-                      {t[`settings.${navKey}.label`]()}
+                      {navTitle}
 
                       {isSmallViewport && (
                         <AppTablerIcon

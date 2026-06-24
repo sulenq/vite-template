@@ -16,7 +16,7 @@ import {
   MODAL_CONTROL_CONTAINER_W,
 } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
-import { SETTINGS_PAGES } from "@/features/settings/constants/settings-pages";
+import { SETTINGS_PAGES } from "@/features/settings/constants/settings.pages";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
 import { t } from "@/libs/i18n";
 import { RootRoute } from "@/routes/-typed";
@@ -86,7 +86,7 @@ export const SettingsActivePageHeader = (props: StackProps) => {
 
   // Resolved Values
   const resolvedTitle = activeSettingNavKey
-    ? t[`settings.${activeSettingNavKey}.label`]()
+    ? t[`settings.${activeSettingNavKey}.title`]()
     : "";
 
   return (
@@ -171,6 +171,7 @@ export const SettingsActivePageBody = (props: StackProps) => {
         opened={!!activeSettingsNavKeySearch}
         size={"full"}
         drawerPlacement={"end"}
+        drawerSwipeToDismiss={false}
       >
         <Modal.Content className={"settings-active-page__body"}>
           <Modal.Body display={"flex"} flexDir={"column"} p={0}>

@@ -15,8 +15,9 @@ export type ModalRootProps = {
   opened: boolean;
   open?: () => void;
   close?: () => void;
-  clickOriginAnimation?: boolean;
+  dialogClickOriginAnimation?: boolean;
   drawerPlacement?: ChakraDrawer.RootProps["placement"];
+  drawerSwipeToDismiss?: boolean;
 } & (
   | Omit<ChakraDrawer.RootProps, "open" | "placement">
   | Omit<ChakraDialog.RootProps, "open" | "placement">

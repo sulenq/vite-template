@@ -27,7 +27,7 @@ export function usePopModal(modalKey: string, getDepth?: () => number) {
   function open() {
     navigate({
       to: ".",
-      search: { activeModalKey: modalKey },
+      search: (old) => ({ ...old, activeModalKey: modalKey }),
     });
   }
 
@@ -39,7 +39,6 @@ export function usePopModal(modalKey: string, getDepth?: () => number) {
       });
       return;
     }
-
     open();
   }
 
@@ -67,42 +66,3 @@ export function usePopModal(modalKey: string, getDepth?: () => number) {
     close,
   };
 }
-
-// Use below for Next js
-// import { useMemo } from "react";
-// import { useRouter, useSearchParams } from "next/navigation";
-
-// export function usePopModal(modalKey: string) {
-//   const router = useRouter();
-//   const searchParams = useSearchParams();
-
-//   const activeModalKey = searchParams.get("activeModalKey") ?? undefined;
-
-//   const isOpen = useMemo(() => {
-//     if (typeof activeModalKey !== "string") return false;
-
-//     return activeModalKey === modalKey || activeModalKey.startsWith(modalKey + ".");
-//   }, [modalKey, activeModalKey]);
-
-//   function open() {
-//     const params = new URLSearchParams(searchParams.toString());
-//     params.set("activeModalKey", modalKey);
-
-//     router.push("?" + params.toString());
-//   }
-
-//   function toggle() {
-//     if (isOpen) {
-//       router.back();
-//       return;
-//     }
-
-//     open();
-//   }
-
-//   return {
-//     isOpen,
-//     open,
-//     toggle,
-//   };
-// }

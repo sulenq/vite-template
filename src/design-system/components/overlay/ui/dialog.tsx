@@ -22,7 +22,7 @@ import { createContext, useContext, useLayoutEffect, useRef } from "react";
 export type DialogContextValue = {
   modalKey: string;
   size: ChakraDialog.RootProps["size"];
-  clickOriginAnimation: boolean;
+  dialogClickOriginAnimation: boolean;
   fullscreen: boolean;
   onClose?: () => void;
 };
@@ -43,7 +43,7 @@ interface DialogRootProps extends ChakraDialog.RootProps {
   modalKey?: string;
   onClose?: () => void;
   fullscreen?: boolean;
-  clickOriginAnimation?: boolean;
+  dialogClickOriginAnimation?: boolean;
 }
 
 // -----------------------------------------------------------------
@@ -53,7 +53,7 @@ const DialogRoot = (props: DialogRootProps) => {
   const {
     modalKey = "dialog",
     size = "xs",
-    clickOriginAnimation = false,
+    dialogClickOriginAnimation = false,
     fullscreen = false,
     onClose,
     ...restProps
@@ -64,7 +64,7 @@ const DialogRoot = (props: DialogRootProps) => {
       value={{
         modalKey,
         size,
-        clickOriginAnimation,
+        dialogClickOriginAnimation,
         fullscreen,
         onClose,
       }}
@@ -76,13 +76,13 @@ const DialogRoot = (props: DialogRootProps) => {
 
 const DialogTrigger = (props: ChakraDialog.TriggerProps) => {
   // Contexts
-  const { modalKey, clickOriginAnimation } = useDialogContext();
+  const { modalKey, dialogClickOriginAnimation } = useDialogContext();
 
   return (
     <ChakraDialog.Trigger
       asChild
       onPointerDown={
-        clickOriginAnimation
+        dialogClickOriginAnimation
           ? (e) => {
               updateClickOrigin(modalKey, e.currentTarget);
             }
@@ -112,7 +112,7 @@ const DialogPositioner = (props: ChakraDialog.PositionerProps) => {
 
 const DialogContent = (props: ChakraDialog.ContentProps) => {
   // Contexts
-  const { modalKey, fullscreen, size, clickOriginAnimation } =
+  const { modalKey, fullscreen, size, dialogClickOriginAnimation } =
     useDialogContext();
 
   // Store
@@ -193,13 +193,13 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
       }}
       {...props}
       _open={{
-        animation: clickOriginAnimation
+        animation: dialogClickOriginAnimation
           ? "scale-up-overshoot-from-click-origin"
           : "scale-up-overshoot",
         animationDuration: "slowest",
       }}
       _closed={{
-        animation: clickOriginAnimation
+        animation: dialogClickOriginAnimation
           ? "scale-down-to-click-origin"
           : "scale-down",
         animationDuration: "slow",
@@ -213,15 +213,15 @@ const DialogCloseTrigger = (props: ChakraDialog.CloseTriggerProps) => {
 };
 
 const DialogHeader = (props: ChakraDialog.TitleProps) => {
-  return <ChakraDialog.Title {...props} />;
+  return <ChakraDialog.Header p={4} {...props} />;
 };
 
 const DialogBody = (props: ChakraDialog.BodyProps) => {
-  return <ChakraDialog.Body {...props} />;
+  return <ChakraDialog.Body p={4} {...props} />;
 };
 
 const DialogFooter = (props: ChakraDialog.FooterProps) => {
-  return <ChakraDialog.Footer {...props} />;
+  return <ChakraDialog.Footer justifyContent={"stretch"} p={4} {...props} />;
 };
 
 export const Dialog = {
