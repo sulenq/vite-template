@@ -43,8 +43,8 @@ export const FocusSearch = (props: FocusSearchProps) => {
         <Modal.Footer borderTop={"1px solid"} borderColor={"border.subtle"}>
           <HStack align={"center"} gap={4}>
             <HStack align={"center"} gap={2}>
-              <Kbd fontSize={"md"}>↑</Kbd>
-              <Kbd fontSize={"md"}>↓</Kbd>
+              <Kbd fontSize={"sm"}>↑</Kbd>
+              <Kbd fontSize={"sm"}>↓</Kbd>
 
               <P fontSize={"xs"} color={"fg.subtle"}>
                 {t["common.navigate"]()}
@@ -52,7 +52,7 @@ export const FocusSearch = (props: FocusSearchProps) => {
             </HStack>
 
             <HStack align={"center"} gap={2}>
-              <Kbd>↵</Kbd>
+              <Kbd fontSize={"sm"}>↵</Kbd>
 
               <P fontSize={"xs"} color={"fg.subtle"}>
                 {t["common.select"]()}
@@ -60,7 +60,7 @@ export const FocusSearch = (props: FocusSearchProps) => {
             </HStack>
 
             <HStack align={"center"} gap={2}>
-              <Kbd fontSize={"2xs"}>Esc</Kbd>
+              <Kbd>Esc</Kbd>
 
               <P fontSize={"xs"} color={"fg.subtle"}>
                 {t["common.close"]()}

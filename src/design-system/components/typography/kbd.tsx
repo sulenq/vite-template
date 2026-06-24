@@ -4,5 +4,5 @@ import {
 } from "@chakra-ui/react";
 
 export const Kbd = (props: ChakraKbdProps) => {
-  return <ChakraKbd {...props} />;
+  return <ChakraKbd fontSize={"2xs"} {...props} />;
 };
