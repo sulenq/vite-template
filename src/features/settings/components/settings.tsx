@@ -54,21 +54,11 @@ export const SettingsTrigger = (props: PopModalTriggerProps) => {
 };
 
 const SettingsView = () => {
-  // Hooks
-  const { activeSettingNavKey } = RootRoute.useSearch();
-  const isSmallViewport = useIsSmallViewport();
-
-  // Derived Values
-  const shouldShowSettingMenu =
-    (isSmallViewport && !activeSettingNavKey) || !isSmallViewport;
-  const shouldShowSettingsActivePage =
-    (isSmallViewport && activeSettingNavKey) || !isSmallViewport;
-
   return (
-    <HStack flex={1} overflowY={"auto"}>
-      {shouldShowSettingMenu && <SettingsMenu />}
+    <HStack className={"settings-view"} flex={1} overflowY={"auto"}>
+      <SettingsMenu />
 
-      {shouldShowSettingsActivePage && <SettingsActivePage />}
+      <SettingsActivePage />
     </HStack>
   );
 };

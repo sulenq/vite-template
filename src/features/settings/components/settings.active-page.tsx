@@ -17,18 +17,60 @@ import {
 } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { SETTINGS_PAGES } from "@/features/settings/constants/settings-pages";
+import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
 import { t } from "@/libs/i18n";
 import { RootRoute } from "@/routes/-typed";
 import { back } from "@/utils/client/navigation";
 import { IconChevronLeft } from "@tabler/icons-react";
+import { createContext, useContext, useEffect, useState } from "react";
+
+export type SettingsActivePageContextValue = {
+  activeSettingNavKey: SettingNavKey | undefined;
+  setActiveSettingNavKey: React.Dispatch<
+    React.SetStateAction<SettingNavKey | undefined>
+  >;
+};
+
+const SettingsActivePageContext =
+  createContext<SettingsActivePageContextValue | null>(null);
+
+export const useActivePageContext = () => {
+  const context = useContext(SettingsActivePageContext);
+
+  if (!context) {
+    throw new Error(
+      "useActivePageContext must be used within SettingsActivePage",
+    );
+  }
+
+  return context;
+};
 
 export const SettingsActivePage = () => {
-  return (
-    <VStack flex={1} overflowY={"auto"} bg={"bg.canvas"}>
-      <SettingsActivePageHeader />
+  // Hooks
+  const { activeSettingNavKey: activeSettingNavKeySearch } =
+    RootRoute.useSearch();
 
-      <SettingsActivePageBody />
-    </VStack>
+  // States
+  const [activeSettingNavKey, setActiveSettingNavKey] = useState<
+    SettingNavKey | undefined
+  >(activeSettingNavKeySearch);
+
+  return (
+    <SettingsActivePageContext.Provider
+      value={{ activeSettingNavKey, setActiveSettingNavKey }}
+    >
+      <VStack
+        className={"settings-active-page"}
+        flex={1}
+        overflowY={"auto"}
+        bg={"bg.canvas"}
+      >
+        <SettingsActivePageHeader />
+
+        <SettingsActivePageBody />
+      </VStack>
+    </SettingsActivePageContext.Provider>
   );
 };
 
@@ -36,8 +78,10 @@ export const SettingsActivePageHeader = (props: StackProps) => {
   // Props
   const { ...restProps } = props;
 
+  // Contexts
+  const { activeSettingNavKey } = useActivePageContext();
+
   // Hooks
-  const { activeSettingNavKey } = RootRoute.useSearch();
   const isSmallViewport = useIsSmallViewport();
 
   // Resolved Values
@@ -47,6 +91,7 @@ export const SettingsActivePageHeader = (props: StackProps) => {
 
   return (
     <HStack
+      className={"settings-active-page__header"}
       align={"center"}
       justify={"space-between"}
       h={HEADER_H}
@@ -83,33 +128,75 @@ export const SettingsActivePageHeader = (props: StackProps) => {
   );
 };
 
+export const ActiveSettingsPageContentIndex = (
+  <FeedbackState
+    title={t["settings.index.title"]()}
+    description={t["settings.index.description"]()}
+    pb={HEADER_H}
+    m={"auto"}
+  />
+);
+
 export const SettingsActivePageBody = (props: StackProps) => {
   // Props
   const { ...restProps } = props;
 
+  // Contexts
+  const { activeSettingNavKey, setActiveSettingNavKey } =
+    useActivePageContext();
+
   // Hooks
-  const { activeSettingNavKey } = RootRoute.useSearch();
+  const { activeSettingNavKey: activeSettingsNavKeySearch } =
+    RootRoute.useSearch();
+  const isSmallViewport = useIsSmallViewport();
 
   // Derived Values
-  const ActiveSettingPage = activeSettingNavKey
+  const ActiveSettingPageContent = activeSettingNavKey
     ? SETTINGS_PAGES[activeSettingNavKey]
     : null;
 
   // Handle key changes
+  useEffect(() => {
+    if (activeSettingsNavKeySearch) {
+      setActiveSettingNavKey(activeSettingsNavKeySearch);
+    }
+  }, [activeSettingsNavKeySearch, setActiveSettingNavKey]);
+
+  if (isSmallViewport) {
+    return (
+      <Modal.Root
+        modalKey={"settings." + activeSettingNavKey}
+        opened={!!activeSettingsNavKeySearch}
+        size={"full"}
+        drawerPlacement={"end"}
+      >
+        <Modal.Content className={"settings-active-page__body"}>
+          <Modal.Body display={"flex"} flexDir={"column"} p={0}>
+            <SettingsActivePageHeader />
+
+            <VStack overflowY={"auto"}>
+              {ActiveSettingPageContent && <ActiveSettingPageContent />}
+
+              {!ActiveSettingPageContent && ActiveSettingsPageContentIndex}
+            </VStack>
+          </Modal.Body>
+        </Modal.Content>
+      </Modal.Root>
+    );
+  }
 
   return (
-    <VScrollContainer flex={1} align={"center"} p={4} {...restProps}>
+    <VScrollContainer
+      className={"settings-active-page__body"}
+      flex={1}
+      align={"center"}
+      p={4}
+      {...restProps}
+    >
       <VStack flex={1} gap={4} w={"full"} maxW={"600px"}>
-        {ActiveSettingPage && <ActiveSettingPage />}
+        {ActiveSettingPageContent && <ActiveSettingPageContent />}
 
-        {!ActiveSettingPage && (
-          <FeedbackState
-            title={t["settings.index.title"]()}
-            description={t["settings.index.description"]()}
-            pb={HEADER_H}
-            m={"auto"}
-          />
-        )}
+        {!ActiveSettingPageContent && ActiveSettingsPageContentIndex}
       </VStack>
     </VScrollContainer>
   );

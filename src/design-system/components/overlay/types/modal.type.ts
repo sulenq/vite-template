@@ -13,8 +13,8 @@ export type PopModalTriggerProps = {
 export type ModalRootProps = {
   modalKey: string;
   opened: boolean;
-  open: () => void;
-  close: () => void;
+  open?: () => void;
+  close?: () => void;
   clickOriginAnimation?: boolean;
   drawerPlacement?: ChakraDrawer.RootProps["placement"];
 } & (

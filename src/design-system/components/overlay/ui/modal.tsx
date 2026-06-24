@@ -29,8 +29,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 export type ModalContextValue = {
   modalKey: string;
   opened: boolean;
-  open: () => void;
-  close: () => void;
+  open?: () => void;
+  close?: () => void;
   fullscreen: boolean;
   setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -246,7 +246,7 @@ const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {
         {...restProps}
         position={"static"}
         onClick={(event) => {
-          close();
+          close?.();
           onClick?.(event);
         }}
       />
@@ -259,7 +259,7 @@ const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {
       {...restProps}
       position={"static"}
       onClick={(event) => {
-        close();
+        close?.();
         onClick?.(event);
       }}
     />

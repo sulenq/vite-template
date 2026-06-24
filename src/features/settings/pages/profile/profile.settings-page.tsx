@@ -11,9 +11,5 @@ export const ProfileSettingsPage = (props: ProfileSettingsPageProps) => {
   // Props
   const { ...restProps } = props;
 
-  return (
-    <VStack className="debug" flex={1} {...restProps}>
-      ProfileSettingsPage
-    </VStack>
-  );
+  return <VStack flex={1} overflowY={"auto"} {...restProps}></VStack>;
 };
