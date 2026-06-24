@@ -31,6 +31,7 @@ export const FocusSearchTrigger = (props: FocusSearchProps) => {
       opened={isOpen}
       open={open}
       close={close}
+      size={"sm"}
       {...restProps}
     >
       <Modal.Trigger>{children}</Modal.Trigger>
