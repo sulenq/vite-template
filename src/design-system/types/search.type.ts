@@ -7,7 +7,7 @@ export type SearchIndexItem<T = Record<string, unknown>> = {
   title: string;
   description?: string;
   keywords?: string[];
-  data: T;
+  data?: T;
 };
 
 export type SearchIndex<T = Record<string, unknown>> = SearchIndexItem<T>[];

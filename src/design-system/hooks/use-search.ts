@@ -1,7 +1,7 @@
 // src/libs/search/use-search.ts
 import MiniSearch from "minisearch";
 import { useMemo, useState } from "react";
-import type { SearchIndex, SearchIndexItem } from "./types";
+import type { SearchIndex, SearchIndexItem } from "../types/search.type";
 
 const RECENT_KEY = "search:recent";
 const MAX_RECENT = 5;
@@ -20,8 +20,12 @@ function saveRecent(namespace: string, ids: string[]) {
   localStorage.setItem(`${RECENT_KEY}:${namespace}`, JSON.stringify(ids));
 }
 
-export function useSearch<T>(index: SearchIndex<T>, namespace: string) {
-  const [query, setQuery] = useState("");
+export function useSearch<T>(
+  namespace: string,
+  // queryValue: string,
+  index: SearchIndex<T>,
+) {
+  const [queryState, setQueryState] = useState("");
   const [recentIds, setRecentIds] = useState<string[]>(() =>
     loadRecent(namespace),
   );
@@ -41,11 +45,11 @@ export function useSearch<T>(index: SearchIndex<T>, namespace: string) {
   }, [index]);
 
   const results = useMemo(() => {
-    if (!query.trim()) return [];
-    return miniSearch.search(query) as unknown as (SearchIndexItem<T> & {
+    if (!queryState.trim()) return [];
+    return miniSearch.search(queryState) as unknown as (SearchIndexItem<T> & {
       score: number;
     })[];
-  }, [miniSearch, query]);
+  }, [miniSearch, queryState]);
 
   const recentResults = useMemo(() => {
     return recentIds
@@ -75,12 +79,12 @@ export function useSearch<T>(index: SearchIndex<T>, namespace: string) {
   }
 
   return {
-    query,
-    setQuery,
-    results,
+    queryState,
+    setQueryState,
     recentResults,
     addRecent,
     clearRecent,
     clearAllRecent,
+    results,
   };
 }
