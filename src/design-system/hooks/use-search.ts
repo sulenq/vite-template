@@ -6,28 +6,27 @@ import type { SearchIndex, SearchIndexItem } from "../types/search.type";
 const RECENT_KEY = "search:recent";
 const MAX_RECENT = 5;
 
-function loadRecent(namespace: string): string[] {
+function loadRecent(queryKey: string): string[] {
   try {
     return JSON.parse(
-      localStorage.getItem(`${RECENT_KEY}:${namespace}`) ?? "[]",
+      localStorage.getItem(`${RECENT_KEY}:${queryKey}`) ?? "[]",
     );
   } catch {
     return [];
   }
 }
 
-function saveRecent(namespace: string, ids: string[]) {
-  localStorage.setItem(`${RECENT_KEY}:${namespace}`, JSON.stringify(ids));
+function saveRecent(queryKey: string, ids: string[]) {
+  localStorage.setItem(`${RECENT_KEY}:${queryKey}`, JSON.stringify(ids));
 }
 
 export function useSearch<T>(
-  namespace: string,
-  // queryValue: string,
+  queryKey: string,
+  query: string,
   index: SearchIndex<T>,
 ) {
-  const [queryState, setQueryState] = useState("");
   const [recentIds, setRecentIds] = useState<string[]>(() =>
-    loadRecent(namespace),
+    loadRecent(queryKey),
   );
 
   const miniSearch = useMemo(() => {
@@ -45,11 +44,11 @@ export function useSearch<T>(
   }, [index]);
 
   const results = useMemo(() => {
-    if (!queryState.trim()) return [];
-    return miniSearch.search(queryState) as unknown as (SearchIndexItem<T> & {
+    if (!query.trim()) return [];
+    return miniSearch.search(query) as unknown as (SearchIndexItem<T> & {
       score: number;
     })[];
-  }, [miniSearch, queryState]);
+  }, [miniSearch, query]);
 
   const recentResults = useMemo(() => {
     return recentIds
@@ -60,7 +59,7 @@ export function useSearch<T>(
   function addRecent(id: string) {
     setRecentIds((prev) => {
       const next = [id, ...prev.filter((r) => r !== id)].slice(0, MAX_RECENT);
-      saveRecent(namespace, next);
+      saveRecent(queryKey, next);
       return next;
     });
   }
@@ -68,19 +67,17 @@ export function useSearch<T>(
   function clearRecent(id: string) {
     setRecentIds((prev) => {
       const next = prev.filter((r) => r !== id);
-      saveRecent(namespace, next);
+      saveRecent(queryKey, next);
       return next;
     });
   }
 
   function clearAllRecent() {
     setRecentIds([]);
-    saveRecent(namespace, []);
+    saveRecent(queryKey, []);
   }
 
   return {
-    queryState,
-    setQueryState,
     recentResults,
     addRecent,
     clearRecent,

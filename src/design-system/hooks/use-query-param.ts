@@ -3,7 +3,7 @@
 import { RootRoute } from "@/routes/-typed";
 import { useNavigate } from "@tanstack/react-router";
 
-export function useSearchParam(queryKey?: string) {
+export function useQueryParam(queryKey?: string) {
   const navigate = useNavigate();
   const search = RootRoute.useSearch() as Record<string, string | undefined>;
 

@@ -8,10 +8,10 @@ import {
   Input,
   type InputProps,
 } from "@/design-system/components/input/ui/input";
-import { useSearchParam } from "@/design-system/hooks/use-search-param";
+import { useQueryParam } from "@/design-system/hooks/use-query-param";
 import { InputGroup } from "@chakra-ui/react";
 import { IconSearch, IconX } from "@tabler/icons-react";
-import { forwardRef, useRef } from "react";
+import { forwardRef, useRef, useState } from "react";
 
 interface SearchInputProps extends InputProps {
   queryKey?: string;
@@ -25,32 +25,26 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     const internalRef = useRef<HTMLInputElement | null>(null);
 
     // Hooks
-    const {
-      isUrlMode,
-      queryValue: urlValue,
-      setQueryValue,
-      clearQueryValue,
-    } = useSearchParam(queryKey);
+    const { isUrlMode, queryValue, setQueryValue, clearQueryValue } =
+      useQueryParam(queryKey);
 
-    // Resolved Values
-    const value = isUrlMode ? urlValue : controlledValue;
+    // States
+    const [value, setValue] = useState<string>(
+      isUrlMode ? (queryValue ?? "") : (controlledValue ?? ""),
+    );
 
     // Handlers
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
       const next = e.currentTarget.value;
-      if (isUrlMode) {
-        setQueryValue(next);
-      } else {
-        onValueChange?.(next);
-      }
+      setValue(next);
+      setQueryValue(next);
+      onValueChange?.(next);
     }
 
     function handleClear() {
-      if (isUrlMode) {
-        clearQueryValue();
-      } else {
-        onValueChange?.("");
-      }
+      setValue("");
+      clearQueryValue();
+      onValueChange?.("");
       internalRef.current?.focus();
     }
 
@@ -72,7 +66,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             if (typeof ref === "function") ref(node);
             else if (ref) ref.current = node;
           }}
-          value={value ?? ""}
+          value={value}
           onChange={handleChange}
         />
       </InputGroup>

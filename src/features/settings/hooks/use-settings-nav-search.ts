@@ -2,7 +2,6 @@
 
 import { useSearch } from "@/design-system/hooks/use-search";
 import { useSettingsNavIndex } from "@/features/settings/utils/settings.nav-index";
-import { useEffect } from "react";
 
 export const SETTINGS_SEARCH_QUERY_KEY = "settings-search-query";
 
@@ -16,12 +15,7 @@ export function useSettingsNavSearch(props: UseSettingsNavSearchProps) {
 
   // Hooks
   const index = useSettingsNavIndex();
-  const searchHooks = useSearch(SETTINGS_SEARCH_QUERY_KEY, index);
-  const setQueryState = searchHooks.setQueryState;
-
-  useEffect(() => {
-    if (queryValue) setQueryState(queryValue);
-  }, [queryValue, setQueryState]);
+  const searchHooks = useSearch(SETTINGS_SEARCH_QUERY_KEY, queryValue, index);
 
   return searchHooks;
 }

@@ -1,39 +1,30 @@
-//src/features/settings/components/settings.search.tsx
+// src/features/settings/components/settings.search.tsx
 
 "use client";
 
 import { FocusSearch } from "@/design-system/components/overlay/ui/focus-search";
-import { useSearchParam } from "@/design-system/hooks/use-search-param";
-import { useSettingsNavSearch } from "@/features/settings/hooks/use-settings-nav-search";
+import { SETTINGS_SEARCH_QUERY_KEY } from "@/features/settings/hooks/use-settings-nav-search";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
+import { useSettingsNavIndex } from "@/features/settings/utils/settings.nav-index";
 import { RootRoute } from "@/routes/-typed";
-import { back } from "@/utils/client/navigation";
 
-export interface SettingsSearchTriggerProps {
+interface SettingsSearchTriggerProps {
   children: React.ReactNode;
   modalKey: string;
-  queryKey: string;
 }
 
 export const SettingsSearchTrigger = (props: SettingsSearchTriggerProps) => {
-  // Props
-  const { children, modalKey, queryKey } = props;
-
-  // Hooks
+  const { children, modalKey } = props;
   const { activeSettingNavKey } = RootRoute.useSearch();
   const navigate = RootRoute.useNavigate();
-  const { queryValue } = useSearchParam(queryKey);
-  const settingsNavSearchHooks = useSettingsNavSearch({
-    queryValue: queryValue ?? "",
-  });
+  const index = useSettingsNavIndex();
 
   return (
     <FocusSearch.Root
       modalKey={modalKey}
-      queryKey={queryKey}
-      queryValue={queryValue ?? ""}
+      queryKey={SETTINGS_SEARCH_QUERY_KEY}
+      index={index}
       onResultSelect={(result) => {
-        back();
         setTimeout(() => {
           navigate({
             to: ".",
@@ -45,7 +36,6 @@ export const SettingsSearchTrigger = (props: SettingsSearchTriggerProps) => {
           });
         }, 200);
       }}
-      {...settingsNavSearchHooks}
     >
       <FocusSearch.Trigger>{children}</FocusSearch.Trigger>
     </FocusSearch.Root>
