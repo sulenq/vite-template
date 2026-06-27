@@ -132,7 +132,7 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
       if (!el) return;
 
       // cancel fullscreen animation
-      currentAnimation?.cancel();
+      // currentAnimation?.cancel();
 
       currentAnimation = el.animate(
         next
