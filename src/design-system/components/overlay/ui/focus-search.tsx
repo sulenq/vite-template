@@ -24,6 +24,7 @@ import type {
 } from "@/design-system/types/search.type";
 import { t } from "@/libs/i18n";
 import { back } from "@/utils/client/navigation";
+import { isEmptyArray } from "@/utils/data/array";
 import { createContext, useContext, useState } from "react";
 
 type FocusTriggerContextValue = {
@@ -151,7 +152,7 @@ const FocusSearchBody = () => {
         <VStack gap={1}>
           {!hasQuery && (
             <>
-              {recentResults.length === 0 && (
+              {isEmptyArray(recentResults) && (
                 <FeedbackState
                   title={t["settings.search.empty.title"]()}
                   description={t["settings.search.empty.description"]()}
@@ -160,9 +161,9 @@ const FocusSearchBody = () => {
                 />
               )}
 
-              {recentResults.length > 0 && (
+              {!isEmptyArray(recentResults) && (
                 <>
-                  <HStack justify="space-between" px={4} mt={2}>
+                  <HStack justify="space-between" px={4} mt={2} mb={1}>
                     <P fontSize="xs" color="fg.subtle">
                       {t["common.recent"]()}
                     </P>
@@ -190,8 +191,9 @@ const FocusSearchBody = () => {
 
           {hasQuery && (
             <>
-              {results.length === 0 && <FeedbackNoResult query={query} />}
-              {results.length > 0 &&
+              {isEmptyArray(results) && <FeedbackNoResult query={query} />}
+
+              {!isEmptyArray(results) &&
                 results.map((result) => (
                   <FocusSearchResultItem
                     key={result.id}
