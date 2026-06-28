@@ -17,5 +17,7 @@ export type FocusSearchTriggerProps<T> = {
 export type FocusSearchResultItemProps = {
   result: SearchIndexItem;
   onResultSelect?: (result: SearchIndexItem) => void;
-  isSelected?: boolean;
+  idx: number;
+  selectedIdx: number;
+  setSelectedIdx: (idx: number) => void;
 } & StackProps;

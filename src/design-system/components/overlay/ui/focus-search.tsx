@@ -93,8 +93,21 @@ export const FocusSearchTrigger = <T,>(props: FocusSearchTriggerProps<T>) => {
 const FocusSearchResultItem = (
   props: FocusSearchResultItemProps & { isSelected?: boolean },
 ) => {
-  const { result, onResultSelect, isSelected, ...restProps } = props;
+  // Props
+  const {
+    result,
+    onResultSelect,
+    idx,
+    selectedIdx,
+    setSelectedIdx,
+    ...restProps
+  } = props;
+
+  // Store
   const { theme } = useThemeStore();
+
+  // Derived Values
+  const isSelected = idx === selectedIdx;
 
   // Scroll selected item into view
   useEffect(() => {
@@ -117,6 +130,9 @@ const FocusSearchResultItem = (
       bg={isSelected ? "bg.subtle" : undefined}
       _hover={{ bg: "bg.subtle" }}
       onClick={() => onResultSelect?.(result)}
+      onMouseEnter={() => {
+        setSelectedIdx(idx);
+      }}
       {...restProps}
     >
       <P>{result.title}</P>
@@ -172,7 +188,7 @@ const FocusSearchBody = () => {
   // }
 
   return (
-    <VStack gap={2} py={2}>
+    <VStack gap={2} overflowY={"auto"} py={2}>
       <HStack px={2}>
         <SearchInput
           queryKey={queryKey}
@@ -217,7 +233,9 @@ const FocusSearchBody = () => {
                       key={result.id}
                       result={result}
                       onResultSelect={handleSelect}
-                      isSelected={idx === selectedIdx}
+                      idx={idx}
+                      selectedIdx={selectedIdx}
+                      setSelectedIdx={setSelectedIdx}
                     />
                   ))}
                 </>
@@ -235,7 +253,9 @@ const FocusSearchBody = () => {
                     key={result.id}
                     result={result}
                     onResultSelect={handleSelect}
-                    isSelected={idx === selectedIdx}
+                    idx={idx}
+                    selectedIdx={selectedIdx}
+                    setSelectedIdx={setSelectedIdx}
                   />
                 ))}
             </>

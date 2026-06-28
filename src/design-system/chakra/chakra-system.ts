@@ -56,7 +56,7 @@ export const chakraConfig = defineConfig({
         },
         "100%": {
           transform: `translate(var(${DIALOG_OFFSET_X_VAR}), var(${DIALOG_OFFSET_Y_VAR})) scale(0)`,
-          opacity: 0.5,
+          opacity: 0,
         },
       },
 
