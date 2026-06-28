@@ -1,5 +1,7 @@
 // src/design-system/components/overlay/ui/focus-search.tsx
+
 "use client";
+
 import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-no-result";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { SearchInput } from "@/design-system/components/input/ui/search-input";
@@ -8,7 +10,7 @@ import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-co
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import type {
   FocusSearchResultItemProps,
-  FocusSearchRootProps,
+  FocusSearchTriggerProps,
 } from "@/design-system/components/overlay/types/focus-search.type";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { Kbd } from "@/design-system/components/typography/kbd";
@@ -44,8 +46,13 @@ const useFocusTriggerContext = () => {
   return context;
 };
 
-const FocusTriggerRoot = <T,>(props: FocusSearchRootProps<T>) => {
+// -----------------------------------------------------------------
+
+export const FocusSearchTrigger = <T,>(props: FocusSearchTriggerProps<T>) => {
+  // Props
   const { children, modalKey, queryKey, index, onResultSelect } = props;
+
+  // Hooks
   const { isOpen, open, close } = usePopModal(modalKey);
 
   return (
@@ -66,7 +73,17 @@ const FocusTriggerRoot = <T,>(props: FocusSearchRootProps<T>) => {
         close={close}
         size="sm"
       >
-        {children}
+        <Modal.Trigger>{children}</Modal.Trigger>
+
+        <Modal.Content>
+          <Modal.Body display="flex" flexDir="column" p={0}>
+            <FocusSearchBody />
+          </Modal.Body>
+
+          <Modal.Footer borderTop="1px solid" borderColor="border.subtle">
+            <FocusSearchFooter />
+          </Modal.Footer>
+        </Modal.Content>
       </Modal.Root>
     </FocusTriggerContext.Provider>
   );
@@ -195,53 +212,26 @@ const FocusSearchFooter = () => (
     <HStack align="center" gap={2}>
       <Kbd fontSize="sm">↑</Kbd>
       <Kbd fontSize="sm">↓</Kbd>
+
       <P fontSize="xs" color="fg.subtle">
         {t["common.navigate"]()}
       </P>
     </HStack>
+
     <HStack align="center" gap={2}>
       <Kbd fontSize="sm">↵</Kbd>
+
       <P fontSize="xs" color="fg.subtle">
         {t["common.select"]()}
       </P>
     </HStack>
+
     <HStack align="center" gap={2}>
       <Kbd>Esc</Kbd>
+
       <P fontSize="xs" color="fg.subtle">
         {t["common.close"]()}
       </P>
     </HStack>
   </HStack>
 );
-
-const FocusSearchTrigger = ({ children }: { children: React.ReactNode }) => {
-  const { modalKey } = useFocusTriggerContext();
-  const { isOpen, open, close } = usePopModal(modalKey);
-
-  return (
-    <Modal.Root
-      modalKey={modalKey}
-      opened={isOpen}
-      open={open}
-      close={close}
-      size="sm"
-    >
-      <Modal.Trigger>{children}</Modal.Trigger>
-      <Modal.Content>
-        <Modal.Body display="flex" flexDir="column" p={0}>
-          <FocusSearchBody />
-        </Modal.Body>
-        <Modal.Footer borderTop="1px solid" borderColor="border.subtle">
-          <FocusSearchFooter />
-        </Modal.Footer>
-      </Modal.Content>
-    </Modal.Root>
-  );
-};
-
-export const FocusSearch = {
-  Root: FocusTriggerRoot,
-  Trigger: FocusSearchTrigger,
-  Body: FocusSearchBody,
-  Footer: FocusSearchFooter,
-};

@@ -2,27 +2,30 @@
 
 "use client";
 
-import { FocusSearch } from "@/design-system/components/overlay/ui/focus-search";
-import { SETTINGS_SEARCH_QUERY_KEY } from "@/features/settings/hooks/use-settings-nav-search";
+import { FocusSearchTrigger } from "@/design-system/components/overlay/ui/focus-search";
+import { useSettingsNavIndex } from "@/features/settings/hooks/use-settings-nav.search-index";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
-import { useSettingsNavIndex } from "@/features/settings/utils/settings.nav-index";
 import { RootRoute } from "@/routes/-typed";
 
 interface SettingsSearchTriggerProps {
   children: React.ReactNode;
   modalKey: string;
+  queryKey: string;
 }
 
 export const SettingsSearchTrigger = (props: SettingsSearchTriggerProps) => {
-  const { children, modalKey } = props;
+  // Props
+  const { children, modalKey, queryKey } = props;
+
+  // Hooks
   const { activeSettingNavKey } = RootRoute.useSearch();
   const navigate = RootRoute.useNavigate();
   const index = useSettingsNavIndex();
 
   return (
-    <FocusSearch.Root
+    <FocusSearchTrigger
       modalKey={modalKey}
-      queryKey={SETTINGS_SEARCH_QUERY_KEY}
+      queryKey={queryKey}
       index={index}
       onResultSelect={(result) => {
         setTimeout(() => {
@@ -37,7 +40,7 @@ export const SettingsSearchTrigger = (props: SettingsSearchTriggerProps) => {
         }, 200);
       }}
     >
-      <FocusSearch.Trigger>{children}</FocusSearch.Trigger>
-    </FocusSearch.Root>
+      {children}
+    </FocusSearchTrigger>
   );
 };

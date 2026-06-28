@@ -6,7 +6,7 @@ import type {
 } from "@/design-system/types/search.type";
 import type { StackProps } from "@chakra-ui/react";
 
-export type FocusSearchRootProps<T = Record<string, unknown>> = {
+export type FocusSearchTriggerProps<T> = {
   children: React.ReactNode;
   modalKey: string;
   queryKey: string;

@@ -18,7 +18,6 @@ import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { SettingsSearchTrigger } from "@/features/settings/components/settings.search";
 import { SETTINGS_NAV_GROUPS } from "@/features/settings/constants/settings.nav-groups";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings.navs";
-import { SETTINGS_SEARCH_QUERY_KEY } from "@/features/settings/hooks/use-settings-nav-search";
 import type { SettingNav } from "@/features/settings/types/settings-navs.type";
 import { t } from "@/libs/i18n";
 import { RootRoute } from "@/routes/-typed";
@@ -55,7 +54,7 @@ const SettingsSearchButton = () => {
   return (
     <SettingsSearchTrigger
       modalKey={modalKey + ".search"}
-      queryKey={SETTINGS_SEARCH_QUERY_KEY}
+      queryKey={"settings-nav-search"}
     >
       <IconButton>
         <AppTablerIcon icon={IconSearch} />
