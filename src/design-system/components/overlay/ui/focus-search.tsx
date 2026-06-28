@@ -25,7 +25,7 @@ import type {
 import { t } from "@/libs/i18n";
 import { back } from "@/utils/client/navigation";
 import { isEmptyArray } from "@/utils/data/array";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 type FocusTriggerContextValue = {
   modalKey: string;
@@ -90,17 +90,31 @@ export const FocusSearchTrigger = <T,>(props: FocusSearchTriggerProps<T>) => {
   );
 };
 
-const FocusSearchResultItem = (props: FocusSearchResultItemProps) => {
-  const { result, onResultSelect, ...restProps } = props;
+const FocusSearchResultItem = (
+  props: FocusSearchResultItemProps & { isSelected?: boolean },
+) => {
+  const { result, onResultSelect, isSelected, ...restProps } = props;
   const { theme } = useThemeStore();
+
+  // Scroll selected item into view
+  useEffect(() => {
+    if (isSelected) {
+      const el = document.getElementById(`focus-search-item-${result.id}`);
+      if (el) {
+        el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+    }
+  }, [isSelected, result.id]);
 
   return (
     <VStack
+      id={`focus-search-item-${result.id}`}
       gap={2}
       rounded={theme.radii.component}
       p={4}
       cursor="pointer"
       transition="200ms"
+      bg={isSelected ? "bg.subtle" : undefined}
       _hover={{ bg: "bg.subtle" }}
       onClick={() => onResultSelect?.(result)}
       {...restProps}
@@ -124,8 +138,12 @@ const FocusSearchBody = () => {
 
   const hasQuery = !!query.trim();
 
+  const items = hasQuery ? results : recentResults;
+  const [selectedIdx, setSelectedIdx] = useState(0);
+
   function handleValueChange(value: string) {
     setQuery(value);
+    setSelectedIdx(0);
   }
 
   function handleSelect(result: SearchIndexItem) {
@@ -133,6 +151,21 @@ const FocusSearchBody = () => {
     onResultSelect?.(result);
     back();
   }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (items.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setSelectedIdx((prev) => (prev + 1) % items.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSelectedIdx((prev) => (prev - 1 + items.length) % items.length);
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      const current = items[selectedIdx];
+      if (current) handleSelect(current);
+    }
+  };
 
   // function handleClearRecent(result: SearchIndexItem) {
   //   clearRecent(result.id);
@@ -145,6 +178,8 @@ const FocusSearchBody = () => {
           queryKey={queryKey}
           placeholder={t["settings.search.placeholder"]()}
           onValueChange={handleValueChange}
+          onKeyDown={handleKeyDown}
+          autoFocus={true}
         />
       </HStack>
 
@@ -177,11 +212,12 @@ const FocusSearchBody = () => {
                     </P>
                   </HStack>
 
-                  {recentResults.map((result) => (
+                  {items.map((result, idx) => (
                     <FocusSearchResultItem
                       key={result.id}
                       result={result}
                       onResultSelect={handleSelect}
+                      isSelected={idx === selectedIdx}
                     />
                   ))}
                 </>
@@ -194,11 +230,12 @@ const FocusSearchBody = () => {
               {isEmptyArray(results) && <FeedbackNoResult query={query} />}
 
               {!isEmptyArray(results) &&
-                results.map((result) => (
+                items.map((result, idx) => (
                   <FocusSearchResultItem
                     key={result.id}
                     result={result}
                     onResultSelect={handleSelect}
+                    isSelected={idx === selectedIdx}
                   />
                 ))}
             </>
