@@ -41,9 +41,26 @@ export const resolveSemanticColor = (
 
   if (typeof value === "string") return value;
 
-  const resolved = colorMode === "light" ? value.base : value._dark;
+  const resolvedTokenRaw = colorMode === "light" ? value.base : value._dark;
+  const resolvedToken = resolvedTokenRaw
+    ?.replace(/\s*!important/g, "")
+    .replace(/[{}]/g, "");
 
-  if (typeof resolved !== "string") return "";
+  if (typeof resolvedToken !== "string") return "";
 
-  return resolved.replace(/\s*!important/g, "").replace(/[{}]/g, "");
+  const resolvedTokenParts = resolvedToken?.split(".");
+  const colorKey = resolvedTokenParts[1];
+  const colorPaletteScale = resolvedTokenParts[2];
+  const colorTokens = chakraConfig.theme?.tokens?.colors;
+  const colorAbsoluteValue = colorTokens?.[colorKey]?.value;
+
+  if (colorAbsoluteValue) {
+    return colorAbsoluteValue as string;
+  }
+
+  const colorPalettedValue =
+    // @ts-expect-error allow accessing nested object properties dynamically
+    colorTokens?.[colorKey]?.[colorPaletteScale]?.value;
+
+  return colorPalettedValue;
 };

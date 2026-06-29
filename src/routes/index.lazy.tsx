@@ -1,5 +1,6 @@
 // src/routes/index.lazy.tsx
 
+import { Logo } from "@/design-system/components/branding/logo";
 import {
   Button,
   IconButton,
@@ -46,6 +47,8 @@ const KeyFeatures = () => {
       <P fontWeight={"semibold"}>{t["demo.features.title"]()}</P>
 
       <HStack wrap={"wrap"} align={"center"} gap={2}>
+        <Logo />
+
         <SettingsTrigger modalKey={"settings"} w={"fit"}>
           <IconButton>
             <AppLucideIcon icon={CogIcon} strokeWidth={1.3} boxSize={"22px"} />
