@@ -1,7 +1,10 @@
 // src/libs/search/use-search.ts
 import MiniSearch from "minisearch";
 import { useMemo, useState } from "react";
-import type { SearchIndex, SearchIndexItem } from "../types/search.type";
+import type {
+  SearchIndex,
+  SearchIndexItem,
+} from "@/design-system/shared/types/search.type";
 
 const RECENT_KEY = "search:recent";
 const MAX_RECENT = 5;

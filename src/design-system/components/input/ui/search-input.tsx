@@ -4,20 +4,12 @@
 
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import {
-  Input,
-  type InputProps,
-} from "@/design-system/components/input/ui/input";
-import { useQueryParam } from "@/design-system/hooks/use-query-param";
+import type { SearchInputProps } from "@/design-system/components/input/types/search.type";
+import { Input } from "@/design-system/components/input/ui/input";
+import { useQueryParam } from "@/design-system/shared/hooks/use-query-param";
 import { InputGroup } from "@chakra-ui/react";
 import { IconSearch, IconX } from "@tabler/icons-react";
 import { forwardRef, useRef, useState } from "react";
-
-interface SearchInputProps extends InputProps {
-  queryKey?: string;
-  value?: string;
-  onValueChange?: (value: string) => void;
-}
 
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
   ({ queryKey, value: controlledValue, onValueChange, ...restProps }, ref) => {

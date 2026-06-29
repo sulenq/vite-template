@@ -3,7 +3,7 @@
 import type {
   SearchIndex,
   SearchIndexItem,
-} from "@/design-system/types/search.type";
+} from "@/design-system/shared/types/search.type";
 import type { StackProps } from "@chakra-ui/react";
 
 export type FocusSearchTriggerProps<T> = {

@@ -5,7 +5,7 @@
 import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback.type";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { P } from "@/design-system/components/typography/ui/p";
-import { t } from "@/libs/i18n/-typed";
+import { t } from "@/shared/libs/i18n/-typed";
 import { IconMoodPuzzled, type TablerIcon } from "@tabler/icons-react";
 
 export interface FeedbackNoResult {

@@ -1,6 +1,6 @@
 // src/features/settings/constants/settings.nav-groups.tsx
 
-import type { SettingsNavGroupItem } from "@/features/settings/types/settings-navs.type";
+import type { SettingsNavGroupItem } from "@/features/settings/shared/types/settings-navs.type";
 
 export const SETTINGS_NAV_GROUPS: SettingsNavGroupItem[] = [
   {

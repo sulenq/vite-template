@@ -3,8 +3,8 @@
 "use client";
 
 import { FocusSearchTrigger } from "@/design-system/components/overlay/ui/focus-search";
-import { useSettingsNavIndex } from "@/features/settings/hooks/use-settings-nav.search-index";
-import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
+import { useSettingsNavIndex } from "@/features/settings/shared/hooks/use-settings-nav.search-index";
+import type { SettingNavKey } from "@/features/settings/shared/types/settings-navs.type";
 import { RootRoute } from "@/routes/-typed";
 
 interface SettingsSearchTriggerProps {

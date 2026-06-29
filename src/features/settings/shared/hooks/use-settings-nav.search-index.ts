@@ -1,12 +1,12 @@
 // src/features/settings/utils/settings.nav-index.ts
 
-import { SETTINGS_NAVS } from "@/features/settings/constants/settings.navs";
-import { t } from "@/libs/i18n/-typed";
-import type { SearchIndex } from "@/design-system/types/search.type";
+import { SETTINGS_NAVS } from "@/features/settings/shared/constants/settings.navs";
+import { t } from "@/shared/libs/i18n/-typed";
+import type { SearchIndex } from "@/design-system/shared/types/search.type";
 import type {
   SettingNav,
   SettingNavKey,
-} from "@/features/settings/types/settings-navs.type";
+} from "@/features/settings/shared/types/settings-navs.type";
 import { useMemo } from "react";
 
 export type SettingsNavSearchData = {

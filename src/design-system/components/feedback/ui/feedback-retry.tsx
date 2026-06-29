@@ -6,8 +6,8 @@ import { Button } from "@/design-system/components/button/ui/button";
 import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback.type";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { VStack } from "@/design-system/components/layout/ui/stack";
-import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import { t } from "@/libs/i18n/-typed";
+import { useThemeStore } from "@/design-system/shared/stores/use-theme-store";
+import { t } from "@/shared/libs/i18n/-typed";
 import { IconAlertTriangle } from "@tabler/icons-react";
 
 interface FeedbackRetryProps extends FeedbackStateProps {

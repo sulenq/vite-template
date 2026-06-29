@@ -1,6 +1,6 @@
 // src/features/settings/constants/settings.navs.tsx
 
-import type { SettingNav } from "@/features/settings/types/settings-navs.type";
+import type { SettingNav } from "@/features/settings/shared/types/settings-navs.type";
 import {
   IconAdjustmentsHorizontal,
   IconBell,

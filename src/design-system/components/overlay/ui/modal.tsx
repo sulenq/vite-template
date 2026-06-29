@@ -17,8 +17,8 @@ import type {
 import { Dialog } from "@/design-system/components/overlay/ui/dialog";
 import { Drawer } from "@/design-system/components/overlay/ui/drawer";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import { MODAL_BASE_ZINDEX } from "@/design-system/constants/styles";
-import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
+import { MODAL_BASE_ZINDEX } from "@/design-system/shared/constants/styles";
+import { useIsSmallViewport } from "@/design-system/shared/hooks/use-is-small-viewport";
 import { triggerFullscreenAnimation } from "@/design-system/components/overlay/utils/fullscreen-animation-registry";
 import { Portal, type DrawerRootProps } from "@chakra-ui/react";
 import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
