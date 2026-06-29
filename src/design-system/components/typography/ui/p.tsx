@@ -6,7 +6,9 @@ import { Span, Text, type TextProps, type SpanProps } from "@chakra-ui/react";
 import parse, { domToReact, type DOMNode } from "html-react-parser";
 import { forwardRef } from "react";
 
-export const P = forwardRef<HTMLParagraphElement, TextProps>(
+export interface PProps extends TextProps {}
+
+export const P = forwardRef<HTMLParagraphElement, PProps>(
   function P(props, ref) {
     // Props
     const { children = "", ...restProps } = props;
@@ -42,7 +44,7 @@ export const P = forwardRef<HTMLParagraphElement, TextProps>(
   },
 );
 
-export const PSerif = forwardRef<HTMLParagraphElement, TextProps>(
+export const PSerif = forwardRef<HTMLParagraphElement, PProps>(
   function PSerif(props, ref) {
     // Props
     const { children = "", ...restProps } = props;

@@ -13,7 +13,7 @@ import type {
   FocusSearchTriggerProps,
 } from "@/design-system/components/overlay/types/focus-search.type";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
-import { Kbd } from "@/design-system/components/typography/kbd";
+import { Kbd } from "@/design-system/components/typography/ui/kbd";
 import { P } from "@/design-system/components/typography/ui/p";
 import { useQueryParam } from "@/design-system/hooks/use-query-param";
 import { useSearch } from "@/design-system/hooks/use-search";

@@ -6,7 +6,12 @@ import tseslint from "typescript-eslint";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-  globalIgnores(["dist", "src/routeTree.gen.ts", "src/paraglide"]),
+  globalIgnores([
+    "dist",
+    "src/routeTree.gen.ts",
+    "project.inlang",
+    "src/paraglide",
+  ]),
 
   {
     files: ["**/*.{ts,tsx}"],
