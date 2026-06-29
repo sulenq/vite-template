@@ -39,7 +39,7 @@ export const SettingsTrigger = (props: PopModalTriggerProps) => {
         display={"flex"}
         flexDir={"column"}
         overflowY={"auto"}
-        maxH={!isSmallViewport ? "600px" : "full"}
+        h={!isSmallViewport ? "600px" : "full"}
       >
         <Modal.Body
           display={"flex"}
