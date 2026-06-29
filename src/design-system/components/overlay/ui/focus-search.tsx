@@ -72,7 +72,7 @@ export const FocusSearchTrigger = <T,>(props: FocusSearchTriggerProps<T>) => {
         opened={isOpen}
         open={open}
         close={close}
-        size="sm"
+        size={"sm"}
       >
         <Modal.Trigger>{children}</Modal.Trigger>
 
@@ -199,35 +199,33 @@ const FocusSearchBody = () => {
         />
       </HStack>
 
-      <VScrollContainer px={2}>
-        <VStack gap={1}>
-          {!hasQuery && (
-            <>
-              {isEmptyArray(recentResults) && (
-                <FeedbackState
-                  title={t["settings.search.empty.title"]()}
-                  description={t["settings.search.empty.description"]()}
-                  minH="250px"
-                  justify="center"
-                />
-              )}
+      <VScrollContainer h={"350px"} px={2}>
+        {!hasQuery && (
+          <>
+            {isEmptyArray(recentResults) && (
+              <FeedbackState
+                title={t["settings.search.empty.title"]()}
+                description={t["settings.search.empty.description"]()}
+              />
+            )}
 
-              {!isEmptyArray(recentResults) && (
-                <>
-                  <HStack justify="space-between" px={4} mt={2} mb={1}>
-                    <P fontSize="xs" color="fg.subtle">
-                      {t["common.recent"]()}
-                    </P>
-                    <P
-                      fontSize="xs"
-                      color="fg.subtle"
-                      cursor="pointer"
-                      onClick={clearAllRecent}
-                    >
-                      {t["common.clear_all"]()}
-                    </P>
-                  </HStack>
+            {!isEmptyArray(recentResults) && (
+              <>
+                <HStack justify="space-between" px={4} mt={2} mb={1}>
+                  <P fontSize="xs" color="fg.subtle">
+                    {t["common.recent"]()}
+                  </P>
+                  <P
+                    fontSize="xs"
+                    color="fg.subtle"
+                    cursor="pointer"
+                    onClick={clearAllRecent}
+                  >
+                    {t["common.clear_all"]()}
+                  </P>
+                </HStack>
 
+                <VStack gap={1}>
                   {items.map((result, idx) => (
                     <FocusSearchResultItem
                       key={result.id}
@@ -238,17 +236,19 @@ const FocusSearchBody = () => {
                       setSelectedIdx={setSelectedIdx}
                     />
                   ))}
-                </>
-              )}
-            </>
-          )}
+                </VStack>
+              </>
+            )}
+          </>
+        )}
 
-          {hasQuery && (
-            <>
-              {isEmptyArray(results) && <FeedbackNoResult query={query} />}
+        {hasQuery && (
+          <>
+            {isEmptyArray(results) && <FeedbackNoResult query={query} />}
 
-              {!isEmptyArray(results) &&
-                items.map((result, idx) => (
+            {!isEmptyArray(results) && (
+              <VStack gap={1}>
+                {items.map((result, idx) => (
                   <FocusSearchResultItem
                     key={result.id}
                     result={result}
@@ -258,9 +258,10 @@ const FocusSearchBody = () => {
                     setSelectedIdx={setSelectedIdx}
                   />
                 ))}
-            </>
-          )}
-        </VStack>
+              </VStack>
+            )}
+          </>
+        )}
       </VScrollContainer>
     </VStack>
   );
