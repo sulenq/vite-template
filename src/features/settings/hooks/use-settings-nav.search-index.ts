@@ -1,7 +1,7 @@
 // src/features/settings/utils/settings.nav-index.ts
 
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings.navs";
-import { t } from "@/libs/i18n";
+import { t } from "@/libs/i18n/-typed";
 import type { SearchIndex } from "@/design-system/types/search.type";
 import type {
   SettingNav,

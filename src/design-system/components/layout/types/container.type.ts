@@ -1,10 +1,11 @@
 // src/design-system/components/layout/types/container.type.ts
 
-import type {
-  BoxProps as ChakraBoxProps,
-  StackProps as ChakraStackProps,
-} from "@chakra-ui/react";
+import type { StackProps } from "@/design-system/components/layout/types/stack.type";
 
-export interface BoxProps extends ChakraBoxProps {}
+export interface ContainerRootProps extends StackProps {
+  withContext?: boolean;
+}
 
-export interface StackProps extends ChakraStackProps {}
+export interface ContainerHeaderProps extends StackProps {}
+
+export interface ContainerBodyProps extends StackProps {}

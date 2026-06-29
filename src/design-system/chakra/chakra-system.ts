@@ -41,7 +41,7 @@ export const chakraConfig = defineConfig({
           opacity: 0,
         },
         "50%": {
-          transform: "translate(0, 0) scale(1.025)",
+          transform: "translate(0, 0) scale(1.015)",
         },
         "100%": {
           transform: "translate(0, 0) scale(1)",

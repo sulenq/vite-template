@@ -21,7 +21,7 @@ export const Logo = (props: LogoProps) => {
   const { colorMode } = useColorMode();
   const { theme } = useThemeStore();
 
-  // Derived Values
+  // Resolved Values
   const resolvedColor = useMemo(() => {
     if (color) return color;
     if (theme.colorPalette === "gray") {

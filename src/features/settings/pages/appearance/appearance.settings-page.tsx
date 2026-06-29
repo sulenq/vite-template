@@ -2,8 +2,8 @@
 
 "use client";
 
-import type { StackProps } from "@/design-system/components/layout/types/container.type";
-import { VStack } from "@/design-system/components/layout/ui/container";
+import type { StackProps } from "@/design-system/components/layout/types/stack.type";
+import { VStack } from "@/design-system/components/layout/ui/stack";
 
 interface AppearanceSettingsPageProps extends StackProps {}
 

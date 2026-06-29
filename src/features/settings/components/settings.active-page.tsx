@@ -5,8 +5,8 @@
 import { IconButton } from "@/design-system/components/button/ui/button";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import type { StackProps } from "@/design-system/components/layout/types/container.type";
-import { HStack, VStack } from "@/design-system/components/layout/ui/container";
+import type { StackProps } from "@/design-system/components/layout/types/stack.type";
+import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { P } from "@/design-system/components/typography/ui/p";
@@ -18,7 +18,7 @@ import {
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { SETTINGS_PAGES } from "@/features/settings/constants/settings.pages";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
-import { t } from "@/libs/i18n";
+import { t } from "@/libs/i18n/-typed";
 import { RootRoute } from "@/routes/-typed";
 import { back } from "@/utils/client/navigation";
 import { IconChevronLeft } from "@tabler/icons-react";

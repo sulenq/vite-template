@@ -6,7 +6,7 @@ import type { ButtonProps, InputProps } from "@chakra-ui/react";
 export const SM_SCREEN_BREAKPOINT = "720px";
 export const MODAL_CONTROL_CONTAINER_W = "70px";
 export const HEADER_H = "56px";
-export const MIN_H_FEEDBACK_CONTAINER = "250px";
+export const FEEDBACK_CONTAINER_MIN_H = "250px";
 
 // Layout/Stack
 export const MODAL_BASE_ZINDEX = 1400;
@@ -22,3 +22,8 @@ export const TABLER_ICON_MENU_ICON_BOX_SIZE = 5;
 
 // Spacing
 export const MODAL_CONTROL_CONTAINER_SPACING_R = 1.5;
+export const SPACING_SM = "4px";
+export const SPACING_MD = "12px";
+export const SPACING_LG = "24px";
+export const GAP = "6px";
+export const SECTION_GAP = 8;

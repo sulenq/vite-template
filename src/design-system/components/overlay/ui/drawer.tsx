@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Box } from "@/design-system/components/layout/ui/container";
+import { Box } from "@/design-system/components/layout/ui/box";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Drawer as ChakraDrawer } from "@chakra-ui/react";
 import { createContext, useContext, useRef, type TouchEvent } from "react";

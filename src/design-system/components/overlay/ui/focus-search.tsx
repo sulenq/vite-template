@@ -5,7 +5,7 @@
 import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-no-result";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { SearchInput } from "@/design-system/components/input/ui/search-input";
-import { HStack, VStack } from "@/design-system/components/layout/ui/container";
+import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import type {
@@ -22,7 +22,7 @@ import type {
   SearchIndex,
   SearchIndexItem,
 } from "@/design-system/types/search.type";
-import { t } from "@/libs/i18n";
+import { t } from "@/libs/i18n/-typed";
 import { back } from "@/utils/client/navigation";
 import { isEmptyArray } from "@/utils/data/array";
 import { createContext, useContext, useState, useEffect } from "react";

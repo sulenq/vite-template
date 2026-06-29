@@ -15,13 +15,13 @@ import {
   AppLucideIcon,
   AppTablerIcon,
 } from "@/design-system/components/icon/ui/app-icon";
-import type { StackProps } from "@/design-system/components/layout/types/container.type";
-import { HStack, VStack } from "@/design-system/components/layout/ui/container";
+import { Container } from "@/design-system/components/layout/ui/container";
+import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { Link } from "@/design-system/components/typography/ui/link";
 import { P } from "@/design-system/components/typography/ui/p";
-import { useThemeStore } from "@/design-system/stores/use-theme-store";
+import { SPACING_MD } from "@/design-system/constants/styles";
 import { SettingsTrigger } from "@/features/settings/components/settings";
-import { getLocale, getLocaleLabel } from "@/libs/i18n";
+import { getLocale, getLocaleLabel } from "@/libs/i18n/-typed";
 import { useLocale } from "@/libs/i18n/locale-provider";
 import { IconLanguage } from "@tabler/icons-react";
 import { createLazyFileRoute } from "@tanstack/react-router";
@@ -33,7 +33,7 @@ export const Route = createLazyFileRoute("/")({
 
 function RouteComponent() {
   return (
-    <VStack gap={4} minH={"100dvh"} bg={"bg.canvas"} p={4}>
+    <VStack minH={"100dvh"} bg={"bg.canvas"}>
       <KeyFeatures />
 
       <Branding />
@@ -45,94 +45,97 @@ function RouteComponent() {
   );
 }
 
-const ItemContainer = (props: StackProps) => {
-  // Store
-  const { theme } = useThemeStore();
-
-  return (
-    <VStack
-      align={"center"}
-      gap={4}
-      w={"fit"}
-      h={"fit"}
-      bg={"bg.body"}
-      p={4}
-      rounded={theme.radii.container}
-      shadow={"md"}
-      {...props}
-    />
-  );
-};
-
 const KeyFeatures = () => {
   const { setLocale } = useLocale();
 
   return (
-    <ItemContainer w={"full"}>
-      <P fontWeight={"semibold"}>Key Features</P>
+    <Container.Root w={"full"} p={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Key Features
+        </P>
 
-      <HStack wrap={"wrap"} align={"center"} gap={2}>
-        <SettingsTrigger modalKey={"settings"} w={"fit"}>
-          <IconButton>
-            <AppLucideIcon icon={CogIcon} strokeWidth={1.3} boxSize={"22px"} />
-          </IconButton>
-        </SettingsTrigger>
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={2}>
+          <SettingsTrigger modalKey={"settings"} w={"fit"}>
+            <IconButton>
+              <AppLucideIcon
+                icon={CogIcon}
+                strokeWidth={1.3}
+                boxSize={"22px"}
+              />
+            </IconButton>
+          </SettingsTrigger>
 
-        <ColorModeToggleButton />
+          <ColorModeToggleButton />
 
-        <Button
-          onClick={() => {
-            setLocale(getLocale() === "id" ? "en" : "id");
-          }}
-        >
-          <AppTablerIcon icon={IconLanguage} />
-          {getLocaleLabel(getLocale())}
-        </Button>
-      </HStack>
-    </ItemContainer>
+          <Button
+            onClick={() => {
+              setLocale(getLocale() === "id" ? "en" : "id");
+            }}
+          >
+            <AppTablerIcon icon={IconLanguage} />
+            {getLocaleLabel(getLocale())}
+          </Button>
+        </HStack>
+      </Container.Body>
+    </Container.Root>
   );
 };
 
 const Branding = () => {
   return (
-    <ItemContainer w={"full"}>
-      <P fontWeight={"semibold"}>Branding</P>
+    <Container.Root w={"full"} p={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Branding
+        </P>
 
-      <HStack wrap={"wrap"} gap={4}>
-        <Logo />
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <Logo />
 
-        <BrandWatermark />
-      </HStack>
-    </ItemContainer>
+          <BrandWatermark />
+        </HStack>
+      </Container.Body>
+    </Container.Root>
   );
 };
 
 const Typography = () => {
   return (
-    <ItemContainer w={"full"}>
-      <P fontWeight={"semibold"}>Typography</P>
+    <Container.Root w={"full"} p={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Typography
+        </P>
 
-      <HStack wrap={"wrap"} gap={4}>
-        <Link to="youtube.com">youtube.com</Link>
-      </HStack>
-    </ItemContainer>
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <Link to="https://youtube.com" target="_blank">
+            youtube.com
+          </Link>
+        </HStack>
+      </Container.Body>
+    </Container.Root>
   );
 };
 
 const FeedbackSection = () => {
   return (
-    <ItemContainer w={"full"}>
-      <P fontWeight={"semibold"}>Feedback</P>
+    <Container.Root w={"full"} p={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Feedback
+        </P>
 
-      <HStack wrap={"wrap"} gap={4}>
-        <FeedbackNoData />
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <FeedbackNoData />
 
-        <FeedbackAccessDenied />
+          <FeedbackAccessDenied />
 
-        <FeedbackNoResult />
+          <FeedbackNoResult />
 
-        <FeedbackRetry />
-      </HStack>
-    </ItemContainer>
+          <FeedbackRetry />
+        </HStack>
+      </Container.Body>
+    </Container.Root>
   );
 };

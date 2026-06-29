@@ -5,8 +5,8 @@
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import type { StackProps } from "@/design-system/components/layout/types/container.type";
-import { HStack, VStack } from "@/design-system/components/layout/ui/container";
+import type { StackProps } from "@/design-system/components/layout/types/stack.type";
+import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { NavButton } from "@/design-system/components/layout/ui/nav";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { Separator } from "@/design-system/components/layout/ui/separator";
@@ -19,7 +19,7 @@ import { SettingsSearchTrigger } from "@/features/settings/components/settings.s
 import { SETTINGS_NAV_GROUPS } from "@/features/settings/constants/settings.nav-groups";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings.navs";
 import type { SettingNav } from "@/features/settings/types/settings-navs.type";
-import { t } from "@/libs/i18n";
+import { t } from "@/libs/i18n/-typed";
 import { RootRoute } from "@/routes/-typed";
 import { back } from "@/utils/client/navigation";
 import {
