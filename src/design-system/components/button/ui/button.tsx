@@ -15,7 +15,10 @@ import type {
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button(props, ref) {
+  (props, ref) => {
+    // Props
+    const { primary, variant, colorPalette, ...restProps } = props;
+
     // Store
     const { theme } = useThemeStore();
 
@@ -23,18 +26,21 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <ChakraButton
         ref={ref}
         size={MAIN_BUTTON_SIZE}
-        variant={"ghost"}
-        colorPalette={"neutral"}
-        fontWeight={"normal"}
+        variant={primary ? "solid" : variant || "ghost"}
+        colorPalette={primary ? theme.colorPalette : colorPalette || "neutral"}
         rounded={theme.radii.component}
-        {...props}
+        fontWeight={"normal"}
+        {...restProps}
       />
     );
   },
 );
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  function Button(props, ref) {
+  (props, ref) => {
+    // Props
+    const { primary, variant, colorPalette, ...restProps } = props;
+
     // Store
     const { theme } = useThemeStore();
 
@@ -42,11 +48,15 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
       <ChakraIconButton
         ref={ref}
         size={MAIN_BUTTON_SIZE}
-        variant={"ghost"}
-        colorPalette={"neutral"}
+        variant={primary ? "solid" : variant || "ghost"}
+        colorPalette={primary ? theme.colorPalette : colorPalette || "neutral"}
         rounded={theme.radii.component}
-        {...props}
+        fontWeight={"normal"}
+        {...restProps}
       />
     );
   },
 );
+
+Button.displayName = "Button";
+IconButton.displayName = "IconButton";

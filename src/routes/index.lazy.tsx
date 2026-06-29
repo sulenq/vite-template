@@ -57,7 +57,7 @@ const KeyFeatures = () => {
 
         <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={2}>
           <SettingsTrigger modalKey={"settings"} w={"fit"}>
-            <IconButton>
+            <IconButton primary>
               <AppLucideIcon
                 icon={CogIcon}
                 strokeWidth={1.3}

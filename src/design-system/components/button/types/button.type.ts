@@ -5,6 +5,10 @@ import type {
   IconButtonProps as ChakraIconButtonProps,
 } from "@chakra-ui/react";
 
-export interface ButtonProps extends ChakraButtonProps {}
+export interface ButtonProps extends ChakraButtonProps {
+  primary?: boolean;
+}
 
-export interface IconButtonProps extends ButtonProps, ChakraIconButtonProps {}
+export interface IconButtonProps extends ButtonProps, ChakraIconButtonProps {
+  primary?: boolean;
+}
