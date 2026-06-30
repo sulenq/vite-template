@@ -26,7 +26,6 @@ export const BrandWatermark = (props: PProps) => {
         to={APP.link}
         target={"_blank"}
         fontWeight={"bold"}
-        transition={"200ms"}
         _hover={{
           color: `${theme.colorPalette}.fg`,
         }}

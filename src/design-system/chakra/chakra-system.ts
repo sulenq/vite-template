@@ -111,7 +111,7 @@ export const chakraConfig = defineConfig({
         an1: { value: "#757b801a" },
         an2: { value: "#757b802b" },
         an3: { value: "#757b803c" },
-        an4: { value: "#757b804a" },
+        an4: { value: "#757b804d" },
 
         placeholder: { value: "#96969691" },
 

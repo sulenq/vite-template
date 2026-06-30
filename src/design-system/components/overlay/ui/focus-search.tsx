@@ -163,7 +163,9 @@ const FocusSearchBody = () => {
   }
 
   function handleSelect(result: SearchIndexItem) {
-    addRecent(result.id);
+    setTimeout(() => {
+      addRecent(result.id);
+    }, 200);
     onResultSelect?.(result);
     back();
   }
@@ -215,6 +217,7 @@ const FocusSearchBody = () => {
                   <P fontSize="xs" color="fg.subtle">
                     {t["common.recent"]()}
                   </P>
+
                   <P
                     fontSize="xs"
                     color="fg.subtle"
