@@ -11,7 +11,7 @@
     "typecheck": "tsc -p tsconfig.app.json --noEmit",
     "typecheck:watch": "tsc -p tsconfig.app.json --noEmit --watch --preserveWatchOutput",
     "sitemap:generate": "node src/scripts/generate-sitemap.js",
-    "filepathcomment:generate": "node src/scripts/generate-file-path-comments.cjs",
+    "filepathheader:generate": "node src/scripts/generate-file-path-headaer.cjs",
     "chakra:typegen": "pnpm exec chakra typegen ./src/design-system/chakra/chakra-system.ts",
     "i18n:compile": "npx @inlang/paraglide-js compile --project ./project.inlang"
   },
