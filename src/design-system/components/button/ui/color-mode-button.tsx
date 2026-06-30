@@ -1,7 +1,7 @@
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import { useColorMode } from "@/design-system/shared/hooks/use-color-mode";
+import { useColorMode } from "@/design-system/hooks/use-color-mode";
 import { IconMoon2, IconSunHigh } from "@tabler/icons-react";
 
 interface ColorModeToggleButtonProps extends IconButtonProps {}

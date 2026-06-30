@@ -1,6 +1,6 @@
 // src/design-system/chakra/chakra-system.ts
 
-import { SM_SCREEN_BREAKPOINT } from "@/design-system/shared/constants/styles";
+import { SM_SCREEN_BREAKPOINT } from "@/design-system/constants/styles";
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
 import { dialogRecipe } from "@/design-system/chakra/recipes/dialog.recipe";
 import { drawerRecipe } from "@/design-system/chakra/recipes/drawer.recipe";

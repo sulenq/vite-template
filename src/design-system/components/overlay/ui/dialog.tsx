@@ -13,7 +13,7 @@ import {
   registerFullscreenAnimator,
   unregisterFullscreenAnimator,
 } from "@/design-system/components/overlay/utils/fullscreen-animation-registry";
-import { useThemeStore } from "@/design-system/shared/stores/use-theme-store";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
 import { createContext, useContext, useLayoutEffect, useRef } from "react";
 

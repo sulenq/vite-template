@@ -15,13 +15,13 @@ import type {
 import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { Kbd } from "@/design-system/components/typography/ui/kbd";
 import { P } from "@/design-system/components/typography/ui/p";
-import { useQueryParam } from "@/design-system/shared/hooks/use-query-param";
-import { useSearch } from "@/design-system/shared/hooks/use-search";
-import { useThemeStore } from "@/design-system/shared/stores/use-theme-store";
+import { useQueryParam } from "@/design-system/hooks/use-query-param";
+import { useSearch } from "@/design-system/hooks/use-search";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import type {
   SearchIndex,
   SearchIndexItem,
-} from "@/design-system/shared/types/search.type";
+} from "@/design-system/types/search.type";
 import { t } from "@/shared/libs/i18n/-typed";
 import { back } from "@/shared/utils/client/navigation";
 import { isEmptyArray } from "@/shared/utils/data/array";

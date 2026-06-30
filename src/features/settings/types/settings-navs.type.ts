@@ -1,6 +1,6 @@
 // src/features/settings/types/settings-navs.type.ts
 
-import type { SETTINGS_NAVS } from "@/features/settings/shared/constants/settings.navs";
+import type { SETTINGS_NAVS } from "@/features/settings/constants/settings.navs";
 import type { TranslationKey } from "@/shared/libs/i18n/type";
 import type { TablerIcon } from "@tabler/icons-react";
 

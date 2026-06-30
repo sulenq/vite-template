@@ -4,7 +4,7 @@ interface UseContainerDimensionOptions {
   debounceDelay?: number;
 }
 
-export function useContainerDimension(
+export function useRefDimension(
   ref: React.RefObject<HTMLDivElement | null> | null,
   options?: UseContainerDimensionOptions,
 ) {

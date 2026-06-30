@@ -14,10 +14,10 @@ import {
   HEADER_H,
   MODAL_CONTROL_CONTAINER_SPACING_R,
   MODAL_CONTROL_CONTAINER_W,
-} from "@/design-system/shared/constants/styles";
-import { useIsSmallViewport } from "@/design-system/shared/hooks/use-is-small-viewport";
-import { SETTINGS_PAGES } from "@/features/settings/shared/constants/settings.pages";
-import type { SettingNavKey } from "@/features/settings/shared/types/settings-navs.type";
+} from "@/design-system/constants/styles";
+import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
+import { SETTINGS_PAGES } from "@/features/settings/constants/settings.pages";
+import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
 import { t } from "@/shared/libs/i18n/-typed";
 import { RootRoute } from "@/routes/-typed";
 import { back } from "@/shared/utils/client/navigation";

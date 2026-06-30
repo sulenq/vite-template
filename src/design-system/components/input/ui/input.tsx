@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useThemeStore } from "@/design-system/shared/stores/use-theme-store";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Input as ChakraInput } from "@chakra-ui/react";
 import type { InputProps as ChakraInputProps } from "@chakra-ui/react";
 import { forwardRef } from "react";

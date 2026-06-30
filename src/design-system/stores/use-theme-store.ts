@@ -1,7 +1,7 @@
 // src/design-system/stores/useTheme.ts
 
-import { COLOR_PALETTES } from "@/design-system/shared/constants/colors";
-import { ROUNDED_PRESETS } from "@/design-system/shared/constants/presets";
+import { COLOR_PALETTES } from "@/design-system/constants/colors";
+import { ROUNDED_PRESETS } from "@/design-system/constants/presets";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 

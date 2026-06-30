@@ -10,10 +10,10 @@ import {
   HEADER_H,
   SM_SCREEN_BREAKPOINT,
   SPACING_MD,
-} from "@/design-system/shared/constants/styles";
-import { useContainerDimension } from "@/design-system/shared/hooks/use-container-dimenssion";
-import { useMergedRefs } from "@/design-system/shared/hooks/use-merge-refs";
-import { useThemeStore } from "@/design-system/shared/stores/use-theme-store";
+} from "@/design-system/constants/styles";
+import { useRefDimension } from "@/design-system/hooks/use-ref-dimenssion";
+import { useMergedRefs } from "@/design-system/hooks/use-merge-refs";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { createContext, forwardRef, useContext, useMemo, useRef } from "react";
 
 export interface ContainerContextValue {
@@ -52,7 +52,7 @@ const ContainerRoot = forwardRef<HTMLDivElement, ContainerRootProps>(
     const mergeRef = useMergedRefs(containerRef, ref);
 
     // Hooks
-    const dimension = useContainerDimension(containerRef);
+    const dimension = useRefDimension(containerRef);
 
     // Derived Values
     const isValidDimension = dimension.width > 0 && dimension.height > 0;

@@ -3,7 +3,7 @@
 import {
   LUCIDE_ICON_BASE_ICON_BOX_SIZE,
   TABLER_ICON_BASE_ICON_BOX_SIZE,
-} from "@/design-system/shared/constants/styles";
+} from "@/design-system/constants/styles";
 import type {
   AppLucideIconProps,
   AppTablerIconProps,

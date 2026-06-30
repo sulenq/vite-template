@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import type {
   SearchIndex,
   SearchIndexItem,
-} from "@/design-system/shared/types/search.type";
+} from "@/design-system/types/search.type";
 
 const RECENT_KEY = "search:recent";
 const MAX_RECENT = 5;

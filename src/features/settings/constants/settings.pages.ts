@@ -2,7 +2,7 @@
 
 import { AppearanceSettingsPage } from "@/features/settings/pages/appearance/appearance.settings-page";
 import { ProfileSettingsPage } from "@/features/settings/pages/profile/profile.settings-page";
-import type { SettingNavKey } from "@/features/settings/shared/types/settings-navs.type";
+import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
 import type { ComponentType } from "react";
 
 export const SETTINGS_PAGES = {

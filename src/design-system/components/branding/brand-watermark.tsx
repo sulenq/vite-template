@@ -4,8 +4,8 @@
 
 import { Link } from "@/design-system/components/typography/ui/link";
 import { P, type PProps } from "@/design-system/components/typography/ui/p";
-import { APP } from "@/design-system/shared/constants/_meta";
-import { useThemeStore } from "@/design-system/shared/stores/use-theme-store";
+import { APP } from "@/design-system/constants/_meta";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 
 // -----------------------------------------------------------------
 

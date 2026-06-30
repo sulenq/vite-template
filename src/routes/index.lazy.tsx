@@ -19,7 +19,7 @@ import { Container } from "@/design-system/components/layout/ui/container";
 import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { Link } from "@/design-system/components/typography/ui/link";
 import { P } from "@/design-system/components/typography/ui/p";
-import { SPACING_MD } from "@/design-system/shared/constants/styles";
+import { SPACING_MD } from "@/design-system/constants/styles";
 import { SettingsTrigger } from "@/features/settings/components/settings";
 import { getLocale, getLocaleLabel } from "@/shared/libs/i18n/-typed";
 import { useLocale } from "@/shared/libs/i18n/locale-provider";

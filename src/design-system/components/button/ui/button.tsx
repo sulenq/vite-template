@@ -7,12 +7,12 @@ import {
   Button as ChakraButton,
   IconButton as ChakraIconButton,
 } from "@chakra-ui/react";
-import { MAIN_BUTTON_SIZE } from "@/design-system/shared/constants/styles";
+import { MAIN_BUTTON_SIZE } from "@/design-system/constants/styles";
 import type {
   ButtonProps,
   IconButtonProps,
 } from "@/design-system/components/button/types/button.type";
-import { useThemeStore } from "@/design-system/shared/stores/use-theme-store";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (props, ref) => {

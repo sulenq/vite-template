@@ -6,7 +6,7 @@ import { HStack } from "@/design-system/components/layout/ui/stack";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import type { PopModalTriggerProps } from "@/design-system/components/overlay/types/modal.type";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
-import { useIsSmallViewport } from "@/design-system/shared/hooks/use-is-small-viewport";
+import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { SettingsActivePage } from "@/features/settings/components/settings.active-page";
 import { SettingsMenu } from "@/features/settings/components/settings.menu";
 import { RootRoute } from "@/routes/-typed";
