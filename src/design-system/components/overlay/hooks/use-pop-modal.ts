@@ -1,12 +1,14 @@
 // src/design-system/components/modal/hooks/use-pop-modal.ts
 
-import { RootRoute } from "@/routes/-typed";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef } from "react";
 
 export function usePopModal(modalKey: string, getDepth?: () => number) {
   const lastCloseAtRef = useRef(0);
-  const { activeModalKey } = RootRoute.useSearch();
+  const { activeModalKey } = useSearch({ strict: false }) as Record<
+    string,
+    string | undefined
+  >;
   const navigate = useNavigate();
 
   useEffect(() => {

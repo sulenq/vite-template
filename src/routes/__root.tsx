@@ -10,7 +10,6 @@ import { Outlet, createRootRoute } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
   validateSearch: rootSearchSchema,
-
   component: RootComponent,
 });
 

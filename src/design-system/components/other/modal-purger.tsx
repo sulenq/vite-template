@@ -1,13 +1,15 @@
-// src/design-system/chakra/providers/disclsoure-purge-handler.tsx
+// src/design-system/chakra/providers/modal-purger.tsx
 
 "use client";
 
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
-import { RootRoute } from "@/routes/-typed";
 
-export function ModalPurgeHandler() {
-  const navigate = RootRoute.useNavigate();
-  const search = RootRoute.useSearch();
+export function ModalPurger() {
+  const navigate = useNavigate();
+  const search = useSearch({
+    strict: false,
+  });
   const modalKeylRef = useRef(search.activeModalKey);
 
   useEffect(() => {
@@ -32,6 +34,7 @@ export function ModalPurgeHandler() {
 
     queueMicrotask(() => {
       navigate({
+        to: ".",
         replace: false,
         search: (prev) => ({
           ...prev,

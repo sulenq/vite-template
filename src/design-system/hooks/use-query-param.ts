@@ -1,25 +1,37 @@
-// src/design-system/hooks/use-search-param.ts
+// design-system/hooks/use-query-param.ts
 
-import { RootRoute } from "@/routes/-typed";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
-export function useQueryParam(queryKey?: string) {
+export function useQueryParam<ValueType extends string = string>(
+  queryKey?: string,
+  validValues?: readonly ValueType[],
+) {
   const navigate = useNavigate();
-  const search = RootRoute.useSearch() as Record<string, string | undefined>;
-
+  const search = useSearch({ strict: false }) as Record<
+    string,
+    string | undefined
+  >;
   const isUrlMode = queryKey !== undefined;
-  const queryValue = isUrlMode ? (search?.[queryKey] ?? "") : undefined;
+  const rawValue = isUrlMode ? (search?.[queryKey] ?? "") : "";
 
-  function setQueryValue(next: string) {
+  const queryValue: ValueType | undefined = isUrlMode
+    ? validValues
+      ? validValues.includes(rawValue as ValueType)
+        ? (rawValue as ValueType)
+        : undefined
+      : (rawValue as ValueType)
+    : undefined;
+
+  function setQueryValue(next: ValueType) {
     if (!queryKey) return;
     navigate({
       to: ".",
       search: (prev) => {
-        const updated = { ...prev } as typeof prev;
+        const updated = { ...prev } as Record<string, unknown>;
         if (next) {
-          (updated as Record<string, unknown>)[queryKey] = next;
+          updated[queryKey] = next;
         } else {
-          delete (updated as Record<string, unknown>)[queryKey];
+          delete updated[queryKey];
         }
         return updated;
       },
@@ -28,7 +40,7 @@ export function useQueryParam(queryKey?: string) {
   }
 
   function clearQueryValue() {
-    setQueryValue("");
+    setQueryValue("" as ValueType);
   }
 
   return { isUrlMode, queryValue, setQueryValue, clearQueryValue };
