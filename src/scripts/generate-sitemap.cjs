@@ -1,3 +1,5 @@
+// src/scripts/generate-sitemap.cjs
+
 const fs = require("fs");
 const path = require("path");
 const dotenv = require("dotenv");
@@ -16,7 +18,7 @@ function isDynamicPath(p) {
 
 // Gabungkan semua path statis (filter dinamis & undefined/null)
 const staticPaths = ROUTE_PATHS.filter(
-  (p) => typeof p === "string" && !isDynamicPath(p)
+  (p) => typeof p === "string" && !isDynamicPath(p),
 );
 
 function generateSitemap() {

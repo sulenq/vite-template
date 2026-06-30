@@ -1,4 +1,4 @@
-// src/design-system/components/modal/types/modal.type.ts
+// src/design-system/components/overlay/types/modal.type.ts
 
 import {
   Dialog as ChakraDialog,

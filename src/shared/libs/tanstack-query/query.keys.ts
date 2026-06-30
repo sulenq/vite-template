@@ -1,4 +1,4 @@
-// src/libs/tanstack-query/query.keys.ts
+// src/shared/libs/tanstack-query/query.keys.ts
 
 export const queryKeys = {
   auth: {

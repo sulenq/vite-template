@@ -1,4 +1,4 @@
-// src/feature/settings/components/settings.active-page.tsx
+// src/features/settings/components/settings.active-page.tsx
 
 "use client";
 

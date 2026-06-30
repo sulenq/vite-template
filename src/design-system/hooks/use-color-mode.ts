@@ -1,3 +1,5 @@
+// src/design-system/hooks/use-color-mode.ts
+
 import { useTheme } from "next-themes";
 
 export type ColorMode = "light" | "dark";

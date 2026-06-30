@@ -1,4 +1,4 @@
-// src/design-system/components/modal/stores/use-dialog-animation-store.ts
+// src/design-system/components/overlay/stores/use-dialog-animation-store.ts
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";

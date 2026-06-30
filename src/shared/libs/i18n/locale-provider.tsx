@@ -1,4 +1,4 @@
-// src/lib/i18n/locale-provider.tsx
+// src/shared/libs/i18n/locale-provider.tsx
 
 import { createContext, useContext, useState, useCallback } from "react";
 import {

@@ -1,4 +1,4 @@
-// src/features/settings/utils/use-settings.search-index.ts
+// src/features/settings/hooks/use-settings-nav.search-index.ts
 
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings.navs";
 import { t } from "@/shared/libs/i18n/-typed";

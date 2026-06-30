@@ -1,4 +1,4 @@
-// src/features/settomgs/components/settings-menu.tsx
+// src/features/settings/components/settings.menu.tsx
 
 "use client";
 

@@ -1,4 +1,4 @@
-// src/libs/search/use-search.ts
+// src/design-system/hooks/use-search.ts
 import MiniSearch from "minisearch";
 import { useMemo, useState } from "react";
 import type {

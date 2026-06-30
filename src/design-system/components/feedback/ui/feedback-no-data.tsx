@@ -1,4 +1,4 @@
-// src/design-system/components/feedback-state/feedback-no-data.tsx
+// src/design-system/components/feedback/ui/feedback-no-data.tsx
 
 "use client";
 

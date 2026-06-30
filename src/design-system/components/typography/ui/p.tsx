@@ -1,4 +1,4 @@
-// src/design-system/components/typography/p.tsx
+// src/design-system/components/typography/ui/p.tsx
 
 "use client";
 

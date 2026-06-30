@@ -1,4 +1,4 @@
-// src/design-system/components/layout/nav-list.tsx
+// src/design-system/components/layout/ui/nav.tsx
 
 "use client";
 

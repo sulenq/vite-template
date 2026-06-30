@@ -1,4 +1,4 @@
-// src/design-system/components/typography/ui.link.tsx
+// src/design-system/components/typography/ui/span.tsx
 
 import { Span as ChakraSpan } from "@chakra-ui/react";
 import type { SpanProps as ChakraSpanProps } from "@chakra-ui/react";

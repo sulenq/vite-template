@@ -1,3 +1,5 @@
+// src/design-system/components/button/ui/color-mode-button.tsx
+
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";

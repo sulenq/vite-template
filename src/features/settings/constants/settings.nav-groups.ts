@@ -1,4 +1,4 @@
-// src/features/settings/constants/settings.nav-groups.tsx
+// src/features/settings/constants/settings.nav-groups.ts
 
 import type { SettingsNavGroupItem } from "@/features/settings/types/settings-navs.type";
 

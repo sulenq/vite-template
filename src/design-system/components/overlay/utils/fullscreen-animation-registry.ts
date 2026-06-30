@@ -1,4 +1,4 @@
-// src/design-system/stores/fullscreen-animation-registry.ts
+// src/design-system/components/overlay/utils/fullscreen-animation-registry.ts
 
 type FullscreenAnimator = (next: boolean) => void;
 

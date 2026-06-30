@@ -1,4 +1,4 @@
-// src/features/settings/schemas/settings-nav-key.schema.ts
+// src/features/settings/schemas/setting-nav-key.schema.ts
 
 import { z } from "zod";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings.navs";

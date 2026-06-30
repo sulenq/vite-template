@@ -1,4 +1,4 @@
-// src/design-system/stores/useTheme.ts
+// src/design-system/stores/use-theme-store.ts
 
 import { COLOR_PALETTES } from "@/design-system/constants/colors";
 import { ROUNDED_PRESETS } from "@/design-system/constants/presets";
