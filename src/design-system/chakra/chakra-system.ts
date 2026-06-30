@@ -2124,44 +2124,44 @@ export const chakraConfig = defineConfig({
       shadows: {
         xs: {
           value: {
-            base: "0 0 2px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.02) !important",
+            base: "0 0 1px rgba(0,0,0,0.02), 0 1px 1px rgba(0,0,0,0.01) !important",
             _dark:
-              "0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.10) !important",
+              "0 0 1px rgba(0,0,0,0.08), 0 1px 1px rgba(0,0,0,0.07) !important",
           },
         },
         sm: {
           value: {
-            base: "0 0 4px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.03) !important",
+            base: "0 0 3px rgba(0,0,0,0.035), 0 1.5px 3px rgba(0,0,0,0.025) !important",
             _dark:
-              "0 0 4px rgba(0,0,0,0.14), 0 2px 4px rgba(0,0,0,0.12) !important",
+              "0 0 3px rgba(0,0,0,0.13), 0 1.5px 3px rgba(0,0,0,0.11) !important",
           },
         },
         md: {
           value: {
-            base: "0 0 6px rgba(0,0,0,0.05), 0 3px 6px rgba(0,0,0,0.04) !important",
+            base: "0 0 5px rgba(0,0,0,0.045), 0 2.5px 5px rgba(0,0,0,0.035) !important",
             _dark:
-              "0 0 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.14) !important",
+              "0 0 5px rgba(0,0,0,0.15), 0 2.5px 5px rgba(0,0,0,0.13) !important",
           },
         },
         lg: {
           value: {
-            base: "0 0 10px rgba(0,0,0,0.06), 0 4px 8px rgba(0,0,0,0.05) !important",
+            base: "0 0 8px rgba(0,0,0,0.055), 0 3.5px 7px rgba(0,0,0,0.045) !important",
             _dark:
-              "0 0 10px rgba(0,0,0,0.18), 0 4px 8px rgba(0,0,0,0.16) !important",
+              "0 0 8px rgba(0,0,0,0.17), 0 3.5px 7px rgba(0,0,0,0.15) !important",
           },
         },
         xl: {
           value: {
-            base: "0 0 14px rgba(0,0,0,0.07), 0 6px 12px rgba(0,0,0,0.06) !important",
+            base: "0 0 12px rgba(0,0,0,0.065), 0 5px 10px rgba(0,0,0,0.055) !important",
             _dark:
-              "0 0 14px rgba(0,0,0,0.20), 0 6px 12px rgba(0,0,0,0.18) !important",
+              "0 0 12px rgba(0,0,0,0.19), 0 5px 10px rgba(0,0,0,0.17) !important",
           },
         },
         "2xl": {
           value: {
-            base: "0 0 20px rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.07) !important",
+            base: "0 0 17px rgba(0,0,0,0.075), 0 7px 14px rgba(0,0,0,0.065) !important",
             _dark:
-              "0 0 20px rgba(0,0,0,0.24), 0 8px 16px rgba(0,0,0,0.22) !important",
+              "0 0 17px rgba(0,0,0,0.22), 0 7px 14px rgba(0,0,0,0.20) !important",
           },
         },
       },
