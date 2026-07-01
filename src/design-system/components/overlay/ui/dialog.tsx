@@ -196,7 +196,7 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
         animation: dialogClickOriginAnimation
           ? "scale-up-overshoot-from-click-origin"
           : "scale-up-overshoot",
-        animationDuration: "slowest",
+        animationDuration: "slower",
       }}
       _closed={{
         animation: dialogClickOriginAnimation

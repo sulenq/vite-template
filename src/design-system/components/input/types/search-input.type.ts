@@ -1,4 +1,4 @@
-// src/design-system/components/input/types/search.type.ts
+// src/design-system/components/input/types/search-input.type.ts
 
 import type { InputProps } from "@/design-system/components/input/ui/input";
 

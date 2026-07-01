@@ -273,8 +273,8 @@ const FocusSearchBody = () => {
 const FocusSearchFooter = () => (
   <HStack align="center" gap={4}>
     <HStack align="center" gap={2}>
-      <Kbd fontSize="sm">↑</Kbd>
-      <Kbd fontSize="sm">↓</Kbd>
+      <Kbd fontSize={"sm"}>↑</Kbd>
+      <Kbd fontSize={"sm"}>↓</Kbd>
 
       <P fontSize="xs" color="fg.subtle">
         {t["common.navigate"]()}
@@ -282,7 +282,7 @@ const FocusSearchFooter = () => (
     </HStack>
 
     <HStack align="center" gap={2}>
-      <Kbd fontSize="sm">↵</Kbd>
+      <Kbd fontSize={"sm"}>↵</Kbd>
 
       <P fontSize="xs" color="fg.subtle">
         {t["common.select"]()}

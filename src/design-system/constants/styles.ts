@@ -27,3 +27,12 @@ export const SPACING_MD = "12px";
 export const SPACING_LG = "24px";
 export const GAP = "6px";
 export const SECTION_GAP = 8;
+
+// Padding
+export const PADDING_SM = "8px";
+export const PADDING_MD = "16px";
+export const PADDING_LG = "24px";
+
+// Data Table
+export const TABLE_OPTIONS_CELL_W = "45px";
+export const TABLE_ROW_H = "50px";

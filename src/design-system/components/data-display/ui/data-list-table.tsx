@@ -1,0 +1,374 @@
+// src/design-system/components/data-display/ui/data-table.tsx
+
+import { useDataListTableSelection } from "@/design-system/components/data-display/hooks/use-data-table-selection";
+import { useDataListTableSort } from "@/design-system/components/data-display/hooks/use-data-table-sort";
+import type {
+  BatchOptionsTableOptionGenerator,
+  DataListTableHeaderProps,
+  DataListTableRootProps,
+  DataListTableSortIconProps,
+  FormattedTableHeader,
+  FormattedTableRow,
+  RowOptionsTableOptionGenerator,
+} from "@/design-system/components/data-display/types/data-list-table.type";
+import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { Checkbox } from "@/design-system/components/input/ui/checkbox";
+import type { StackProps } from "@/design-system/components/layout/types/stack.type";
+import { Grid } from "@/design-system/components/layout/ui/grid";
+import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
+import { P } from "@/design-system/components/typography/ui/p";
+import {
+  TABLE_OPTIONS_CELL_W,
+  TABLE_ROW_H,
+} from "@/design-system/constants/styles";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
+import { isEmptyArray } from "@/shared/utils/data/array";
+import { Box, Center } from "@chakra-ui/react";
+import { IconCaretDownFilled, IconCaretUpFilled } from "@tabler/icons-react";
+import { createContext, useContext, useMemo, useRef } from "react";
+
+type DataListTableContextValue = {
+  headers: FormattedTableHeader[];
+  rows: FormattedTableRow[];
+  initialSortColumnIndex?: number;
+  initialSortOrder?: "asc" | "desc";
+  batchOptions?: BatchOptionsTableOptionGenerator[];
+  rowOptions?: RowOptionsTableOptionGenerator[];
+
+  sortConfig: { columnIdx?: number; direction: "asc" | "desc" };
+  toggleSort: (columnIndex: number) => void;
+  sortedRows: FormattedTableRow[];
+  selectedRows: string[];
+  isAllRowsSelected: boolean;
+  toggleRowSelection: (row: FormattedTableRow) => void;
+  selectAllRows: (isChecked: boolean) => void;
+  clearSelection: () => void;
+};
+
+const DataListTableContext = createContext<DataListTableContextValue | null>(
+  null,
+);
+
+const useDataListTableContext = () => {
+  const ctx = useContext(DataListTableContext);
+  if (!ctx) {
+    throw new Error(
+      "DataListTable compound components must be used within <DataListTable.Root>",
+    );
+  }
+  return ctx;
+};
+
+const DataListTableRoot = ({
+  children,
+  rows,
+  headers,
+  batchOptions = [],
+  rowOptions = [],
+  initialSortColumnIndex,
+  initialSortOrder = "asc",
+  ...restProps
+}: DataListTableRootProps) => {
+  // Store
+  const { theme } = useThemeStore();
+
+  // Refs
+  const tableContainerRef = useRef<HTMLDivElement>(null); // Unused ref
+
+  // Hooks
+  const { sortConfig, toggleSort, sortedRows } = useDataListTableSort(
+    rows,
+    initialSortColumnIndex,
+    initialSortOrder,
+  );
+  const {
+    isAllRowsSelected,
+    selectedRows,
+    selectAllRows,
+    clearSelection,
+    toggleRowSelection,
+  } = useDataListTableSelection(rows);
+
+  // Resolved Values
+  const contextValue = useMemo<DataListTableContextValue>(
+    () => ({
+      headers,
+      rows,
+      initialSortColumnIndex,
+      initialSortOrder,
+      batchOptions,
+      rowOptions,
+
+      sortConfig,
+      toggleSort,
+      sortedRows,
+      selectedRows,
+      isAllRowsSelected,
+      toggleRowSelection,
+      selectAllRows,
+      clearSelection,
+    }),
+    [
+      headers,
+      rows,
+      initialSortColumnIndex,
+      initialSortOrder,
+      batchOptions,
+      rowOptions,
+
+      sortConfig,
+      toggleSort,
+      sortedRows,
+      selectedRows,
+      isAllRowsSelected,
+      toggleRowSelection,
+      selectAllRows,
+      clearSelection,
+    ],
+  );
+  const gridCols = useMemo(() => {
+    const cols = [];
+
+    if (!isEmptyArray(batchOptions)) {
+      cols.push(TABLE_OPTIONS_CELL_W);
+    }
+
+    headers.forEach(() => cols.push("auto"));
+
+    if (!isEmptyArray(rowOptions)) {
+      cols.push(TABLE_OPTIONS_CELL_W);
+    }
+
+    return cols.join(" ");
+  }, [batchOptions, headers, rowOptions]);
+
+  // Derived Values
+  // const shouldVirtualize = rows.length > 60;
+
+  return (
+    <DataListTableContext.Provider value={contextValue}>
+      <VStack
+        className={"table-container"}
+        ref={tableContainerRef}
+        overflow={"auto"}
+        roundedTop={theme.radii.component}
+        pos={"relative"}
+        {...restProps}
+      >
+        <Grid
+          role={"table"}
+          gridTemplateColumns={gridCols}
+          w={headers.length > 1 ? "full" : "fit"}
+          rowGap={1.5}
+        >
+          {children}
+        </Grid>
+      </VStack>
+    </DataListTableContext.Provider>
+  );
+};
+
+const DataListTableCell = (props: StackProps) => {
+  return (
+    <HStack
+      align={"center"}
+      justify={"start"}
+      gap={2}
+      h={"full"}
+      px={4}
+      py={2}
+      bg={"bg.body"}
+      whiteSpace={"nowrap"}
+      userSelect={"none"}
+      {...props}
+    />
+  );
+};
+
+const DataListTableHeader = (props: DataListTableHeaderProps) => {
+  // Store
+  const { theme } = useThemeStore();
+
+  // Contexts
+  const { batchOptions, headers, rowOptions, sortConfig, toggleSort } =
+    useDataListTableContext();
+
+  return (
+    <Box
+      role={"row"}
+      display={"grid"}
+      gridTemplateColumns={"subgrid"} // <- inherit column definition from Root Grid
+      gridColumn={"1 / -1"} // <- occupy 1 full line parent grid
+      overflow={"clip"}
+      h={TABLE_ROW_H}
+      pos={"sticky"}
+      top={0}
+      left={0}
+      roundedTop={theme.radii.component}
+      shadow={"md"}
+      // borderBottom={"1px solid {colors.border.muted}"}
+      {...props}
+    >
+      {/* Batch options header */}
+      {!isEmptyArray(batchOptions) && (
+        <DataListTableCell>
+          {/* batch options trigger rendered via DataListTable.BatchOptions slot */}
+        </DataListTableCell>
+      )}
+
+      {/* Main header */}
+      {headers.map((header, index) => (
+        <DataListTableCell
+          key={index}
+          justify={header.align}
+          cursor={header.sortable ? "pointer" : "auto"}
+          onClick={header.sortable ? () => toggleSort(index) : undefined}
+          {...header?.headerProps}
+        >
+          <P fontSize={"sm"} fontWeight={"semibold"} color={"fg.subtle"}>
+            {header.th}
+          </P>
+
+          {header.sortable && (
+            <DataListTableSortIcon
+              active={sortConfig.columnIdx === index}
+              direction={sortConfig.direction}
+            />
+          )}
+        </DataListTableCell>
+      ))}
+
+      {/* Row options header */}
+      {!isEmptyArray(rowOptions) && <DataListTableCell />}
+    </Box>
+  );
+};
+
+const DataListTableBody = () => {
+  // Store
+  const { theme } = useThemeStore();
+
+  // Contexts
+  const {
+    batchOptions,
+    sortedRows,
+    rowOptions,
+    selectedRows,
+    toggleRowSelection,
+  } = useDataListTableContext();
+
+  return (
+    <>
+      {sortedRows.map((row) => {
+        const isRowSelected = selectedRows.includes(row.id);
+
+        // SX
+        const cellStyles = {
+          bg: isRowSelected ? `${theme.colorPalette}.subtle` : "bg.body",
+        };
+
+        return (
+          <Box
+            key={row.id}
+            role={"row"}
+            display={"grid"}
+            gridTemplateColumns={"subgrid"}
+            gridColumn={"1 / -1"}
+            overflow={"clip"}
+            h={TABLE_ROW_H}
+          >
+            {!isEmptyArray(batchOptions) && (
+              <Center
+                h={"full"}
+                px={"10px"}
+                pos={"sticky"}
+                left={0}
+                zIndex={2}
+                cursor={"pointer"}
+                {...cellStyles}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleRowSelection(row);
+                }}
+              >
+                <Checkbox size="sm" checked={isRowSelected} />
+              </Center>
+            )}
+
+            {row.columns.map((col, colIndex) => (
+              <HStack
+                key={colIndex}
+                align={"center"}
+                justify={col.align}
+                w={"full"}
+                h={"full"}
+                px={3}
+                py={2}
+                opacity={row.dim || col.dim ? 0.5 : 1}
+                whiteSpace={"nowrap"}
+                {...cellStyles}
+                {...col?.bodyProps}
+              >
+                {col.td}
+              </HStack>
+            ))}
+
+            {!isEmptyArray(rowOptions) && (
+              <Center
+                h={"full"}
+                px={"10px"}
+                pos={"sticky"}
+                right={0}
+                zIndex={2}
+                {...cellStyles}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* row option actions rendered via DataListTable.RowOptions slot */}
+              </Center>
+            )}
+          </Box>
+        );
+      })}
+    </>
+  );
+};
+
+const DataListTableSortIcon = ({
+  active,
+  direction,
+}: DataListTableSortIconProps) => {
+  // Store
+  const { theme } = useThemeStore();
+
+  // Derived Values
+  const primaryFg = `${theme.colorPalette}.fg`;
+  const isAscActive = active && direction === "asc";
+  const isDescActive = active && direction === "desc";
+
+  // if (!active) return null;
+
+  return (
+    <VStack align={"center"}>
+      <AppTablerIcon
+        icon={IconCaretUpFilled}
+        boxSize={"11px"}
+        color={isAscActive ? primaryFg : "fg.subtle"}
+        mb={"-6px"}
+      />
+      <AppTablerIcon
+        icon={IconCaretDownFilled}
+        boxSize={"11px"}
+        color={isDescActive ? primaryFg : "fg.subtle"}
+      />
+    </VStack>
+  );
+};
+
+// -----------------------------------------------------------------
+// Compound export
+
+export const DataListTable = {
+  Root: DataListTableRoot,
+  Header: DataListTableHeader,
+  Body: DataListTableBody,
+};

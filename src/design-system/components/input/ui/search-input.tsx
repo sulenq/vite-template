@@ -4,7 +4,7 @@
 
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import type { SearchInputProps } from "@/design-system/components/input/types/search.type";
+import type { SearchInputProps } from "@/design-system/components/input/types/search-input.type";
 import { Input } from "@/design-system/components/input/ui/input";
 import { useQueryParam } from "@/design-system/hooks/use-query-param";
 import { InputGroup } from "@chakra-ui/react";
