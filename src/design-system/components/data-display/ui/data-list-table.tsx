@@ -167,6 +167,7 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
         overflow={"auto"}
         pb={TABLE_ROW_GAP}
         roundedTop={theme.radii.container}
+        shadow={"md"}
         {...restProps}
       >
         <Grid

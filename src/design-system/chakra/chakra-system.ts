@@ -102,8 +102,8 @@ export const chakraConfig = defineConfig({
 
     tokens: {
       colors: {
-        canvasLight: { value: "#efeff1" },
-        canvasDark: { value: "#181818" },
+        canvasLight: { value: "#f3f3f5ff" },
+        canvasDark: { value: "#1a1a1a" },
 
         bodyLight: { value: "#ffffff" },
         bodyDark: { value: "#1f1f1f" },
@@ -2127,44 +2127,44 @@ export const chakraConfig = defineConfig({
       shadows: {
         xs: {
           value: {
-            base: "0 0 1px rgba(0,0,0,0.02), 0 1px 1px rgba(0,0,0,0.01) !important",
+            base: "-0.5px -0.5px 1px rgba(0,0,0,0.02), 0 1px 1px rgba(0,0,0,0.01) !important",
             _dark:
-              "0 0 1px rgba(0,0,0,0.08), 0 1px 1px rgba(0,0,0,0.07) !important",
+              "-0.5px -0.5px 1px rgba(0,0,0,0.08), 0 1px 1px rgba(0,0,0,0.07) !important",
           },
         },
         sm: {
           value: {
-            base: "0 0 3px rgba(0,0,0,0.035), 0 1.5px 3px rgba(0,0,0,0.025) !important",
+            base: "-1px -1px 3px rgba(0,0,0,0.035), 0 1.5px 3px rgba(0,0,0,0.025) !important",
             _dark:
-              "0 0 3px rgba(0,0,0,0.13), 0 1.5px 3px rgba(0,0,0,0.11) !important",
+              "-1px -1px 3px rgba(0,0,0,0.13), 0 1.5px 3px rgba(0,0,0,0.11) !important",
           },
         },
         md: {
           value: {
-            base: "0 0 5px rgba(0,0,0,0.045), 0 2.5px 5px rgba(0,0,0,0.035) !important",
+            base: "-1.5px -1.5px 5px rgba(0,0,0,0.045), 0 2.5px 5px rgba(0,0,0,0.035) !important",
             _dark:
-              "0 0 5px rgba(0,0,0,0.15), 0 2.5px 5px rgba(0,0,0,0.13) !important",
+              "-1.5px -1.5px 5px rgba(0,0,0,0.15), 0 2.5px 5px rgba(0,0,0,0.13) !important",
           },
         },
         lg: {
           value: {
-            base: "0 0 8px rgba(0,0,0,0.055), 0 3.5px 7px rgba(0,0,0,0.045) !important",
+            base: "-2px -2px 8px rgba(0,0,0,0.055), 0 3.5px 7px rgba(0,0,0,0.045) !important",
             _dark:
-              "0 0 8px rgba(0,0,0,0.17), 0 3.5px 7px rgba(0,0,0,0.15) !important",
+              "-2px -2px 8px rgba(0,0,0,0.17), 0 3.5px 7px rgba(0,0,0,0.15) !important",
           },
         },
         xl: {
           value: {
-            base: "0 0 12px rgba(0,0,0,0.065), 0 5px 10px rgba(0,0,0,0.055) !important",
+            base: "-3px -3px 12px rgba(0,0,0,0.065), 0 5px 10px rgba(0,0,0,0.055) !important",
             _dark:
-              "0 0 12px rgba(0,0,0,0.19), 0 5px 10px rgba(0,0,0,0.17) !important",
+              "-3px -3px 12px rgba(0,0,0,0.19), 0 5px 10px rgba(0,0,0,0.17) !important",
           },
         },
         "2xl": {
           value: {
-            base: "0 0 17px rgba(0,0,0,0.075), 0 7px 14px rgba(0,0,0,0.065) !important",
+            base: "-4px -4px 17px rgba(0,0,0,0.075), 0 7px 14px rgba(0,0,0,0.065) !important",
             _dark:
-              "0 0 17px rgba(0,0,0,0.22), 0 7px 14px rgba(0,0,0,0.20) !important",
+              "-4px -4px 17px rgba(0,0,0,0.22), 0 7px 14px rgba(0,0,0,0.20) !important",
           },
         },
       },
