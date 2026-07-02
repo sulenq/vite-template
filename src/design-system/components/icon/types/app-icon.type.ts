@@ -12,7 +12,8 @@ export interface AppLucideIconProps extends IconProps {
   lucideIconProps?: LucideProps;
 }
 
-export interface AppTablerIconProps extends IconProps {
+export type AppTablerIconProps = {
   icon?: TablerIcon;
   tablerIconProps?: TablerIconProps;
-}
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
+} & IconProps;

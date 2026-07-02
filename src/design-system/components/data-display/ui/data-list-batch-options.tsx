@@ -1,25 +1,23 @@
 // src/design-system/components/data-display/ui/data-list-batch-options.tsx
 
-import { Fragment } from "react";
-import { ListChecksIcon } from "lucide-react";
-import { P } from "@/design-system/components/typography/ui/p";
-import { VStack } from "@/design-system/components/layout/ui/stack";
-import { LucideIcon } from "@/design-system/components/icon/ui/lucide-icon";
 import { Separator } from "@/design-system/components/layout/ui/separator";
-import { Box, Menu } from "@chakra-ui/react";
-import type { DataListBatchOptionsProps } from "../types/data-list.type";
-import { IconButton } from "@/design-system/components/button/ui/button";
+import { VStack } from "@/design-system/components/layout/ui/stack";
+import { Menu } from "@/design-system/components/overlay/ui/menu";
+import { P } from "@/design-system/components/typography/ui/p";
+import { Fragment } from "react";
+import type { DataListBatchOptionsTriggerProps } from "../types/data-list.type";
 
-export const DataListBatchOptions = (props: DataListBatchOptionsProps) => {
+export const DataListBatchOptionsTrigger = (
+  props: DataListBatchOptionsTriggerProps,
+) => {
   const {
     children,
+    batchOptions,
     selectedRows,
     clearSelectedRows,
-    batchOptions,
     isAllRowsSelected,
-    handleSelectAllRows,
+    selectAllRows,
     menuRootProps,
-    ...restProps
   } = props;
 
   return (
@@ -28,42 +26,33 @@ export const DataListBatchOptions = (props: DataListBatchOptionsProps) => {
       positioning={{ offset: { mainAxis: 6 } }}
       {...menuRootProps}
     >
-      <Menu.Trigger asChild aria-label="batch-options">
-        <IconButton
-          variant="ghost"
-          size="xs"
-          _open={{ bg: "d0" }}
-          {...restProps}
-        >
-          <LucideIcon icon={ListChecksIcon} />
-
-          {children}
-        </IconButton>
+      <Menu.Trigger asChild aria-label={"batch-options"}>
+        {children}
       </Menu.Trigger>
 
-      <Menu.Content minW="140px" zIndex={10}>
-        <VStack px={3} py={1}>
-          <P fontSize="sm" opacity={0.5} fontWeight={500}>
+      <Menu.Content minW={"140px"}>
+        <VStack px={2} py={1}>
+          <P fontSize={"xs"} opacity={0.5} fontWeight={500}>
             {selectedRows.length} selected
           </P>
         </VStack>
 
         <Menu.Item
-          value="select-all"
-          justifyContent="space-between"
-          onClick={() => handleSelectAllRows(isAllRowsSelected)}
+          value={"select-all"}
+          justifyContent={"space-between"}
           closeOnSelect={false}
+          onClick={() => selectAllRows(isAllRowsSelected)}
         >
           <P>Select all</P>
         </Menu.Item>
 
-        <Box px={2} my={1}>
-          <Separator />
-        </Box>
+        <Separator px={2} my={1} />
 
         {batchOptions?.map((item, index) => {
           const node = item(selectedRows, { clearSelectedRows });
+
           if (!node) return null;
+
           return <Fragment key={index}>{node}</Fragment>;
         })}
       </Menu.Content>

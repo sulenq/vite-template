@@ -213,6 +213,7 @@ const ModalFullscreenButton = (props: IconButtonProps) => {
     <IconButton
       size={"2xs"}
       variant={"subtle"}
+      bg={"an1"}
       rounded={"full"}
       onClick={() => {
         const next = !fullscreen;
@@ -270,7 +271,13 @@ const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {
 const ModalCloseButton = (props: IconButtonProps) => {
   return (
     <Modal.CloseTrigger>
-      <IconButton size={"2xs"} variant={"subtle"} rounded={"full"} {...props}>
+      <IconButton
+        size={"2xs"}
+        variant={"subtle"}
+        bg={"an1"}
+        rounded={"full"}
+        {...props}
+      >
         <AppTablerIcon icon={IconX} boxSize={4} />
       </IconButton>
     </Modal.CloseTrigger>

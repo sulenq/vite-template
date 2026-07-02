@@ -115,7 +115,7 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
   const { modalKey, fullscreen, size, dialogClickOriginAnimation } =
     useDialogContext();
 
-  // Store
+  // Stores
   const { theme } = useThemeStore();
 
   // Refs
@@ -138,21 +138,21 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
         next
           ? [
               {
-                filter: "blur(5px)",
+                // filter: "blur(5px)",
                 transform: "scale(0.96)",
               },
               {
-                filter: "blur(0px)",
+                // filter: "blur(0px)",
                 transform: "scale(1)",
               },
             ]
           : [
               {
-                filter: "blur(5px)",
+                // filter: "blur(5px)",
                 transform: "scale(1.04)",
               },
               {
-                filter: "blur(0px)",
+                // filter: "blur(0px)",
                 transform: "scale(1)",
               },
             ],

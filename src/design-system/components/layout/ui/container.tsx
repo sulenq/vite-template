@@ -100,7 +100,7 @@ const ContainerBody = (props: ContainerBodyProps) => {
   // Props
   const { children, ...restProps } = props;
 
-  // Store
+  // Stores
   const { theme } = useThemeStore();
 
   return (

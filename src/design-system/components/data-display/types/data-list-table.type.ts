@@ -1,5 +1,9 @@
-// src/design-system/components/data-display/types/data-table.type.ts
+// src/design-system/components/data-display/types/data-list-table.type.ts
 
+import type {
+  DataListBatchOptionsGenerator,
+  DataListItemOptionsGenerator,
+} from "@/design-system/components/data-display/types/data-list.type";
 import type { StackProps } from "@/design-system/components/layout/types/stack.type";
 
 export type DataListTableRootProps = {
@@ -8,8 +12,8 @@ export type DataListTableRootProps = {
   rows: FormattedTableRow[];
   initialSortColumnIndex?: number;
   initialSortOrder?: "asc" | "desc";
-  batchOptions?: BatchOptionsTableOptionGenerator[];
-  rowOptions?: RowOptionsTableOptionGenerator[];
+  batchOptions?: DataListBatchOptionsGenerator[];
+  rowOptions?: DataListItemOptionsGenerator[];
 } & Omit<StackProps, "page">;
 
 export type DataListTableHeaderProps = {} & StackProps;
@@ -28,7 +32,7 @@ export type DataListTableColumnDataType = "string" | "number" | "date" | "time";
 export type DataListTableSortDirection = "asc" | "desc";
 
 export type DataListTableSortConfig = {
-  columnIdx?: number;
+  columnIndex?: number;
   direction: DataListTableSortDirection;
 };
 
@@ -42,29 +46,21 @@ export type FormattedTableHeader = {
   th: React.ReactNode;
   sortable?: boolean;
   align?: "start" | "center" | "end";
-  dataType?: DataListTableColumnDataType;
-  headerProps?: Record<string, unknown>;
+  headerCellProps?: StackProps;
 };
 
 export type FormattedTableColumn = {
   td: React.ReactNode;
-  value?: unknown;
+  value: unknown;
   align?: "start" | "center" | "end";
   dataType?: DataListTableColumnDataType;
   dim?: boolean;
-  bodyProps?: Record<string, unknown>;
+  bodyCellProps?: StackProps;
 };
 
-export type FormattedTableRow = {
+export type FormattedTableRow<T = Record<string, unknown>> = {
   id: string; // must be real row data id from DB
+  data: T;
   columns: FormattedTableColumn[];
   dim?: boolean;
 };
-
-export type RowOptionsTableOptionGenerator = (
-  row: FormattedTableRow,
-) => React.ReactNode | null | false;
-
-export type BatchOptionsTableOptionGenerator = (
-  selectedRowIds: string[],
-) => React.ReactNode | null | false;

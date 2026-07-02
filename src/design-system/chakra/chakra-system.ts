@@ -8,11 +8,13 @@ import {
   DIALOG_OFFSET_X_VAR,
   DIALOG_OFFSET_Y_VAR,
 } from "@/design-system/components/overlay/stores/use-dialog-animation-store";
+import { checkboxRecipe } from "@/design-system/chakra/recipes/checkbox.recipe";
 
 export const chakraConfig = defineConfig({
   // conditions: {
   //   hover: "&:is(:hover, [data-hover]):not(:disabled, [data-disabled])",
   // },
+
   globalCss: {
     "html, body": {
       bg: "bg.body",
@@ -99,7 +101,7 @@ export const chakraConfig = defineConfig({
 
     tokens: {
       colors: {
-        canvasLight: { value: "#efefef" },
+        canvasLight: { value: "#efeff1" },
         canvasDark: { value: "#181818" },
 
         bodyLight: { value: "#ffffff" },
@@ -107,11 +109,11 @@ export const chakraConfig = defineConfig({
 
         shadowLine: { value: "#8a90960c" },
 
-        an0: { value: "#757b8014" },
-        an1: { value: "#757b801a" },
-        an2: { value: "#757b802b" },
-        an3: { value: "#757b803c" },
-        an4: { value: "#757b804d" },
+        an0: { value: "#757b800f" },
+        an1: { value: "#757b801f" },
+        an2: { value: "#757b802f" },
+        an3: { value: "#757b803f" },
+        an4: { value: "#757b804f" },
 
         placeholder: { value: "#96969691" },
 
@@ -643,20 +645,20 @@ export const chakraConfig = defineConfig({
         bg: {
           subtle: {
             value: {
-              base: "{colors.an1} !important",
-              _dark: "{colors.an1} !important",
+              base: "{colors.neutral.100} !important",
+              _dark: "{colors.neutral.900} !important",
             },
           },
           muted: {
             value: {
-              base: "{colors.an2} !important",
-              _dark: "{colors.an2} !important",
+              base: "{colors.neutral.200} !important",
+              _dark: "{colors.neutral.800} !important",
             },
           },
           emphasized: {
             value: {
-              base: "{colors.an3} !important",
-              _dark: "{colors.an3} !important",
+              base: "{colors.neutral.300} !important",
+              _dark: "{colors.neutral.700} !important",
             },
           },
           canvas: {
@@ -695,7 +697,7 @@ export const chakraConfig = defineConfig({
           emphasized: {
             value: {
               base: "{colors.an3} !important",
-              _dark: "{colors.an} !important",
+              _dark: "{colors.an3} !important",
             },
           },
         },
@@ -715,20 +717,20 @@ export const chakraConfig = defineConfig({
           },
           subtle: {
             value: {
-              base: "{colors.an1} !important",
-              _dark: "{colors.an1} !important",
+              base: "{colors.neutral.100}",
+              _dark: "{colors.neutral.900}",
             },
           },
           muted: {
             value: {
-              base: "{colors.an2} !important",
-              _dark: "{colors.an2} !important",
+              base: "{colors.neutral.200}",
+              _dark: "{colors.neutral.800}",
             },
           },
           emphasized: {
             value: {
-              base: "{colors.an3} !important",
-              _dark: "{colors.an3} !important",
+              base: "{colors.neutral.300}",
+              _dark: "{colors.neutral.700}",
             },
           },
           solid: {
@@ -751,7 +753,7 @@ export const chakraConfig = defineConfig({
           },
         },
 
-        // slight blue tint
+        // slight blue tint gray
         grey: {
           contrast: {
             value: {
@@ -2178,6 +2180,7 @@ export const chakraConfig = defineConfig({
     recipes: {},
 
     slotRecipes: {
+      checkbox: checkboxRecipe,
       dialog: dialogRecipe,
       drawer: drawerRecipe,
     },

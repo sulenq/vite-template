@@ -5,7 +5,7 @@ import type {
   DataListTableSortConfig,
   DataListTableSortHandler,
   FormattedTableRow,
-} from "../types/data-list-table.type";
+} from "@/design-system/components/data-display/types/data-list-table.type";
 
 const sortHandlers: Record<string, DataListTableSortHandler> = {
   string: (aValue, bValue, direction) =>
@@ -36,40 +36,42 @@ const sortHandlers: Record<string, DataListTableSortHandler> = {
 };
 
 export function useDataListTableSort(
-  data: FormattedTableRow[],
-  initialColumnIdx?: number,
+  formattedRows: FormattedTableRow[],
+  initialcolumnIndex?: number,
   initialDirection: "asc" | "desc" = "asc",
 ) {
   const [sortConfig, setSortConfigState] = useState<DataListTableSortConfig>({
-    columnIdx: initialColumnIdx,
+    columnIndex: initialcolumnIndex,
     direction: initialDirection,
   });
 
   function toggleSort(columnIndex: number) {
     setSortConfigState((prev) => {
-      if (prev.columnIdx === columnIndex) {
+      if (prev.columnIndex === columnIndex) {
         if (prev.direction === "asc") {
-          return { columnIdx: columnIndex, direction: "desc" };
+          return { columnIndex: columnIndex, direction: "desc" };
         }
-        return { columnIdx: undefined, direction: "asc" };
+        return { columnIndex: undefined, direction: "asc" };
       }
-      return { columnIdx: columnIndex, direction: "asc" };
+      return { columnIndex: columnIndex, direction: "asc" };
     });
   }
 
   const sortedRows = useMemo(() => {
-    if (sortConfig.columnIdx == null) return data;
+    const columnIndex = sortConfig.columnIndex;
 
-    const columnIndex = sortConfig.columnIdx;
-    const dataType = data[0]?.columns[columnIndex]?.dataType || "string";
-    const handler = sortHandlers[dataType] || sortHandlers.string;
+    if (columnIndex == null) return formattedRows;
 
-    return [...data].sort((a, b) => {
+    const dataType =
+      formattedRows[0]?.columns[columnIndex]?.dataType || "string";
+    const sort = sortHandlers[dataType] || sortHandlers.string;
+
+    return [...formattedRows].sort((a, b) => {
       const aValue = a.columns[columnIndex]?.value ?? "";
       const bValue = b.columns[columnIndex]?.value ?? "";
-      return handler(aValue, bValue, sortConfig.direction);
+      return sort(aValue, bValue, sortConfig.direction);
     });
-  }, [data, sortConfig]);
+  }, [formattedRows, sortConfig]);
 
   return { sortConfig, toggleSort, sortedRows };
 }

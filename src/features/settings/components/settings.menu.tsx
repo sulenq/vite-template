@@ -102,7 +102,7 @@ export const SettingsMenuBody = (props: StackProps) => {
   // Props
   const { ...restProps } = props;
 
-  // Store
+  // Stores
   const { theme } = useThemeStore();
 
   // Hooks

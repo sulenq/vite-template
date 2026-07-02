@@ -103,7 +103,7 @@ const FocusSearchResultItem = (
     ...restProps
   } = props;
 
-  // Store
+  // Stores
   const { theme } = useThemeStore();
 
   // Derived Values

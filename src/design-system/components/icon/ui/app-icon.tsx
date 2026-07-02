@@ -1,15 +1,12 @@
 // src/design-system/components/icon/ui/app-icon.tsx
 
-import {
-  LUCIDE_ICON_BASE_ICON_BOX_SIZE,
-  TABLER_ICON_BASE_ICON_BOX_SIZE,
-} from "@/design-system/constants/styles";
 import type {
   AppLucideIconProps,
   AppTablerIconProps,
 } from "@/design-system/components/icon/types/app-icon.type";
-import { LucideIcon } from "@/design-system/components/icon/ui/lucide-icon";
 import { Icon } from "@/design-system/components/icon/ui/icon";
+import { LucideIcon } from "@/design-system/components/icon/ui/lucide-icon";
+import { LUCIDE_ICON_BASE_ICON_BOX_SIZE } from "@/design-system/constants/styles";
 
 export const AppLucideIcon = (props: AppLucideIconProps) => {
   // Props
@@ -26,12 +23,26 @@ export const AppLucideIcon = (props: AppLucideIconProps) => {
 
 export const AppTablerIcon = (props: AppTablerIconProps) => {
   // Props
-  const { icon: TablerIcon, tablerIconProps, ...restProps } = props;
+  const {
+    icon: TablerIcon,
+    tablerIconProps,
+    size = "md",
+    boxSize,
+    ...restProps
+  } = props;
+
+  const sizes = {
+    xs: 3.5,
+    sm: 4.5,
+    md: 5,
+    lg: 6,
+    xl: 7,
+  };
 
   return (
     TablerIcon && (
       <Icon
-        boxSize={TABLER_ICON_BASE_ICON_BOX_SIZE}
+        boxSize={boxSize ?? sizes[size as keyof typeof sizes]}
         strokeWidth={1.8}
         {...restProps}
       >

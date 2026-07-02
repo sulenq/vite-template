@@ -1,4 +1,4 @@
-// src/design-system/components/other/modal-purger.tsx
+// src/design-system/components/utilities/modal-purger.tsx
 
 "use client";
 

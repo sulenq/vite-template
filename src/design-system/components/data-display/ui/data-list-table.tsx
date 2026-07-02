@@ -1,16 +1,22 @@
-// src/design-system/components/data-display/ui/data-table.tsx
+// src/design-system/components/data-display/ui/data-list-table.tsx
 
+import { IconButton } from "@/design-system/components/button/ui/button";
 import { useDataListTableSelection } from "@/design-system/components/data-display/hooks/use-data-table-selection";
 import { useDataListTableSort } from "@/design-system/components/data-display/hooks/use-data-table-sort";
 import type {
-  BatchOptionsTableOptionGenerator,
   DataListTableHeaderProps,
   DataListTableRootProps,
+  DataListTableSortConfig,
   DataListTableSortIconProps,
   FormattedTableHeader,
   FormattedTableRow,
-  RowOptionsTableOptionGenerator,
 } from "@/design-system/components/data-display/types/data-list-table.type";
+import type {
+  DataListBatchOptionsGenerator,
+  DataListItemOptionsGenerator,
+} from "@/design-system/components/data-display/types/data-list.type";
+import { DataListBatchOptionsTrigger } from "@/design-system/components/data-display/ui/data-list-batch-options";
+import { DataListItemOptionsTrigger } from "@/design-system/components/data-display/ui/data-list-item-options";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 import type { StackProps } from "@/design-system/components/layout/types/stack.type";
@@ -24,7 +30,12 @@ import {
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import { Box, Center } from "@chakra-ui/react";
-import { IconCaretDownFilled, IconCaretUpFilled } from "@tabler/icons-react";
+import {
+  IconCaretDownFilled,
+  IconCaretUpFilled,
+  IconDotsVertical,
+  IconListCheck,
+} from "@tabler/icons-react";
 import { createContext, useContext, useMemo, useRef } from "react";
 
 type DataListTableContextValue = {
@@ -32,10 +43,10 @@ type DataListTableContextValue = {
   rows: FormattedTableRow[];
   initialSortColumnIndex?: number;
   initialSortOrder?: "asc" | "desc";
-  batchOptions?: BatchOptionsTableOptionGenerator[];
-  rowOptions?: RowOptionsTableOptionGenerator[];
+  batchOptions?: DataListBatchOptionsGenerator[];
+  rowOptions?: DataListItemOptionsGenerator[];
 
-  sortConfig: { columnIdx?: number; direction: "asc" | "desc" };
+  sortConfig: DataListTableSortConfig;
   toggleSort: (columnIndex: number) => void;
   sortedRows: FormattedTableRow[];
   selectedRows: string[];
@@ -59,17 +70,22 @@ const useDataListTableContext = () => {
   return ctx;
 };
 
-const DataListTableRoot = ({
-  children,
-  rows,
-  headers,
-  batchOptions = [],
-  rowOptions = [],
-  initialSortColumnIndex,
-  initialSortOrder = "asc",
-  ...restProps
-}: DataListTableRootProps) => {
-  // Store
+// -----------------------------------------------------------------
+
+const DataListTableRoot = (props: DataListTableRootProps) => {
+  // Props
+  const {
+    children,
+    rows,
+    headers,
+    batchOptions = [],
+    rowOptions = [],
+    initialSortColumnIndex,
+    initialSortOrder = "asc",
+    ...restProps
+  } = props;
+
+  // Stores
   const { theme } = useThemeStore();
 
   // Refs
@@ -151,7 +167,7 @@ const DataListTableRoot = ({
         className={"table-container"}
         ref={tableContainerRef}
         overflow={"auto"}
-        roundedTop={theme.radii.component}
+        roundedTop={theme.radii.container}
         pos={"relative"}
         {...restProps}
       >
@@ -172,7 +188,7 @@ const DataListTableCell = (props: StackProps) => {
   return (
     <HStack
       align={"center"}
-      justify={"start"}
+      justify={"center"}
       gap={2}
       h={"full"}
       px={4}
@@ -186,12 +202,21 @@ const DataListTableCell = (props: StackProps) => {
 };
 
 const DataListTableHeader = (props: DataListTableHeaderProps) => {
-  // Store
+  // Stores
   const { theme } = useThemeStore();
 
   // Contexts
-  const { batchOptions, headers, rowOptions, sortConfig, toggleSort } =
-    useDataListTableContext();
+  const {
+    batchOptions,
+    selectedRows,
+    clearSelection,
+    isAllRowsSelected,
+    selectAllRows,
+    headers,
+    rowOptions,
+    sortConfig,
+    toggleSort,
+  } = useDataListTableContext();
 
   return (
     <Box
@@ -204,15 +229,25 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
       pos={"sticky"}
       top={0}
       left={0}
+      zIndex={3}
       roundedTop={theme.radii.component}
       shadow={"md"}
-      // borderBottom={"1px solid {colors.border.muted}"}
       {...props}
     >
-      {/* Batch options header */}
+      {/* Batch options trigger */}
       {!isEmptyArray(batchOptions) && (
-        <DataListTableCell>
-          {/* batch options trigger rendered via DataListTable.BatchOptions slot */}
+        <DataListTableCell pos={"sticky"} left={0}>
+          <DataListBatchOptionsTrigger
+            batchOptions={batchOptions}
+            selectedRows={selectedRows}
+            clearSelectedRows={clearSelection}
+            isAllRowsSelected={isAllRowsSelected}
+            selectAllRows={selectAllRows}
+          >
+            <IconButton variant={"ghost"} size={"xs"}>
+              <AppTablerIcon icon={IconListCheck} />
+            </IconButton>
+          </DataListBatchOptionsTrigger>
         </DataListTableCell>
       )}
 
@@ -223,7 +258,7 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
           justify={header.align}
           cursor={header.sortable ? "pointer" : "auto"}
           onClick={header.sortable ? () => toggleSort(index) : undefined}
-          {...header?.headerProps}
+          {...header?.headerCellProps}
         >
           <P fontSize={"sm"} fontWeight={"semibold"} color={"fg.subtle"}>
             {header.th}
@@ -231,21 +266,23 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
 
           {header.sortable && (
             <DataListTableSortIcon
-              active={sortConfig.columnIdx === index}
+              active={sortConfig.columnIndex === index}
               direction={sortConfig.direction}
             />
           )}
         </DataListTableCell>
       ))}
 
-      {/* Row options header */}
-      {!isEmptyArray(rowOptions) && <DataListTableCell />}
+      {/* Item options spacer */}
+      {!isEmptyArray(rowOptions) && (
+        <DataListTableCell pos={"sticky"} top={0} right={0} />
+      )}
     </Box>
   );
 };
 
 const DataListTableBody = () => {
-  // Store
+  // Stores
   const { theme } = useThemeStore();
 
   // Contexts
@@ -263,7 +300,7 @@ const DataListTableBody = () => {
         const isRowSelected = selectedRows.includes(row.id);
 
         // SX
-        const cellStyles = {
+        const bodyCellStyles = {
           bg: isRowSelected ? `${theme.colorPalette}.subtle` : "bg.body",
         };
 
@@ -276,25 +313,31 @@ const DataListTableBody = () => {
             gridColumn={"1 / -1"}
             overflow={"clip"}
             h={TABLE_ROW_H}
+            shadow={isRowSelected ? "md" : "none"}
           >
+            {/* Batch options checkbox */}
             {!isEmptyArray(batchOptions) && (
               <Center
                 h={"full"}
                 px={"10px"}
                 pos={"sticky"}
                 left={0}
-                zIndex={2}
                 cursor={"pointer"}
-                {...cellStyles}
+                {...bodyCellStyles}
                 onClick={(e) => {
                   e.stopPropagation();
                   toggleRowSelection(row);
                 }}
               >
-                <Checkbox size="sm" checked={isRowSelected} />
+                <Checkbox
+                  size={"sm"}
+                  checked={isRowSelected}
+                  variant={"subtle"}
+                />
               </Center>
             )}
 
+            {/* Main column body */}
             {row.columns.map((col, colIndex) => (
               <HStack
                 key={colIndex}
@@ -306,13 +349,14 @@ const DataListTableBody = () => {
                 py={2}
                 opacity={row.dim || col.dim ? 0.5 : 1}
                 whiteSpace={"nowrap"}
-                {...cellStyles}
-                {...col?.bodyProps}
+                {...bodyCellStyles}
+                {...col?.bodyCellProps}
               >
                 {col.td}
               </HStack>
             ))}
 
+            {/* Item options trigger */}
             {!isEmptyArray(rowOptions) && (
               <Center
                 h={"full"}
@@ -320,10 +364,14 @@ const DataListTableBody = () => {
                 pos={"sticky"}
                 right={0}
                 zIndex={2}
-                {...cellStyles}
+                {...bodyCellStyles}
                 onClick={(e) => e.stopPropagation()}
               >
-                {/* row option actions rendered via DataListTable.RowOptions slot */}
+                <DataListItemOptionsTrigger rowOptions={rowOptions} row={row}>
+                  <IconButton variant={"ghost"} size={"xs"}>
+                    <AppTablerIcon icon={IconDotsVertical} />
+                  </IconButton>
+                </DataListItemOptionsTrigger>
               </Center>
             )}
           </Box>
@@ -337,7 +385,7 @@ const DataListTableSortIcon = ({
   active,
   direction,
 }: DataListTableSortIconProps) => {
-  // Store
+  // Stores
   const { theme } = useThemeStore();
 
   // Derived Values
@@ -363,9 +411,6 @@ const DataListTableSortIcon = ({
     </VStack>
   );
 };
-
-// -----------------------------------------------------------------
-// Compound export
 
 export const DataListTable = {
   Root: DataListTableRoot,

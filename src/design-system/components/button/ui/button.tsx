@@ -19,7 +19,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     // Props
     const { primary, variant, colorPalette, ...restProps } = props;
 
-    // Store
+    // Stores
     const { theme } = useThemeStore();
 
     return (
@@ -41,7 +41,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     // Props
     const { primary, variant, colorPalette, ...restProps } = props;
 
-    // Store
+    // Stores
     const { theme } = useThemeStore();
 
     return (

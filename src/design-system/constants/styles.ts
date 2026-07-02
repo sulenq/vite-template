@@ -16,9 +16,9 @@ export const MAIN_BUTTON_SIZE = ["md", null, "md"] as ButtonProps["size"];
 export const MAIN_INPUT_SIZE = ["md", null, "md"] as InputProps["size"];
 
 export const LUCIDE_ICON_BASE_ICON_BOX_SIZE = 5;
-export const LUCIDE_ICON_MENU_ICON_BOX_SIZE = 5;
+export const LUCIDE_ICON_MENU_ICON_BOX_SIZE = 4.5;
 export const TABLER_ICON_BASE_ICON_BOX_SIZE = 5;
-export const TABLER_ICON_MENU_ICON_BOX_SIZE = 5;
+export const TABLER_ICON_MENU_ICON_BOX_SIZE = 4.5;
 
 // Spacing
 export const MODAL_CONTROL_CONTAINER_SPACING_R = 1.5;
@@ -34,5 +34,5 @@ export const PADDING_MD = "16px";
 export const PADDING_LG = "24px";
 
 // Data Table
-export const TABLE_OPTIONS_CELL_W = "45px";
+export const TABLE_OPTIONS_CELL_W = "50px";
 export const TABLE_ROW_H = "50px";

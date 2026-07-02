@@ -1,41 +1,33 @@
 // src/design-system/components/data-display/types/data-list.type.ts
-import type { ReactNode } from "react";
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
+import type { FormattedTableRow } from "@/design-system/components/data-display/types/data-list-table.type";
 import type { MenuRootProps, StackProps } from "@chakra-ui/react";
-import type { FormattedTableRow } from "./data-list-table.type";
+import type { ReactNode } from "react";
 
-// -----------------------------------------------------------------
-// Row Options
-
-export type RowOptionsTableOptionGenerator = (
-  row: FormattedTableRow,
+export type DataListItemOptionsGenerator<T = Record<string, unknown>> = (
+  row: FormattedTableRow<T>,
+  index: number,
 ) => ReactNode;
 
-export type DataListRowOptionsProps = {
-  row: FormattedTableRow;
-  rowOptions?: RowOptionsTableOptionGenerator[];
+export type DataListItemOptionsProps<T = Record<string, unknown>> = {
+  row: FormattedTableRow<T>;
+  rowOptions?: DataListItemOptionsGenerator[];
   menuRootProps?: Omit<MenuRootProps, "children">;
 } & IconButtonProps;
 
-// -----------------------------------------------------------------
-// Batch Options
-
-export type BatchOptionsTableOptionGenerator = (
+export type DataListBatchOptionsGenerator = (
   selectedRows: string[],
   helpers: { clearSelectedRows: () => void },
 ) => ReactNode;
 
-export type DataListBatchOptionsProps = {
+export type DataListBatchOptionsTriggerProps = {
   selectedRows: string[];
   clearSelectedRows: () => void;
-  batchOptions?: BatchOptionsTableOptionGenerator[];
+  batchOptions?: DataListBatchOptionsGenerator[];
   isAllRowsSelected: boolean;
-  handleSelectAllRows: (isChecked: boolean) => void;
+  selectAllRows: (isChecked: boolean) => void;
   menuRootProps?: Omit<MenuRootProps, "children">;
 } & IconButtonProps;
-
-// -----------------------------------------------------------------
-// Footer
 
 export type DataListFooterProps = {
   borderless?: boolean;
@@ -48,17 +40,11 @@ export type DataListFooterProps = {
   totalPage?: number;
 } & Omit<StackProps, "page">;
 
-// -----------------------------------------------------------------
-// Limitation
-
 export type DataListLimitationProps = {
   limit: number;
   setLimit: (limit: number) => void;
   options?: number[];
 };
-
-// -----------------------------------------------------------------
-// Pagination
 
 export type DataListPaginationProps = {
   page: number;

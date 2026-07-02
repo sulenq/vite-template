@@ -11,7 +11,7 @@ export interface InputProps extends ChakraInputProps {}
 
 export const Input = forwardRef<HTMLInputElement, ChakraInputProps>(
   (props, ref) => {
-    // Store
+    // Stores
     const { theme } = useThemeStore();
 
     return <ChakraInput rounded={theme.radii.component} ref={ref} {...props} />;
