@@ -458,11 +458,11 @@ export const DataTable = () => {
     ],
 
     batchActions: [
-      (selectedRows) => {
+      (selectedItems) => {
         return (
           <Menu.Item
             value={"delete"}
-            disabled={isEmptyArray(selectedRows)}
+            disabled={isEmptyArray(selectedItems)}
             onClick={() => {
               console.log("Delete");
             }}
@@ -475,12 +475,12 @@ export const DataTable = () => {
     ] as DataListBatchActionsGenerator[],
 
     itemActions: [
-      (row) => {
+      (item) => {
         return (
           <Menu.Item
             value={"edit"}
             onClick={() => {
-              console.log(row);
+              console.log(item);
             }}
           >
             <AppTablerIcon icon={IconEdit} size={"sm"} />
@@ -505,7 +505,7 @@ export const DataTable = () => {
         <Box bg={"bg.canvas"} p={4} rounded={theme.radii.component}>
           <DataListTable.Root
             headers={dataList.fields}
-            rows={dataList.items}
+            items={dataList.items}
             batchActions={dataList.batchActions}
             itemActions={dataList.itemActions}
             maxH={"450px"}

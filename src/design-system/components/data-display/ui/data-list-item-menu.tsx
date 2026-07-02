@@ -1,4 +1,4 @@
-// src/design-system/components/data-display/ui/data-list-item-options.tsx
+// src/design-system/components/data-display/ui/data-list-item-menu.tsx
 
 import { VStack } from "@/design-system/components/layout/ui/stack";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
@@ -7,7 +7,7 @@ import type { DataListItemOptionsProps } from "../types/data-list.type";
 
 export const DataListItemActionsTrigger = (props: DataListItemOptionsProps) => {
   // Props
-  const { children, row, itemActions, menuRootProps } = props;
+  const { children, item, itemActions, menuRootProps } = props;
 
   return (
     <Menu.Root
@@ -18,14 +18,14 @@ export const DataListItemActionsTrigger = (props: DataListItemOptionsProps) => {
       }}
       {...menuRootProps}
     >
-      <Menu.Trigger asChild aria-label={"row-options"}>
+      <Menu.Trigger asChild aria-label={"item-actions"}>
         {children}
       </Menu.Trigger>
 
       <Menu.Content minW={"140px"}>
         <VStack gap={1}>
-          {itemActions?.map((item, index) => {
-            const node = item(row, index);
+          {itemActions?.map((action, index) => {
+            const node = action(item, index);
 
             if (!node) return null;
 

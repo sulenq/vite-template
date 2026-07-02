@@ -1,10 +1,10 @@
-// src/design-system/components/data-display/hooks/use-data-table-sort.ts
+// src/design-system/components/data-display/hooks/use-data-list-sort.ts
 
 import { useMemo, useState } from "react";
 import type {
   DataListTableSortConfig,
   DataListTableSortHandler,
-  FormattedTableRow,
+  FormattedListItem,
 } from "@/design-system/components/data-display/types/data-list-table.type";
 
 const sortHandlers: Record<string, DataListTableSortHandler> = {
@@ -35,8 +35,8 @@ const sortHandlers: Record<string, DataListTableSortHandler> = {
       : String(bValue).localeCompare(String(aValue)),
 };
 
-export function useDataListTableSort(
-  formattedRows: FormattedTableRow[],
+export function useDataListSort(
+  formattedItems: FormattedListItem[],
   initialcolumnIndex?: number,
   initialDirection: "asc" | "desc" = "asc",
 ) {
@@ -57,21 +57,21 @@ export function useDataListTableSort(
     });
   }
 
-  const sortedRows = useMemo(() => {
+  const sortedItems = useMemo(() => {
     const columnIndex = sortConfig.columnIndex;
 
-    if (columnIndex == null) return formattedRows;
+    if (columnIndex == null) return formattedItems;
 
     const dataType =
-      formattedRows[0]?.columns[columnIndex]?.dataType || "string";
+      formattedItems[0]?.columns[columnIndex]?.dataType || "string";
     const sort = sortHandlers[dataType] || sortHandlers.string;
 
-    return [...formattedRows].sort((a, b) => {
+    return [...formattedItems].sort((a, b) => {
       const aValue = a.columns[columnIndex]?.value ?? "";
       const bValue = b.columns[columnIndex]?.value ?? "";
       return sort(aValue, bValue, sortConfig.direction);
     });
-  }, [formattedRows, sortConfig]);
+  }, [formattedItems, sortConfig]);
 
-  return { sortConfig, toggleSort, sortedRows };
+  return { sortConfig, toggleSort, sortedItems };
 }

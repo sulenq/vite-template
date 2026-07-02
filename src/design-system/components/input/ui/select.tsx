@@ -48,11 +48,7 @@ export default function Select(props: SelectProps) {
       <ChakraSelect.HiddenSelect />
 
       <ChakraSelect.Control>
-        <ChakraSelect.Trigger
-          border={"none"}
-          cursor={"pointer"}
-          _hover={props?._hover || { bg: "bg.emphasized" }}
-        >
+        <ChakraSelect.Trigger border={"none"} cursor={"pointer"}>
           <ChakraSelect.ValueText
             fontSize={props?.fontSize}
             placeholder={placeholder}

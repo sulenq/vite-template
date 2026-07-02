@@ -9,7 +9,7 @@ import type { StackProps } from "@/design-system/components/layout/types/stack.t
 export type DataListTableRootProps = {
   children: React.ReactNode;
   headers: FormattedTableHeader[];
-  rows: FormattedTableRow[];
+  items: FormattedListItem[];
   initialSortColumnIndex?: number;
   initialSortOrder?: "asc" | "desc";
   batchActions?: DataListBatchActionsGenerator[];
@@ -58,8 +58,8 @@ export type FormattedTableColumn = {
   bodyCellProps?: StackProps;
 };
 
-export type FormattedTableRow<T = Record<string, unknown>> = {
-  id: string; // must be real row data id from DB
+export type FormattedListItem<T = Record<string, unknown>> = {
+  id: string; // must be real item data id from DB
   data: T;
   columns: FormattedTableColumn[];
   dim?: boolean;

@@ -1,31 +1,31 @@
 // src/design-system/components/data-display/types/data-list.type.ts
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
-import type { FormattedTableRow } from "@/design-system/components/data-display/types/data-list-table.type";
+import type { FormattedListItem } from "@/design-system/components/data-display/types/data-list-table.type";
 import type { MenuRootProps, StackProps } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 
 export type DataListItemActionsGenerator<T = Record<string, unknown>> = (
-  row: FormattedTableRow<T>,
+  item: FormattedListItem<T>,
   index: number,
 ) => ReactNode;
 
 export type DataListItemOptionsProps<T = Record<string, unknown>> = {
-  row: FormattedTableRow<T>;
+  item: FormattedListItem<T>;
   itemActions?: DataListItemActionsGenerator[];
   menuRootProps?: Omit<MenuRootProps, "children">;
 } & IconButtonProps;
 
 export type DataListBatchActionsGenerator = (
-  selectedRows: string[],
-  helpers: { clearSelectedRows: () => void },
+  selectedItems: string[],
+  helpers: { clearSelectedItems: () => void },
 ) => ReactNode;
 
 export type DataListBatchActionsTriggerProps = {
-  selectedRows: string[];
-  clearSelectedRows: () => void;
+  selectedItems: string[];
+  clearSelectedItems: () => void;
   batchActions?: DataListBatchActionsGenerator[];
-  isAllRowsSelected: boolean;
-  selectAllRows: (isChecked: boolean) => void;
+  isAllItemsSelected: boolean;
+  selectAllItems: (isChecked: boolean) => void;
   menuRootProps?: Omit<MenuRootProps, "children">;
 } & IconButtonProps;
 

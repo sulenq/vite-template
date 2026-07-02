@@ -1,15 +1,15 @@
 // src/design-system/components/data-display/ui/data-list-table.tsx
 
 import { IconButton } from "@/design-system/components/button/ui/button";
-import { useDataListTableSelection } from "@/design-system/components/data-display/hooks/use-data-table-selection";
-import { useDataListTableSort } from "@/design-system/components/data-display/hooks/use-data-table-sort";
+import { useDataListSelection } from "@/design-system/components/data-display/hooks/use-data-list-selection";
+import { useDataListSort } from "@/design-system/components/data-display/hooks/use-data-list-sort";
 import type {
   DataListTableHeaderProps,
   DataListTableRootProps,
   DataListTableSortConfig,
   DataListTableSortIconProps,
   FormattedTableHeader,
-  FormattedTableRow,
+  FormattedListItem,
 } from "@/design-system/components/data-display/types/data-list-table.type";
 import type {
   DataListBatchActionsGenerator,
@@ -40,7 +40,7 @@ import { createContext, useContext, useMemo, useRef } from "react";
 
 type DataListTableContextValue = {
   headers: FormattedTableHeader[];
-  rows: FormattedTableRow[];
+  items: FormattedListItem[];
   initialSortColumnIndex?: number;
   initialSortOrder?: "asc" | "desc";
   batchActions?: DataListBatchActionsGenerator[];
@@ -48,12 +48,12 @@ type DataListTableContextValue = {
 
   sortConfig: DataListTableSortConfig;
   toggleSort: (columnIndex: number) => void;
-  sortedRows: FormattedTableRow[];
-  selectedRows: string[];
-  isAllRowsSelected: boolean;
-  toggleRowSelection: (row: FormattedTableRow) => void;
-  selectAllRows: (isChecked: boolean) => void;
-  clearSelection: () => void;
+  sortedItems: FormattedListItem[];
+  selectedItems: string[];
+  isAllItemsSelected: boolean;
+  toggleItemSelection: (item: FormattedListItem) => void;
+  selectAllItems: (isChecked: boolean) => void;
+  clearSelectedItems: () => void;
 };
 
 const DataListTableContext = createContext<DataListTableContextValue | null>(
@@ -76,7 +76,7 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
   // Props
   const {
     children,
-    rows,
+    items,
     headers,
     batchActions = [],
     itemActions = [],
@@ -92,24 +92,24 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
   const tableContainerRef = useRef<HTMLDivElement>(null); // Unused ref
 
   // Hooks
-  const { sortConfig, toggleSort, sortedRows } = useDataListTableSort(
-    rows,
+  const { sortConfig, toggleSort, sortedItems } = useDataListSort(
+    items,
     initialSortColumnIndex,
     initialSortOrder,
   );
   const {
-    isAllRowsSelected,
-    selectedRows,
-    selectAllRows,
+    isAllItemsSelected,
+    selectedItems,
+    selectAllItems,
     clearSelection,
-    toggleRowSelection,
-  } = useDataListTableSelection(rows);
+    toggleItemSelection,
+  } = useDataListSelection(items);
 
   // Resolved Values
   const contextValue = useMemo<DataListTableContextValue>(
     () => ({
       headers,
-      rows,
+      items,
       initialSortColumnIndex,
       initialSortOrder,
       batchActions,
@@ -117,16 +117,16 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
 
       sortConfig,
       toggleSort,
-      sortedRows,
-      selectedRows,
-      isAllRowsSelected,
-      toggleRowSelection,
-      selectAllRows,
-      clearSelection,
+      sortedItems,
+      selectedItems,
+      isAllItemsSelected,
+      toggleItemSelection,
+      selectAllItems,
+      clearSelectedItems: clearSelection,
     }),
     [
       headers,
-      rows,
+      items,
       initialSortColumnIndex,
       initialSortOrder,
       batchActions,
@@ -134,11 +134,11 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
 
       sortConfig,
       toggleSort,
-      sortedRows,
-      selectedRows,
-      isAllRowsSelected,
-      toggleRowSelection,
-      selectAllRows,
+      sortedItems,
+      selectedItems,
+      isAllItemsSelected,
+      toggleItemSelection,
+      selectAllItems,
       clearSelection,
     ],
   );
@@ -157,9 +157,6 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
 
     return cols.join(" ");
   }, [batchActions, headers, itemActions]);
-
-  // Derived Values
-  // const shouldVirtualize = rows.length > 60;
 
   return (
     <DataListTableContext.Provider value={contextValue}>
@@ -208,10 +205,10 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
   // Contexts
   const {
     batchActions,
-    selectedRows,
-    clearSelection,
-    isAllRowsSelected,
-    selectAllRows,
+    selectedItems,
+    clearSelectedItems,
+    isAllItemsSelected,
+    selectAllItems,
     headers,
     itemActions,
     sortConfig,
@@ -239,10 +236,10 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
         <DataListTableCell pos={"sticky"} left={0}>
           <DataListBatchActionsTrigger
             batchActions={batchActions}
-            selectedRows={selectedRows}
-            clearSelectedRows={clearSelection}
-            isAllRowsSelected={isAllRowsSelected}
-            selectAllRows={selectAllRows}
+            selectedItems={selectedItems}
+            clearSelectedItems={clearSelectedItems}
+            isAllItemsSelected={isAllItemsSelected}
+            selectAllItems={selectAllItems}
           >
             <IconButton variant={"ghost"} size={"xs"}>
               <AppTablerIcon icon={IconListCheck} />
@@ -288,32 +285,32 @@ const DataListTableBody = () => {
   // Contexts
   const {
     batchActions,
-    sortedRows,
+    sortedItems,
     itemActions,
-    selectedRows,
-    toggleRowSelection,
+    selectedItems,
+    toggleItemSelection,
   } = useDataListTableContext();
 
   return (
     <>
-      {sortedRows.map((row) => {
-        const isRowSelected = selectedRows.includes(row.id);
+      {sortedItems.map((item) => {
+        const isItemSelected = selectedItems.includes(item.id);
 
         // SX
         const bodyCellStyles = {
-          bg: isRowSelected ? `${theme.colorPalette}.subtle` : "bg.body",
+          bg: isItemSelected ? `${theme.colorPalette}.subtle` : "bg.body",
         };
 
         return (
           <Box
-            key={row.id}
+            key={item.id}
             role={"row"}
             display={"grid"}
             gridTemplateColumns={"subgrid"}
             gridColumn={"1 / -1"}
             overflow={"clip"}
             h={TABLE_ROW_H}
-            shadow={isRowSelected ? "md" : "none"}
+            shadow={isItemSelected ? "md" : "none"}
           >
             {/* Batch options checkbox */}
             {!isEmptyArray(batchActions) && (
@@ -326,19 +323,19 @@ const DataListTableBody = () => {
                 {...bodyCellStyles}
                 onClick={(e) => {
                   e.stopPropagation();
-                  toggleRowSelection(row);
+                  toggleItemSelection(item);
                 }}
               >
                 <Checkbox
                   size={"sm"}
-                  checked={isRowSelected}
+                  checked={isItemSelected}
                   variant={"subtle"}
                 />
               </Center>
             )}
 
             {/* Main column body */}
-            {row.columns.map((col, colIndex) => (
+            {item.columns.map((col, colIndex) => (
               <HStack
                 key={colIndex}
                 align={"center"}
@@ -347,7 +344,7 @@ const DataListTableBody = () => {
                 h={"full"}
                 px={3}
                 py={2}
-                opacity={row.dim || col.dim ? 0.5 : 1}
+                opacity={item.dim || col.dim ? 0.5 : 1}
                 whiteSpace={"nowrap"}
                 {...bodyCellStyles}
                 {...col?.bodyCellProps}
@@ -367,7 +364,7 @@ const DataListTableBody = () => {
                 {...bodyCellStyles}
                 onClick={(e) => e.stopPropagation()}
               >
-                <DataListItemActionsTrigger itemActions={itemActions} row={row}>
+                <DataListItemActionsTrigger itemActions={itemActions} item={item}>
                   <IconButton variant={"ghost"} size={"xs"}>
                     <AppTablerIcon icon={IconDotsVertical} />
                   </IconButton>
@@ -392,8 +389,6 @@ const DataListTableSortIcon = ({
   const primaryFg = `${theme.colorPalette}.fg`;
   const isAscActive = active && direction === "asc";
   const isDescActive = active && direction === "desc";
-
-  // if (!active) return null;
 
   return (
     <VStack align={"center"}>

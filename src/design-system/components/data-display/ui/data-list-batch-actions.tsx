@@ -1,4 +1,4 @@
-// src/design-system/components/data-display/ui/data-list-batch-options.tsx
+// src/design-system/components/data-display/ui/data-list-batch-actions.tsx
 
 import { Separator } from "@/design-system/components/layout/ui/separator";
 import { VStack } from "@/design-system/components/layout/ui/stack";
@@ -13,10 +13,10 @@ export const DataListBatchActionsTrigger = (
   const {
     children,
     batchActions,
-    selectedRows,
-    clearSelectedRows,
-    isAllRowsSelected,
-    selectAllRows,
+    selectedItems,
+    clearSelectedItems,
+    isAllItemsSelected,
+    selectAllItems,
     menuRootProps,
   } = props;
 
@@ -26,14 +26,14 @@ export const DataListBatchActionsTrigger = (
       positioning={{ offset: { mainAxis: 6 } }}
       {...menuRootProps}
     >
-      <Menu.Trigger asChild aria-label={"batch-options"}>
+      <Menu.Trigger asChild aria-label={"batch-actions"}>
         {children}
       </Menu.Trigger>
 
       <Menu.Content minW={"140px"}>
         <VStack px={2} py={1}>
           <P fontSize={"xs"} opacity={0.5} fontWeight={500}>
-            {selectedRows.length} selected
+            {selectedItems.length} selected
           </P>
         </VStack>
 
@@ -41,7 +41,7 @@ export const DataListBatchActionsTrigger = (
           value={"select-all"}
           justifyContent={"space-between"}
           closeOnSelect={false}
-          onClick={() => selectAllRows(isAllRowsSelected)}
+          onClick={() => selectAllItems(isAllItemsSelected)}
         >
           <P>Select all</P>
         </Menu.Item>
@@ -49,7 +49,7 @@ export const DataListBatchActionsTrigger = (
         <Separator px={2} my={1} />
 
         {batchActions?.map((item, index) => {
-          const node = item(selectedRows, { clearSelectedRows });
+          const node = item(selectedItems, { clearSelectedItems });
 
           if (!node) return null;
 
