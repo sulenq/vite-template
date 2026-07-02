@@ -16,7 +16,7 @@ import { useMergedRefs } from "@/design-system/hooks/use-merge-refs";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { createContext, forwardRef, useContext, useMemo, useRef } from "react";
 
-export interface ContainerContextValue {
+export type ContainerContextValue = {
   dimension: {
     width: number;
     height: number;

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-interface Viewport {
+type Viewport = {
   width: number;
   height: number;
 }

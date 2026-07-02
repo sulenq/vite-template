@@ -6,8 +6,8 @@ import type {
   SkeletonTextProps as ChakraSkeletonTextProps,
 } from "@chakra-ui/react";
 
-export interface SkeletonProps extends ChakraSkeletonProps {}
+export type SkeletonProps = ChakraSkeletonProps;
 
-export interface SkeletonCircleProps extends ChakraSkeletonCircleProps {}
+export type SkeletonCircleProps = ChakraSkeletonCircleProps;
 
-export interface SkeletonTextProps extends ChakraSkeletonTextProps {}
+export type SkeletonTextProps = ChakraSkeletonTextProps;

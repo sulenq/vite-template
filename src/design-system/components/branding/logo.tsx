@@ -8,10 +8,10 @@ import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Center, type CenterProps } from "@chakra-ui/react";
 import { useMemo } from "react";
 
-export interface LogoProps extends CenterProps {
+export type LogoProps = {
   color?: string;
   size?: number;
-}
+} & CenterProps;
 
 export const Logo = (props: LogoProps) => {
   // Props

@@ -39,7 +39,7 @@ export function useDialogContext() {
   return context;
 }
 
-interface DialogRootProps extends ChakraDialog.RootProps {
+type DialogRootProps = ChakraDialog.RootProps & {
   modalKey?: string;
   onClose?: () => void;
   fullscreen?: boolean;

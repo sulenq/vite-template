@@ -2,21 +2,13 @@
 
 "use client";
 
-import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback.type";
+import type { FeedbackNoResultProps } from "@/design-system/components/feedback/types/feedback-state.type";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { P } from "@/design-system/components/typography/ui/p";
 import { t } from "@/shared/libs/i18n/-typed";
-import { IconMoodPuzzled, type TablerIcon } from "@tabler/icons-react";
+import { IconMoodPuzzled } from "@tabler/icons-react";
 
-export interface FeedbackNoResult {
-  icon?: React.ReactNode;
-  tablerIcon?: TablerIcon;
-  query?: string;
-}
-
-export const FeedbackNoResult = (
-  props: FeedbackNoResult & FeedbackStateProps,
-) => {
+export const FeedbackNoResult = (props: FeedbackNoResultProps) => {
   // Props
   const {
     icon,

@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 
 export type ColorMode = "light" | "dark";
 
-export interface UseColorMode {
+export type UseColorMode = {
   colorMode: ColorMode;
   setColorMode: (colorMode: ColorMode) => void;
   toggleColorMode: () => void;

@@ -1,19 +1,19 @@
-// src/design-system/components/feedback/ui/feedback-no-data.tsx
+// src/design-system/components/feedback/ui/feedback-access-denied.tsx
 
 "use client";
 
-import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback.type";
+import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback-state.type";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { t } from "@/shared/libs/i18n/-typed";
-import { IconHourglassEmpty } from "@tabler/icons-react";
+import { IconForbid } from "@tabler/icons-react";
 
-export const FeedbackNoData = (props: FeedbackStateProps) => {
+export const FeedbackAccessDenied = (props: FeedbackStateProps) => {
   // Props
   const {
     icon,
-    tablerIcon = IconHourglassEmpty,
-    title = t["common.no_data"](),
-    description,
+    tablerIcon = IconForbid,
+    title = t["common.forbidden"](),
+    description = t["common.dont_have_access"](),
     children,
     ...restProps
   } = props;

@@ -6,9 +6,9 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import type { LinkProps as ChakraLinkProps } from "@chakra-ui/react";
 import { Link as TanstakLink } from "@tanstack/react-router";
 
-export interface LinkProps extends ChakraLinkProps {
+export type LinkProps = {
   to: string;
-}
+} & ChakraLinkProps;
 
 export const Link = (props: LinkProps) => {
   // Props

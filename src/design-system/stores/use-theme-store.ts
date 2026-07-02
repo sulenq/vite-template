@@ -7,7 +7,7 @@ import { persist } from "zustand/middleware";
 
 const STORAGE_KEY = "theme-config";
 
-interface ThemeStore {
+type ThemeStore = {
   colorPalette: string;
   primaryColor: string;
   primaryColorHex: string;

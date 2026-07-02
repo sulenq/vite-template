@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-interface UseContainerDimensionOptions {
+type UseContainerDimensionOptions = {
   debounceDelay?: number;
 }
 

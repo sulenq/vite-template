@@ -48,7 +48,7 @@ function getScrollableAncestor(el: HTMLElement | null): HTMLElement | null {
   return null;
 }
 
-interface DrawerRootProps extends ChakraDrawer.RootProps {
+type DrawerRootProps = ChakraDrawer.RootProps & {
   modalKey?: string;
   swipeToDismiss?: boolean;
   fullscreen?: boolean;

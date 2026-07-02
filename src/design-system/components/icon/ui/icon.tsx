@@ -7,7 +7,7 @@ import {
   type IconProps as ChakraIconProps,
 } from "@chakra-ui/react";
 
-interface IconProps extends ChakraIconProps {}
+type IconProps = ChakraIconProps;
 
 export const Icon = (props: IconProps) => {
   // Props

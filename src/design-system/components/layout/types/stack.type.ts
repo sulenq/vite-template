@@ -2,4 +2,4 @@
 
 import type { StackProps as ChakraStackProps } from "@chakra-ui/react";
 
-export interface StackProps extends ChakraStackProps {}
+export type StackProps = ChakraStackProps;

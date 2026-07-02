@@ -2,8 +2,8 @@
 
 import type { InputProps } from "@/design-system/components/input/ui/input";
 
-export interface SearchInputProps extends InputProps {
+export type SearchInputProps = {
   queryKey?: string;
   value?: string;
   onValueChange?: (value: string) => void;
-}
+} & InputProps;

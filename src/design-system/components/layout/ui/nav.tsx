@@ -5,7 +5,7 @@
 import type { ButtonProps } from "@/design-system/components/button/types/button.type";
 import { Button } from "@/design-system/components/button/ui/button";
 
-interface NavButtonProps extends ButtonProps {}
+type NavButtonProps = ButtonProps;
 
 export const NavButton = (props: NavButtonProps) => {
   // Props

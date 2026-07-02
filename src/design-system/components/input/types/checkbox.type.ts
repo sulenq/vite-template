@@ -2,7 +2,7 @@
 
 import { Checkbox as ChakraCheckbox } from "@chakra-ui/react";
 
-export interface CheckboxProps extends ChakraCheckbox.RootProps {
+export type CheckboxProps = ChakraCheckbox.RootProps & {
   children?: React.ReactNode;
   controlProps?: ChakraCheckbox.ControlProps;
 }

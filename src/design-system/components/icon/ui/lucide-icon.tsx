@@ -4,9 +4,9 @@
 
 import { type LucideIcon, type LucideProps } from "lucide-react";
 
-interface LucideIconProps extends LucideProps {
+type LucideIconProps = {
   icon?: LucideIcon;
-}
+} & LucideProps;
 
 export function LucideIcon(props: LucideIconProps) {
   // Props

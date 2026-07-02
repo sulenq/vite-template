@@ -13,10 +13,10 @@ import type {
 } from "@/design-system/components/data-display/types/data-list.type";
 import { DataListFooter } from "@/design-system/components/data-display/ui/data-list-footer";
 import { DataListTable } from "@/design-system/components/data-display/ui/data-list-table";
-import { FeedbackAccessDenied } from "@/design-system/components/feedback/ui/feedback-access-denied";
-import { FeedbackNoData } from "@/design-system/components/feedback/ui/feedback-no-data";
-import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-no-result";
-import { FeedbackRetry } from "@/design-system/components/feedback/ui/feedback-retry";
+import { FeedbackAccessDenied } from "@/design-system/components/feedback/ui/feedback-state.access-denied";
+import { FeedbackNoData } from "@/design-system/components/feedback/ui/feedback-state.no-data";
+import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-state.no-result";
+import { FeedbackRetry } from "@/design-system/components/feedback/ui/feedback-state.retry";
 import {
   AppLucideIcon,
   AppTablerIcon,

@@ -2,7 +2,7 @@
 
 "use client";
 
-import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback.type";
+import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback-state.type";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { VStack } from "@/design-system/components/layout/ui/stack";
 import { P } from "@/design-system/components/typography/ui/p";

@@ -2,7 +2,7 @@
 
 "use client";
 
-import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-no-result";
+import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-state.no-result";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { SearchInput } from "@/design-system/components/input/ui/search-input";
 import { HStack, VStack } from "@/design-system/components/layout/ui/stack";

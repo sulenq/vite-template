@@ -6,7 +6,7 @@ import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { useColorMode } from "@/design-system/hooks/use-color-mode";
 import { IconMoon2, IconSunHigh } from "@tabler/icons-react";
 
-interface ColorModeToggleButtonProps extends IconButtonProps {}
+type ColorModeToggleButtonProps = IconButtonProps;
 
 export const ColorModeToggleButton = (props: ColorModeToggleButtonProps) => {
   // Hooks

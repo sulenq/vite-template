@@ -6,7 +6,7 @@ import { Span, Text, type TextProps, type SpanProps } from "@chakra-ui/react";
 import parse, { domToReact, type DOMNode } from "html-react-parser";
 import { forwardRef } from "react";
 
-export interface PProps extends TextProps {}
+export type PProps = TextProps;
 
 export const P = forwardRef<HTMLParagraphElement, PProps>(
   function P(props, ref) {
@@ -57,9 +57,9 @@ export const PSerif = forwardRef<HTMLParagraphElement, PProps>(
   },
 );
 
-export interface TNumProps extends SpanProps {
+export type TNumProps = {
   numberFont?: boolean;
-}
+} & SpanProps;
 
 export const TNum = forwardRef<HTMLParagraphElement, TNumProps>(
   function TNum(props, ref) {

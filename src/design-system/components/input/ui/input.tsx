@@ -7,7 +7,7 @@ import { Input as ChakraInput } from "@chakra-ui/react";
 import type { InputProps as ChakraInputProps } from "@chakra-ui/react";
 import { forwardRef } from "react";
 
-export interface InputProps extends ChakraInputProps {}
+export type InputProps = ChakraInputProps;
 
 export const Input = forwardRef<HTMLInputElement, ChakraInputProps>(
   (props, ref) => {
