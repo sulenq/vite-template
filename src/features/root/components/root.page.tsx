@@ -518,7 +518,7 @@ export const DataTable = () => {
             p={4}
             bg={"bg.body"}
             rounded={theme.radii.container}
-            shadow={"md"}
+            shadow={"sm"}
           >
             <P fontSize={"xl"} fontWeight={"medium"} ml={1}>
               Feature Title

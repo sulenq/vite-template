@@ -12,7 +12,10 @@ import { IconSearch, IconX } from "@tabler/icons-react";
 import { forwardRef, useRef, useState } from "react";
 
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  ({ queryKey, value: controlledValue, onValueChange, ...restProps }, ref) => {
+  (
+    { queryKey, value: controlledValue, onValueChange, w, ...restProps },
+    ref,
+  ) => {
     // Refs
     const internalRef = useRef<HTMLInputElement | null>(null);
 
@@ -50,7 +53,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             </IconButton>
           ) : undefined
         }
-        w={"fit"}
+        w={w || "fit"}
       >
         <Input
           {...restProps}

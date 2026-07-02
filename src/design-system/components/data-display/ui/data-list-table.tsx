@@ -167,7 +167,7 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
         overflow={"auto"}
         pb={TABLE_ROW_GAP}
         roundedTop={theme.radii.container}
-        shadow={"md"}
+        shadow={"sm"}
         {...restProps}
       >
         <Grid
@@ -230,7 +230,7 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
       left={0}
       zIndex={3}
       roundedTop={theme.radii.component}
-      shadow={"md"}
+      shadow={"sm"}
       {...props}
     >
       {/* Batch actions trigger */}

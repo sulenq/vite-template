@@ -46,7 +46,7 @@ export const DataListFooter = (props: DataListFooterProps) => {
       bg={"bg.body"}
       roundedBottom={theme.radii.container}
       // borderTop={"1px solid {colors.border.subtle}"}
-      shadow={"md"}
+      shadow={"sm"}
       {...restProps}
     >
       <HStack

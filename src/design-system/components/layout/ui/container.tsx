@@ -23,7 +23,7 @@ export type ContainerContextValue = {
   };
   isValidDimension: boolean;
   isSmContainer: boolean;
-}
+};
 
 const ContainerContext = createContext<ContainerContextValue | null>(null);
 
@@ -108,7 +108,7 @@ const ContainerBody = (props: ContainerBodyProps) => {
       w={"full"}
       bg={"bg.body"}
       rounded={theme.radii.container}
-      shadow={"md"}
+      shadow={"sm"}
       {...restProps}
     >
       {children}

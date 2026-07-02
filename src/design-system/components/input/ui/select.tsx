@@ -70,7 +70,7 @@ export default function Select(props: SelectProps) {
             bg={"bg.body"}
             rounded={theme?.radii.container}
             border={"1px solid {colors.border.subtle}"}
-            shadow={"md"}
+            shadow={"sm"}
           >
             {collection.items.map((item) => (
               <ChakraSelect.Item

@@ -196,8 +196,9 @@ const FocusSearchBody = () => {
           queryKey={queryKey}
           placeholder={t["settings.search.placeholder"]()}
           onValueChange={handleValueChange}
-          onKeyDown={handleKeyDown}
+          w={"full"}
           autoFocus={true}
+          onKeyDown={handleKeyDown}
         />
       </HStack>
 

@@ -47,7 +47,7 @@ const MenuContent = (props: MenuContentProps) => {
           rounded={theme.radii.container}
           border={"1px solid"}
           borderColor={"border.subtle"}
-          shadow={"md"}
+          shadow={"sm"}
           {...restProps}
         />
       </ChakraMenu.Positioner>

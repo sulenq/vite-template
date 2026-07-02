@@ -44,7 +44,7 @@ type DialogRootProps = ChakraDialog.RootProps & {
   onClose?: () => void;
   fullscreen?: boolean;
   dialogClickOriginAnimation?: boolean;
-}
+};
 
 // -----------------------------------------------------------------
 
@@ -179,8 +179,8 @@ const DialogContent = (props: ChakraDialog.ContentProps) => {
     <ChakraDialog.Content
       ref={contentRef}
       overflow={"clip"}
-      bg={"bg.canvas"}
-      shadow={"md"}
+      bg={"bg.body"}
+      shadow={"sm"}
       border={"1px solid"}
       borderColor={"shadowLine"}
       rounded={isFullscreen ? 0 : theme.radii.container}
