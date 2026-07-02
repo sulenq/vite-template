@@ -166,7 +166,6 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
         overflow={"auto"}
         pb={1.5}
         roundedTop={theme.radii.container}
-        pos={"relative"}
         {...restProps}
       >
         <Grid
@@ -229,12 +228,13 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
       left={0}
       zIndex={3}
       roundedTop={theme.radii.component}
+      borderBottom={"1px solid {colors.border.subtle}"}
       shadow={"md"}
       {...props}
     >
       {/* Batch actions trigger */}
       {!isEmptyArray(batchActions) && (
-        <DataListTableCell pos={"sticky"} left={0}>
+        <DataListTableCell pos={"sticky"} left={0} pb={"7px"}>
           <DataListBatchActionsTrigger
             batchActions={batchActions}
             selectedItems={selectedItems}
@@ -254,6 +254,7 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
         <DataListTableCell
           key={index}
           justify={header.align}
+          pb={"7px"}
           cursor={header.sortable ? "pointer" : "auto"}
           onClick={header.sortable ? () => toggleSort(index) : undefined}
           {...header?.headerCellProps}
@@ -273,7 +274,7 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
 
       {/* Item actions spacer */}
       {!isEmptyArray(itemActions) && (
-        <DataListTableCell pos={"sticky"} top={0} right={0} />
+        <DataListTableCell pos={"sticky"} top={0} right={0} pb={"7px"} />
       )}
     </Box>
   );

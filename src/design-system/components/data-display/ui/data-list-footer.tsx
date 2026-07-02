@@ -40,8 +40,11 @@ export const DataListFooter = (props: DataListFooterProps) => {
       gap={2}
       minH={"50px"}
       p={2}
+      pt={"7px"}
+      zIndex={4}
       bg={"bg.body"}
       roundedBottom={theme.radii.container}
+      borderTop={"1px solid {colors.border.subtle}"}
       shadow={"md"}
       {...restProps}
     >

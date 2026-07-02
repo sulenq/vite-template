@@ -1,4 +1,4 @@
-// src/design-system/components/data-display/ui/data-list-item-menu.tsx
+// src/design-system/components/data-display/ui/data-list-item-actions.tsx
 
 import { VStack } from "@/design-system/components/layout/ui/stack";
 import { Menu } from "@/design-system/components/overlay/ui/menu";

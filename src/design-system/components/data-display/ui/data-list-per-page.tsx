@@ -1,4 +1,4 @@
-// src/design-system/components/data-display/ui/data-list-limitation.tsx
+// src/design-system/components/data-display/ui/data-list-per-page.tsx
 
 import { Button } from "@/design-system/components/button/ui/button";
 import type { DataListPerPageProps } from "@/design-system/components/data-display/types/data-list.type";

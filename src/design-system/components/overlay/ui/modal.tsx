@@ -246,7 +246,7 @@ const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {
       <Drawer.CloseTrigger
         asChild
         {...restProps}
-        position={"static"}
+        pos={"static"}
         onClick={(event) => {
           close?.();
           onClick?.(event);
@@ -259,7 +259,7 @@ const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {
     <Dialog.CloseTrigger
       asChild
       {...restProps}
-      position={"static"}
+      pos={"static"}
       onClick={(event) => {
         close?.();
         onClick?.(event);
