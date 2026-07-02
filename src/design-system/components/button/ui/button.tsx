@@ -28,7 +28,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         size={MAIN_BUTTON_SIZE}
         variant={primary ? "solid" : variant || "ghost"}
         colorPalette={primary ? theme.colorPalette : colorPalette || "neutral"}
+        gap={2}
         rounded={theme.radii.component}
+        fontSize={"md"}
         fontWeight={"normal"}
         {...restProps}
       />

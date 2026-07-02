@@ -20,6 +20,7 @@ export const P = forwardRef<HTMLParagraphElement, PProps>(
         wordBreak={"break-word"}
         fontFamily={"inherit"}
         fontWeight={"normal"}
+        mt={"-1px"}
         {...restProps}
       >
         {typeof children === "string"

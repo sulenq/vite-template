@@ -18,9 +18,7 @@ export const DataListItemActionsTrigger = (props: DataListItemOptionsProps) => {
       }}
       {...menuRootProps}
     >
-      <Menu.Trigger asChild aria-label={"item-actions"}>
-        {children}
-      </Menu.Trigger>
+      <Menu.Trigger aria-label={"item-actions"}>{children}</Menu.Trigger>
 
       <Menu.Content minW={"140px"}>
         <VStack gap={1}>

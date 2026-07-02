@@ -464,7 +464,7 @@ export const DataTable = () => {
             value={"delete"}
             disabled={isEmptyArray(selectedItems)}
             onClick={() => {
-              console.log("Delete");
+              console.log(selectedItems);
             }}
           >
             <AppTablerIcon icon={IconTrash} size={"sm"} />
@@ -508,7 +508,7 @@ export const DataTable = () => {
             items={dataList.items}
             batchActions={dataList.batchActions}
             itemActions={dataList.itemActions}
-            maxH={"450px"}
+            maxH={"500px"}
           >
             <DataListTable.Header />
 

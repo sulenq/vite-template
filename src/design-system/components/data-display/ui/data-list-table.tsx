@@ -16,7 +16,7 @@ import type {
   DataListItemActionsGenerator,
 } from "@/design-system/components/data-display/types/data-list.type";
 import { DataListBatchActionsTrigger } from "@/design-system/components/data-display/ui/data-list-batch-actions";
-import { DataListItemActionsTrigger } from "@/design-system/components/data-display/ui/data-list-item-menu";
+import { DataListItemActionsTrigger } from "@/design-system/components/data-display/ui/data-list-item-actions";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 import type { StackProps } from "@/design-system/components/layout/types/stack.type";
@@ -24,7 +24,7 @@ import { Grid } from "@/design-system/components/layout/ui/grid";
 import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { P } from "@/design-system/components/typography/ui/p";
 import {
-  TABLE_OPTIONS_CELL_W,
+  TABLE_ACTIONS_CELL_W,
   TABLE_ROW_H,
 } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
@@ -146,13 +146,13 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
     const cols = [];
 
     if (!isEmptyArray(batchActions)) {
-      cols.push(TABLE_OPTIONS_CELL_W);
+      cols.push(TABLE_ACTIONS_CELL_W);
     }
 
     headers.forEach(() => cols.push("auto"));
 
     if (!isEmptyArray(itemActions)) {
-      cols.push(TABLE_OPTIONS_CELL_W);
+      cols.push(TABLE_ACTIONS_CELL_W);
     }
 
     return cols.join(" ");
@@ -164,6 +164,7 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
         className={"table-container"}
         ref={tableContainerRef}
         overflow={"auto"}
+        pb={1.5}
         roundedTop={theme.radii.container}
         pos={"relative"}
         {...restProps}
@@ -231,7 +232,7 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
       shadow={"md"}
       {...props}
     >
-      {/* Batch options trigger */}
+      {/* Batch actions trigger */}
       {!isEmptyArray(batchActions) && (
         <DataListTableCell pos={"sticky"} left={0}>
           <DataListBatchActionsTrigger
@@ -270,7 +271,7 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
         </DataListTableCell>
       ))}
 
-      {/* Item options spacer */}
+      {/* Item actions spacer */}
       {!isEmptyArray(itemActions) && (
         <DataListTableCell pos={"sticky"} top={0} right={0} />
       )}
@@ -312,7 +313,7 @@ const DataListTableBody = () => {
             h={TABLE_ROW_H}
             shadow={isItemSelected ? "md" : "none"}
           >
-            {/* Batch options checkbox */}
+            {/* Batch actions checkbox */}
             {!isEmptyArray(batchActions) && (
               <Center
                 h={"full"}
@@ -353,7 +354,7 @@ const DataListTableBody = () => {
               </HStack>
             ))}
 
-            {/* Item options trigger */}
+            {/* Item actions trigger */}
             {!isEmptyArray(itemActions) && (
               <Center
                 h={"full"}
@@ -364,7 +365,10 @@ const DataListTableBody = () => {
                 {...bodyCellStyles}
                 onClick={(e) => e.stopPropagation()}
               >
-                <DataListItemActionsTrigger itemActions={itemActions} item={item}>
+                <DataListItemActionsTrigger
+                  itemActions={itemActions}
+                  item={item}
+                >
                   <IconButton variant={"ghost"} size={"xs"}>
                     <AppTablerIcon icon={IconDotsVertical} />
                   </IconButton>

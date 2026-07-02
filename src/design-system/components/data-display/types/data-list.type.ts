@@ -30,24 +30,23 @@ export type DataListBatchActionsTriggerProps = {
 } & IconButtonProps;
 
 export type DataListFooterProps = {
-  borderless?: boolean;
   currentDataLength?: number;
   totalData?: number;
   limit: number;
-  setLimit: (limit: number) => void;
+  setLimit?: (limit: number) => void;
   page: number;
-  setPage: (page: number) => void;
+  setPage?: (page: number) => void;
   totalPage?: number;
 } & Omit<StackProps, "page">;
 
-export type DataListLimitationProps = {
+export type DataListPerPageProps = {
   limit: number;
-  setLimit: (limit: number) => void;
+  setLimit?: (limit: number) => void;
   options?: number[];
 };
 
 export type DataListPaginationProps = {
   page: number;
-  setPage: (page: number) => void;
+  setPage?: (page: number) => void;
   totalPage?: number;
 };

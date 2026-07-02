@@ -32,8 +32,8 @@ export const AppTablerIcon = (props: AppTablerIconProps) => {
   } = props;
 
   const sizes = {
-    xs: 3.5,
-    sm: 4.5,
+    xs: 3,
+    sm: 4,
     md: 5,
     lg: 6,
     xl: 7,

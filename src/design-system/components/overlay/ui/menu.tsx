@@ -23,7 +23,7 @@ const MenuRoot = (props: MenuRootProps) => {
 };
 
 const MenuTrigger = (props: MenuTriggerProps) => {
-  return <ChakraMenu.Trigger {...props} />;
+  return <ChakraMenu.Trigger asChild {...props} />;
 };
 
 const MenuContent = (props: MenuContentProps) => {
@@ -37,6 +37,7 @@ const MenuContent = (props: MenuContentProps) => {
     <Portal disabled={!portalled}>
       <ChakraMenu.Positioner>
         <ChakraMenu.Content
+          p={1}
           bg={"bg.body"}
           rounded={theme.radii.container}
           border={"1px solid"}
@@ -61,9 +62,14 @@ const MenuItem = (props: MenuItemProps) => {
       <ChakraMenu.Item
         disabled={disabled}
         rounded={theme.radii.component}
+        fontSize={"md"}
         cursor={"pointer"}
         pointerEvents={disabled ? "none" : "auto"}
         userSelect={"none"}
+        transition={"200ms"}
+        _hover={{
+          bg: "bg.subtle",
+        }}
         {...restProps}
       />
     </Box>

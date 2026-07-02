@@ -2,9 +2,10 @@
 
 import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { P } from "@/design-system/components/typography/ui/p";
-import { DataListLimitation } from "./data-list-limitation";
+import { DataListPerPage } from "./data-list-per-page";
 import { DataListPagination } from "./data-list-pagination";
 import type { DataListFooterProps } from "../types/data-list.type";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 
 const formatDataLengthText = (
   currentDataLength?: number,
@@ -16,8 +17,8 @@ const formatDataLengthText = (
 };
 
 export const DataListFooter = (props: DataListFooterProps) => {
+  // Props
   const {
-    borderless = false,
     currentDataLength,
     totalData,
     limit,
@@ -28,22 +29,28 @@ export const DataListFooter = (props: DataListFooterProps) => {
     ...restProps
   } = props;
 
+  // Stores
+  const { theme } = useThemeStore();
+
   const dataLengthText = formatDataLengthText(currentDataLength, totalData);
 
   return (
     <VStack
-      p={3}
+      justify={"center"}
       gap={2}
-      borderTop={borderless ? "none" : "1px solid"}
-      borderColor="border.muted"
+      minH={"50px"}
+      p={2}
+      bg={"bg.body"}
+      roundedBottom={theme.radii.container}
+      shadow={"md"}
       {...restProps}
     >
-      <HStack align="center" w="full" justify="space-between">
+      <HStack wrap={"wrap"} align="center" w={"full"} justify={"space-between"}>
         <HStack align="start">
-          <DataListLimitation limit={limit} setLimit={setLimit} />
+          <DataListPerPage limit={limit} setLimit={setLimit} />
         </HStack>
 
-        <HStack align="center" gapX={3}>
+        <HStack align="center" gapX={3} px={["10px", null, 0]}>
           <P color="fg.subtle" whiteSpace="nowrap">
             {dataLengthText}
           </P>

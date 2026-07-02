@@ -7,11 +7,10 @@ import { P, TNum } from "@/design-system/components/typography/ui/p";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import type { DataListPaginationProps } from "../types/data-list.type";
 
-export const DataListPagination = ({
-  page,
-  setPage,
-  totalPage,
-}: DataListPaginationProps) => {
+export const DataListPagination = (props: DataListPaginationProps) => {
+  // Props
+  const { page, setPage, totalPage } = props;
+
   // Derived Values
   const canGoPrev = page > 1;
   const canGoNext = totalPage ? page < totalPage : true;
@@ -22,7 +21,7 @@ export const DataListPagination = ({
         variant={"ghost"}
         size={"xs"}
         disabled={!canGoPrev}
-        onClick={() => setPage(page - 1)}
+        onClick={() => setPage?.(page - 1)}
       >
         <LucideIcon icon={ChevronLeftIcon} />
       </IconButton>
@@ -37,7 +36,7 @@ export const DataListPagination = ({
         variant={"ghost"}
         size={"xs"}
         disabled={!canGoNext}
-        onClick={() => setPage(page + 1)}
+        onClick={() => setPage?.(page + 1)}
       >
         <LucideIcon icon={ChevronRightIcon} />
       </IconButton>

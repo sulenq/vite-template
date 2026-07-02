@@ -1,5 +1,6 @@
 // src/design-system/components/data-display/ui/data-list-batch-actions.tsx
 
+import { DotIndicator } from "@/design-system/components/feedback/ui/indicator";
 import { Separator } from "@/design-system/components/layout/ui/separator";
 import { VStack } from "@/design-system/components/layout/ui/stack";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
@@ -26,9 +27,7 @@ export const DataListBatchActionsTrigger = (
       positioning={{ offset: { mainAxis: 6 } }}
       {...menuRootProps}
     >
-      <Menu.Trigger asChild aria-label={"batch-actions"}>
-        {children}
-      </Menu.Trigger>
+      <Menu.Trigger aria-label={"batch-actions"}>{children}</Menu.Trigger>
 
       <Menu.Content minW={"140px"}>
         <VStack px={2} py={1}>
@@ -44,6 +43,8 @@ export const DataListBatchActionsTrigger = (
           onClick={() => selectAllItems(isAllItemsSelected)}
         >
           <P>Select all</P>
+
+          <DotIndicator checked={isAllItemsSelected} />
         </Menu.Item>
 
         <Separator px={2} my={1} />

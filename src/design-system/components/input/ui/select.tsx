@@ -38,6 +38,7 @@ export default function Select(props: SelectProps) {
       width={width}
       size={size}
       value={[value]}
+      colorPalette={"neutral"}
       onValueChange={(e) => {
         if (e.value[0]) {
           onValueChange(e.value[0]);
@@ -52,8 +53,10 @@ export default function Select(props: SelectProps) {
           <ChakraSelect.ValueText
             fontSize={props?.fontSize}
             placeholder={placeholder}
+            mb={1}
           />
         </ChakraSelect.Trigger>
+
         <ChakraSelect.IndicatorGroup>
           <ChakraSelect.Indicator boxSize={5} color={props?.color} />
         </ChakraSelect.IndicatorGroup>
@@ -62,18 +65,30 @@ export default function Select(props: SelectProps) {
       <Portal container={portalRef} disabled={!portalled}>
         <ChakraSelect.Positioner>
           <ChakraSelect.Content
-            rounded={theme?.radii.container}
+            gap={1}
             minW={"80px"}
-            shadow={"soft"}
+            bg={"bg.body"}
+            rounded={theme?.radii.container}
+            border={"1px solid {colors.border.subtle}"}
+            shadow={"md"}
           >
-            {collection.items.map((opt) => (
+            {collection.items.map((item) => (
               <ChakraSelect.Item
-                item={opt}
-                key={opt.value}
+                item={item}
+                key={item.value}
+                px={2}
+                py={1.5}
                 rounded={theme?.radii.component}
-                color={"fg.ibody"}
+                cursor={"pointer"}
+                _hover={{
+                  bg: "bg.subtle",
+                }}
+                _selected={{
+                  bg: "bg.subtle",
+                }}
               >
-                {opt.label}
+                {item.label}
+
                 <ChakraSelect.ItemIndicator />
               </ChakraSelect.Item>
             ))}
