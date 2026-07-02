@@ -66,7 +66,7 @@ export const RadioIndicator = (props: RadioIndicatorProps) => {
       aspectRatio={1}
       w={sizes[size as keyof typeof sizes]}
       bg={checked ? `${theme.colorPalette}.muted` : ""}
-      border={checked ? "3px solid" : "1px solid"}
+      border={checked ? "4px solid" : "1px solid"}
       borderColor={checked ? `${theme.colorPalette}.solid` : "border.muted"}
       cursor={"pointer"}
       transition={"200ms"}

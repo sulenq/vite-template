@@ -34,6 +34,7 @@ import { Box, Center } from "@chakra-ui/react";
 import {
   IconCaretDownFilled,
   IconCaretUpFilled,
+  IconDots,
   IconDotsVertical,
   IconListCheck,
 } from "@tabler/icons-react";
@@ -370,7 +371,7 @@ const DataListTableBody = () => {
                   item={item}
                 >
                   <IconButton variant={"ghost"} size={"xs"}>
-                    <AppTablerIcon icon={IconDotsVertical} />
+                    <AppTablerIcon icon={IconDots} />
                   </IconButton>
                 </DataListItemActionsTrigger>
               </Center>

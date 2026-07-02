@@ -33,7 +33,7 @@ export const DataListPerPage = (props: DataListPerPageProps) => {
                 setPerPage?.(option);
               }}
             >
-              <RadioIndicator checked={perPage === option} size={"xs"} />
+              <RadioIndicator checked={perPage === option} size={"sm"} />
 
               {option}
             </Menu.Item>
