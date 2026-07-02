@@ -18,14 +18,14 @@ export const DataListBatchActionsTrigger = (
     clearSelectedItems,
     isAllItemsSelected,
     selectAllItems,
-    menuRootProps,
+    ...restProps
   } = props;
 
   return (
     <Menu.Root
       lazyMount
       positioning={{ offset: { mainAxis: 6 } }}
-      {...menuRootProps}
+      {...restProps}
     >
       <Menu.Trigger aria-label={"batch-actions"}>{children}</Menu.Trigger>
 

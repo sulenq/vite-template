@@ -3,6 +3,7 @@
 import { Box } from "@/design-system/components/layout/ui/box";
 import type {
   MenuContentProps,
+  MenuContextTriggerProps,
   MenuItemProps,
   MenuRootProps,
   MenuTriggerProps,
@@ -24,6 +25,10 @@ const MenuRoot = (props: MenuRootProps) => {
 
 const MenuTrigger = (props: MenuTriggerProps) => {
   return <ChakraMenu.Trigger asChild {...props} />;
+};
+
+const MenuContextTrigger = (props: MenuContextTriggerProps) => {
+  return <ChakraMenu.ContextTrigger asChild {...props} />;
 };
 
 const MenuContent = (props: MenuContentProps) => {
@@ -79,6 +84,7 @@ const MenuItem = (props: MenuItemProps) => {
 export const Menu = {
   Root: MenuRoot,
   Trigger: MenuTrigger,
+  ContextTrigger: MenuContextTrigger,
   Content: MenuContent,
   Item: MenuItem,
 };

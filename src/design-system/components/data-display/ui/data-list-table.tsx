@@ -8,8 +8,8 @@ import type {
   DataListTableRootProps,
   DataListTableSortConfig,
   DataListTableSortIconProps,
-  FormattedTableHeader,
   FormattedListItem,
+  FormattedTableHeader,
 } from "@/design-system/components/data-display/types/data-list-table.type";
 import type {
   DataListBatchActionsGenerator,

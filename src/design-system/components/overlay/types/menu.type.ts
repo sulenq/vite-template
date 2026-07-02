@@ -6,6 +6,8 @@ export type MenuRootProps = {} & ChakraMenu.RootProps;
 
 export type MenuTriggerProps = {} & ChakraMenu.TriggerProps;
 
+export type MenuContextTriggerProps = {} & ChakraMenu.ContextTriggerProps;
+
 export type MenuContentProps = {
   portalled?: boolean;
   portalRef?: React.RefObject<HTMLElement | null>;

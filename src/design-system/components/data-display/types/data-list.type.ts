@@ -1,5 +1,4 @@
 // src/design-system/components/data-display/types/data-list.type.ts
-import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import type { FormattedListItem } from "@/design-system/components/data-display/types/data-list-table.type";
 import type { MenuRootProps, StackProps } from "@chakra-ui/react";
 import type { ReactNode } from "react";
@@ -9,11 +8,11 @@ export type DataListItemActionsGenerator<T = Record<string, unknown>> = (
   index: number,
 ) => ReactNode;
 
-export type DataListItemOptionsProps<T = Record<string, unknown>> = {
+export type DataListItemActionsTriggerProps<T = Record<string, unknown>> = {
   item: FormattedListItem<T>;
   itemActions?: DataListItemActionsGenerator[];
-  menuRootProps?: Omit<MenuRootProps, "children">;
-} & IconButtonProps;
+  contextedTrigger?: boolean;
+} & MenuRootProps;
 
 export type DataListBatchActionsGenerator = (
   selectedItems: string[],
@@ -27,7 +26,7 @@ export type DataListBatchActionsTriggerProps = {
   isAllItemsSelected: boolean;
   selectAllItems: (isChecked: boolean) => void;
   menuRootProps?: Omit<MenuRootProps, "children">;
-} & IconButtonProps;
+} & MenuRootProps;
 
 export type DataListFooterProps = {
   currentDataLength?: number;

@@ -3,11 +3,19 @@
 import { VStack } from "@/design-system/components/layout/ui/stack";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
 import React from "react";
-import type { DataListItemOptionsProps } from "../types/data-list.type";
+import type { DataListItemActionsTriggerProps } from "../types/data-list.type";
 
-export const DataListItemActionsTrigger = (props: DataListItemOptionsProps) => {
+export const DataListItemActionsTrigger = (
+  props: DataListItemActionsTriggerProps,
+) => {
   // Props
-  const { children, item, itemActions, menuRootProps } = props;
+  const {
+    children,
+    item,
+    itemActions,
+    contextedTrigger = false,
+    ...restProps
+  } = props;
 
   return (
     <Menu.Root
@@ -16,9 +24,17 @@ export const DataListItemActionsTrigger = (props: DataListItemOptionsProps) => {
         offset: { crossAxis: 4 },
         hideWhenDetached: true,
       }}
-      {...menuRootProps}
+      {...restProps}
     >
-      <Menu.Trigger aria-label={"item-actions"}>{children}</Menu.Trigger>
+      {contextedTrigger && (
+        <Menu.ContextTrigger aria-label={"context-item-actions"}>
+          {children}
+        </Menu.ContextTrigger>
+      )}
+
+      {!contextedTrigger && (
+        <Menu.Trigger aria-label={"item-actions"}>{children}</Menu.Trigger>
+      )}
 
       <Menu.Content minW={"140px"}>
         <VStack gap={1}>
