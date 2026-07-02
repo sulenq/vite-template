@@ -35,7 +35,6 @@ import {
   IconCaretDownFilled,
   IconCaretUpFilled,
   IconDots,
-  IconDotsVertical,
   IconListCheck,
 } from "@tabler/icons-react";
 import { createContext, useContext, useMemo, useRef } from "react";
