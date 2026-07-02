@@ -20,7 +20,6 @@ export const Input = forwardRef<HTMLInputElement, ChakraInputProps>(
         ref={ref}
         size={MAIN_INPUT_SIZE}
         rounded={theme.radii.component}
-        border={"1px solid {colors.border.subtle}"}
         {...props}
       />
     );

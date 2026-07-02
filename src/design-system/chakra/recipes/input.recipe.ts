@@ -6,7 +6,7 @@ export const inputRecipe = defineRecipe({
   variants: {
     variant: {
       outline: {
-        borderColor: "border.subtle",
+        borderColor: "neutral.muted",
       },
       filled: {
         bg: "bg.subtle",
