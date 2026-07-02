@@ -12,11 +12,11 @@ import type {
   FormattedTableRow,
 } from "@/design-system/components/data-display/types/data-list-table.type";
 import type {
-  DataListBatchOptionsGenerator,
-  DataListItemOptionsGenerator,
+  DataListBatchActionsGenerator,
+  DataListItemActionsGenerator,
 } from "@/design-system/components/data-display/types/data-list.type";
-import { DataListBatchOptionsTrigger } from "@/design-system/components/data-display/ui/data-list-batch-options";
-import { DataListItemOptionsTrigger } from "@/design-system/components/data-display/ui/data-list-item-options";
+import { DataListBatchActionsTrigger } from "@/design-system/components/data-display/ui/data-list-batch-actions";
+import { DataListItemActionsTrigger } from "@/design-system/components/data-display/ui/data-list-item-menu";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 import type { StackProps } from "@/design-system/components/layout/types/stack.type";
@@ -43,8 +43,8 @@ type DataListTableContextValue = {
   rows: FormattedTableRow[];
   initialSortColumnIndex?: number;
   initialSortOrder?: "asc" | "desc";
-  batchOptions?: DataListBatchOptionsGenerator[];
-  rowOptions?: DataListItemOptionsGenerator[];
+  batchActions?: DataListBatchActionsGenerator[];
+  itemActions?: DataListItemActionsGenerator[];
 
   sortConfig: DataListTableSortConfig;
   toggleSort: (columnIndex: number) => void;
@@ -78,8 +78,8 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
     children,
     rows,
     headers,
-    batchOptions = [],
-    rowOptions = [],
+    batchActions = [],
+    itemActions = [],
     initialSortColumnIndex,
     initialSortOrder = "asc",
     ...restProps
@@ -112,8 +112,8 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
       rows,
       initialSortColumnIndex,
       initialSortOrder,
-      batchOptions,
-      rowOptions,
+      batchActions,
+      itemActions,
 
       sortConfig,
       toggleSort,
@@ -129,8 +129,8 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
       rows,
       initialSortColumnIndex,
       initialSortOrder,
-      batchOptions,
-      rowOptions,
+      batchActions,
+      itemActions,
 
       sortConfig,
       toggleSort,
@@ -145,18 +145,18 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
   const gridCols = useMemo(() => {
     const cols = [];
 
-    if (!isEmptyArray(batchOptions)) {
+    if (!isEmptyArray(batchActions)) {
       cols.push(TABLE_OPTIONS_CELL_W);
     }
 
     headers.forEach(() => cols.push("auto"));
 
-    if (!isEmptyArray(rowOptions)) {
+    if (!isEmptyArray(itemActions)) {
       cols.push(TABLE_OPTIONS_CELL_W);
     }
 
     return cols.join(" ");
-  }, [batchOptions, headers, rowOptions]);
+  }, [batchActions, headers, itemActions]);
 
   // Derived Values
   // const shouldVirtualize = rows.length > 60;
@@ -207,13 +207,13 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
 
   // Contexts
   const {
-    batchOptions,
+    batchActions,
     selectedRows,
     clearSelection,
     isAllRowsSelected,
     selectAllRows,
     headers,
-    rowOptions,
+    itemActions,
     sortConfig,
     toggleSort,
   } = useDataListTableContext();
@@ -235,10 +235,10 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
       {...props}
     >
       {/* Batch options trigger */}
-      {!isEmptyArray(batchOptions) && (
+      {!isEmptyArray(batchActions) && (
         <DataListTableCell pos={"sticky"} left={0}>
-          <DataListBatchOptionsTrigger
-            batchOptions={batchOptions}
+          <DataListBatchActionsTrigger
+            batchActions={batchActions}
             selectedRows={selectedRows}
             clearSelectedRows={clearSelection}
             isAllRowsSelected={isAllRowsSelected}
@@ -247,7 +247,7 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
             <IconButton variant={"ghost"} size={"xs"}>
               <AppTablerIcon icon={IconListCheck} />
             </IconButton>
-          </DataListBatchOptionsTrigger>
+          </DataListBatchActionsTrigger>
         </DataListTableCell>
       )}
 
@@ -274,7 +274,7 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
       ))}
 
       {/* Item options spacer */}
-      {!isEmptyArray(rowOptions) && (
+      {!isEmptyArray(itemActions) && (
         <DataListTableCell pos={"sticky"} top={0} right={0} />
       )}
     </Box>
@@ -287,9 +287,9 @@ const DataListTableBody = () => {
 
   // Contexts
   const {
-    batchOptions,
+    batchActions,
     sortedRows,
-    rowOptions,
+    itemActions,
     selectedRows,
     toggleRowSelection,
   } = useDataListTableContext();
@@ -316,7 +316,7 @@ const DataListTableBody = () => {
             shadow={isRowSelected ? "md" : "none"}
           >
             {/* Batch options checkbox */}
-            {!isEmptyArray(batchOptions) && (
+            {!isEmptyArray(batchActions) && (
               <Center
                 h={"full"}
                 px={"10px"}
@@ -357,7 +357,7 @@ const DataListTableBody = () => {
             ))}
 
             {/* Item options trigger */}
-            {!isEmptyArray(rowOptions) && (
+            {!isEmptyArray(itemActions) && (
               <Center
                 h={"full"}
                 px={"10px"}
@@ -367,11 +367,11 @@ const DataListTableBody = () => {
                 {...bodyCellStyles}
                 onClick={(e) => e.stopPropagation()}
               >
-                <DataListItemOptionsTrigger rowOptions={rowOptions} row={row}>
+                <DataListItemActionsTrigger itemActions={itemActions} row={row}>
                   <IconButton variant={"ghost"} size={"xs"}>
                     <AppTablerIcon icon={IconDotsVertical} />
                   </IconButton>
-                </DataListItemOptionsTrigger>
+                </DataListItemActionsTrigger>
               </Center>
             )}
           </Box>

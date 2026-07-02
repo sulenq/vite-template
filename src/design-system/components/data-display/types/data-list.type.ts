@@ -4,26 +4,26 @@ import type { FormattedTableRow } from "@/design-system/components/data-display/
 import type { MenuRootProps, StackProps } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 
-export type DataListItemOptionsGenerator<T = Record<string, unknown>> = (
+export type DataListItemActionsGenerator<T = Record<string, unknown>> = (
   row: FormattedTableRow<T>,
   index: number,
 ) => ReactNode;
 
 export type DataListItemOptionsProps<T = Record<string, unknown>> = {
   row: FormattedTableRow<T>;
-  rowOptions?: DataListItemOptionsGenerator[];
+  itemActions?: DataListItemActionsGenerator[];
   menuRootProps?: Omit<MenuRootProps, "children">;
 } & IconButtonProps;
 
-export type DataListBatchOptionsGenerator = (
+export type DataListBatchActionsGenerator = (
   selectedRows: string[],
   helpers: { clearSelectedRows: () => void },
 ) => ReactNode;
 
-export type DataListBatchOptionsTriggerProps = {
+export type DataListBatchActionsTriggerProps = {
   selectedRows: string[];
   clearSelectedRows: () => void;
-  batchOptions?: DataListBatchOptionsGenerator[];
+  batchActions?: DataListBatchActionsGenerator[];
   isAllRowsSelected: boolean;
   selectAllRows: (isChecked: boolean) => void;
   menuRootProps?: Omit<MenuRootProps, "children">;

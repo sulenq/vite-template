@@ -5,9 +5,9 @@ import { Menu } from "@/design-system/components/overlay/ui/menu";
 import React from "react";
 import type { DataListItemOptionsProps } from "../types/data-list.type";
 
-export const DataListItemOptionsTrigger = (props: DataListItemOptionsProps) => {
+export const DataListItemActionsTrigger = (props: DataListItemOptionsProps) => {
   // Props
-  const { children, row, rowOptions, menuRootProps } = props;
+  const { children, row, itemActions, menuRootProps } = props;
 
   return (
     <Menu.Root
@@ -24,7 +24,7 @@ export const DataListItemOptionsTrigger = (props: DataListItemOptionsProps) => {
 
       <Menu.Content minW={"140px"}>
         <VStack gap={1}>
-          {rowOptions?.map((item, index) => {
+          {itemActions?.map((item, index) => {
             const node = item(row, index);
 
             if (!node) return null;

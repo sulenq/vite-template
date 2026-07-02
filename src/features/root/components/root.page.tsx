@@ -8,9 +8,10 @@ import {
 } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import type {
-  DataListBatchOptionsGenerator,
-  DataListItemOptionsGenerator,
+  DataListBatchActionsGenerator,
+  DataListItemActionsGenerator,
 } from "@/design-system/components/data-display/types/data-list.type";
+import { DataListFooter } from "@/design-system/components/data-display/ui/data-list-footer";
 import { DataListTable } from "@/design-system/components/data-display/ui/data-list-table";
 import { FeedbackAccessDenied } from "@/design-system/components/feedback/ui/feedback-access-denied";
 import { FeedbackNoData } from "@/design-system/components/feedback/ui/feedback-no-data";
@@ -34,6 +35,7 @@ import { useLocale } from "@/shared/libs/i18n/locale-provider";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import { IconEdit, IconLanguage, IconTrash } from "@tabler/icons-react";
 import { CogIcon } from "lucide-react";
+import { useState } from "react";
 
 export const RootPage = () => {
   return (
@@ -455,7 +457,7 @@ export const DataTable = () => {
       },
     ],
 
-    batchOptions: [
+    batchActions: [
       (selectedRows) => {
         return (
           <Menu.Item
@@ -470,9 +472,9 @@ export const DataTable = () => {
           </Menu.Item>
         );
       },
-    ] as DataListBatchOptionsGenerator[],
+    ] as DataListBatchActionsGenerator[],
 
-    itemOptions: [
+    itemActions: [
       (row) => {
         return (
           <Menu.Item
@@ -486,8 +488,12 @@ export const DataTable = () => {
           </Menu.Item>
         );
       },
-    ] as DataListItemOptionsGenerator[],
+    ] as DataListItemActionsGenerator[],
   };
+
+  // States
+  const [limit, setLimit] = useState<number>(20);
+  const [page, setPage] = useState<number>(1);
 
   return (
     <Container.Root w={"full"} p={SPACING_MD}>
@@ -500,8 +506,8 @@ export const DataTable = () => {
           <DataListTable.Root
             headers={dataList.fields}
             rows={dataList.items}
-            batchOptions={dataList.batchOptions}
-            rowOptions={dataList.itemOptions}
+            batchActions={dataList.batchActions}
+            itemActions={dataList.itemActions}
             maxH={"450px"}
           >
             <DataListTable.Header />
@@ -509,14 +515,14 @@ export const DataTable = () => {
             <DataListTable.Body />
           </DataListTable.Root>
 
-          {/* <DataListFooter
+          <DataListFooter
             limit={limit}
             setLimit={setLimit}
             page={page}
             setPage={setPage}
-            currentDataLength={rows.length}
+            currentDataLength={dataList.items.length}
             totalData={100}
-          /> */}
+          />
         </Box>
       </Container.Body>
     </Container.Root>

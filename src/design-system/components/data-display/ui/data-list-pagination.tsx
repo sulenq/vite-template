@@ -3,7 +3,7 @@
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { LucideIcon } from "@/design-system/components/icon/ui/lucide-icon";
 import { HStack } from "@/design-system/components/layout/ui/stack";
-import { P } from "@/design-system/components/typography/ui/p";
+import { P, TNum } from "@/design-system/components/typography/ui/p";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import type { DataListPaginationProps } from "../types/data-list.type";
 
@@ -27,8 +27,10 @@ export const DataListPagination = ({
         <LucideIcon icon={ChevronLeftIcon} />
       </IconButton>
 
-      <P whiteSpace="nowrap">
-        {page} {totalPage ? `/ ${totalPage}` : ""}
+      <P whiteSpace={"nowrap"}>
+        <TNum>
+          {page} {totalPage ? `/ ${totalPage}` : ""}
+        </TNum>
       </P>
 
       <IconButton

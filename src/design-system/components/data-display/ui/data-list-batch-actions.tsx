@@ -5,14 +5,14 @@ import { VStack } from "@/design-system/components/layout/ui/stack";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
 import { P } from "@/design-system/components/typography/ui/p";
 import { Fragment } from "react";
-import type { DataListBatchOptionsTriggerProps } from "../types/data-list.type";
+import type { DataListBatchActionsTriggerProps } from "../types/data-list.type";
 
-export const DataListBatchOptionsTrigger = (
-  props: DataListBatchOptionsTriggerProps,
+export const DataListBatchActionsTrigger = (
+  props: DataListBatchActionsTriggerProps,
 ) => {
   const {
     children,
-    batchOptions,
+    batchActions,
     selectedRows,
     clearSelectedRows,
     isAllRowsSelected,
@@ -48,7 +48,7 @@ export const DataListBatchOptionsTrigger = (
 
         <Separator px={2} my={1} />
 
-        {batchOptions?.map((item, index) => {
+        {batchActions?.map((item, index) => {
           const node = item(selectedRows, { clearSelectedRows });
 
           if (!node) return null;

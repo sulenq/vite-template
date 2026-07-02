@@ -1,8 +1,8 @@
 // src/design-system/components/data-display/types/data-list-table.type.ts
 
 import type {
-  DataListBatchOptionsGenerator,
-  DataListItemOptionsGenerator,
+  DataListBatchActionsGenerator,
+  DataListItemActionsGenerator,
 } from "@/design-system/components/data-display/types/data-list.type";
 import type { StackProps } from "@/design-system/components/layout/types/stack.type";
 
@@ -12,8 +12,8 @@ export type DataListTableRootProps = {
   rows: FormattedTableRow[];
   initialSortColumnIndex?: number;
   initialSortOrder?: "asc" | "desc";
-  batchOptions?: DataListBatchOptionsGenerator[];
-  rowOptions?: DataListItemOptionsGenerator[];
+  batchActions?: DataListBatchActionsGenerator[];
+  itemActions?: DataListItemActionsGenerator[];
 } & Omit<StackProps, "page">;
 
 export type DataListTableHeaderProps = {} & StackProps;
