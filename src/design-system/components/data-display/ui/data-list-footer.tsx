@@ -21,8 +21,8 @@ export const DataListFooter = (props: DataListFooterProps) => {
   const {
     currentDataLength,
     totalData,
-    limit,
-    setLimit,
+    perPage,
+    setPerPage,
     page,
     setPage,
     totalPage,
@@ -50,7 +50,7 @@ export const DataListFooter = (props: DataListFooterProps) => {
     >
       <HStack wrap={"wrap"} align="center" w={"full"} justify={"space-between"}>
         <HStack align="start">
-          <DataListPerPage limit={limit} setLimit={setLimit} />
+          <DataListPerPage perPage={perPage} setPerPage={setPerPage} />
         </HStack>
 
         <HStack align="center" gapX={3} px={["10px", null, 0]}>

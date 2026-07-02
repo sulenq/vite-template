@@ -169,7 +169,7 @@ export const DataTable = () => {
   // Stores
   const { theme } = useThemeStore();
 
-  // Response data - dynamicaly changes depends on filters (search, limit per page, pagination, etc.)
+  // Response data - dynamicaly changes depends on filters (search, perPage per page, pagination, etc.)
   const dataList = {
     fields: [
       { th: "Name", sortable: true },
@@ -492,7 +492,7 @@ export const DataTable = () => {
   };
 
   // States
-  const [limit, setLimit] = useState<number>(20);
+  const [perPage, setPerPage] = useState<number>(20);
   const [page, setPage] = useState<number>(1);
 
   return (
@@ -516,8 +516,8 @@ export const DataTable = () => {
           </DataListTable.Root>
 
           <DataListFooter
-            limit={limit}
-            setLimit={setLimit}
+            perPage={perPage}
+            setPerPage={setPerPage}
             page={page}
             setPage={setPage}
             currentDataLength={dataList.items.length}

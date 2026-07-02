@@ -31,16 +31,16 @@ export type DataListBatchActionsTriggerProps = {
 export type DataListFooterProps = {
   currentDataLength?: number;
   totalData?: number;
-  limit: number;
-  setLimit?: (limit: number) => void;
+  perPage: number;
+  setPerPage?: (perPage: number) => void;
   page: number;
   setPage?: (page: number) => void;
   totalPage?: number;
 } & Omit<StackProps, "page">;
 
 export type DataListPerPageProps = {
-  limit: number;
-  setLimit?: (limit: number) => void;
+  perPage: number;
+  setPerPage?: (perPage: number) => void;
   options?: number[];
 };
 

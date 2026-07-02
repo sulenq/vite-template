@@ -12,13 +12,13 @@ const DEFAULT_LIMIT_OPTIONS = [20, 40, 60, 100];
 
 export const DataListPerPage = (props: DataListPerPageProps) => {
   // Props
-  const { limit, setLimit, options = DEFAULT_LIMIT_OPTIONS } = props;
+  const { perPage, setPerPage, options = DEFAULT_LIMIT_OPTIONS } = props;
 
   return (
     <Menu.Root>
       <Menu.Trigger>
         <Button size={"xs"}>
-          {limit} <Span color={"fg.subtle"}>/ page</Span>
+          {perPage} <Span color={"fg.subtle"}>/ page</Span>
           <AppTablerIcon icon={IconChevronDown} size={"sm"} mb={-1} />
         </Button>
       </Menu.Trigger>
@@ -30,10 +30,10 @@ export const DataListPerPage = (props: DataListPerPageProps) => {
               key={option}
               value={String(option)}
               onClick={() => {
-                setLimit?.(option);
+                setPerPage?.(option);
               }}
             >
-              <RadioIndicator checked={limit === option} size={"xs"} />
+              <RadioIndicator checked={perPage === option} size={"xs"} />
 
               {option}
             </Menu.Item>
