@@ -1,4 +1,4 @@
-// src/design-system/components/typography/ui/link.tsx
+// src/design-system/components/navigation/ui/link.tsx
 
 "use client";
 

@@ -9,6 +9,7 @@ import {
   DIALOG_OFFSET_Y_VAR,
 } from "@/design-system/components/overlay/stores/use-dialog-animation-store";
 import { checkboxRecipe } from "@/design-system/chakra/recipes/checkbox.recipe";
+import { inputRecipe } from "@/design-system/chakra/recipes/input.recipe";
 
 export const chakraConfig = defineConfig({
   conditions: {
@@ -2177,7 +2178,9 @@ export const chakraConfig = defineConfig({
 
     animationStyles: {},
 
-    recipes: {},
+    recipes: {
+      input: inputRecipe,
+    },
 
     slotRecipes: {
       checkbox: checkboxRecipe,

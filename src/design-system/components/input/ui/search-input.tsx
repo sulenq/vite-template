@@ -50,6 +50,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             </IconButton>
           ) : undefined
         }
+        w={"fit"}
       >
         <Input
           {...restProps}

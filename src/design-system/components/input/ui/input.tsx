@@ -2,6 +2,7 @@
 
 "use client";
 
+import { MAIN_INPUT_SIZE } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Input as ChakraInput } from "@chakra-ui/react";
 import type { InputProps as ChakraInputProps } from "@chakra-ui/react";
@@ -14,6 +15,14 @@ export const Input = forwardRef<HTMLInputElement, ChakraInputProps>(
     // Stores
     const { theme } = useThemeStore();
 
-    return <ChakraInput rounded={theme.radii.component} ref={ref} {...props} />;
+    return (
+      <ChakraInput
+        ref={ref}
+        size={MAIN_INPUT_SIZE}
+        rounded={theme.radii.component}
+        border={"1px solid {colors.border.subtle}"}
+        {...props}
+      />
+    );
   },
 );

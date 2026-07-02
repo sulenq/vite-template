@@ -25,6 +25,7 @@ import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { P } from "@/design-system/components/typography/ui/p";
 import {
   TABLE_ACTIONS_CELL_W,
+  TABLE_ROW_GAP,
   TABLE_ROW_H,
 } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
@@ -164,7 +165,7 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
         className={"table-container"}
         ref={tableContainerRef}
         overflow={"auto"}
-        pb={1.5}
+        pb={TABLE_ROW_GAP}
         roundedTop={theme.radii.container}
         {...restProps}
       >
@@ -172,7 +173,7 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
           role={"table"}
           gridTemplateColumns={gridCols}
           w={headers.length > 1 ? "full" : "fit"}
-          rowGap={1.5}
+          rowGap={TABLE_ROW_GAP}
         >
           {children}
         </Grid>
@@ -228,13 +229,12 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
       left={0}
       zIndex={3}
       roundedTop={theme.radii.component}
-      borderBottom={"1px solid {colors.border.subtle}"}
       shadow={"md"}
       {...props}
     >
       {/* Batch actions trigger */}
       {!isEmptyArray(batchActions) && (
-        <DataListTableCell pos={"sticky"} left={0} pb={"7px"}>
+        <DataListTableCell pos={"sticky"} left={0}>
           <DataListBatchActionsTrigger
             batchActions={batchActions}
             selectedItems={selectedItems}
@@ -254,7 +254,6 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
         <DataListTableCell
           key={index}
           justify={header.align}
-          pb={"7px"}
           cursor={header.sortable ? "pointer" : "auto"}
           onClick={header.sortable ? () => toggleSort(index) : undefined}
           {...header?.headerCellProps}
@@ -274,7 +273,7 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
 
       {/* Item actions spacer */}
       {!isEmptyArray(itemActions) && (
-        <DataListTableCell pos={"sticky"} top={0} right={0} pb={"7px"} />
+        <DataListTableCell pos={"sticky"} top={0} right={0} />
       )}
     </Box>
   );

@@ -21,11 +21,11 @@ import {
   AppLucideIcon,
   AppTablerIcon,
 } from "@/design-system/components/icon/ui/app-icon";
-import { Box } from "@/design-system/components/layout/ui/box";
+import { SearchInput } from "@/design-system/components/input/ui/search-input";
 import { Container } from "@/design-system/components/layout/ui/container";
 import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
-import { Menu } from "@/design-system/components/overlay/ui/menu";
 import { Link } from "@/design-system/components/navigation/ui/link";
+import { Menu } from "@/design-system/components/overlay/ui/menu";
 import { P } from "@/design-system/components/typography/ui/p";
 import { SPACING_MD } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
@@ -33,7 +33,14 @@ import { SettingsTrigger } from "@/features/settings/components/settings";
 import { getLocale, getLocaleLabel } from "@/shared/libs/i18n/-typed";
 import { useLocale } from "@/shared/libs/i18n/locale-provider";
 import { isEmptyArray } from "@/shared/utils/data/array";
-import { IconEdit, IconLanguage, IconTrash } from "@tabler/icons-react";
+import {
+  IconDownload,
+  IconEdit,
+  IconFilter2,
+  IconLanguage,
+  IconPlus,
+  IconTrash,
+} from "@tabler/icons-react";
 import { CogIcon } from "lucide-react";
 import { useState } from "react";
 
@@ -502,28 +509,62 @@ export const DataTable = () => {
           Data Table
         </P>
 
-        <Box bg={"bg.canvas"} p={4} rounded={theme.radii.component}>
-          <DataListTable.Root
-            headers={dataList.fields}
-            items={dataList.items}
-            batchActions={dataList.batchActions}
-            itemActions={dataList.itemActions}
-            maxH={"500px"}
+        <VStack gap={2} bg={"bg.canvas"} px={[4, null, 10]} py={4}>
+          <HStack
+            wrap={"wrap"}
+            align={"center"}
+            justify={"space-between"}
+            gap={4}
+            p={4}
+            bg={"bg.body"}
+            rounded={theme.radii.container}
           >
-            <DataListTable.Header />
+            <P fontSize={"xl"} fontWeight={"medium"} ml={1}>
+              Feature Title
+            </P>
 
-            <DataListTable.Body />
-          </DataListTable.Root>
+            <HStack wrap={"wrap"} align={"center"} gap={2}>
+              <SearchInput placeholder={"Search..."} />
 
-          <DataListFooter
-            perPage={perPage}
-            setPerPage={setPerPage}
-            page={page}
-            setPage={setPage}
-            currentDataLength={dataList.items.length}
-            totalData={100}
-          />
-        </Box>
+              <Button variant={"outline"}>
+                <AppTablerIcon icon={IconFilter2} />
+                Filter
+              </Button>
+
+              <Button variant={"outline"}>
+                <AppTablerIcon icon={IconDownload} />
+                Export
+              </Button>
+
+              <IconButton primary>
+                <AppTablerIcon icon={IconPlus} />
+              </IconButton>
+            </HStack>
+          </HStack>
+
+          <VStack>
+            <DataListTable.Root
+              headers={dataList.fields}
+              items={dataList.items}
+              batchActions={dataList.batchActions}
+              itemActions={dataList.itemActions}
+              maxH={"500px"}
+            >
+              <DataListTable.Header />
+
+              <DataListTable.Body />
+            </DataListTable.Root>
+
+            <DataListFooter
+              perPage={perPage}
+              setPerPage={setPerPage}
+              page={page}
+              setPage={setPage}
+              currentDataLength={dataList.items.length}
+              totalData={100}
+            />
+          </VStack>
+        </VStack>
       </Container.Body>
     </Container.Root>
   );

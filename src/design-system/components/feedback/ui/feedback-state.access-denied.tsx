@@ -1,4 +1,4 @@
-// src/design-system/components/feedback/ui/feedback-access-denied.tsx
+// src/design-system/components/feedback/ui/feedback-state.access-denied.tsx
 
 "use client";
 

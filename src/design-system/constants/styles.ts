@@ -1,6 +1,7 @@
 // src/design-system/constants/styles.ts
 
-import type { ButtonProps, InputProps } from "@chakra-ui/react";
+import type { ButtonProps } from "@/design-system/components/button/types/button.type";
+import type { InputProps } from "@/design-system/components/input/ui/input";
 
 // Dimensions
 export const SM_SCREEN_BREAKPOINT = "720px";
@@ -12,8 +13,8 @@ export const FEEDBACK_CONTAINER_MIN_H = "250px";
 export const MODAL_BASE_ZINDEX = 1400;
 
 // Sizes
-export const MAIN_BUTTON_SIZE = ["md", null, "md"] as ButtonProps["size"];
-export const MAIN_INPUT_SIZE = ["md", null, "md"] as InputProps["size"];
+export const MAIN_BUTTON_SIZE = ["md", null, "sm"] as ButtonProps["size"];
+export const MAIN_INPUT_SIZE = ["md", null, "sm"] as InputProps["size"];
 
 export const LUCIDE_ICON_BASE_ICON_BOX_SIZE = 5;
 export const LUCIDE_ICON_MENU_ICON_BOX_SIZE = 4.5;
@@ -34,5 +35,6 @@ export const PADDING_MD = "16px";
 export const PADDING_LG = "24px";
 
 // Data Table
-export const TABLE_ACTIONS_CELL_W = "50px";
-export const TABLE_ROW_H = "50px";
+export const TABLE_ACTIONS_CELL_W = "56px";
+export const TABLE_ROW_H = "56px";
+export const TABLE_ROW_GAP = "4px";

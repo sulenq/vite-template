@@ -38,23 +38,36 @@ export const DataListFooter = (props: DataListFooterProps) => {
     <VStack
       justify={"center"}
       gap={2}
+      w={"full"}
       minH={"50px"}
       p={2}
       pt={"7px"}
       zIndex={4}
       bg={"bg.body"}
       roundedBottom={theme.radii.container}
-      borderTop={"1px solid {colors.border.subtle}"}
+      // borderTop={"1px solid {colors.border.subtle}"}
       shadow={"md"}
       {...restProps}
     >
-      <HStack wrap={"wrap"} align="center" w={"full"} justify={"space-between"}>
+      <HStack
+        wrap={"wrap"}
+        align={"center"}
+        justify={["center", null, "space-between"]}
+        gapX={4}
+        gapY={1}
+        w={"full"}
+      >
         <HStack align="start">
           <DataListPerPage perPage={perPage} setPerPage={setPerPage} />
         </HStack>
 
-        <HStack align="center" gapX={3} px={["10px", null, 0]}>
-          <P color="fg.subtle" whiteSpace="nowrap">
+        <HStack
+          align={"center"}
+          justify={"center"}
+          gapX={3}
+          px={["10px", null, 0]}
+        >
+          <P color={"fg.subtle"} whiteSpace={"nowrap"} textAlign={"center"}>
             {dataLengthText}
           </P>
 
