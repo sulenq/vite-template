@@ -33,7 +33,7 @@ export const DataListPerPage = (props: DataListPerPageProps) => {
                 setLimit?.(option);
               }}
             >
-              <RadioIndicator checked={limit === option} />
+              <RadioIndicator checked={limit === option} size={"xs"} />
 
               {option}
             </Menu.Item>

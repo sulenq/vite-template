@@ -13,7 +13,7 @@ export type SelectProps = {
   selectOptions: SelectOption[];
   placeholder?: string;
   width?: string | number;
-  size?: "xs" | "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   portalled?: boolean;
   portalRef?: React.RefObject<HTMLElement | null>;
 } & Omit<SelectRootProps, "value" | "onValueChange" | "collection">;

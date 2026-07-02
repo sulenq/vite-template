@@ -13,4 +13,5 @@ export type CheckIndicatorProps = {
 
 export type RadioIndicatorProps = {
   checked?: boolean;
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
 } & CircleProps;

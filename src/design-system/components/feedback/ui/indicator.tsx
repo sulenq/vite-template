@@ -48,15 +48,23 @@ export const CheckIndicator = (props: CheckIndicatorProps) => {
 
 export const RadioIndicator = (props: RadioIndicatorProps) => {
   // Props
-  const { checked = false, ...restProps } = props;
+  const { checked = false, size = "md", ...restProps } = props;
 
   // Stores
   const { theme } = useThemeStore();
 
+  const sizes = {
+    xs: "12px",
+    sm: "14px",
+    md: "16px",
+    lg: "18px",
+    xl: "20px",
+  };
+
   return (
     <Circle
-      w={"14px"}
-      h={"14px"}
+      aspectRatio={1}
+      w={sizes[size as keyof typeof sizes]}
       bg={checked ? `${theme.colorPalette}.muted` : ""}
       border={checked ? "3px solid" : "1px solid"}
       borderColor={checked ? `${theme.colorPalette}.solid` : "border.muted"}
