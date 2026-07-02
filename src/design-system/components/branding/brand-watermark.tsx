@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Link } from "@/design-system/components/typography/ui/link";
+import { Link } from "@/design-system/components/navigation/ui/link";
 import { P, type PProps } from "@/design-system/components/typography/ui/p";
 import { APP } from "@/design-system/constants/_meta";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";

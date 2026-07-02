@@ -25,7 +25,7 @@ import { Box } from "@/design-system/components/layout/ui/box";
 import { Container } from "@/design-system/components/layout/ui/container";
 import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
-import { Link } from "@/design-system/components/typography/ui/link";
+import { Link } from "@/design-system/components/navigation/ui/link";
 import { P } from "@/design-system/components/typography/ui/p";
 import { SPACING_MD } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
