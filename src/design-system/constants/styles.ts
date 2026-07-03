@@ -37,4 +37,5 @@ export const PADDING_LG = "24px";
 // Data Table
 export const TABLE_ACTIONS_CELL_W = "56px";
 export const TABLE_ROW_H = "56px";
+export const TABLE_CELL_H = "56px";
 export const TABLE_ROW_GAP = "4px";

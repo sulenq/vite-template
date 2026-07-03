@@ -14,6 +14,7 @@ export type DataListTableRootProps = {
   initialSortOrder?: "asc" | "desc";
   batchActions?: DataListBatchActionsGenerator[];
   itemActions?: DataListItemActionsGenerator[];
+  withNumbering?: boolean;
 } & Omit<StackProps, "page">;
 
 export type DataListTableHeaderProps = {} & StackProps;

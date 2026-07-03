@@ -46,6 +46,7 @@ type DataListTableContextValue = {
   initialSortOrder?: "asc" | "desc";
   batchActions?: DataListBatchActionsGenerator[];
   itemActions?: DataListItemActionsGenerator[];
+  withNumbering?: boolean;
 
   sortConfig: DataListTableSortConfig;
   toggleSort: (columnIndex: number) => void;
@@ -83,6 +84,7 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
     itemActions = [],
     initialSortColumnIndex,
     initialSortOrder = "asc",
+    withNumbering = true,
     ...restProps
   } = props;
 
@@ -115,6 +117,7 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
       initialSortOrder,
       batchActions,
       itemActions,
+      withNumbering,
 
       sortConfig,
       toggleSort,
@@ -132,6 +135,7 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
       initialSortOrder,
       batchActions,
       itemActions,
+      withNumbering,
 
       sortConfig,
       toggleSort,
@@ -150,6 +154,10 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
       cols.push(TABLE_ACTIONS_CELL_W);
     }
 
+    if (withNumbering) {
+      cols.push(TABLE_ACTIONS_CELL_W);
+    }
+
     headers.forEach(() => cols.push("auto"));
 
     if (!isEmptyArray(itemActions)) {
@@ -157,7 +165,7 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
     }
 
     return cols.join(" ");
-  }, [batchActions, headers, itemActions]);
+  }, [batchActions, headers, itemActions, withNumbering]);
 
   return (
     <DataListTableContext.Provider value={contextValue}>
@@ -186,10 +194,11 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
 const DataListTableCell = (props: StackProps) => {
   return (
     <HStack
+      className="table-cell"
       align={"center"}
       justify={"center"}
       gap={2}
-      h={"full"}
+      // h={TABLE_ROW_H}
       px={4}
       py={2}
       bg={"bg.body"}
@@ -215,6 +224,7 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
     itemActions,
     sortConfig,
     toggleSort,
+    withNumbering,
   } = useDataListTableContext();
 
   return (
@@ -247,6 +257,12 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
               <AppTablerIcon icon={IconListCheck} />
             </IconButton>
           </DataListBatchActionsTrigger>
+        </DataListTableCell>
+      )}
+
+      {withNumbering && (
+        <DataListTableCell>
+          <P color={"fg.subtle"}>#</P>
         </DataListTableCell>
       )}
 
@@ -291,11 +307,12 @@ const DataListTableBody = () => {
     itemActions,
     selectedItems,
     toggleItemSelection,
+    withNumbering,
   } = useDataListTableContext();
 
   return (
     <>
-      {sortedItems.map((item) => {
+      {sortedItems.map((item, index) => {
         const isItemSelected = selectedItems.includes(item.id);
 
         // SX
@@ -334,6 +351,12 @@ const DataListTableBody = () => {
                   variant={"subtle"}
                 />
               </Center>
+            )}
+
+            {withNumbering && (
+              <DataListTableCell>
+                <P>{index + 1}</P>
+              </DataListTableCell>
             )}
 
             {/* Main column body */}
