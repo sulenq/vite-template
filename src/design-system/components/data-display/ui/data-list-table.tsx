@@ -354,7 +354,7 @@ const DataListTableBody = () => {
             )}
 
             {withNumbering && (
-              <DataListTableCell>
+              <DataListTableCell {...bodyCellStyles}>
                 <P>{index + 1}</P>
               </DataListTableCell>
             )}
