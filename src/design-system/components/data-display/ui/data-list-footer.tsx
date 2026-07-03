@@ -39,9 +39,7 @@ export const DataListFooter = (props: DataListFooterProps) => {
       justify={"center"}
       gap={2}
       w={"full"}
-      minH={"50px"}
-      p={2}
-      pt={"7px"}
+      p={3}
       zIndex={4}
       bg={"bg.body"}
       roundedBottom={theme.radii.container}
