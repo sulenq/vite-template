@@ -4,6 +4,7 @@ import type { StackProps } from "@/design-system/components/layout/types/stack.t
 import {
   HStack as ChakraHStack,
   VStack as ChakraVStack,
+  Spacer as ChakraSpacer,
 } from "@chakra-ui/react";
 import { forwardRef } from "react";
 
@@ -13,4 +14,8 @@ export const VStack = forwardRef<HTMLDivElement, StackProps>((props, ref) => {
 
 export const HStack = forwardRef<HTMLDivElement, StackProps>((props, ref) => {
   return <ChakraHStack ref={ref} align="stretch" gap={0} {...props} />;
+});
+
+export const Spacer = forwardRef<HTMLDivElement, StackProps>((props, ref) => {
+  return <ChakraSpacer ref={ref} {...props} />;
 });

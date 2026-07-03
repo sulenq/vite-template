@@ -15,11 +15,7 @@ export const Checkbox = (props: CheckboxProps) => {
     <ChakraCheckbox.Root colorPalette={theme.colorPalette} {...restProps}>
       <ChakraCheckbox.HiddenInput />
 
-      <ChakraCheckbox.Control
-        cursor={"pointer"}
-        transition={"200ms"}
-        {...controlProps}
-      />
+      <ChakraCheckbox.Control cursor={"pointer"} {...controlProps} />
       {children}
     </ChakraCheckbox.Root>
   );

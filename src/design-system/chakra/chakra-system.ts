@@ -2,14 +2,15 @@
 
 import { SM_SCREEN_BREAKPOINT } from "@/design-system/constants/styles";
 import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
-import { dialogRecipe } from "@/design-system/chakra/recipes/dialog.recipe";
-import { drawerRecipe } from "@/design-system/chakra/recipes/drawer.recipe";
+import { dialogRecipe } from "@/design-system/chakra/slot-recipes/dialog.recipe";
+import { drawerRecipe } from "@/design-system/chakra/slot-recipes/drawer.recipe";
 import {
   DIALOG_OFFSET_X_VAR,
   DIALOG_OFFSET_Y_VAR,
 } from "@/design-system/components/overlay/stores/use-dialog-animation-store";
-import { checkboxRecipe } from "@/design-system/chakra/recipes/checkbox.recipe";
+import { checkboxRecipe } from "@/design-system/chakra/slot-recipes/checkbox.recipe";
 import { inputRecipe } from "@/design-system/chakra/recipes/input.recipe";
+import { selectRecipe } from "@/design-system/chakra/slot-recipes/select.recipe";
 
 export const chakraConfig = defineConfig({
   conditions: {
@@ -2183,6 +2184,7 @@ export const chakraConfig = defineConfig({
     },
 
     slotRecipes: {
+      select: selectRecipe,
       checkbox: checkboxRecipe,
       dialog: dialogRecipe,
       drawer: drawerRecipe,

@@ -4,6 +4,8 @@
 
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
+import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import type { DialogRootProps } from "@/design-system/components/overlay/types/dialog.type";
 import type {
   ModalBackdropProps,
   ModalBodyProps,
@@ -16,23 +18,20 @@ import type {
 } from "@/design-system/components/overlay/types/modal.type";
 import { Dialog } from "@/design-system/components/overlay/ui/dialog";
 import { Drawer } from "@/design-system/components/overlay/ui/drawer";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import { MODAL_BASE_ZINDEX } from "@/design-system/constants/styles";
-import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { triggerFullscreenAnimation } from "@/design-system/components/overlay/utils/fullscreen-animation-registry";
-import { Portal, type DrawerRootProps } from "@chakra-ui/react";
+import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
+import { type DrawerRootProps } from "@chakra-ui/react";
 import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
-import { createContext, useContext, useEffect, useState } from "react";
-
-// -----------------------------------------------------------------
+import { createContext, useContext, useMemo, useState } from "react";
 
 export type ModalContextValue = {
   modalKey: string;
   opened: boolean;
-  open?: () => void;
-  close?: () => void;
+  open: () => void;
+  close: () => void;
   fullscreen: boolean;
   setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
+  isSmallViewport: boolean;
 };
 
 export const ModalContext = createContext<ModalContextValue | null>(null);
@@ -65,54 +64,38 @@ const ModalRoot = (props: ModalRootProps) => {
   } = props;
 
   // Hooks
-  const isSmallViewport = useIsSmallViewport();
+  const isSmallViewport = useIsSmallViewport({
+    onChange: () => {
+      if (opened) {
+        close();
+      }
+    },
+  });
 
   // States
-  const [prevViewport, setPrevViewport] = useState(isSmallViewport);
-  const [delayedOpened, setDelayedOpened] = useState(false);
   const [fullscreen, setFullscreen] = useState<boolean>(false);
 
-  if (isSmallViewport !== prevViewport) {
-    setPrevViewport(isSmallViewport);
-    setDelayedOpened(false);
-  }
-
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-    if (opened) {
-      const depth = modalKey.split(".").length;
-      const delay = depth > 1 ? (depth - 1) * 20 : 50;
-      timer = setTimeout(() => {
-        setDelayedOpened(true);
-      }, delay);
-    } else {
-      timer = setTimeout(() => {
-        setDelayedOpened(false);
-      }, 0);
-    }
-    return () => clearTimeout(timer);
-  }, [opened, modalKey, isSmallViewport]);
-
+  const contextValue = useMemo<ModalContextValue>(
+    () => ({
+      modalKey,
+      opened,
+      open,
+      close,
+      fullscreen,
+      setFullscreen,
+      isSmallViewport,
+    }),
+    [modalKey, opened, open, close, fullscreen, setFullscreen, isSmallViewport],
+  );
   return (
-    <ModalContext.Provider
-      value={{
-        modalKey,
-        opened,
-        open,
-        close,
-        fullscreen,
-        setFullscreen,
-      }}
-    >
+    <ModalContext.Provider value={contextValue}>
       {isSmallViewport ? (
         <Drawer.Root
           modalKey={modalKey}
-          open={delayedOpened}
-          onClose={close}
-          fullscreen={fullscreen}
+          opened={opened}
+          open={open}
+          close={close}
           size={size as DrawerRootProps["size"]}
-          lazyMount
-          unmountOnExit
           swipeToDismiss={drawerSwipeToDismiss}
           {...restProps}
           placement={drawerPlacement}
@@ -122,16 +105,12 @@ const ModalRoot = (props: ModalRootProps) => {
       ) : (
         <Dialog.Root
           modalKey={modalKey}
-          open={delayedOpened}
-          onClose={close}
-          fullscreen={fullscreen}
-          lazyMount
-          unmountOnExit
-          size={fullscreen ? "full" : size}
-          scrollBehavior={"inside"}
-          dialogClickOriginAnimation={dialogClickOriginAnimation}
+          opened={opened}
+          open={open}
+          close={close}
+          clickOriginAnimation={dialogClickOriginAnimation}
+          size={size as DialogRootProps["size"]}
           {...restProps}
-          placement={"center"}
         >
           {children}
         </Dialog.Root>
@@ -142,21 +121,18 @@ const ModalRoot = (props: ModalRootProps) => {
 
 const ModalTrigger = (props: ModalTriggerProps) => {
   // Contexts
-  const { open } = useModalContext();
-
-  // Hooks
-  const isSmallViewport = useIsSmallViewport();
+  const { isSmallViewport } = useModalContext();
 
   if (isSmallViewport) {
-    return <Drawer.Trigger asChild onClick={open} {...props} />;
+    return <Drawer.Trigger asChild {...props} />;
   }
 
-  return <Dialog.Trigger asChild onClick={open} {...props} />;
+  return <Dialog.Trigger asChild {...props} />;
 };
 
 const ModalBackdrop = (props: ModalBackdropProps) => {
-  // Hooks
-  const isSmallViewport = useIsSmallViewport();
+  // Contexts
+  const { isSmallViewport } = useModalContext();
 
   if (isSmallViewport) {
     return <Drawer.Backdrop {...props} />;
@@ -166,43 +142,14 @@ const ModalBackdrop = (props: ModalBackdropProps) => {
 };
 
 const ModalContent = (props: ModalContentProps) => {
-  // Props
-  const {
-    children,
-    portalled = true,
-    portalRef,
-    backdrop = true,
-    positionerProps,
-    ...restProps
-  } = props;
-
-  // Hooks
-  const { modalKey } = useModalContext();
-  const isSmallViewport = useIsSmallViewport();
-
-  const zIndex = MODAL_BASE_ZINDEX + modalKey.split(".").length;
+  // Contexts
+  const { isSmallViewport } = useModalContext();
 
   if (isSmallViewport) {
-    return (
-      <Portal disabled={!portalled} container={portalRef}>
-        <Drawer.Positioner zIndex={zIndex} {...positionerProps}>
-          {backdrop && <Drawer.Backdrop pointerEvents={"auto"} />}
-
-          <Drawer.Content {...restProps}>{children}</Drawer.Content>
-        </Drawer.Positioner>
-      </Portal>
-    );
+    return <Drawer.Content {...props} />;
   }
 
-  return (
-    <Portal disabled={!portalled} container={portalRef}>
-      <Dialog.Positioner zIndex={zIndex} {...positionerProps}>
-        {backdrop && <Dialog.Backdrop pointerEvents={"auto"} />}
-
-        <Dialog.Content {...restProps}>{children}</Dialog.Content>
-      </Dialog.Positioner>
-    </Portal>
-  );
+  return <Dialog.Content {...props} />;
 };
 
 const ModalFullscreenButton = (props: IconButtonProps) => {
@@ -236,10 +183,7 @@ const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {
   const { onClick, ...restProps } = props;
 
   // Contexts
-  const { close } = useModalContext();
-
-  // Hooks
-  const isSmallViewport = useIsSmallViewport();
+  const { close, isSmallViewport } = useModalContext();
 
   if (isSmallViewport) {
     return (
@@ -248,7 +192,7 @@ const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {
         {...restProps}
         pos={"static"}
         onClick={(event) => {
-          close?.();
+          close();
           onClick?.(event);
         }}
       />
@@ -261,7 +205,7 @@ const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {
       {...restProps}
       pos={"static"}
       onClick={(event) => {
-        close?.();
+        close();
         onClick?.(event);
       }}
     />
@@ -285,8 +229,8 @@ const ModalCloseButton = (props: IconButtonProps) => {
 };
 
 const ModalHeader = (props: ModalHeaderProps) => {
-  // Hooks
-  const isSmallViewport = useIsSmallViewport();
+  // Contexts
+  const { isSmallViewport } = useModalContext();
 
   if (isSmallViewport) {
     return <Drawer.Header {...props} />;
@@ -296,8 +240,8 @@ const ModalHeader = (props: ModalHeaderProps) => {
 };
 
 const ModalBody = (props: ModalBodyProps) => {
-  // Hooks
-  const isSmallViewport = useIsSmallViewport();
+  // Contexts
+  const { isSmallViewport } = useModalContext();
 
   if (isSmallViewport) {
     return <Drawer.Body {...props} />;
@@ -307,12 +251,13 @@ const ModalBody = (props: ModalBodyProps) => {
 };
 
 const ModalFooter = (props: ModalFooterProps) => {
-  // Hooks
-  const isSmallViewport = useIsSmallViewport();
+  // Contexts
+  const { isSmallViewport } = useModalContext();
 
   if (isSmallViewport) {
     return <Drawer.Footer {...props} />;
   }
+
   return <Dialog.Footer {...props} />;
 };
 

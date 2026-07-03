@@ -8,9 +8,9 @@ export type SelectOption = {
 };
 
 export type SelectProps = {
-  value: string;
-  onValueChange: (value: string) => void;
-  selectOptions: SelectOption[];
+  value?: string;
+  onValueChange?: (value: string) => void;
+  selectOptions?: SelectOption[];
   placeholder?: string;
   width?: string | number;
   size?: "xs" | "sm" | "md" | "lg" | "xl";

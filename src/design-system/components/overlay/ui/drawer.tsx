@@ -2,20 +2,40 @@
 
 "use client";
 
+import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
+import { IconButton } from "@/design-system/components/button/ui/button";
+import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { Box } from "@/design-system/components/layout/ui/box";
+import type {
+  DrawerContentProps,
+  DrawerRootProps,
+} from "@/design-system/components/overlay/types/drawer.type";
+import { Portal } from "@/design-system/components/utilities/portal";
+import { MODAL_BASE_ZINDEX } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Drawer as ChakraDrawer } from "@chakra-ui/react";
-import { createContext, useContext, useRef, type TouchEvent } from "react";
+import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+  type TouchEvent,
+} from "react";
 
 type GestureMode = "drag" | "scroll" | null;
 
 type DrawerContextValue = {
   modalKey: string;
-  size: ChakraDrawer.RootProps["size"];
-  placement: ChakraDrawer.RootProps["placement"];
-  swipeToDismiss: boolean;
+  opened: boolean;
+  open: () => void;
+  close: () => void;
   fullscreen: boolean;
-  onClose?: () => void;
+  setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
+  swipeToDismiss: boolean;
+  placement: ChakraDrawer.RootProps["placement"];
+  size: ChakraDrawer.RootProps["size"];
 };
 
 const DrawerContext = createContext<DrawerContextValue | null>(null);
@@ -48,40 +68,59 @@ function getScrollableAncestor(el: HTMLElement | null): HTMLElement | null {
   return null;
 }
 
-type DrawerRootProps = ChakraDrawer.RootProps & {
-  modalKey?: string;
-  swipeToDismiss?: boolean;
-  fullscreen?: boolean;
-  onClose?: () => void;
-}
+// -----------------------------------------------------------------
 
 const DrawerRoot = (props: DrawerRootProps) => {
   // Props
   const {
     modalKey = "drawer",
-    size = "sm",
-    placement = "bottom",
+    opened = false,
+    open,
+    close,
     swipeToDismiss = true,
-    fullscreen = false,
-    onClose,
+    placement = "bottom",
+    size = "sm",
     ...restProps
   } = props;
 
+  // States
+  const [fullscreen, setFullscreen] = useState<boolean>(false);
+
+  // Resolved Values
+  const contextValue = useMemo<DrawerContextValue>(
+    () => ({
+      modalKey,
+      opened,
+      open,
+      close,
+      fullscreen,
+      setFullscreen,
+      swipeToDismiss,
+      placement,
+      size,
+    }),
+
+    [
+      modalKey,
+      opened,
+      open,
+      close,
+      fullscreen,
+      setFullscreen,
+      swipeToDismiss,
+      placement,
+      size,
+    ],
+  );
+
   return (
-    <DrawerContext.Provider
-      value={{
-        modalKey,
-        size,
-        placement,
-        swipeToDismiss,
-        fullscreen,
-        onClose,
-      }}
-    >
+    <DrawerContext.Provider value={contextValue}>
       <ChakraDrawer.Root
-        size={size}
+        open={opened}
         placement={placement}
-        onEscapeKeyDown={onClose}
+        size={size}
+        lazyMount
+        unmountOnExit
         {...restProps}
       />
     </DrawerContext.Provider>
@@ -89,14 +128,29 @@ const DrawerRoot = (props: DrawerRootProps) => {
 };
 
 const DrawerTrigger = (props: ChakraDrawer.TriggerProps) => {
-  return <ChakraDrawer.Trigger asChild {...props} />;
+  // Props
+  const { onClick, ...restProps } = props;
+
+  // Contexts
+  const { open } = useDrawerContext();
+
+  return (
+    <ChakraDrawer.Trigger
+      asChild
+      onClick={(event) => {
+        open();
+        onClick?.(event);
+      }}
+      {...restProps}
+    />
+  );
 };
 
 const DrawerBackdrop = (props: ChakraDrawer.BackdropProps) => {
-  const { onClose } = useDrawerContext();
+  const { close } = useDrawerContext();
 
   return (
-    <ChakraDrawer.Backdrop pointerEvents="auto" onClick={onClose} {...props} />
+    <ChakraDrawer.Backdrop pointerEvents={"auto"} onClick={close} {...props} />
   );
 };
 
@@ -104,12 +158,18 @@ const DrawerPositioner = (props: ChakraDrawer.PositionerProps) => {
   return <ChakraDrawer.Positioner {...props} />;
 };
 
-const DrawerContent = (props: ChakraDrawer.ContentProps) => {
+const DrawerContent = (props: DrawerContentProps) => {
   // Props
-  const { children, ...restProps } = props;
+  const {
+    children,
+    portalled = true,
+    portalRef,
+    backdrop = true,
+    ...restProps
+  } = props;
 
   // Contexts
-  const { onClose, fullscreen, size, placement, swipeToDismiss } =
+  const { modalKey, close, fullscreen, swipeToDismiss, placement, size } =
     useDrawerContext();
   const { theme } = useThemeStore();
 
@@ -123,6 +183,7 @@ const DrawerContent = (props: ChakraDrawer.ContentProps) => {
 
   const contentRef = useRef<HTMLDivElement | null>(null);
 
+  // Constants
   const rounded = {
     start: {
       roundedRight: theme.radii.container,
@@ -137,6 +198,9 @@ const DrawerContent = (props: ChakraDrawer.ContentProps) => {
       roundedTop: theme.radii.container,
     },
   };
+
+  // Derived Values
+  const zIndex = MODAL_BASE_ZINDEX + modalKey.split(".").length;
 
   // Handlers
   function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
@@ -195,7 +259,7 @@ const DrawerContent = (props: ChakraDrawer.ContentProps) => {
       contentRef.current.style.transform = `translateY(${height}px)`;
 
       window.setTimeout(() => {
-        onClose?.();
+        close();
       }, 200);
     } else {
       contentRef.current.style.transform = "translateY(0)";
@@ -207,36 +271,99 @@ const DrawerContent = (props: ChakraDrawer.ContentProps) => {
   }
 
   return (
-    <ChakraDrawer.Content
-      ref={contentRef}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      data-placement={placement}
-      {...(fullscreen || size === "full"
-        ? { rounded: 0 }
-        : rounded[placement as keyof typeof rounded])}
-      bg={"bg.body"}
-      {...restProps}
-    >
-      {swipeToDismiss && (
-        <Box
-          w={"80px"}
-          h={"4px"}
-          rounded={"full"}
-          bg={"bg.muted"}
-          my={1.5}
-          mx={"auto"}
-        />
-      )}
+    <Portal disabled={!portalled} container={portalRef}>
+      <DrawerPositioner zIndex={zIndex}>
+        {backdrop && <DrawerBackdrop />}
 
-      {children}
-    </ChakraDrawer.Content>
+        <ChakraDrawer.Content
+          ref={contentRef}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          data-placement={placement}
+          {...(fullscreen || size === "full"
+            ? { rounded: 0 }
+            : rounded[placement as keyof typeof rounded])}
+          bg={"bg.body"}
+          {...restProps}
+        >
+          {swipeToDismiss && (
+            <Box
+              w={"80px"}
+              h={"4px"}
+              rounded={"full"}
+              bg={"bg.muted"}
+              my={1.5}
+              mx={"auto"}
+            />
+          )}
+
+          {children}
+        </ChakraDrawer.Content>
+      </DrawerPositioner>
+    </Portal>
   );
 };
 
 const DrawerCloseTrigger = (props: ChakraDrawer.CloseTriggerProps) => {
-  return <ChakraDrawer.CloseTrigger {...props} />;
+  // Props
+  const { onClick, ...restProps } = props;
+
+  // Contexts
+  const { close } = useDrawerContext();
+
+  return (
+    <ChakraDrawer.CloseTrigger
+      asChild
+      {...restProps}
+      pos={"static"}
+      onClick={(event) => {
+        close();
+        onClick?.(event);
+      }}
+    />
+  );
+};
+
+const DrawerCloseButton = (props: IconButtonProps) => {
+  return (
+    <DrawerCloseTrigger>
+      <IconButton
+        size={"2xs"}
+        variant={"subtle"}
+        bg={"an1"}
+        rounded={"full"}
+        {...props}
+      >
+        <AppTablerIcon icon={IconX} boxSize={4} />
+      </IconButton>
+    </DrawerCloseTrigger>
+  );
+};
+
+const DrawerFullscreenButton = (props: IconButtonProps) => {
+  // Contexts
+  const { fullscreen, setFullscreen } = useDrawerContext();
+
+  return (
+    <IconButton
+      size={"2xs"}
+      variant={"subtle"}
+      bg={"an1"}
+      rounded={"full"}
+      onClick={() => {
+        const next = !fullscreen;
+        setFullscreen(next);
+      }}
+      {...props}
+    >
+      <AppTablerIcon
+        icon={fullscreen ? IconSquares : IconSquare}
+        transform={"scaleX(-1)"}
+        boxSize={3.5}
+      />
+    </IconButton>
+  );
 };
 
 const DrawerHeader = (props: ChakraDrawer.HeaderProps) => {
@@ -258,6 +385,8 @@ export const Drawer = {
   Positioner: DrawerPositioner,
   Content: DrawerContent,
   CloseTrigger: DrawerCloseTrigger,
+  CloseButton: DrawerCloseButton,
+  FullscreenButton: DrawerFullscreenButton,
   Header: DrawerHeader,
   Body: DrawerBody,
   Footer: DrawerFooter,

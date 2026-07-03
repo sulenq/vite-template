@@ -13,10 +13,9 @@ export default function Select(props: SelectProps) {
   const {
     value,
     onValueChange,
-    selectOptions,
+    selectOptions = [],
     placeholder = "Select option",
-    width = "150px",
-    size = "sm",
+    size = "md",
     portalled = true,
     portalRef,
     ...restProps
@@ -35,13 +34,12 @@ export default function Select(props: SelectProps) {
   return (
     <ChakraSelect.Root
       collection={collection}
-      width={width}
       size={size}
-      value={[value]}
+      value={value ? [value] : undefined}
       colorPalette={"neutral"}
       onValueChange={(e) => {
         if (e.value[0]) {
-          onValueChange(e.value[0]);
+          onValueChange?.(e.value[0]);
         }
       }}
       {...restProps}
@@ -49,11 +47,13 @@ export default function Select(props: SelectProps) {
       <ChakraSelect.HiddenSelect />
 
       <ChakraSelect.Control>
-        <ChakraSelect.Trigger border={"none"} cursor={"pointer"}>
+        <ChakraSelect.Trigger
+          rounded={theme.radii.component}
+          cursor={"pointer"}
+        >
           <ChakraSelect.ValueText
             fontSize={props?.fontSize}
             placeholder={placeholder}
-            mb={1}
           />
         </ChakraSelect.Trigger>
 

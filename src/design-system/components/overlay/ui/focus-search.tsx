@@ -2,11 +2,11 @@
 
 "use client";
 
-import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-state.no-result";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
+import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-state.no-result";
 import { SearchInput } from "@/design-system/components/input/ui/search-input";
-import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
+import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import type {
   FocusSearchResultItemProps,
@@ -25,7 +25,7 @@ import type {
 import { t } from "@/shared/libs/i18n/-typed";
 import { back } from "@/shared/utils/client/navigation";
 import { isEmptyArray } from "@/shared/utils/data/array";
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type FocusTriggerContextValue = {
   modalKey: string;

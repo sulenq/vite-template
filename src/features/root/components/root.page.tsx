@@ -21,11 +21,18 @@ import {
   AppLucideIcon,
   AppTablerIcon,
 } from "@/design-system/components/icon/ui/app-icon";
+import { Checkbox } from "@/design-system/components/input/ui/checkbox";
+import { Input } from "@/design-system/components/input/ui/input";
 import { SearchInput } from "@/design-system/components/input/ui/search-input";
+import Select from "@/design-system/components/input/ui/select";
 import { Container } from "@/design-system/components/layout/ui/container";
 import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { Link } from "@/design-system/components/navigation/ui/link";
+import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
+import { Dialog } from "@/design-system/components/overlay/ui/dialog";
+import { Drawer } from "@/design-system/components/overlay/ui/drawer";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
+import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { P } from "@/design-system/components/typography/ui/p";
 import { SPACING_MD } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
@@ -46,13 +53,16 @@ import { useState } from "react";
 
 export const RootPage = () => {
   return (
-    <VStack minH={"100dvh"} bg={"bg.canvas"}>
+    <VStack minH={"100dvh"} bg={"bg.canvas"} gap={4}>
       <KeyFeatures />
-      {/* <Branding /> */}
-      {/* <Buttons /> */}
-      {/* <Typography /> */}
-      {/* <Feedback /> */}
-      <DataTable />
+      <Branding />
+      <Buttons />
+      <DataDisplay />
+      <Feedback />
+      <Inputs />
+      <Navigation />
+      <Overlay />
+      <Typography />
     </VStack>
   );
 };
@@ -61,7 +71,7 @@ export const KeyFeatures = () => {
   const { setLocale } = useLocale();
 
   return (
-    <Container.Root w={"full"} p={SPACING_MD}>
+    <Container.Root w={"full"} px={SPACING_MD}>
       <Container.Body gap={4} p={4}>
         <P textAlign={"center"} fontWeight={"semibold"}>
           Key Features
@@ -94,9 +104,27 @@ export const KeyFeatures = () => {
   );
 };
 
+export const Branding = () => {
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Branding
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <Logo />
+
+          <BrandWatermark />
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
 export const Buttons = () => {
   return (
-    <Container.Root w={"full"} p={SPACING_MD}>
+    <Container.Root w={"full"} px={SPACING_MD}>
       <Container.Body gap={4} p={4}>
         <P textAlign={"center"} fontWeight={"semibold"}>
           Buttons
@@ -114,65 +142,7 @@ export const Buttons = () => {
   );
 };
 
-export const Branding = () => {
-  return (
-    <Container.Root w={"full"} p={SPACING_MD}>
-      <Container.Body gap={4} p={4}>
-        <P textAlign={"center"} fontWeight={"semibold"}>
-          Branding
-        </P>
-
-        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <Logo />
-
-          <BrandWatermark />
-        </HStack>
-      </Container.Body>
-    </Container.Root>
-  );
-};
-
-export const Typography = () => {
-  return (
-    <Container.Root w={"full"} p={SPACING_MD}>
-      <Container.Body gap={4} p={4}>
-        <P textAlign={"center"} fontWeight={"semibold"}>
-          Typography
-        </P>
-
-        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <Link to="https://youtube.com" target="_blank">
-            youtube.com
-          </Link>
-        </HStack>
-      </Container.Body>
-    </Container.Root>
-  );
-};
-
-export const Feedback = () => {
-  return (
-    <Container.Root w={"full"} p={SPACING_MD}>
-      <Container.Body gap={4} p={4}>
-        <P textAlign={"center"} fontWeight={"semibold"}>
-          Feedback
-        </P>
-
-        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <FeedbackNoData />
-
-          <FeedbackAccessDenied />
-
-          <FeedbackNoResult />
-
-          <FeedbackRetry />
-        </HStack>
-      </Container.Body>
-    </Container.Root>
-  );
-};
-
-export const DataTable = () => {
+export const DataDisplay = () => {
   // Stores
   const { theme } = useThemeStore();
 
@@ -503,10 +473,10 @@ export const DataTable = () => {
   const [page, setPage] = useState<number>(1);
 
   return (
-    <Container.Root w={"full"} p={SPACING_MD}>
+    <Container.Root w={"full"} px={SPACING_MD}>
       <Container.Body gap={4} p={4}>
         <P textAlign={"center"} fontWeight={"semibold"}>
-          Data Table
+          Data Display
         </P>
 
         <VStack gap={2} bg={"bg.canvas"} px={[4, null, 10]} py={4}>
@@ -549,7 +519,7 @@ export const DataTable = () => {
               items={dataList.items}
               batchActions={dataList.batchActions}
               itemActions={dataList.itemActions}
-              maxH={"500px"}
+              // maxH={"500px"}
             >
               <DataListTable.Header />
 
@@ -566,6 +536,232 @@ export const DataTable = () => {
             />
           </VStack>
         </VStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+export const Feedback = () => {
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Feedback
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <FeedbackNoData />
+
+          <FeedbackAccessDenied />
+
+          <FeedbackNoResult />
+
+          <FeedbackRetry />
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+export const Inputs = () => {
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Inputs
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <Checkbox>Checkbox</Checkbox>
+
+          <Input placeholder={"Text input..."} w={"200px"} />
+
+          <SearchInput placeholder={"Search..."} />
+
+          <Select
+            selectOptions={[
+              { label: "Option 1", value: "option-1" },
+              { label: "Option 2", value: "option-2" },
+            ]}
+            w={"200px"}
+          />
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+export const Navigation = () => {
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Navigation
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <Link to="https://youtube.com" target="_blank">
+            youtube.com
+          </Link>
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+export const OModal = () => {
+  // Hooks
+  const { modalKey, isOpen, open, close } = usePopModal("exampleModal");
+
+  return (
+    <Modal.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
+      <Modal.Trigger>
+        <Button variant={"outline"}>Open Modal</Button>
+      </Modal.Trigger>
+
+      <Modal.Content>
+        <Modal.Header>
+          <P
+            w={"full"}
+            fontSize={"xl"}
+            fontWeight={"semibold"}
+            textAlign={"center"}
+          >
+            Header
+          </P>
+        </Modal.Header>
+
+        <Modal.Body>
+          <P textAlign={"center"}>
+            Modal is dynamic component, it render dialog component on large
+            viewport, render drawer component on small to medium viewport and
+            has its own fullscreen feature on dialog component
+          </P>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button flex={1} onClick={close}>
+            Close
+          </Button>
+          <Button flex={1} primary>
+            CTA
+          </Button>
+        </Modal.Footer>
+      </Modal.Content>
+    </Modal.Root>
+  );
+};
+
+export const ODialog = () => {
+  // Hooks
+  const { modalKey, isOpen, open, close } = usePopModal("exampleDialog");
+
+  return (
+    <Dialog.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
+      <Dialog.Trigger>
+        <Button variant={"outline"}>Open Dialog</Button>
+      </Dialog.Trigger>
+
+      <Dialog.Content>
+        <Dialog.Header>
+          <P
+            w={"full"}
+            fontSize={"xl"}
+            fontWeight={"semibold"}
+            textAlign={"center"}
+          >
+            Header
+          </P>
+        </Dialog.Header>
+        <Dialog.Body>
+          <P textAlign={"center"}>
+            Dialog is component that need user focus and styled like floating
+            container
+          </P>
+        </Dialog.Body>
+        <Dialog.Footer>
+          <Button flex={1} onClick={close}>
+            Close
+          </Button>
+          <Button flex={1} primary>
+            CTA
+          </Button>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
+  );
+};
+
+export const ODrawer = () => {
+  // Hooks
+  const { modalKey, isOpen, open, close } = usePopModal("exampleDrawer");
+
+  return (
+    <Drawer.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
+      <Drawer.Trigger>
+        <Button variant={"outline"}>Open Drawer</Button>
+      </Drawer.Trigger>
+
+      <Drawer.Content>
+        <Drawer.Header>
+          <P
+            w={"full"}
+            fontSize={"xl"}
+            fontWeight={"semibold"}
+            textAlign={"center"}
+          >
+            Header
+          </P>
+        </Drawer.Header>
+        <Drawer.Body>
+          <P textAlign={"center"}>
+            Drawer is component that need user focus and styled like "drawer" or
+            sliding container
+          </P>
+        </Drawer.Body>
+        <Drawer.Footer>
+          <Button flex={1} onClick={close}>
+            Close
+          </Button>
+          <Button flex={1} primary>
+            CTA
+          </Button>
+        </Drawer.Footer>
+      </Drawer.Content>
+    </Drawer.Root>
+  );
+};
+
+export const Overlay = () => {
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Overlay
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <OModal />
+
+          <ODialog />
+
+          <ODrawer />
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+export const Typography = () => {
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Typography
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <P>{"This paragraph rendered as p tag"}</P>
+        </HStack>
       </Container.Body>
     </Container.Root>
   );

@@ -3,7 +3,6 @@
 import {
   Dialog as ChakraDialog,
   Drawer as ChakraDrawer,
-  type DialogPositionerProps,
 } from "@chakra-ui/react";
 
 export type PopModalTriggerProps = {
@@ -13,8 +12,8 @@ export type PopModalTriggerProps = {
 export type ModalRootProps = {
   modalKey: string;
   opened: boolean;
-  open?: () => void;
-  close?: () => void;
+  open: () => void;
+  close: () => void;
   dialogClickOriginAnimation?: boolean;
   drawerPlacement?: ChakraDrawer.RootProps["placement"];
   drawerSwipeToDismiss?: boolean;
@@ -37,7 +36,6 @@ export type ModalContentProps = {
   portalled?: boolean;
   portalRef?: React.RefObject<HTMLElement | null>;
   backdrop?: boolean;
-  positionerProps?: DialogPositionerProps;
 } & (ChakraDrawer.ContentProps | ChakraDialog.ContentProps);
 
 export type ModalCloseTriggerProps = {} & (

@@ -29,6 +29,7 @@ export function usePopModal(modalKey: string, getDepth?: () => number) {
   function open() {
     navigate({
       to: ".",
+      resetScroll: false,
       search: (old) => ({ ...old, activeModalKey: modalKey }),
     });
   }
@@ -37,6 +38,7 @@ export function usePopModal(modalKey: string, getDepth?: () => number) {
     if (isOpen) {
       navigate({
         to: ".",
+        resetScroll: false,
         search: (old) => old,
       });
       return;
@@ -62,6 +64,7 @@ export function usePopModal(modalKey: string, getDepth?: () => number) {
   }
 
   return {
+    modalKey,
     isOpen,
     open,
     toggle,
