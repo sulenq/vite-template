@@ -215,14 +215,14 @@ const FocusSearchBody = () => {
             {!isEmptyArray(recentResults) && (
               <>
                 <HStack justify="space-between" px={4} mt={2} mb={1}>
-                  <P fontSize="xs" color="fg.subtle">
+                  <P fontSize={"sm"} color={"fg.subtle"}>
                     {t["common.recent"]()}
                   </P>
 
                   <P
-                    fontSize="xs"
-                    color="fg.subtle"
-                    cursor="pointer"
+                    fontSize={"sm"}
+                    color={"fg.subtle"}
+                    cursor={"pointer"}
                     onClick={clearAllRecent}
                   >
                     {t["common.clear_all"]()}
