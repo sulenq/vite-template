@@ -169,6 +169,8 @@ export const SettingsActivePageBody = (props: StackProps) => {
       <Modal.Root
         modalKey={"settings." + activeSettingNavKey}
         opened={!!activeSettingsNavKeySearch}
+        open={() => {}}
+        close={() => {}}
         size={"full"}
         drawerPlacement={"end"}
         drawerSwipeToDismiss={false}

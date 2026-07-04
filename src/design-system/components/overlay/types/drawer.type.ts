@@ -1,3 +1,5 @@
+// src/design-system/components/overlay/types/drawer.type.ts
+
 import { Drawer as ChakraDrawer } from "@chakra-ui/react";
 
 export type DrawerRootProps = {

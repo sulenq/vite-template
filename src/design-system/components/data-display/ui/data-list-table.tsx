@@ -15,8 +15,10 @@ import type {
   DataListBatchActionsGenerator,
   DataListItemActionsGenerator,
 } from "@/design-system/components/data-display/types/data-list.type";
-import { DataListBatchActionBar } from "@/design-system/components/data-display/ui/data-list-batch-action-bar";
-import { DataListBatchActionsTrigger } from "@/design-system/components/data-display/ui/data-list-batch-actions";
+import {
+  DataListBatchActionsTrigger,
+  DataListBatchActionBar,
+} from "@/design-system/components/data-display/ui/data-list-batch-actions";
 import { DataListItemActionsTrigger } from "@/design-system/components/data-display/ui/data-list-item-actions";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
@@ -38,7 +40,7 @@ import {
   IconDots,
   IconListCheck,
 } from "@tabler/icons-react";
-import { createContext, useContext, useMemo, useRef } from "react";
+import { createContext, useContext, useMemo, forwardRef } from "react";
 
 type DataListTableContextValue = {
   headers: FormattedTableHeader[];
@@ -75,148 +77,152 @@ const useDataListTableContext = () => {
 
 // -----------------------------------------------------------------
 
-const DataListTableRoot = (props: DataListTableRootProps) => {
-  // Props
-  const {
-    children,
-    items,
-    headers,
-    batchActions = [],
-    itemActions = [],
-    initialSortColumnIndex,
-    initialSortOrder = "asc",
-    withNumbering = true,
-    ...restProps
-  } = props;
-
-  // Stores
-  const { theme } = useThemeStore();
-
-  // Refs
-  const tableContainerRef = useRef<HTMLDivElement>(null); // Unused ref
-
-  // Hooks
-  const { sortConfig, toggleSort, sortedItems } = useDataListSort(
-    items,
-    initialSortColumnIndex,
-    initialSortOrder,
-  );
-  const {
-    isAllItemsSelected,
-    selectedItems,
-    selectAllItems,
-    clearSelectedItems,
-    toggleItemSelection,
-  } = useDataListSelection(items);
-
-  // Resolved Values
-  const contextValue = useMemo<DataListTableContextValue>(
-    () => ({
+const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
+  (props, ref) => {
+    // Props
+    const {
+      children,
+      items,
       headers,
+      batchActions = [],
+      itemActions = [],
+      initialSortColumnIndex,
+      initialSortOrder = "asc",
+      withNumbering = true,
+      ...restProps
+    } = props;
+
+    // Stores
+    const { theme } = useThemeStore();
+
+    // Hooks
+    const { sortConfig, toggleSort, sortedItems } = useDataListSort(
       items,
       initialSortColumnIndex,
       initialSortOrder,
-      batchActions,
-      itemActions,
-      withNumbering,
-
-      sortConfig,
-      toggleSort,
-      sortedItems,
-      selectedItems,
+    );
+    const {
       isAllItemsSelected,
-      toggleItemSelection,
+      selectedItems,
       selectAllItems,
       clearSelectedItems,
-    }),
-    [
-      headers,
-      items,
-      initialSortColumnIndex,
-      initialSortOrder,
-      batchActions,
-      itemActions,
-      withNumbering,
-
-      sortConfig,
-      toggleSort,
-      sortedItems,
-      selectedItems,
-      isAllItemsSelected,
       toggleItemSelection,
-      selectAllItems,
-      clearSelectedItems,
-    ],
-  );
-  const gridCols = useMemo(() => {
-    const cols = [];
+    } = useDataListSelection(items);
 
-    if (!isEmptyArray(batchActions)) {
-      cols.push(TABLE_ACTIONS_CELL_W);
-    }
+    // Resolved Values
+    const contextValue = useMemo<DataListTableContextValue>(
+      () => ({
+        headers,
+        items,
+        initialSortColumnIndex,
+        initialSortOrder,
+        batchActions,
+        itemActions,
+        withNumbering,
 
-    if (withNumbering) {
-      cols.push(TABLE_ACTIONS_CELL_W);
-    }
+        sortConfig,
+        toggleSort,
+        sortedItems,
+        selectedItems,
+        isAllItemsSelected,
+        toggleItemSelection,
+        selectAllItems,
+        clearSelectedItems,
+      }),
+      [
+        headers,
+        items,
+        initialSortColumnIndex,
+        initialSortOrder,
+        batchActions,
+        itemActions,
+        withNumbering,
 
-    headers.forEach(() => cols.push("auto"));
+        sortConfig,
+        toggleSort,
+        sortedItems,
+        selectedItems,
+        isAllItemsSelected,
+        toggleItemSelection,
+        selectAllItems,
+        clearSelectedItems,
+      ],
+    );
+    const gridCols = useMemo(() => {
+      const cols = [];
 
-    if (!isEmptyArray(itemActions)) {
-      cols.push(TABLE_ACTIONS_CELL_W);
-    }
+      if (!isEmptyArray(batchActions)) {
+        cols.push(TABLE_ACTIONS_CELL_W);
+      }
 
-    return cols.join(" ");
-  }, [batchActions, headers, itemActions, withNumbering]);
+      if (withNumbering) {
+        cols.push(TABLE_ACTIONS_CELL_W);
+      }
 
-  return (
-    <DataListTableContext.Provider value={contextValue}>
-      <VStack
-        className={"table-container"}
-        ref={tableContainerRef}
-        overflow={"auto"}
-        pb={TABLE_ROW_GAP}
-        roundedTop={theme.radii.container}
-        shadow={"sm"}
-        {...restProps}
-      >
-        <Grid
-          role={"table"}
-          gridTemplateColumns={gridCols}
-          w={headers.length > 1 ? "full" : "fit"}
-          rowGap={TABLE_ROW_GAP}
+      headers.forEach(() => cols.push("auto"));
+
+      if (!isEmptyArray(itemActions)) {
+        cols.push(TABLE_ACTIONS_CELL_W);
+      }
+
+      return cols.join(" ");
+    }, [batchActions, headers, itemActions, withNumbering]);
+
+    return (
+      <DataListTableContext.Provider value={contextValue}>
+        <VStack
+          className={"table-container"}
+          ref={ref}
+          overflow={"auto"}
+          pb={TABLE_ROW_GAP}
+          roundedTop={theme.radii.container}
+          shadow={"sm"}
+          {...restProps}
         >
-          {children}
-        </Grid>
-      </VStack>
+          <Grid
+            role={"table"}
+            gridTemplateColumns={gridCols}
+            w={headers.length > 1 ? "full" : "fit"}
+            rowGap={TABLE_ROW_GAP}
+          >
+            {children}
+          </Grid>
+        </VStack>
 
-      <DataListBatchActionBar
-        selectedItems={selectedItems}
-        clearSelectedItems={clearSelectedItems}
-        batchActions={batchActions}
+        <DataListBatchActionBar
+          selectedItems={selectedItems}
+          clearSelectedItems={clearSelectedItems}
+          batchActions={batchActions}
+        />
+      </DataListTableContext.Provider>
+    );
+  },
+);
+
+const DataListTableCell = forwardRef<HTMLDivElement, StackProps>(
+  (props, ref) => {
+    return (
+      <HStack
+        className="table-cell"
+        ref={ref}
+        align={"center"}
+        justify={"center"}
+        gap={2}
+        px={4}
+        py={2}
+        bg={"bg.body"}
+        whiteSpace={"nowrap"}
+        userSelect={"none"}
+        {...props}
       />
-    </DataListTableContext.Provider>
-  );
-};
+    );
+  },
+);
 
-const DataListTableCell = (props: StackProps) => {
-  return (
-    <HStack
-      className="table-cell"
-      align={"center"}
-      justify={"center"}
-      gap={2}
-      // h={TABLE_ROW_H}
-      px={4}
-      py={2}
-      bg={"bg.body"}
-      whiteSpace={"nowrap"}
-      userSelect={"none"}
-      {...props}
-    />
-  );
-};
-
-const DataListTableHeader = (props: DataListTableHeaderProps) => {
+const DataListTableHeader = forwardRef<
+  HTMLDivElement,
+  DataListTableHeaderProps
+>((props, ref) => {
   // Stores
   const { theme } = useThemeStore();
 
@@ -237,9 +243,10 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
   return (
     <Box
       role={"row"}
+      ref={ref}
       display={"grid"}
-      gridTemplateColumns={"subgrid"} // <- inherit column definition from Root Grid
-      gridColumn={"1 / -1"} // <- occupy 1 full line parent grid
+      gridTemplateColumns={"subgrid"}
+      gridColumn={"1 / -1"}
       overflow={"clip"}
       h={TABLE_ROW_H}
       pos={"sticky"}
@@ -301,8 +308,9 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
       )}
     </Box>
   );
-};
+});
 
+// Dikembalikan menjadi standard arrow function karena tidak membutuhkan external ref forwarding
 const DataListTableBody = () => {
   // Stores
   const { theme } = useThemeStore();
@@ -413,6 +421,7 @@ const DataListTableBody = () => {
   );
 };
 
+// Dikembalikan menjadi standard arrow function
 const DataListTableSortIcon = ({
   active,
   direction,
@@ -441,6 +450,10 @@ const DataListTableSortIcon = ({
     </VStack>
   );
 };
+
+DataListTableRoot.displayName = "DataListTableRoot";
+DataListTableCell.displayName = "DataListTableCell";
+DataListTableHeader.displayName = "DataListTableHeader";
 
 export const DataListTable = {
   Root: DataListTableRoot,

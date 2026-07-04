@@ -53,7 +53,7 @@ export default function Select(props: SelectProps) {
           rounded={theme.radii.component}
           cursor={"pointer"}
         >
-          <HStack>
+          <HStack w={"full"}>
             <ChakraSelect.ValueText
               fontSize={props?.fontSize}
               placeholder={placeholder}

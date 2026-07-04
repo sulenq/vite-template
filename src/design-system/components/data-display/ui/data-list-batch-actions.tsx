@@ -1,13 +1,19 @@
 // src/design-system/components/data-display/ui/data-list-batch-actions.tsx
 
+import { CloseButton } from "@/design-system/components/button/ui/close-button";
+import type { DataListBatchActionBarProps } from "@/design-system/components/data-display/types/data-list.type";
 import { CheckIndicator } from "@/design-system/components/feedback/ui/indicator";
+import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 import { Separator } from "@/design-system/components/layout/ui/separator";
 import { VStack } from "@/design-system/components/layout/ui/stack";
+import { ActionBar } from "@/design-system/components/overlay/ui/action-bar";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
+import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
 import { P } from "@/design-system/components/typography/ui/p";
+import { Portal } from "@/design-system/components/utilities/portal";
+import { isEmptyArray } from "@/shared/utils/data/array";
 import { Fragment } from "react";
 import type { DataListBatchActionsTriggerProps } from "../types/data-list.type";
-import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 
 export const DataListBatchActionsTrigger = (
   props: DataListBatchActionsTriggerProps,
@@ -73,5 +79,46 @@ export const DataListBatchActionsTrigger = (
         })}
       </Menu.Content>
     </Menu.Root>
+  );
+};
+
+export const DataListBatchActionBar = (props: DataListBatchActionBarProps) => {
+  // Props
+  const { batchActions, selectedItems, clearSelectedItems, ...restProps } =
+    props;
+
+  // Derived Values
+  const isChecked = !isEmptyArray(selectedItems);
+
+  return (
+    <ActionBar.Root open={isChecked} {...restProps}>
+      <Portal>
+        <ActionBar.Positioner zIndex={4}>
+          <ActionBar.Content>
+            <P px={4} color={"fg.muted"}>
+              {selectedItems.length} selected
+            </P>
+
+            <ActionBar.Separator />
+
+            {batchActions?.map((item, index) => {
+              const node = item(selectedItems, { clearSelectedItems });
+
+              if (!node) return null;
+
+              return <Fragment key={index}>{node}</Fragment>;
+            })}
+
+            <ActionBar.Separator />
+
+            <ActionBar.CloseTrigger>
+              <Tooltip content={"Cancel"}>
+                <CloseButton onClick={clearSelectedItems} />
+              </Tooltip>
+            </ActionBar.CloseTrigger>
+          </ActionBar.Content>
+        </ActionBar.Positioner>
+      </Portal>
+    </ActionBar.Root>
   );
 };

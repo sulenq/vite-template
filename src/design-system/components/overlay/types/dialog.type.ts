@@ -1,3 +1,5 @@
+// src/design-system/components/overlay/types/dialog.type.ts
+
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
 
 export type DialogRootProps = {

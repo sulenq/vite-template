@@ -1,3 +1,5 @@
+// src/design-system/hooks/use-viewport.ts
+
 import { useEffect, useRef, useState } from "react";
 
 type Viewport = {

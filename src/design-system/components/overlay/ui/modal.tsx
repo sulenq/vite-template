@@ -65,11 +65,11 @@ const ModalRoot = (props: ModalRootProps) => {
 
   // Hooks
   const isSmallViewport = useIsSmallViewport({
-    onChange: () => {
-      if (opened) {
-        close();
-      }
-    },
+    // onChange: () => {
+    //   if (opened) {
+    //     close();
+    //   }
+    // },
   });
 
   // States
@@ -97,6 +97,7 @@ const ModalRoot = (props: ModalRootProps) => {
           close={close}
           size={size as DrawerRootProps["size"]}
           swipeToDismiss={drawerSwipeToDismiss}
+          modal={false}
           {...restProps}
           placement={drawerPlacement}
         >
@@ -110,6 +111,7 @@ const ModalRoot = (props: ModalRootProps) => {
           close={close}
           clickOriginAnimation={dialogClickOriginAnimation}
           size={size as DialogRootProps["size"]}
+          modal={false}
           {...restProps}
         >
           {children}

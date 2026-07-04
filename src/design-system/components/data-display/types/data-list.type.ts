@@ -2,7 +2,7 @@
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import type { FormattedListItem } from "@/design-system/components/data-display/types/data-list-table.type";
 import type { SelectProps } from "@/design-system/components/input/types/select.type";
-import type { ActionBarRootProps } from "@/design-system/components/overlay/types/action-bar";
+import type { ActionBarRootProps } from "@/design-system/components/overlay/types/action-bar.type";
 import type { MenuRootProps, StackProps } from "@chakra-ui/react";
 import type { ReactNode } from "react";
 

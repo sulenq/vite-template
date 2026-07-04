@@ -1,4 +1,4 @@
-// src/design-system/chakra/recipes/select.recipe.ts
+// src/design-system/chakra/slot-recipes/select.recipe.ts
 
 import { defineSlotRecipe } from "@chakra-ui/react";
 
