@@ -1,6 +1,7 @@
 // src/design-system/components/input/ui/select.tsx
 
 import type { SelectProps } from "@/design-system/components/input/types/select.type";
+import { HStack } from "@/design-system/components/layout/ui/stack";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import {
   Select as ChakraSelect,
@@ -18,6 +19,7 @@ export default function Select(props: SelectProps) {
     size = "md",
     portalled = true,
     portalRef,
+    suffixLabel,
     ...restProps
   } = props;
 
@@ -28,7 +30,7 @@ export default function Select(props: SelectProps) {
   const collection = createListCollection({
     items: selectOptions,
     itemToString: (item) => item.label,
-    itemToValue: (item) => item.value,
+    itemToValue: (item) => String(item.value),
   });
 
   return (
@@ -51,10 +53,14 @@ export default function Select(props: SelectProps) {
           rounded={theme.radii.component}
           cursor={"pointer"}
         >
-          <ChakraSelect.ValueText
-            fontSize={props?.fontSize}
-            placeholder={placeholder}
-          />
+          <HStack>
+            <ChakraSelect.ValueText
+              fontSize={props?.fontSize}
+              placeholder={placeholder}
+              minH={"20px"}
+            />
+            {suffixLabel}
+          </HStack>
         </ChakraSelect.Trigger>
 
         <ChakraSelect.IndicatorGroup>
@@ -75,11 +81,11 @@ export default function Select(props: SelectProps) {
             {collection.items.map((item) => (
               <ChakraSelect.Item
                 item={item}
-                key={item.value}
-                px={2}
-                py={1.5}
+                key={String(item.value)}
+                p={2}
                 rounded={theme?.radii.component}
                 cursor={"pointer"}
+                transition={"200ms"}
                 _hover={{
                   bg: "bg.subtle",
                 }}

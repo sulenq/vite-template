@@ -437,16 +437,15 @@ export const DataDisplay = () => {
     batchActions: [
       (selectedItems) => {
         return (
-          <Menu.Item
-            value={"delete"}
+          <Button
             disabled={isEmptyArray(selectedItems)}
             onClick={() => {
               console.log(selectedItems);
             }}
           >
-            <AppTablerIcon icon={IconTrash} size={"sm"} />
+            <AppTablerIcon icon={IconTrash} />
             Delete
-          </Menu.Item>
+          </Button>
         );
       },
     ] as DataListBatchActionsGenerator[],
@@ -582,6 +581,9 @@ export const Inputs = () => {
             selectOptions={[
               { label: "Option 1", value: "option-1" },
               { label: "Option 2", value: "option-2" },
+              { label: "Option 3", value: "option-3" },
+              { label: "Option 4", value: "option-4" },
+              { label: "Option 5", value: "option-5" },
             ]}
             w={"200px"}
           />

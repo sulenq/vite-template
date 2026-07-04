@@ -1,12 +1,13 @@
 // src/design-system/components/data-display/ui/data-list-batch-actions.tsx
 
-import { DotIndicator } from "@/design-system/components/feedback/ui/indicator";
+import { CheckIndicator } from "@/design-system/components/feedback/ui/indicator";
 import { Separator } from "@/design-system/components/layout/ui/separator";
 import { VStack } from "@/design-system/components/layout/ui/stack";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
 import { P } from "@/design-system/components/typography/ui/p";
 import { Fragment } from "react";
 import type { DataListBatchActionsTriggerProps } from "../types/data-list.type";
+import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 
 export const DataListBatchActionsTrigger = (
   props: DataListBatchActionsTriggerProps,
@@ -18,8 +19,22 @@ export const DataListBatchActionsTrigger = (
     clearSelectedItems,
     isAllItemsSelected,
     selectAllItems,
+    triggerActionBarMode = true,
     ...restProps
   } = props;
+
+  if (triggerActionBarMode) {
+    return (
+      <Checkbox
+        checked={isAllItemsSelected}
+        onCheckedChange={() => {
+          selectAllItems(isAllItemsSelected);
+        }}
+        size={"sm"}
+        variant={"subtle"}
+      />
+    );
+  }
 
   return (
     <Menu.Root
@@ -44,7 +59,7 @@ export const DataListBatchActionsTrigger = (
         >
           <P>Select all</P>
 
-          <DotIndicator checked={isAllItemsSelected} />
+          <CheckIndicator checked={isAllItemsSelected} />
         </Menu.Item>
 
         <Separator px={2} my={1} />

@@ -9,7 +9,7 @@ import type { DataListPaginationProps } from "../types/data-list.type";
 
 export const DataListPagination = (props: DataListPaginationProps) => {
   // Props
-  const { page, setPage, totalPage } = props;
+  const { page, setPage, totalPage, ...restProps } = props;
 
   // Derived Values
   const canGoPrev = page > 1;
@@ -19,9 +19,9 @@ export const DataListPagination = (props: DataListPaginationProps) => {
     <HStack align="center" gap={2}>
       <IconButton
         variant={"ghost"}
-        size={"xs"}
         disabled={!canGoPrev}
         onClick={() => setPage?.(page - 1)}
+        {...restProps}
       >
         <LucideIcon icon={ChevronLeftIcon} />
       </IconButton>
@@ -37,6 +37,7 @@ export const DataListPagination = (props: DataListPaginationProps) => {
         size={"xs"}
         disabled={!canGoNext}
         onClick={() => setPage?.(page + 1)}
+        {...restProps}
       >
         <LucideIcon icon={ChevronRightIcon} />
       </IconButton>

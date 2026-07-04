@@ -15,6 +15,7 @@ import type {
   DataListBatchActionsGenerator,
   DataListItemActionsGenerator,
 } from "@/design-system/components/data-display/types/data-list.type";
+import { DataListBatchActionBar } from "@/design-system/components/data-display/ui/data-list-batch-action-bar";
 import { DataListBatchActionsTrigger } from "@/design-system/components/data-display/ui/data-list-batch-actions";
 import { DataListItemActionsTrigger } from "@/design-system/components/data-display/ui/data-list-item-actions";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
@@ -104,7 +105,7 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
     isAllItemsSelected,
     selectedItems,
     selectAllItems,
-    clearSelection,
+    clearSelectedItems,
     toggleItemSelection,
   } = useDataListSelection(items);
 
@@ -126,7 +127,7 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
       isAllItemsSelected,
       toggleItemSelection,
       selectAllItems,
-      clearSelectedItems: clearSelection,
+      clearSelectedItems,
     }),
     [
       headers,
@@ -144,7 +145,7 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
       isAllItemsSelected,
       toggleItemSelection,
       selectAllItems,
-      clearSelection,
+      clearSelectedItems,
     ],
   );
   const gridCols = useMemo(() => {
@@ -187,6 +188,12 @@ const DataListTableRoot = (props: DataListTableRootProps) => {
           {children}
         </Grid>
       </VStack>
+
+      <DataListBatchActionBar
+        selectedItems={selectedItems}
+        clearSelectedItems={clearSelectedItems}
+        batchActions={batchActions}
+      />
     </DataListTableContext.Provider>
   );
 };

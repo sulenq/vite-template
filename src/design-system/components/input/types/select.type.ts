@@ -4,7 +4,7 @@ import type { SelectRootProps } from "@chakra-ui/react";
 
 export type SelectOption = {
   label: string;
-  value: string;
+  value: unknown;
 };
 
 export type SelectProps = {
@@ -16,4 +16,5 @@ export type SelectProps = {
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   portalled?: boolean;
   portalRef?: React.RefObject<HTMLElement | null>;
+  suffixLabel?: React.ReactNode;
 } & Omit<SelectRootProps, "value" | "onValueChange" | "collection">;

@@ -16,7 +16,7 @@ export function useDataListSelection(data: FormattedListItem[]) {
     }
   }
 
-  function clearSelection() {
+  function clearSelectedItems() {
     setAllItemsSelected(false);
     setSelectedItems([]);
   }
@@ -40,7 +40,7 @@ export function useDataListSelection(data: FormattedListItem[]) {
     isAllItemsSelected,
     selectedItems,
     selectAllItems,
-    clearSelection,
+    clearSelectedItems,
     toggleItemSelection,
   };
 }

@@ -43,7 +43,6 @@ export const DataListFooter = (props: DataListFooterProps) => {
       zIndex={4}
       bg={"bg.body"}
       roundedBottom={theme.radii.container}
-      // borderTop={"1px solid {colors.border.subtle}"}
       shadow={"sm"}
       {...restProps}
     >
@@ -56,7 +55,11 @@ export const DataListFooter = (props: DataListFooterProps) => {
         w={"full"}
       >
         <HStack align="start">
-          <DataListPerPage perPage={perPage} setPerPage={setPerPage} />
+          <DataListPerPage
+            perPage={perPage}
+            setPerPage={setPerPage}
+            size={"xs"}
+          />
         </HStack>
 
         <HStack
@@ -73,6 +76,7 @@ export const DataListFooter = (props: DataListFooterProps) => {
             page={page}
             setPage={setPage}
             totalPage={totalPage}
+            size={"xs"}
           />
         </HStack>
       </HStack>
