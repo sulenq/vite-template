@@ -21,7 +21,6 @@ import { Popover as ChakraPopover, Portal } from "@chakra-ui/react";
 import { forwardRef } from "react";
 
 const PopoverRoot = (props: PopoverRootProps) => {
-  // Props
   const { children, ...restProps } = props;
 
   return (
@@ -33,10 +32,7 @@ const PopoverRoot = (props: PopoverRootProps) => {
 
 const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
   (props, ref) => {
-    // Props
     const { portalled = true, portalRef, ...restProps } = props;
-
-    // Stores
     const { theme } = useThemeStore();
 
     return (
@@ -72,7 +68,6 @@ const PopoverCloseTrigger = forwardRef<
   HTMLButtonElement,
   PopoverCloseTriggerProps
 >((props, ref) => {
-  // Props
   const { children, ...restProps } = props;
 
   return (
@@ -101,7 +96,6 @@ const PopoverCloseButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 
 const PopoverTitle = forwardRef<HTMLDivElement, PopoverTitleProps>(
   (props, ref) => {
-    // Props
     const { children, ...restProps } = props;
 
     return (
@@ -114,7 +108,6 @@ const PopoverTitle = forwardRef<HTMLDivElement, PopoverTitleProps>(
 
 const PopoverDescription = forwardRef<HTMLDivElement, PopoverDescriptionProps>(
   (props, ref) => {
-    // Props
     const { children, ...restProps } = props;
 
     return (
@@ -127,7 +120,6 @@ const PopoverDescription = forwardRef<HTMLDivElement, PopoverDescriptionProps>(
 
 const PopoverFooter = forwardRef<HTMLDivElement, PopoverFooterProps>(
   (props, ref) => {
-    // Props
     const { children, ...restProps } = props;
 
     return (
@@ -140,7 +132,6 @@ const PopoverFooter = forwardRef<HTMLDivElement, PopoverFooterProps>(
 
 const PopoverHeader = forwardRef<HTMLDivElement, PopoverHeaderProps>(
   (props, ref) => {
-    // Props
     const { children, ...restProps } = props;
 
     return (
@@ -153,7 +144,6 @@ const PopoverHeader = forwardRef<HTMLDivElement, PopoverHeaderProps>(
 
 const PopoverBody = forwardRef<HTMLDivElement, PopoverBodyProps>(
   (props, ref) => {
-    // Props
     const { children, ...restProps } = props;
 
     return (
@@ -166,7 +156,6 @@ const PopoverBody = forwardRef<HTMLDivElement, PopoverBodyProps>(
 
 const PopoverTrigger = forwardRef<HTMLButtonElement, PopoverTriggerProps>(
   (props, ref) => {
-    // Props
     const { children, ...restProps } = props;
 
     return (
@@ -176,17 +165,6 @@ const PopoverTrigger = forwardRef<HTMLButtonElement, PopoverTriggerProps>(
     );
   },
 );
-
-PopoverContent.displayName = "PopoverContent";
-PopoverArrow.displayName = "PopoverArrow";
-PopoverCloseTrigger.displayName = "PopoverCloseTrigger";
-PopoverCloseButton.displayName = "PopoverCloseButton";
-PopoverTitle.displayName = "PopoverTitle";
-PopoverDescription.displayName = "PopoverDescription";
-PopoverFooter.displayName = "PopoverFooter";
-PopoverHeader.displayName = "PopoverHeader";
-PopoverBody.displayName = "PopoverBody";
-PopoverTrigger.displayName = "PopoverTrigger";
 
 export const Popover = {
   Root: PopoverRoot,

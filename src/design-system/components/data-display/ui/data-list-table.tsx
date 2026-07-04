@@ -79,7 +79,6 @@ const useDataListTableContext = () => {
 
 const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
   (props, ref) => {
-    // Props
     const {
       children,
       items,
@@ -92,10 +91,8 @@ const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
       ...restProps
     } = props;
 
-    // Stores
     const { theme } = useThemeStore();
 
-    // Hooks
     const { sortConfig, toggleSort, sortedItems } = useDataListSort(
       items,
       initialSortColumnIndex,
@@ -109,7 +106,6 @@ const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
       toggleItemSelection,
     } = useDataListSelection(items);
 
-    // Resolved Values
     const contextValue = useMemo<DataListTableContextValue>(
       () => ({
         headers,
@@ -148,6 +144,7 @@ const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
         clearSelectedItems,
       ],
     );
+
     const gridCols = useMemo(() => {
       const cols = [];
 
@@ -223,10 +220,8 @@ const DataListTableHeader = forwardRef<
   HTMLDivElement,
   DataListTableHeaderProps
 >((props, ref) => {
-  // Stores
   const { theme } = useThemeStore();
 
-  // Contexts
   const {
     batchActions,
     selectedItems,
@@ -257,7 +252,6 @@ const DataListTableHeader = forwardRef<
       shadow={"sm"}
       {...props}
     >
-      {/* Batch actions trigger */}
       {!isEmptyArray(batchActions) && (
         <DataListTableCell pos={"sticky"} left={0}>
           <DataListBatchActionsTrigger
@@ -280,7 +274,6 @@ const DataListTableHeader = forwardRef<
         </DataListTableCell>
       )}
 
-      {/* Main header */}
       {headers.map((header, index) => (
         <DataListTableCell
           key={index}
@@ -302,7 +295,6 @@ const DataListTableHeader = forwardRef<
         </DataListTableCell>
       ))}
 
-      {/* Item actions spacer */}
       {!isEmptyArray(itemActions) && (
         <DataListTableCell pos={"sticky"} top={0} right={0} />
       )}
@@ -310,12 +302,9 @@ const DataListTableHeader = forwardRef<
   );
 });
 
-// Dikembalikan menjadi standard arrow function karena tidak membutuhkan external ref forwarding
 const DataListTableBody = () => {
-  // Stores
   const { theme } = useThemeStore();
 
-  // Contexts
   const {
     batchActions,
     sortedItems,
@@ -330,7 +319,6 @@ const DataListTableBody = () => {
       {sortedItems.map((item, index) => {
         const isItemSelected = selectedItems.includes(item.id);
 
-        // SX
         const bodyCellStyles = {
           bg: isItemSelected ? `${theme.colorPalette}.subtle` : "bg.body",
         };
@@ -346,7 +334,6 @@ const DataListTableBody = () => {
             h={TABLE_ROW_H}
             shadow={isItemSelected ? "md" : "none"}
           >
-            {/* Batch actions checkbox */}
             {!isEmptyArray(batchActions) && (
               <Center
                 h={"full"}
@@ -374,7 +361,6 @@ const DataListTableBody = () => {
               </DataListTableCell>
             )}
 
-            {/* Main column body */}
             {item.columns.map((col, colIndex) => (
               <HStack
                 key={colIndex}
@@ -393,7 +379,6 @@ const DataListTableBody = () => {
               </HStack>
             ))}
 
-            {/* Item actions trigger */}
             {!isEmptyArray(itemActions) && (
               <Center
                 h={"full"}
@@ -421,15 +406,12 @@ const DataListTableBody = () => {
   );
 };
 
-// Dikembalikan menjadi standard arrow function
 const DataListTableSortIcon = ({
   active,
   direction,
 }: DataListTableSortIconProps) => {
-  // Stores
   const { theme } = useThemeStore();
 
-  // Derived Values
   const primaryFg = `${theme.colorPalette}.fg`;
   const isAscActive = active && direction === "asc";
   const isDescActive = active && direction === "desc";
@@ -450,10 +432,6 @@ const DataListTableSortIcon = ({
     </VStack>
   );
 };
-
-DataListTableRoot.displayName = "DataListTableRoot";
-DataListTableCell.displayName = "DataListTableCell";
-DataListTableHeader.displayName = "DataListTableHeader";
 
 export const DataListTable = {
   Root: DataListTableRoot,

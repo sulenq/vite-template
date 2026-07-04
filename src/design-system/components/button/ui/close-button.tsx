@@ -9,7 +9,7 @@ import { IconX } from "@tabler/icons-react";
 import { forwardRef } from "react";
 
 export const CloseButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  (props, ref) => {
+  function CloseButton(props, ref) {
     return (
       <IconButton ref={ref} {...props}>
         <AppTablerIcon icon={IconX} />
@@ -17,5 +17,3 @@ export const CloseButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     );
   },
 );
-
-CloseButton.displayName = "CloseButton";

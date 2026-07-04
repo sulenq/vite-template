@@ -15,7 +15,7 @@ import type {
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (props, ref) => {
+  function Button(props, ref) {
     // Props
     const { primary, variant, colorPalette, ...restProps } = props;
 
@@ -39,7 +39,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  (props, ref) => {
+  function Iconbutton(props, ref) {
     // Props
     const { primary, variant, colorPalette, ...restProps } = props;
 
@@ -59,6 +59,3 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     );
   },
 );
-
-Button.displayName = "Button";
-IconButton.displayName = "IconButton";
