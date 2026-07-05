@@ -714,6 +714,52 @@ export const ODrawer = () => {
             Header
           </P>
         </Drawer.Header>
+
+        <Drawer.Body>
+          <VStack align={"center"} gap={4}>
+            <P textAlign={"center"}>
+              Drawer is component that need user focus and styled like "drawer"
+              or sliding container
+            </P>
+
+            <ONestedDrawer />
+          </VStack>
+        </Drawer.Body>
+
+        <Drawer.Footer>
+          <Button flex={1} onClick={close}>
+            Close
+          </Button>
+          <Button flex={1} primary>
+            CTA
+          </Button>
+        </Drawer.Footer>
+      </Drawer.Content>
+    </Drawer.Root>
+  );
+};
+
+export const ONestedDrawer = () => {
+  // Hooks
+  const { modalKey, isOpen, open, close } = usePopModal("exampleDrawer.nested");
+
+  return (
+    <Drawer.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
+      <Drawer.Trigger>
+        <Button variant={"outline"}>Open Nested Drawer</Button>
+      </Drawer.Trigger>
+
+      <Drawer.Content>
+        <Drawer.Header>
+          <P
+            w={"full"}
+            fontSize={"xl"}
+            fontWeight={"semibold"}
+            textAlign={"center"}
+          >
+            Header
+          </P>
+        </Drawer.Header>
         <Drawer.Body>
           <P textAlign={"center"}>
             Drawer is component that need user focus and styled like "drawer" or

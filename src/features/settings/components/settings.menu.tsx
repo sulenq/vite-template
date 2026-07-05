@@ -77,7 +77,7 @@ export const SettingsMenuHeader = () => {
     >
       <HStack w={"40px"}>
         {isSmallViewport && (
-          <IconButton onClick={back}>
+          <IconButton onClick={() => back()}>
             <AppTablerIcon icon={IconChevronLeft} />
           </IconButton>
         )}

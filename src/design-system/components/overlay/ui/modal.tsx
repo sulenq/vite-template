@@ -97,7 +97,6 @@ const ModalRoot = (props: ModalRootProps) => {
           close={close}
           size={size as DrawerRootProps["size"]}
           swipeToDismiss={drawerSwipeToDismiss}
-          modal={false}
           {...restProps}
           placement={drawerPlacement}
         >
@@ -111,7 +110,6 @@ const ModalRoot = (props: ModalRootProps) => {
           close={close}
           clickOriginAnimation={dialogClickOriginAnimation}
           size={size as DialogRootProps["size"]}
-          modal={false}
           {...restProps}
         >
           {children}

@@ -5,8 +5,8 @@ import { Dialog as ChakraDialog } from "@chakra-ui/react";
 export type DialogRootProps = {
   modalKey: string;
   opened: boolean;
-  open: () => void;
-  close: () => void;
+  open?: () => void;
+  close?: () => void;
   clickOriginAnimation?: boolean;
 } & Omit<ChakraDialog.RootProps, "open">;
 

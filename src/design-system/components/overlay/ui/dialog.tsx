@@ -38,8 +38,8 @@ import React, {
 export type DialogContextValue = {
   modalKey: string;
   opened: boolean;
-  open: () => void;
-  close: () => void;
+  open?: () => void;
+  close?: () => void;
   fullscreen: boolean;
   setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
   clickOriginAnimation: boolean;
@@ -107,8 +107,9 @@ const DialogRoot = (props: DialogRootProps) => {
         unmountOnExit
         size={fullscreen ? "full" : size}
         scrollBehavior={"inside"}
-        placement={"center"}
+        modal={false}
         {...restProps}
+        placement={"center"}
       />
     </DialogContext.Provider>
   );
@@ -133,7 +134,7 @@ const DialogTrigger = (props: ChakraDialog.TriggerProps) => {
       asChild
       onPointerDown={initOriginPoint}
       onClick={(event) => {
-        open();
+        open?.();
         onClick?.(event);
       }}
       {...restProps}
@@ -275,7 +276,7 @@ const DialogCloseTrigger = (props: ChakraDialog.CloseTriggerProps) => {
       {...restProps}
       pos={"static"}
       onClick={(event) => {
-        close();
+        close?.();
         onClick?.(event);
       }}
     />

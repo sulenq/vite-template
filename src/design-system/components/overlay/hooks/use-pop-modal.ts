@@ -3,7 +3,7 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef } from "react";
 
-export function usePopModal(modalKey: string, getDepth?: () => number) {
+export function usePopModal(modalKey: string, depth?: number) {
   const lastCloseAtRef = useRef(0);
   const { activeModalKey } = useSearch({ strict: false }) as Record<
     string,
@@ -55,8 +55,7 @@ export function usePopModal(modalKey: string, getDepth?: () => number) {
 
     lastCloseAtRef.current = now;
 
-    const depth = getDepth ? getDepth() : 1;
-    if (depth > 1) {
+    if (depth && depth > 1) {
       window.history.go(-depth);
     } else {
       window.history.back();

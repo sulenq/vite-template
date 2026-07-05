@@ -100,7 +100,7 @@ export const SettingsActivePageHeader = (props: StackProps) => {
     >
       <HStack w={MODAL_CONTROL_CONTAINER_W}>
         {isSmallViewport && (
-          <IconButton onClick={back}>
+          <IconButton onClick={() => back()}>
             <AppTablerIcon icon={IconChevronLeft} />
           </IconButton>
         )}

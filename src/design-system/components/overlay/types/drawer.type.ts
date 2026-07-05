@@ -5,8 +5,8 @@ import { Drawer as ChakraDrawer } from "@chakra-ui/react";
 export type DrawerRootProps = {
   modalKey: string;
   opened: boolean;
-  open: () => void;
-  close: () => void;
+  open?: () => void;
+  close?: () => void;
   swipeToDismiss?: boolean;
 } & Omit<ChakraDrawer.RootProps, "open">;
 

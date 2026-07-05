@@ -29,8 +29,8 @@ type GestureMode = "drag" | "scroll" | null;
 type DrawerContextValue = {
   modalKey: string;
   opened: boolean;
-  open: () => void;
-  close: () => void;
+  open?: () => void;
+  close?: () => void;
   fullscreen: boolean;
   setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
   swipeToDismiss: boolean;
@@ -121,6 +121,7 @@ const DrawerRoot = (props: DrawerRootProps) => {
         size={size}
         lazyMount
         unmountOnExit
+        modal={false}
         {...restProps}
       />
     </DrawerContext.Provider>
@@ -138,7 +139,7 @@ const DrawerTrigger = (props: ChakraDrawer.TriggerProps) => {
     <ChakraDrawer.Trigger
       asChild
       onClick={(event) => {
-        open();
+        open?.();
         onClick?.(event);
       }}
       {...restProps}
@@ -206,6 +207,8 @@ const DrawerContent = (props: DrawerContentProps) => {
   function handleTouchStart(event: TouchEvent<HTMLDivElement>) {
     const target = event.target as HTMLElement;
 
+    event.stopPropagation();
+
     startYRef.current = event.touches[0].clientY;
     startTimeRef.current = performance.now();
 
@@ -216,6 +219,8 @@ const DrawerContent = (props: DrawerContentProps) => {
   function handleTouchMove(event: TouchEvent<HTMLDivElement>) {
     if (!contentRef.current) return;
     if (!swipeToDismiss) return;
+
+    event.stopPropagation();
 
     const currentY = event.touches[0].clientY;
     const deltaY = currentY - startYRef.current;
@@ -259,7 +264,7 @@ const DrawerContent = (props: DrawerContentProps) => {
       contentRef.current.style.transform = `translateY(${height}px)`;
 
       window.setTimeout(() => {
-        close();
+        close?.();
       }, 200);
     } else {
       contentRef.current.style.transform = "translateY(0)";
@@ -318,7 +323,7 @@ const DrawerCloseTrigger = (props: ChakraDrawer.CloseTriggerProps) => {
       {...restProps}
       pos={"static"}
       onClick={(event) => {
-        close();
+        close?.();
         onClick?.(event);
       }}
     />
