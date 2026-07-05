@@ -24,13 +24,13 @@ import {
 import { Portal } from "@/design-system/components/utilities/portal";
 import { MODAL_BASE_ZINDEX } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
+import { useFirstMountEffect } from "@/shared/hooks/use-first-mount-effect";
 import { back } from "@/shared/utils/client/navigation";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
 import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
 import React, {
   createContext,
   useContext,
-  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -74,9 +74,6 @@ const DialogRoot = (props: DialogRootProps) => {
     ...restProps
   } = props;
 
-  // Refs
-  const hasMountedRef = useRef(false);
-
   // Derived Values
   const nestingLevel = modalKey.split(".").length;
   const isNested = nestingLevel > 1;
@@ -88,23 +85,23 @@ const DialogRoot = (props: DialogRootProps) => {
   );
   const [fullscreen, setFullscreen] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (!hasMountedRef.current) {
-      hasMountedRef.current = true;
+  useFirstMountEffect(
+    {
+      onFirstMount: () => {
+        if (!isNested || !opened) return;
 
-      if (isNested && opened) {
         const timeoutId = setTimeout(() => {
           setDelayedOpened(true);
         }, delayMs);
+
         return () => clearTimeout(timeoutId);
-      }
-
-      return;
-    }
-
-    // if not first mount
-    setDelayedOpened(opened);
-  }, [opened, isNested, delayMs]);
+      },
+      onUpdate: () => {
+        setDelayedOpened(opened);
+      },
+    },
+    [opened, isNested, delayMs],
+  );
 
   const contextValue = useMemo<DialogContextValue>(
     () => ({
