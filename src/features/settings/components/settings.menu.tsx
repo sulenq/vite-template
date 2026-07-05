@@ -117,41 +117,47 @@ export const SettingsMenuBody = (props: StackProps) => {
                 gap={1}
                 bg={"bg.body"}
                 rounded={theme.radii.container}
-                p={isSmallViewport ? 2 : 0}
+                p={isSmallViewport ? 1 : 0}
               >
-                {group.list.map((navKey) => {
+                {group.list.map((navKey, itemIndex) => {
                   const isNavActive = activeSettingNavKey === navKey;
+                  const isItemFirstIndex = itemIndex === 0;
                   const nav = SETTINGS_NAVS[navKey] as SettingNav;
                   const navTitle = nav?.titleKey
                     ? t[nav.titleKey]()
                     : nav.titleKey;
 
                   return (
-                    <NavButton
-                      key={navKey}
-                      variant={isNavActive ? "subtle" : "ghost"}
-                      onClick={() => {
-                        navigate({
-                          search: (prev) => ({
-                            ...prev,
-                            activeSettingNavKey: navKey,
-                          }),
-                          replace: !!activeSettingNavKey,
-                        });
-                      }}
-                    >
-                      <AppTablerIcon icon={nav.icon} />
-
-                      {navTitle}
-
-                      {isSmallViewport && (
-                        <AppTablerIcon
-                          icon={IconChevronRight}
-                          color={"fg.subtle"}
-                          ml={"auto"}
-                        />
+                    <Fragment key={navKey}>
+                      {!isItemFirstIndex && (
+                        <Separator borderColor={"bg.canvas"} />
                       )}
-                    </NavButton>
+
+                      <NavButton
+                        variant={isNavActive ? "subtle" : "ghost"}
+                        onClick={() => {
+                          navigate({
+                            search: (prev) => ({
+                              ...prev,
+                              activeSettingNavKey: navKey,
+                            }),
+                            replace: !!activeSettingNavKey,
+                          });
+                        }}
+                      >
+                        <AppTablerIcon icon={nav.icon} />
+
+                        {navTitle}
+
+                        {isSmallViewport && (
+                          <AppTablerIcon
+                            icon={IconChevronRight}
+                            color={"fg.subtle"}
+                            ml={"auto"}
+                          />
+                        )}
+                      </NavButton>
+                    </Fragment>
                   );
                 })}
               </VStack>
