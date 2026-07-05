@@ -19,6 +19,7 @@ import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -84,8 +85,37 @@ const DrawerRoot = (props: DrawerRootProps) => {
     ...restProps
   } = props;
 
+  // Refs
+  const hasMountedRef = useRef(false);
+
+  // Derived Values
+  const nestingLevel = modalKey.split(".").length;
+  const isNested = nestingLevel > 1;
+  const delayMs = nestingLevel;
+
   // States
+  const [delayedOpened, setDelayedOpened] = useState(() =>
+    isNested && opened ? false : opened,
+  );
   const [fullscreen, setFullscreen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+
+      if (isNested && opened) {
+        const timeoutId = setTimeout(() => {
+          setDelayedOpened(true);
+        }, delayMs);
+        return () => clearTimeout(timeoutId);
+      }
+
+      return;
+    }
+
+    // if not first mount
+    setDelayedOpened(opened);
+  }, [opened, isNested, delayMs]);
 
   // Resolved Values
   const contextValue = useMemo<DrawerContextValue>(
@@ -117,7 +147,7 @@ const DrawerRoot = (props: DrawerRootProps) => {
   return (
     <DrawerContext.Provider value={contextValue}>
       <ChakraDrawer.Root
-        open={opened}
+        open={delayedOpened}
         placement={placement}
         size={size}
         lazyMount

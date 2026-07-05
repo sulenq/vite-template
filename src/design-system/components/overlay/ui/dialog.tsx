@@ -30,6 +30,7 @@ import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
 import React, {
   createContext,
   useContext,
+  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -73,10 +74,38 @@ const DialogRoot = (props: DialogRootProps) => {
     ...restProps
   } = props;
 
+  // Refs
+  const hasMountedRef = useRef(false);
+
+  // Derived Values
+  const nestingLevel = modalKey.split(".").length;
+  const isNested = nestingLevel > 1;
+  const delayMs = nestingLevel;
+
   // States
+  const [delayedOpened, setDelayedOpened] = useState(() =>
+    isNested && opened ? false : opened,
+  );
   const [fullscreen, setFullscreen] = useState<boolean>(false);
 
-  // Resolved Values
+  useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+
+      if (isNested && opened) {
+        const timeoutId = setTimeout(() => {
+          setDelayedOpened(true);
+        }, delayMs);
+        return () => clearTimeout(timeoutId);
+      }
+
+      return;
+    }
+
+    // if not first mount
+    setDelayedOpened(opened);
+  }, [opened, isNested, delayMs]);
+
   const contextValue = useMemo<DialogContextValue>(
     () => ({
       modalKey,
@@ -103,7 +132,7 @@ const DialogRoot = (props: DialogRootProps) => {
   return (
     <DialogContext.Provider value={contextValue}>
       <ChakraDialog.Root
-        open={opened}
+        open={delayedOpened}
         lazyMount
         unmountOnExit
         size={fullscreen ? "full" : size}
