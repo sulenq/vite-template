@@ -31,10 +31,10 @@ const ActionBarContent = (props: ActionBarContentProps) => {
       border={"1px solid {colors.border.subtle}"}
       shadow={"md"}
       _open={{
-        animationDuration: "slower",
+        animationDuration: "slow",
       }}
       _closed={{
-        animationDuration: "slower",
+        animationDuration: "slow",
       }}
       {...props}
     />

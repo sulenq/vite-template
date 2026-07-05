@@ -675,6 +675,12 @@ export const chakraConfig = defineConfig({
               _dark: "{colors.bodyDark}",
             },
           },
+          inverted: {
+            value: {
+              base: "{colors.bodyDark}",
+              _dark: "{colors.bodyLight}",
+            },
+          },
           frosted: {
             value: {
               base: "rgba(250, 249, 255, 0.5)",
