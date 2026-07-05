@@ -18,18 +18,20 @@ import type {
 } from "@/design-system/components/overlay/types/modal.type";
 import { Dialog } from "@/design-system/components/overlay/ui/dialog";
 import { Drawer } from "@/design-system/components/overlay/ui/drawer";
+import { triggerFullscreenAnimation } from "@/design-system/components/overlay/utils/fullscreen-animation-registry";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { type DrawerRootProps } from "@chakra-ui/react";
-import { IconX } from "@tabler/icons-react";
-import { createContext, useContext, useMemo, useRef } from "react";
+import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
+import { createContext, useContext, useMemo, useState } from "react";
 
 export type ModalContextValue = {
   modalKey: string;
   opened: boolean;
   open?: () => void;
   close?: () => void;
+  fullscreen: boolean;
+  setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
   isSmallViewport: boolean;
-  initialFocusRef: React.RefObject<HTMLButtonElement | null>;
 };
 
 export const ModalContext = createContext<ModalContextValue | null>(null);
@@ -61,11 +63,11 @@ const ModalRoot = (props: ModalRootProps) => {
     ...restProps
   } = props;
 
-  // Refs
-  const initialFocusRef = useRef<HTMLButtonElement | null>(null);
-
   // Hooks
   const isSmallViewport = useIsSmallViewport();
+
+  // States
+  const [fullscreen, setFullscreen] = useState<boolean>(false);
 
   const contextValue = useMemo<ModalContextValue>(
     () => ({
@@ -73,10 +75,11 @@ const ModalRoot = (props: ModalRootProps) => {
       opened,
       open,
       close,
+      fullscreen,
+      setFullscreen,
       isSmallViewport,
-      initialFocusRef,
     }),
-    [modalKey, opened, open, close, isSmallViewport],
+    [modalKey, opened, open, close, fullscreen, setFullscreen, isSmallViewport],
   );
   return (
     <ModalContext.Provider value={contextValue}>
@@ -90,7 +93,6 @@ const ModalRoot = (props: ModalRootProps) => {
           swipeToDismiss={drawerSwipeToDismiss}
           {...restProps}
           placement={drawerPlacement}
-          initialFocusEl={() => initialFocusRef.current}
         >
           {children}
         </Drawer.Root>
@@ -103,7 +105,6 @@ const ModalRoot = (props: ModalRootProps) => {
           clickOriginAnimation={dialogClickOriginAnimation}
           size={size as DialogRootProps["size"]}
           {...restProps}
-          initialFocusEl={() => initialFocusRef.current}
         >
           {children}
         </Dialog.Root>
@@ -135,38 +136,39 @@ const ModalBackdrop = (props: ModalBackdropProps) => {
 };
 
 const ModalContent = (props: ModalContentProps) => {
-  const { isSmallViewport, initialFocusRef } = useModalContext();
-
-  const sentinel = (
-    <button
-      ref={initialFocusRef}
-      type={"button"}
-      tabIndex={-1}
-      aria-hidden
-      style={{
-        position: "fixed",
-        width: 1,
-        height: 1,
-        opacity: 0,
-        pointerEvents: "none",
-      }}
-    />
-  );
+  // Contexts
+  const { isSmallViewport } = useModalContext();
 
   if (isSmallViewport) {
-    return (
-      <Drawer.Content {...props}>
-        {sentinel}
-        {props.children}
-      </Drawer.Content>
-    );
+    return <Drawer.Content {...props} />;
   }
 
+  return <Dialog.Content {...props} />;
+};
+
+const ModalFullscreenButton = (props: IconButtonProps) => {
+  // Contexts
+  const { modalKey, fullscreen, setFullscreen } = useModalContext();
+
   return (
-    <Dialog.Content {...props}>
-      {sentinel}
-      {props.children}
-    </Dialog.Content>
+    <IconButton
+      size={"2xs"}
+      variant={"subtle"}
+      bg={"an1"}
+      rounded={"full"}
+      onClick={() => {
+        const next = !fullscreen;
+        triggerFullscreenAnimation(modalKey, next);
+        setFullscreen(next);
+      }}
+      {...props}
+    >
+      <AppTablerIcon
+        icon={fullscreen ? IconSquares : IconSquare}
+        transform={"scaleX(-1)"}
+        boxSize={3.5}
+      />
+    </IconButton>
   );
 };
 
@@ -235,6 +237,7 @@ export const Modal = {
   Root: ModalRoot,
   Backdrop: ModalBackdrop,
   Content: ModalContent,
+  FullscreenButton: ModalFullscreenButton,
   CloseTrigger: ModalCloseTrigger,
   CloseButton: ModalCloseButton,
   Header: ModalHeader,

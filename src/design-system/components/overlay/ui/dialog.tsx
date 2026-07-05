@@ -109,6 +109,7 @@ const DialogRoot = (props: DialogRootProps) => {
         scrollBehavior={"inside"}
         {...restProps}
         placement={"center"}
+        trapFocus={false}
         onEscapeKeyDown={() => {
           close?.();
         }}
