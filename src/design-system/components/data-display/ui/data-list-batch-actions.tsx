@@ -14,6 +14,7 @@ import { Portal } from "@/design-system/components/utilities/portal";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import { Fragment } from "react";
 import type { DataListBatchActionsTriggerProps } from "../types/data-list.type";
+import { Button } from "@/design-system/components/button/ui/button";
 
 export const DataListBatchActionsTrigger = (
   props: DataListBatchActionsTriggerProps,
@@ -21,6 +22,7 @@ export const DataListBatchActionsTrigger = (
   const {
     children,
     batchActions,
+    selectedItemIds,
     selectedItems,
     clearSelectedItems,
     isAllItemsSelected,
@@ -71,7 +73,11 @@ export const DataListBatchActionsTrigger = (
         <Separator px={2} my={1} />
 
         {batchActions?.map((item, index) => {
-          const node = item(selectedItems, { clearSelectedItems });
+          const node = item({
+            selectedItemIds,
+            selectedItems,
+            clearSelectedItems,
+          });
 
           if (!node) return null;
 
@@ -84,8 +90,13 @@ export const DataListBatchActionsTrigger = (
 
 export const DataListBatchActionBar = (props: DataListBatchActionBarProps) => {
   // Props
-  const { batchActions, selectedItems, clearSelectedItems, ...restProps } =
-    props;
+  const {
+    batchActions,
+    selectedItemIds,
+    selectedItems,
+    clearSelectedItems,
+    ...restProps
+  } = props;
 
   // Derived Values
   const isChecked = !isEmptyArray(selectedItems);
@@ -95,14 +106,16 @@ export const DataListBatchActionBar = (props: DataListBatchActionBarProps) => {
       <Portal>
         <ActionBar.Positioner zIndex={4}>
           <ActionBar.Content>
-            <P px={4} color={"fg.muted"}>
-              {selectedItems.length} selected
-            </P>
+            <Button color={"fg.muted"}>{selectedItems.length} selected</Button>
 
             <ActionBar.Separator />
 
             {batchActions?.map((item, index) => {
-              const node = item(selectedItems, { clearSelectedItems });
+              const node = item({
+                selectedItemIds,
+                selectedItems,
+                clearSelectedItems,
+              });
 
               if (!node) return null;
 

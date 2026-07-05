@@ -54,7 +54,8 @@ type DataListTableContextValue = {
   sortConfig: DataListTableSortConfig;
   toggleSort: (columnIndex: number) => void;
   sortedItems: FormattedListItem[];
-  selectedItems: string[];
+  selectedItemIds: string[];
+  selectedItems: FormattedListItem[];
   isAllItemsSelected: boolean;
   toggleItemSelection: (item: FormattedListItem) => void;
   selectAllItems: (isChecked: boolean) => void;
@@ -103,6 +104,7 @@ const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
     });
     const {
       isAllItemsSelected,
+      selectedItemIds,
       selectedItems,
       selectAllItems,
       clearSelectedItems,
@@ -123,6 +125,7 @@ const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
         sortConfig,
         toggleSort,
         sortedItems,
+        selectedItemIds,
         selectedItems,
         isAllItemsSelected,
         toggleItemSelection,
@@ -141,6 +144,7 @@ const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
         sortConfig,
         toggleSort,
         sortedItems,
+        selectedItemIds,
         selectedItems,
         isAllItemsSelected,
         toggleItemSelection,
@@ -191,6 +195,7 @@ const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
         </VStack>
 
         <DataListBatchActionBar
+          selectedItemIds={selectedItemIds}
           selectedItems={selectedItems}
           clearSelectedItems={clearSelectedItems}
           batchActions={batchActions}
@@ -229,6 +234,7 @@ const DataListTableHeader = forwardRef<
 
   const {
     batchActions,
+    selectedItemIds,
     selectedItems,
     clearSelectedItems,
     isAllItemsSelected,
@@ -261,6 +267,7 @@ const DataListTableHeader = forwardRef<
         <DataListTableCell pos={"sticky"} left={0}>
           <DataListBatchActionsTrigger
             batchActions={batchActions}
+            selectedItemIds={selectedItemIds}
             selectedItems={selectedItems}
             clearSelectedItems={clearSelectedItems}
             isAllItemsSelected={isAllItemsSelected}
@@ -316,7 +323,7 @@ const DataListTableBody = () => {
     batchActions,
     sortedItems,
     itemActions,
-    selectedItems,
+    selectedItemIds,
     toggleItemSelection,
     withNumbering,
   } = useDataListTableContext();
@@ -324,7 +331,7 @@ const DataListTableBody = () => {
   return (
     <>
       {sortedItems.map((item, index) => {
-        const isItemSelected = selectedItems.includes(item.id);
+        const isItemSelected = selectedItemIds.includes(item.id);
 
         const bodyCellStyles = {
           bg: isItemSelected ? `${theme.colorPalette}.subtle` : "bg.body",

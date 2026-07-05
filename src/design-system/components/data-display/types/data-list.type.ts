@@ -17,13 +17,15 @@ export type DataListItemActionsTriggerProps<T = Record<string, unknown>> = {
   contextedTrigger?: boolean;
 } & MenuRootProps;
 
-export type DataListBatchActionsGenerator = (
-  selectedItems: string[],
-  helpers: { clearSelectedItems: () => void },
-) => ReactNode;
+export type DataListBatchActionsGenerator = (params: {
+  selectedItemIds: string[];
+  selectedItems: FormattedListItem[];
+  clearSelectedItems: () => void;
+}) => ReactNode;
 
 export type DataListBatchActionsTriggerProps = {
-  selectedItems: string[];
+  selectedItemIds: string[];
+  selectedItems: FormattedListItem[];
   clearSelectedItems: () => void;
   batchActions?: DataListBatchActionsGenerator[];
   isAllItemsSelected: boolean;
@@ -33,7 +35,8 @@ export type DataListBatchActionsTriggerProps = {
 } & MenuRootProps;
 
 export type DataListBatchActionBarProps = {
-  selectedItems: string[];
+  selectedItemIds: string[];
+  selectedItems: FormattedListItem[];
   clearSelectedItems: () => void;
   batchActions?: DataListBatchActionsGenerator[];
 } & Omit<ActionBarRootProps, "children">;

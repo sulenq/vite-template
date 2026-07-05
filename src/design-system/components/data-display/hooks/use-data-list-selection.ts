@@ -3,26 +3,30 @@
 import { useState } from "react";
 import type { FormattedListItem } from "../types/data-list-table.type";
 
-export function useDataListSelection(data: FormattedListItem[]) {
+export function useDataListSelection(formattedListItems: FormattedListItem[]) {
   const [isAllItemsSelected, setAllItemsSelected] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [selectedItemIds, setSelectedItemIds] = useState<string[]>([]);
+  const [selectedItems, setSelectedItems] = useState<FormattedListItem[]>([]);
 
   function selectAllItems(isChecked: boolean) {
     setAllItemsSelected(!isAllItemsSelected);
     if (!isChecked) {
-      setSelectedItems(data.map((item) => item.id));
+      setSelectedItemIds(formattedListItems.map((item) => item.id));
+      setSelectedItems(formattedListItems);
     } else {
+      setSelectedItemIds([]);
       setSelectedItems([]);
     }
   }
 
   function clearSelectedItems() {
     setAllItemsSelected(false);
+    setSelectedItemIds([]);
     setSelectedItems([]);
   }
 
   function toggleItemSelection(item: FormattedListItem) {
-    setSelectedItems((prev) => {
+    setSelectedItemIds((prev) => {
       const isSelected = prev.includes(item.id);
 
       if (isSelected) {
@@ -31,13 +35,24 @@ export function useDataListSelection(data: FormattedListItem[]) {
       }
 
       const next = [...prev, item.id];
-      if (data.length === next.length) setAllItemsSelected(true);
+      if (formattedListItems.length === next.length) setAllItemsSelected(true);
       return next;
+    });
+
+    setSelectedItems((prev) => {
+      const isSelected = prev.some((selected) => selected.id === item.id);
+
+      if (isSelected) {
+        return prev.filter((selected) => selected.id !== item.id);
+      }
+
+      return [...prev, item];
     });
   }
 
   return {
     isAllItemsSelected,
+    selectedItemIds,
     selectedItems,
     selectAllItems,
     clearSelectedItems,

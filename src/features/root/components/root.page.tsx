@@ -435,12 +435,12 @@ export const DataDisplay = () => {
     ],
 
     batchActions: [
-      (selectedItems) => {
+      ({ selectedItemIds, selectedItems }) => {
         return (
           <Button
             disabled={isEmptyArray(selectedItems)}
             onClick={() => {
-              console.log(selectedItems);
+              console.log({ selectedItemIds, selectedItems });
             }}
           >
             <AppTablerIcon icon={IconTrash} />

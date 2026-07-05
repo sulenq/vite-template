@@ -30,6 +30,12 @@ const ActionBarContent = (props: ActionBarContentProps) => {
       rounded={theme.radii.container}
       border={"1px solid {colors.border.subtle}"}
       shadow={"md"}
+      _open={{
+        animationDuration: "slower",
+      }}
+      _closed={{
+        animationDuration: "slower",
+      }}
       {...props}
     />
   );
