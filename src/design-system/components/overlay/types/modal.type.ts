@@ -12,8 +12,8 @@ export type PopModalTriggerProps = {
 export type ModalRootProps = {
   modalKey: string;
   opened: boolean;
-  open: () => void;
-  close: () => void;
+  open?: () => void;
+  close?: () => void;
   dialogClickOriginAnimation?: boolean;
   drawerPlacement?: ChakraDrawer.RootProps["placement"];
   drawerSwipeToDismiss?: boolean;

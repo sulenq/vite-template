@@ -109,6 +109,9 @@ const DialogRoot = (props: DialogRootProps) => {
         scrollBehavior={"inside"}
         {...restProps}
         placement={"center"}
+        onEscapeKeyDown={() => {
+          close?.();
+        }}
       />
     </DialogContext.Provider>
   );
@@ -247,13 +250,13 @@ const DialogContent = (props: DialogContentProps) => {
             animation: clickOriginAnimation
               ? "scale-up-overshoot-from-click-origin"
               : "scale-up-overshoot",
-            animationDuration: "slower",
+            animationDuration: "slowest",
           }}
           _closed={{
             animation: clickOriginAnimation
               ? "scale-down-to-click-origin"
               : "scale-down",
-            animationDuration: "slow",
+            animationDuration: "slower",
           }}
           {...restProps}
         />

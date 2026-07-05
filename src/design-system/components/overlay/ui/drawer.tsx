@@ -122,6 +122,9 @@ const DrawerRoot = (props: DrawerRootProps) => {
         lazyMount
         unmountOnExit
         {...restProps}
+        onEscapeKeyDown={() => {
+          close?.();
+        }}
       />
     </DrawerContext.Provider>
   );
