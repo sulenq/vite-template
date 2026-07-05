@@ -704,7 +704,13 @@ export const ODrawer = () => {
   });
 
   return (
-    <Drawer.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
+    <Drawer.Root
+      modalKey={modalKey}
+      opened={isOpen}
+      open={open}
+      close={close}
+      size={"xl"}
+    >
       <Drawer.Trigger>
         <Button variant={"outline"}>Open Drawer</Button>
       </Drawer.Trigger>
@@ -727,8 +733,6 @@ export const ODrawer = () => {
               Drawer is component that need user focus and styled like "drawer"
               or sliding container
             </P>
-
-            <ONestedDrawer />
           </VStack>
         </Drawer.Body>
 
@@ -736,9 +740,8 @@ export const ODrawer = () => {
           <Button flex={1} onClick={close}>
             Close
           </Button>
-          <Button flex={1} primary>
-            CTA
-          </Button>
+
+          <ONestedDrawer />
         </Drawer.Footer>
       </Drawer.Content>
     </Drawer.Root>
@@ -754,7 +757,9 @@ export const ONestedDrawer = () => {
   return (
     <Drawer.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
       <Drawer.Trigger>
-        <Button variant={"outline"}>Open Nested Drawer</Button>
+        <Button primary flex={1}>
+          Open Nested
+        </Button>
       </Drawer.Trigger>
 
       <Drawer.Content>
