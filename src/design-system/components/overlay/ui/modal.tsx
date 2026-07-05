@@ -27,8 +27,8 @@ import { createContext, useContext, useMemo, useState } from "react";
 export type ModalContextValue = {
   modalKey: string;
   opened: boolean;
-  open: () => void;
-  close: () => void;
+  open?: () => void;
+  close?: () => void;
   fullscreen: boolean;
   setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
   isSmallViewport: boolean;
@@ -179,37 +179,14 @@ const ModalFullscreenButton = (props: IconButtonProps) => {
 };
 
 const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {
-  // Props
-  const { onClick, ...restProps } = props;
-
   // Contexts
-  const { close, isSmallViewport } = useModalContext();
+  const { isSmallViewport } = useModalContext();
 
   if (isSmallViewport) {
-    return (
-      <Drawer.CloseTrigger
-        asChild
-        {...restProps}
-        pos={"static"}
-        onClick={(event) => {
-          close();
-          onClick?.(event);
-        }}
-      />
-    );
+    return <Drawer.CloseTrigger asChild {...props} pos={"static"} />;
   }
 
-  return (
-    <Dialog.CloseTrigger
-      asChild
-      {...restProps}
-      pos={"static"}
-      onClick={(event) => {
-        close();
-        onClick?.(event);
-      }}
-    />
-  );
+  return <Dialog.CloseTrigger asChild {...props} pos={"static"} />;
 };
 
 const ModalCloseButton = (props: IconButtonProps) => {

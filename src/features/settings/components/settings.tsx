@@ -17,10 +17,10 @@ export const SettingsTrigger = (props: PopModalTriggerProps) => {
 
   // Hooks
   const { activeSettingNavKey } = RootRoute.useSearch();
-  const { isOpen, open, close } = usePopModal(
+  const { isOpen, open, close } = usePopModal({
     modalKey,
-    activeSettingNavKey ? 2 : 1,
-  );
+    depth: activeSettingNavKey ? 2 : 1,
+  });
   const isSmallViewport = useIsSmallViewport();
 
   return (

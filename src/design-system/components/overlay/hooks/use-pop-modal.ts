@@ -3,7 +3,14 @@
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef } from "react";
 
-export function usePopModal(modalKey: string, depth?: number) {
+type UsePopModalOptions = {
+  modalKey: string;
+  depth?: number;
+};
+export function usePopModal(options: UsePopModalOptions) {
+  // Options
+  const { modalKey, depth } = options;
+
   const lastCloseAtRef = useRef(0);
   const { activeModalKey } = useSearch({ strict: false }) as Record<
     string,

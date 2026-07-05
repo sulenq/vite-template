@@ -121,7 +121,6 @@ const DrawerRoot = (props: DrawerRootProps) => {
         size={size}
         lazyMount
         unmountOnExit
-        modal={false}
         {...restProps}
       />
     </DrawerContext.Provider>

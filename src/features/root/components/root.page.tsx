@@ -613,7 +613,9 @@ export const Navigation = () => {
 
 export const OModal = () => {
   // Hooks
-  const { modalKey, isOpen, open, close } = usePopModal("exampleModal");
+  const { modalKey, isOpen, open, close } = usePopModal({
+    modalKey: "exampleModal",
+  });
 
   return (
     <Modal.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
@@ -655,7 +657,9 @@ export const OModal = () => {
 
 export const ODialog = () => {
   // Hooks
-  const { modalKey, isOpen, open, close } = usePopModal("exampleDialog");
+  const { modalKey, isOpen, open, close } = usePopModal({
+    modalKey: "exampleDialog",
+  });
 
   return (
     <Dialog.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
@@ -695,7 +699,9 @@ export const ODialog = () => {
 
 export const ODrawer = () => {
   // Hooks
-  const { modalKey, isOpen, open, close } = usePopModal("exampleDrawer");
+  const { modalKey, isOpen, open, close } = usePopModal({
+    modalKey: "exampleDrawer",
+  });
 
   return (
     <Drawer.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
@@ -741,7 +747,9 @@ export const ODrawer = () => {
 
 export const ONestedDrawer = () => {
   // Hooks
-  const { modalKey, isOpen, open, close } = usePopModal("exampleDrawer.nested");
+  const { modalKey, isOpen, open, close } = usePopModal({
+    modalKey: "exampleDrawer.nested",
+  });
 
   return (
     <Drawer.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>

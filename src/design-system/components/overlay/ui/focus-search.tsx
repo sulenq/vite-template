@@ -54,7 +54,9 @@ export const FocusSearchTrigger = <T,>(props: FocusSearchTriggerProps<T>) => {
   const { children, modalKey, queryKey, index, onResultSelect } = props;
 
   // Hooks
-  const { isOpen, open, close } = usePopModal(modalKey);
+  const { isOpen, open, close } = usePopModal({
+    modalKey,
+  });
 
   return (
     <FocusTriggerContext.Provider

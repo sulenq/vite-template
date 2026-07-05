@@ -107,7 +107,6 @@ const DialogRoot = (props: DialogRootProps) => {
         unmountOnExit
         size={fullscreen ? "full" : size}
         scrollBehavior={"inside"}
-        modal={false}
         {...restProps}
         placement={"center"}
       />
