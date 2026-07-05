@@ -1,22 +1,20 @@
-"use client";
+// src/design-system/components/input/ui/password-input.tsx
 
 import { mergeRefs } from "@/design-system/chakra/utils/mergeRefs";
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import type {
+  PasswordInputProps,
+  PasswordStrengthMeterProps,
+} from "@/design-system/components/input/types/password-input.type";
 import { Input } from "@/design-system/components/input/ui/input";
 import { InputGroup } from "@/design-system/components/input/ui/input-group";
 import { Box } from "@/design-system/components/layout/ui/box";
 import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
-import {
-  useControllableState,
-  type ButtonProps,
-  type GroupProps,
-  type InputProps,
-  type StackProps,
-} from "@chakra-ui/react";
+import { useControllableState, type ButtonProps } from "@chakra-ui/react";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
+import { passwordStrength, type Options } from "check-password-strength";
 import * as React from "react";
-import { type Options, passwordStrength } from "check-password-strength";
 
 const DEFAULT_STRENGTH_OPTIONS: Options<string> = [
   { id: 1, value: "weak", minDiversity: 0, minLength: 0 },
@@ -24,40 +22,6 @@ const DEFAULT_STRENGTH_OPTIONS: Options<string> = [
   { id: 3, value: "strong", minDiversity: 3, minLength: 8 },
   { id: 4, value: "very-strong", minDiversity: 4, minLength: 10 },
 ];
-
-export interface PasswordVisibilityProps {
-  /**
-   * The default visibility state of the password input.
-   */
-  defaultVisible?: boolean;
-  /**
-   * The controlled visibility state of the password input.
-   */
-  visible?: boolean;
-  /**
-   * Callback invoked when the visibility state changes.
-   */
-  onVisibleChange?: (visible: boolean) => void;
-  /**
-   * Custom icons for the visibility toggle button.
-   */
-  visibilityIcon?: { on: React.ReactNode; off: React.ReactNode };
-}
-
-export interface PasswordInputProps
-  extends InputProps, PasswordVisibilityProps {
-  rootProps?: GroupProps;
-  /**
-   * When `true`, renders a `PasswordStrengthMeter` below the input,
-   * computed uncontrolled from the input's own value on each change.
-   */
-  withPasswordStrength?: boolean;
-  /**
-   * Custom strength scoring rules, forwarded to `check-password-strength`.
-   * Falls back to a sensible default (weak/medium/strong/very-strong).
-   */
-  strengthOptions?: Options<string>;
-}
 
 export const PasswordInput = React.forwardRef<
   HTMLInputElement,
@@ -157,11 +121,6 @@ const VisibilityTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
     );
   },
 );
-
-interface PasswordStrengthMeterProps extends StackProps {
-  max?: number;
-  value: number;
-}
 
 export const PasswordStrengthMeter = React.forwardRef<
   HTMLDivElement,
