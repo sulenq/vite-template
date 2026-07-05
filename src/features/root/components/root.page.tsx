@@ -23,6 +23,7 @@ import {
 } from "@/design-system/components/icon/ui/app-icon";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 import { Input } from "@/design-system/components/input/ui/input";
+import { PasswordInput } from "@/design-system/components/input/ui/password-input";
 import { SearchInput } from "@/design-system/components/input/ui/search-input";
 import Select from "@/design-system/components/input/ui/select";
 import { Container } from "@/design-system/components/layout/ui/container";
@@ -575,6 +576,8 @@ export const Inputs = () => {
 
           <Input placeholder={"Text input..."} w={"200px"} />
 
+          <PasswordInput placeholder={"Password input..."} w={"200px"} />
+
           <SearchInput placeholder={"Search..."} />
 
           <Select
@@ -610,6 +613,8 @@ export const Navigation = () => {
     </Container.Root>
   );
 };
+
+// -----------------------------------------------------------------
 
 export const OModal = () => {
   // Hooks
@@ -811,6 +816,8 @@ export const Overlay = () => {
     </Container.Root>
   );
 };
+
+// -----------------------------------------------------------------
 
 export const Typography = () => {
   return (

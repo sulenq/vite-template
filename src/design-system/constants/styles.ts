@@ -1,7 +1,7 @@
 // src/design-system/constants/styles.ts
 
 import type { ButtonProps } from "@/design-system/components/button/types/button.type";
-import type { InputProps } from "@/design-system/components/input/ui/input";
+import type { InputProps } from "@/design-system/components/input/types/input.type";
 
 // Dimensions
 export const SM_SCREEN_BREAKPOINT = "720px";
