@@ -1,24 +1,29 @@
 "use client";
 
+import { mergeRefs } from "@/design-system/chakra/utils/mergeRefs";
+import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import type {
-  ButtonProps,
-  GroupProps,
-  InputProps,
-  StackProps,
-} from "@chakra-ui/react";
+import { Input } from "@/design-system/components/input/ui/input";
+import { InputGroup } from "@/design-system/components/input/ui/input-group";
+import { Box } from "@/design-system/components/layout/ui/box";
+import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import {
-  Box,
-  HStack,
-  IconButton,
-  Input,
-  InputGroup,
-  Stack,
-  mergeRefs,
   useControllableState,
+  type ButtonProps,
+  type GroupProps,
+  type InputProps,
+  type StackProps,
 } from "@chakra-ui/react";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import * as React from "react";
+import { type Options, passwordStrength } from "check-password-strength";
+
+const DEFAULT_STRENGTH_OPTIONS: Options<string> = [
+  { id: 1, value: "weak", minDiversity: 0, minLength: 0 },
+  { id: 2, value: "medium", minDiversity: 2, minLength: 6 },
+  { id: 3, value: "strong", minDiversity: 3, minLength: 8 },
+  { id: 4, value: "very-strong", minDiversity: 4, minLength: 10 },
+];
 
 export interface PasswordVisibilityProps {
   /**
@@ -42,12 +47,23 @@ export interface PasswordVisibilityProps {
 export interface PasswordInputProps
   extends InputProps, PasswordVisibilityProps {
   rootProps?: GroupProps;
+  /**
+   * When `true`, renders a `PasswordStrengthMeter` below the input,
+   * computed uncontrolled from the input's own value on each change.
+   */
+  withPasswordStrength?: boolean;
+  /**
+   * Custom strength scoring rules, forwarded to `check-password-strength`.
+   * Falls back to a sensible default (weak/medium/strong/very-strong).
+   */
+  strengthOptions?: Options<string>;
 }
 
 export const PasswordInput = React.forwardRef<
   HTMLInputElement,
   PasswordInputProps
 >(function PasswordInput(props, ref) {
+  // Props
   const {
     rootProps,
     defaultVisible,
@@ -57,41 +73,70 @@ export const PasswordInput = React.forwardRef<
       on: <AppTablerIcon icon={IconEye} />,
       off: <AppTablerIcon icon={IconEyeOff} />,
     },
+    withPasswordStrength = false,
+    strengthOptions = DEFAULT_STRENGTH_OPTIONS,
+    onChange,
     ...restProps
   } = props;
 
+  // Refs
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
+  // States
   const [visible, setVisible] = useControllableState({
     value: visibleProp,
     defaultValue: defaultVisible || false,
     onChange: onVisibleChange,
   });
+  const [strength, setStrength] = React.useState(0);
 
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    onChange?.(e);
+
+    if (!withPasswordStrength) return;
+
+    const value = e.currentTarget.value;
+
+    if (!value) {
+      setStrength(0);
+      return;
+    }
+
+    const result = passwordStrength(value, strengthOptions);
+    setStrength(result.id);
+  }
 
   return (
-    <InputGroup
-      endElement={
-        <VisibilityTrigger
-          disabled={restProps.disabled}
-          onPointerDown={(e) => {
-            if (restProps.disabled) return;
-            if (e.button !== 0) return;
-            e.preventDefault();
-            setVisible(!visible);
-          }}
-        >
-          {visible ? visibilityIcon.off : visibilityIcon.on}
-        </VisibilityTrigger>
-      }
-      w={restProps?.w || "fit"}
-      {...rootProps}
-    >
-      <Input
-        {...restProps}
-        ref={mergeRefs(ref, inputRef)}
-        type={visible ? "text" : "password"}
-      />
-    </InputGroup>
+    <VStack gap={2} w={restProps?.w || "fit"}>
+      <InputGroup
+        endElement={
+          <VisibilityTrigger
+            disabled={restProps.disabled}
+            onPointerDown={(e) => {
+              if (restProps.disabled) return;
+              if (e.button !== 0) return;
+              e.preventDefault();
+              setVisible(!visible);
+            }}
+          >
+            {visible ? visibilityIcon.off : visibilityIcon.on}
+          </VisibilityTrigger>
+        }
+        w={"full"}
+        {...rootProps}
+      >
+        <Input
+          {...restProps}
+          ref={mergeRefs(ref, inputRef)}
+          type={visible ? "text" : "password"}
+          onChange={handleChange}
+        />
+      </InputGroup>
+
+      {withPasswordStrength && (
+        <PasswordStrengthMeter max={strengthOptions.length} value={strength} />
+      )}
+    </VStack>
   );
 });
 
@@ -125,11 +170,11 @@ export const PasswordStrengthMeter = React.forwardRef<
   const { max = 4, value, ...rest } = props;
 
   const percent = (value / max) * 100;
-  const { label, colorPalette } = getColorPalette(percent);
+  const { colorPalette } = getColorPalette(percent);
 
   return (
-    <Stack align={"end"} gap={1} ref={ref} {...rest}>
-      <HStack width={"full"} {...rest}>
+    <VStack align={"end"} gap={1} ref={ref} {...rest}>
+      <HStack gap={1} w={"full"} {...rest}>
         {Array.from({ length: max }).map((_, index) => (
           <Box
             key={index}
@@ -146,8 +191,8 @@ export const PasswordStrengthMeter = React.forwardRef<
           />
         ))}
       </HStack>
-      {label && <HStack textStyle="xs">{label}</HStack>}
-    </Stack>
+      {/* {label && <HStack textStyle="xs">{label}</HStack>} */}
+    </VStack>
   );
 });
 

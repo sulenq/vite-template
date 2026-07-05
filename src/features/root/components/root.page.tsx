@@ -576,7 +576,11 @@ export const Inputs = () => {
 
           <Input placeholder={"Text input..."} w={"200px"} />
 
-          <PasswordInput placeholder={"Password input..."} w={"200px"} />
+          <PasswordInput
+            placeholder={"Password input..."}
+            w={"200px"}
+            withPasswordStrength
+          />
 
           <SearchInput placeholder={"Search..."} />
 
