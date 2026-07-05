@@ -79,6 +79,7 @@ const useDataListTableContext = () => {
 
 const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
   (props, ref) => {
+    // Props
     const {
       children,
       items,
@@ -91,13 +92,15 @@ const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
       ...restProps
     } = props;
 
+    // Stores
     const { theme } = useThemeStore();
 
-    const { sortConfig, toggleSort, sortedItems } = useDataListSort(
-      items,
-      initialSortColumnIndex,
-      initialSortOrder,
-    );
+    // Hooks
+    const { sortConfig, toggleSort, sortedItems } = useDataListSort({
+      formattedItems: items,
+      initialColumnIndex: initialSortColumnIndex,
+      initialDirection: initialSortOrder,
+    });
     const {
       isAllItemsSelected,
       selectedItems,
@@ -106,6 +109,7 @@ const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
       toggleItemSelection,
     } = useDataListSelection(items);
 
+    // Resolved Values
     const contextValue = useMemo<DataListTableContextValue>(
       () => ({
         headers,
@@ -220,6 +224,7 @@ const DataListTableHeader = forwardRef<
   HTMLDivElement,
   DataListTableHeaderProps
 >((props, ref) => {
+  // Stores
   const { theme } = useThemeStore();
 
   const {
@@ -303,8 +308,10 @@ const DataListTableHeader = forwardRef<
 });
 
 const DataListTableBody = () => {
+  // Stores
   const { theme } = useThemeStore();
 
+  // Hooks
   const {
     batchActions,
     sortedItems,
@@ -410,8 +417,10 @@ const DataListTableSortIcon = ({
   active,
   direction,
 }: DataListTableSortIconProps) => {
+  // Stores
   const { theme } = useThemeStore();
 
+  // Derived Values
   const primaryFg = `${theme.colorPalette}.fg`;
   const isAscActive = active && direction === "asc";
   const isDescActive = active && direction === "desc";

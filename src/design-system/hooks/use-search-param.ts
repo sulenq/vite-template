@@ -1,4 +1,4 @@
-// src/design-system/hooks/use-query-param.ts
+// src/design-system/hooks/use-search-param.ts
 
 // design-system/hooks/use-query-param.ts
 

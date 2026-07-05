@@ -35,13 +35,22 @@ const sortHandlers: Record<string, DataListTableSortHandler> = {
       : String(bValue).localeCompare(String(aValue)),
 };
 
-export function useDataListSort(
-  formattedItems: FormattedListItem[],
-  initialcolumnIndex?: number,
-  initialDirection: "asc" | "desc" = "asc",
-) {
+type UseDataListSortOptions = {
+  formattedItems: FormattedListItem[];
+  initialColumnIndex?: number;
+  initialDirection?: "asc" | "desc";
+};
+
+export function useDataListSort(options: UseDataListSortOptions) {
+  // Options
+  const {
+    formattedItems,
+    initialColumnIndex,
+    initialDirection = "asc",
+  } = options;
+
   const [sortConfig, setSortConfigState] = useState<DataListTableSortConfig>({
-    columnIndex: initialcolumnIndex,
+    columnIndex: initialColumnIndex,
     direction: initialDirection,
   });
 

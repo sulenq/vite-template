@@ -3,7 +3,14 @@
 import type { Ref } from "react";
 import { useCallback, useRef } from "react";
 
-export const useMergedRefs = <T>(...refs: Ref<T>[]) => {
+type UseMergedRefsOptions<T> = {
+  refs: Ref<T>[];
+};
+
+export const useMergedRefs = <T>(options: UseMergedRefsOptions<T>) => {
+  // Options
+  const { refs } = options;
+
   // Refs
   const refsRef = useRef(refs);
 

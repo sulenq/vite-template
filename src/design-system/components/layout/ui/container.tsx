@@ -49,7 +49,7 @@ const ContainerRoot = forwardRef<HTMLDivElement, ContainerRootProps>(
 
     // Refs
     const containerRef = useRef<HTMLDivElement>(null);
-    const mergeRef = useMergedRefs(containerRef, ref);
+    const mergeRef = useMergedRefs({ refs: [containerRef, ref] });
 
     // Hooks
     const dimension = useRefDimension(containerRef);
