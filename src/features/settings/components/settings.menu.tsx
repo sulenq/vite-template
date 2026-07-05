@@ -6,27 +6,22 @@ import { IconButton } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { StackProps } from "@/design-system/components/layout/types/stack.type";
-import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { NavButton } from "@/design-system/components/layout/ui/nav";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { Separator } from "@/design-system/components/layout/ui/separator";
-import { useModalContext } from "@/design-system/components/overlay/ui/modal";
+import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
 import { P } from "@/design-system/components/typography/ui/p";
 import { HEADER_H } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import { SettingsSearchTrigger } from "@/features/settings/components/settings.search";
+import { SettingsSearchButton } from "@/features/settings/components/settings.search";
 import { SETTINGS_NAV_GROUPS } from "@/features/settings/constants/settings.nav-groups";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings.navs";
 import type { SettingNav } from "@/features/settings/types/settings-navs.type";
-import { t } from "@/shared/libs/i18n/-typed";
 import { RootRoute } from "@/routes/-typed";
+import { t } from "@/shared/libs/i18n/-typed";
 import { back } from "@/shared/utils/client/navigation";
-import {
-  IconChevronLeft,
-  IconChevronRight,
-  IconSearch,
-} from "@tabler/icons-react";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { Fragment } from "react/jsx-runtime";
 
 export const SettingsMenu = () => {
@@ -47,22 +42,6 @@ export const SettingsMenu = () => {
   );
 };
 
-const SettingsSearchButton = () => {
-  // Contexts
-  const { modalKey } = useModalContext();
-
-  return (
-    <SettingsSearchTrigger
-      modalKey={modalKey + ".search"}
-      queryKey={"settings-nav-search"}
-    >
-      <IconButton>
-        <AppTablerIcon icon={IconSearch} />
-      </IconButton>
-    </SettingsSearchTrigger>
-  );
-};
-
 export const SettingsMenuHeader = () => {
   // Hooks
   const isSmallViewport = useIsSmallViewport();
@@ -75,7 +54,7 @@ export const SettingsMenuHeader = () => {
       h={HEADER_H}
       p={2}
     >
-      <HStack w={"40px"}>
+      <HStack>
         {isSmallViewport && (
           <IconButton onClick={() => back()}>
             <AppTablerIcon icon={IconChevronLeft} />
@@ -89,7 +68,7 @@ export const SettingsMenuHeader = () => {
         Settings
       </P>
 
-      <HStack w={"40px"}>
+      <HStack>
         {isSmallViewport && <SettingsSearchButton />}
 
         {!isSmallViewport && <ColorModeToggleButton />}

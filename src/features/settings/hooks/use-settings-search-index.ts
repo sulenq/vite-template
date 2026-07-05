@@ -13,7 +13,7 @@ export type SettingsNavSearchData = {
   navKey: SettingNavKey;
 };
 
-export function useSettingsNavIndex(): SearchIndex<SettingsNavSearchData> {
+export function useSettingSearchIndex(): SearchIndex<SettingsNavSearchData> {
   return useMemo(
     () =>
       (Object.entries(SETTINGS_NAVS) as [SettingNavKey, SettingNav][]).map(

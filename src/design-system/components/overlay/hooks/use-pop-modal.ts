@@ -7,6 +7,9 @@ type UsePopModalOptions = {
   modalKey: string;
   depth?: number;
 };
+
+export const MODAL_QUERY_KEY = "activeModalKey";
+
 export function usePopModal(options: UsePopModalOptions) {
   // Options
   const { modalKey, depth } = options;

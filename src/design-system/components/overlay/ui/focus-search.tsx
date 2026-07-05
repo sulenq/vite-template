@@ -15,7 +15,7 @@ import type {
 import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { Kbd } from "@/design-system/components/typography/ui/kbd";
 import { P } from "@/design-system/components/typography/ui/p";
-import { useQueryParam } from "@/design-system/hooks/use-query-param";
+import { useSearchParam } from "@/design-system/hooks/use-search-param";
 import { useSearch } from "@/design-system/hooks/use-search";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import type {
@@ -30,7 +30,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 type FocusTriggerContextValue = {
   modalKey: string;
   queryKey: string;
-  index: SearchIndex;
+  searchIndex: SearchIndex;
   onResultSelect?: (result: SearchIndexItem) => void;
 };
 
@@ -51,7 +51,7 @@ const useFocusTriggerContext = () => {
 
 export const FocusSearchTrigger = <T,>(props: FocusSearchTriggerProps<T>) => {
   // Props
-  const { children, modalKey, queryKey, index, onResultSelect } = props;
+  const { children, modalKey, queryKey, searchIndex, onResultSelect } = props;
 
   // Hooks
   const { isOpen, open, close } = usePopModal({
@@ -63,7 +63,7 @@ export const FocusSearchTrigger = <T,>(props: FocusSearchTriggerProps<T>) => {
       value={{
         modalKey,
         queryKey,
-        index: index as SearchIndex,
+        searchIndex: searchIndex as SearchIndex,
         onResultSelect: onResultSelect as
           | ((result: SearchIndexItem) => void)
           | undefined,
@@ -144,14 +144,14 @@ const FocusSearchResultItem = (
 };
 
 const FocusSearchBody = () => {
-  const { queryKey, index, onResultSelect } = useFocusTriggerContext();
-  const { queryValue } = useQueryParam(queryKey);
+  const { queryKey, searchIndex, onResultSelect } = useFocusTriggerContext();
+  const { queryValue } = useSearchParam(queryKey);
   const [query, setQuery] = useState<string>(queryValue ?? "");
 
   const { results, recentResults, addRecent, clearAllRecent } = useSearch(
     queryKey,
     query,
-    index,
+    searchIndex,
   );
 
   const hasQuery = !!query.trim();

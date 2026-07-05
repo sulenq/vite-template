@@ -4,7 +4,7 @@
 
 import { useNavigate, useSearch } from "@tanstack/react-router";
 
-export function useQueryParam<ValueType extends string = string>(
+export function useSearchParam<ValueType extends string = string>(
   queryKey?: string,
   validValues?: readonly ValueType[],
 ) {

@@ -17,6 +17,7 @@ import {
   MODAL_CONTROL_CONTAINER_W,
 } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
+import { SettingsSearchButton } from "@/features/settings/components/settings.search";
 import { SETTINGS_PAGES } from "@/features/settings/constants/settings.pages";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
 import { RootRoute } from "@/routes/-typed";
@@ -115,8 +116,10 @@ export const SettingsActivePageHeader = (props: StackProps) => {
         justify={"end"}
         gap={3}
         w={MODAL_CONTROL_CONTAINER_W}
-        pr={MODAL_CONTROL_CONTAINER_SPACING_R}
+        pr={[0, null, MODAL_CONTROL_CONTAINER_SPACING_R]}
       >
+        {isSmallViewport && <SettingsSearchButton />}
+
         {!isSmallViewport && (
           <>
             <Dialog.FullscreenButton />
@@ -151,7 +154,7 @@ export const SettingsActivePageBody = (props: StackProps) => {
   // Hooks
   const { activeSettingNavKey: activeSettingsNavKeySearch } =
     RootRoute.useSearch();
-  const isSmallViewport = useIsSmallViewport();
+  // const isSmallViewport = useIsSmallViewport();
 
   // Derived Values
   const ActiveSettingPageContent = activeSettingNavKey
@@ -164,30 +167,6 @@ export const SettingsActivePageBody = (props: StackProps) => {
       setActiveSettingNavKey(activeSettingsNavKeySearch);
     }
   }, [activeSettingsNavKeySearch, setActiveSettingNavKey]);
-
-  if (isSmallViewport) {
-    return (
-      <Modal.Root
-        modalKey={"settings." + activeSettingNavKey}
-        opened={!!activeSettingsNavKeySearch}
-        size={"full"}
-        drawerPlacement={"end"}
-        drawerSwipeToDismiss={false}
-      >
-        <Modal.Content className={"settings-active-page__body"}>
-          <Modal.Body display={"flex"} flexDir={"column"} p={0}>
-            <SettingsActivePageHeader />
-
-            <VStack overflowY={"auto"}>
-              {ActiveSettingPageContent && <ActiveSettingPageContent />}
-
-              {!ActiveSettingPageContent && <ActiveSettingsPageContentIndex />}
-            </VStack>
-          </Modal.Body>
-        </Modal.Content>
-      </Modal.Root>
-    );
-  }
 
   return (
     <VScrollContainer

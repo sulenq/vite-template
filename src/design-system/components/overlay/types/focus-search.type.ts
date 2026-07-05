@@ -10,7 +10,7 @@ export type FocusSearchTriggerProps<T> = {
   children: React.ReactNode;
   modalKey: string;
   queryKey: string;
-  index: SearchIndex<T>;
+  searchIndex: SearchIndex<T>;
   onResultSelect?: (result: SearchIndexItem<T>) => void;
 };
 

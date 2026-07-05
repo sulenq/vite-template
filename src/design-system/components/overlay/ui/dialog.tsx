@@ -24,6 +24,7 @@ import {
 import { Portal } from "@/design-system/components/utilities/portal";
 import { MODAL_BASE_ZINDEX } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
+import { back } from "@/shared/utils/client/navigation";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
 import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
 import React, {
@@ -110,8 +111,9 @@ const DialogRoot = (props: DialogRootProps) => {
         {...restProps}
         placement={"center"}
         trapFocus={false}
+        preventScroll
         onEscapeKeyDown={() => {
-          close?.();
+          back();
         }}
       />
     </DialogContext.Provider>
@@ -146,11 +148,14 @@ const DialogTrigger = (props: ChakraDialog.TriggerProps) => {
 };
 
 const DialogBackdrop = (props: ChakraDialog.BackdropProps) => {
-  // Contexts
-  const { close } = useDialogContext();
-
   return (
-    <ChakraDialog.Backdrop pointerEvents={"auto"} onClick={close} {...props} />
+    <ChakraDialog.Backdrop
+      pointerEvents={"auto"}
+      onClick={() => {
+        back();
+      }}
+      {...props}
+    />
   );
 };
 
@@ -270,16 +275,13 @@ const DialogCloseTrigger = (props: ChakraDialog.CloseTriggerProps) => {
   // Props
   const { onClick, ...restProps } = props;
 
-  // Contexts
-  const { close } = useDialogContext();
-
   return (
     <ChakraDialog.CloseTrigger
       asChild
       {...restProps}
       pos={"static"}
       onClick={(event) => {
-        close?.();
+        back();
         onClick?.(event);
       }}
     />

@@ -13,6 +13,7 @@ import type {
 import { Portal } from "@/design-system/components/utilities/portal";
 import { MODAL_BASE_ZINDEX } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
+import { back } from "@/shared/utils/client/navigation";
 import { Drawer as ChakraDrawer } from "@chakra-ui/react";
 import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
 import {
@@ -123,8 +124,9 @@ const DrawerRoot = (props: DrawerRootProps) => {
         unmountOnExit
         {...restProps}
         trapFocus={false}
+        preventScroll
         onEscapeKeyDown={() => {
-          close?.();
+          back();
         }}
       />
     </DrawerContext.Provider>
@@ -173,7 +175,7 @@ const DrawerContent = (props: DrawerContentProps) => {
   } = props;
 
   // Contexts
-  const { modalKey, close, fullscreen, swipeToDismiss, placement, size } =
+  const { modalKey, fullscreen, swipeToDismiss, placement, size } =
     useDrawerContext();
   const { theme } = useThemeStore();
 
@@ -267,7 +269,7 @@ const DrawerContent = (props: DrawerContentProps) => {
       contentRef.current.style.transform = `translateY(${height}px)`;
 
       window.setTimeout(() => {
-        close?.();
+        back();
       }, 200);
     } else {
       contentRef.current.style.transform = "translateY(0)";
@@ -293,6 +295,12 @@ const DrawerContent = (props: DrawerContentProps) => {
             ? { rounded: 0 }
             : rounded[placement as keyof typeof rounded])}
           bg={"bg.body"}
+          _open={{
+            animationDuration: "slowest",
+          }}
+          _closed={{
+            animationDuration: "slowest",
+          }}
           {...restProps}
         >
           {swipeToDismiss && (
@@ -317,16 +325,13 @@ const DrawerCloseTrigger = (props: ChakraDrawer.CloseTriggerProps) => {
   // Props
   const { onClick, ...restProps } = props;
 
-  // Contexts
-  const { close } = useDrawerContext();
-
   return (
     <ChakraDrawer.CloseTrigger
       asChild
       {...restProps}
       pos={"static"}
       onClick={(event) => {
-        close?.();
+        back();
         onClick?.(event);
       }}
     />

@@ -2,10 +2,15 @@
 
 "use client";
 
+import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
+import { IconButton } from "@/design-system/components/button/ui/button";
+import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { FocusSearchTrigger } from "@/design-system/components/overlay/ui/focus-search";
-import { useSettingsNavIndex } from "@/features/settings/hooks/use-settings-nav.search-index";
+import { useModalContext } from "@/design-system/components/overlay/ui/modal";
+import { useSettingSearchIndex } from "@/features/settings/hooks/use-settings-search-index";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
 import { RootRoute } from "@/routes/-typed";
+import { IconSearch } from "@tabler/icons-react";
 
 interface SettingsSearchTriggerProps {
   children: React.ReactNode;
@@ -20,13 +25,13 @@ export const SettingsSearchTrigger = (props: SettingsSearchTriggerProps) => {
   // Hooks
   const { activeSettingNavKey } = RootRoute.useSearch();
   const navigate = RootRoute.useNavigate();
-  const index = useSettingsNavIndex();
+  const searchIndex = useSettingSearchIndex();
 
   return (
     <FocusSearchTrigger
       modalKey={modalKey}
       queryKey={queryKey}
-      index={index}
+      searchIndex={searchIndex}
       onResultSelect={(result) => {
         setTimeout(() => {
           navigate({
@@ -42,5 +47,21 @@ export const SettingsSearchTrigger = (props: SettingsSearchTriggerProps) => {
     >
       {children}
     </FocusSearchTrigger>
+  );
+};
+
+export const SettingsSearchButton = (props: IconButtonProps) => {
+  // Contexts
+  const { modalKey } = useModalContext();
+
+  return (
+    <SettingsSearchTrigger
+      modalKey={modalKey + ".search"}
+      queryKey={"settings-nav-search"}
+    >
+      <IconButton {...props}>
+        <AppTablerIcon icon={IconSearch} />
+      </IconButton>
+    </SettingsSearchTrigger>
   );
 };
