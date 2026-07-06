@@ -1,17 +1,9 @@
 // src/design-system/components/input/ui/field.tsx
 
+import type { FieldProps } from "@/design-system/components/input/types/field.type";
 import { P } from "@/design-system/components/typography/ui/p";
 import { Badge, Field as ChakraField } from "@chakra-ui/react";
 import { forwardRef } from "react";
-
-export interface FieldProps extends Omit<ChakraField.RootProps, "label"> {
-  label?: React.ReactNode;
-  labelProps?: ChakraField.LabelProps;
-  helperText?: React.ReactNode;
-  errorText?: React.ReactNode;
-  optionalText?: React.ReactNode;
-  optional?: boolean;
-}
 
 export const Field = forwardRef<HTMLDivElement, FieldProps>(
   function Field(props, ref) {

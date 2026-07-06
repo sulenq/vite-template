@@ -2,10 +2,7 @@
 
 import { forwardRef } from "react";
 import { Fieldset as ChakraFieldset } from "@chakra-ui/react";
-
-export type FieldsetProps = {
-  legend?: React.ReactNode;
-} & ChakraFieldset.RootProps;
+import type { FieldsetProps } from "@/design-system/components/input/types/fieldset.type";
 
 export const Fieldset = forwardRef<HTMLFieldSetElement, FieldsetProps>(
   function Fieldset(props, ref) {
