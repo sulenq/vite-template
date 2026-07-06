@@ -289,6 +289,17 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
     close();
   }
 
+  // Container click — focus first empty field or last field if all filled
+  function handleContainerClick(e: React.MouseEvent<HTMLDivElement>) {
+    const target = e.target as HTMLElement;
+    if (target.closest("input, button")) return; // don't hijack clicks on field/button
+
+    const emptyField = fieldOrder.find((field) => fields[field] === "");
+    const targetField = emptyField ?? fieldOrder[fieldOrder.length - 1];
+
+    fieldRefs.current[targetField]?.current?.focus();
+  }
+
   // Derive inline validation state for field border
   const isFieldsValid = useMemo(() => {
     const cd = fieldsToCalendarDate(fields);
@@ -321,6 +332,7 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
         transition={"200ms"}
         px={2}
         h={10}
+        onClick={handleContainerClick}
         {...restProps}
       >
         <HStack align="center" gap={0} flex={1}>
