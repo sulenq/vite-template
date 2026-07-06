@@ -110,11 +110,11 @@ const VisibilityTrigger = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <IconButton
         tabIndex={-1}
         ref={ref}
-        me={"-2"}
-        aspectRatio={"square"}
         size={"sm"}
         variant={"ghost"}
-        height={"calc(100% - {spacing.2})"}
+        aspectRatio={"square"}
+        h={"calc(100% - {spacing.2})"}
+        mr={"-2"}
         aria-label={"Toggle password visibility"}
         {...props}
       />

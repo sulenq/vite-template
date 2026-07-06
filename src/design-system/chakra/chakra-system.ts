@@ -22,10 +22,11 @@ export const chakraConfig = defineConfig({
       bg: "bg.body",
       fontWeight: "normal",
     },
-    "div, span, section, article, li, ul, ol, a, label, strong, em": {
-      fontSize: "md",
-      fontWeight: "normal",
-    },
+    "div, button, input, span, section, article, li, ul, ol, a, label, strong, em":
+      {
+        fontSize: "md !important",
+        fontWeight: "normal",
+      },
   },
 
   // Theme config ---------------------------------------------------

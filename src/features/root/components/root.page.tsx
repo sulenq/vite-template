@@ -22,6 +22,7 @@ import {
   AppTablerIcon,
 } from "@/design-system/components/icon/ui/app-icon";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
+import { DateInput } from "@/design-system/components/input/ui/date-input";
 import { Input } from "@/design-system/components/input/ui/input";
 import { PasswordInput } from "@/design-system/components/input/ui/password-input";
 import { SearchInput } from "@/design-system/components/input/ui/search-input";
@@ -583,6 +584,8 @@ export const Inputs = () => {
           />
 
           <SearchInput placeholder={"Search..."} />
+
+          <DateInput modalKey={"date-input"} w={"250px"} />
 
           <Select
             selectOptions={[
