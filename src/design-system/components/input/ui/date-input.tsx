@@ -69,8 +69,18 @@ function fieldsToCalendarDate(fields: FieldValues): CalendarDate | null {
 
   if (isNaN(day) || isNaN(month) || isNaN(year)) return null;
 
+  // Reject out-of-range values before constructing —
+  // CalendarDate silently normalizes overflow instead of throwing.
+  if (month < 1 || month > 12) return null;
+  if (day < 1 || day > 31) return null;
+
   try {
-    return new CalendarDate(year, month, day);
+    const cd = new CalendarDate(year, month, day);
+    // Detect normalization (e.g. Feb 30 -> Mar 2)
+    if (cd.day !== day || cd.month !== month || cd.year !== year) {
+      return null;
+    }
+    return cd;
   } catch {
     return null;
   }
@@ -87,6 +97,7 @@ type FieldInputProps = {
   disabled?: boolean;
   onValueChange: (field: FieldKey, value: string) => void;
   onAutoAdvance: (fromField: FieldKey) => void;
+  onBlur: () => void;
   inputRef: React.RefObject<HTMLInputElement | null>;
 };
 
@@ -98,6 +109,7 @@ const FieldInput = memo(function FieldInput({
   onValueChange,
   onAutoAdvance,
   inputRef,
+  onBlur,
 }: FieldInputProps) {
   const maxLen = getMaxLength(fieldKey);
   const placeholder = getPlaceholder(fieldKey);
@@ -129,6 +141,7 @@ const FieldInput = memo(function FieldInput({
       maxLength={maxLen}
       disabled={disabled}
       onChange={handleChange}
+      onBlur={onBlur}
       onKeyDown={handleKeyDown}
       aria-label={fieldKey}
       style={{
@@ -239,18 +252,25 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
   function handleFieldChange(field: FieldKey, rawValue: string) {
     const nextFields = { ...fields, [field]: rawValue };
     setFields(nextFields);
-    commitFields(nextFields);
+  }
+
+  // Field on blur — commit
+  function handleFieldBlur() {
+    commitFields(fields);
   }
 
   // Auto-advance focus
   function handleAutoAdvance(fromField: FieldKey) {
     const currentIdx = fieldOrder.indexOf(fromField);
+    const currentValue = fields[fromField];
 
-    // On backspace from first field — do nothing extra
-    if (fields[fromField] === "" && currentIdx > 0) {
-      const prevField = fieldOrder[currentIdx - 1];
-      fieldRefs.current[prevField].current?.focus();
-      return;
+    // Empty value (after backspace) -> move back, unless already at first field
+    if (currentValue === "") {
+      if (currentIdx > 0) {
+        const prevField = fieldOrder[currentIdx - 1];
+        fieldRefs.current[prevField]?.current?.focus();
+      }
+      return; // always return here, including when at index 0
     }
 
     // On fill — advance to next
@@ -283,23 +303,24 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
     return result.valid;
   }, [fields, validationOptions]);
 
-  const hasPartialInput =
-    fields.day !== "" || fields.month !== "" || fields.year !== "";
-  const showError = hasPartialInput && !isFieldsValid;
+  //   const hasPartialInput =
+  //     fields.day !== "" || fields.month !== "" || fields.year !== "";
+
+  const showError = !isFieldsValid;
 
   return (
     <Modal.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
       <HStack
-        justify="space-between"
+        justify={"space-between"}
         gap={1}
-        border="1px solid"
+        border={"1px solid"}
         borderColor={showError ? "red.solid" : "neutral.muted"}
         rounded={theme.radii.component}
         opacity={disabled ? 0.5 : 1}
         pointerEvents={disabled ? "none" : undefined}
-        transition="border-color 0.15s"
+        transition={"200ms"}
         px={2}
-        py={1}
+        h={10}
         {...restProps}
       >
         <HStack align="center" gap={0} flex={1}>
@@ -313,6 +334,7 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
                 disabled={disabled}
                 onValueChange={handleFieldChange}
                 onAutoAdvance={handleAutoAdvance}
+                onBlur={handleFieldBlur}
                 inputRef={fieldRefs.current[field]}
               />
               {idx < fieldOrder.length - 1 && (
@@ -331,12 +353,13 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
 
         <Modal.Trigger>
           <IconButton
-            size="sm"
-            variant="ghost"
-            aria-label="Open date picker"
-            aspectRatio="square"
-            h="calc(100% - {spacing.2})"
-            mr="-2"
+            size={"xs"}
+            variant={"ghost"}
+            aria-label={"Open date picker"}
+            aspectRatio={"square"}
+            h={"calc(100% - {spacing.2})"}
+            mr={-1}
+            my={"auto"}
           >
             <AppTablerIcon icon={IconCalendarSearch} />
           </IconButton>
@@ -345,7 +368,7 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
 
       <Modal.Content>
         <Modal.Header>
-          <P textAlign="center" mx="auto" pl="32px" fontWeight="medium">
+          <P textAlign={"center"} mx={"auto"} pl={"32px"} fontWeight={"medium"}>
             Select Date
           </P>
           <Modal.CloseButton />
