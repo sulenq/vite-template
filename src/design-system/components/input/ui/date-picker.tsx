@@ -524,7 +524,13 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
             <ClampedP fontSize={"sm"}>{timezoneLabel}</ClampedP>
           </HStack>
 
-          <Button size={"xs"} fontSize={"sm"} onClick={goToToday}>
+          <Button
+            unstyled
+            fontSize={"sm"}
+            cursor={"pointer"}
+            userSelect={"none"}
+            onClick={goToToday}
+          >
             Go to today
           </Button>
         </HStack>

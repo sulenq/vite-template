@@ -6,6 +6,7 @@ import { ColorModeProvider } from "@/design-system/chakra/providers/color-mode-p
 import { LocaleProvider } from "@/shared/libs/i18n/locale-provider";
 import { rootSearchSchema } from "@/shared/schemas/root-search.schema";
 import "@fontsource-variable/plus-jakarta-sans";
+import "@fontsource-variable/wix-madefor-text";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 
 export const Route = createRootRoute({

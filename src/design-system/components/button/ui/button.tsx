@@ -32,6 +32,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         rounded={theme.radii.component}
         fontSize={"md"}
         fontWeight={"normal"}
+        userSelect={"none"}
         {...restProps}
       />
     );
@@ -54,6 +55,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         colorPalette={primary ? theme.colorPalette : colorPalette || "neutral"}
         rounded={theme.radii.component}
         fontWeight={"normal"}
+        userSelect={"none"}
         {...restProps}
       />
     );

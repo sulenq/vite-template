@@ -401,16 +401,6 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
                 inputFormat={inputFormat}
               />
             </Modal.Body>
-
-            {/* <Modal.Footer>
-            <Button
-              flex={1}
-              disabled={!isFieldsValid}
-              onClick={handlePickerConfirm}
-            >
-              Dismiss
-            </Button>
-          </Modal.Footer> */}
           </Modal.Content>
         </Modal.Root>
       )}
