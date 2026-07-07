@@ -11,4 +11,5 @@ export type ButtonProps = {
 
 export type IconButtonProps = {
   primary?: boolean;
-} & ButtonProps & ChakraIconButtonProps;
+} & ButtonProps &
+  ChakraIconButtonProps;

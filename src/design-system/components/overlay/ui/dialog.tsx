@@ -13,6 +13,7 @@ import {
   updateDialogOffset,
 } from "@/design-system/components/overlay/stores/use-dialog-animation-store";
 import type {
+  DialogCloseButtonProps,
   DialogContentProps,
   DialogRootProps,
 } from "@/design-system/components/overlay/types/dialog.type";
@@ -304,10 +305,10 @@ const DialogCloseTrigger = (props: ChakraDialog.CloseTriggerProps) => {
   return (
     <ChakraDialog.CloseTrigger
       asChild
-      {...restProps}
       pos={"absolute"}
       top={3}
       right={3}
+      {...restProps}
       onClick={(event) => {
         back();
         onClick?.(event);
@@ -316,15 +317,18 @@ const DialogCloseTrigger = (props: ChakraDialog.CloseTriggerProps) => {
   );
 };
 
-const DialogCloseButton = (props: IconButtonProps) => {
+const DialogCloseButton = (props: DialogCloseButtonProps) => {
+  // Props
+  const { closeTriggerProps, ...restProps } = props;
+
   return (
-    <DialogCloseTrigger>
+    <DialogCloseTrigger {...closeTriggerProps}>
       <IconButton
         size={"2xs"}
         variant={"subtle"}
         bg={"an1"}
         rounded={"full"}
-        {...props}
+        {...restProps}
       >
         <AppTablerIcon icon={IconX} boxSize={4} />
       </IconButton>

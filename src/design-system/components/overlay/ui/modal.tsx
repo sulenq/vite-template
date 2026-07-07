@@ -9,6 +9,7 @@ import type { DialogRootProps } from "@/design-system/components/overlay/types/d
 import type {
   ModalBackdropProps,
   ModalBodyProps,
+  ModalCloseButtonProps,
   ModalCloseTriggerProps,
   ModalContentProps,
   ModalFooterProps,
@@ -173,25 +174,40 @@ const ModalFullscreenButton = (props: IconButtonProps) => {
 };
 
 const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {
+  // Props
+  const { pos, position, ...restProps } = props;
+
   // Contexts
   const { isSmallViewport } = useModalContext();
 
   if (isSmallViewport) {
-    return <Drawer.CloseTrigger asChild {...props} pos={"static"} />;
+    return (
+      <Drawer.CloseTrigger
+        asChild
+        pos={pos}
+        position={position}
+        {...restProps}
+      />
+    );
   }
 
-  return <Dialog.CloseTrigger asChild {...props} pos={"static"} />;
+  return (
+    <Dialog.CloseTrigger asChild pos={pos} position={position} {...restProps} />
+  );
 };
 
-const ModalCloseButton = (props: IconButtonProps) => {
+const ModalCloseButton = (props: ModalCloseButtonProps) => {
+  // Props
+  const { closeTriggerProps, ...restProps } = props;
+
   return (
-    <Modal.CloseTrigger>
+    <Modal.CloseTrigger {...closeTriggerProps}>
       <IconButton
         size={"2xs"}
         variant={"subtle"}
         bg={"an1"}
         rounded={"full"}
-        {...props}
+        {...restProps}
       >
         <AppTablerIcon icon={IconX} boxSize={4} />
       </IconButton>

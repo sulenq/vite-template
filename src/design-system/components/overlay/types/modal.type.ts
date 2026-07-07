@@ -1,5 +1,6 @@
 // src/design-system/components/overlay/types/modal.type.ts
 
+import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import {
   Dialog as ChakraDialog,
   Drawer as ChakraDrawer,
@@ -42,6 +43,10 @@ export type ModalCloseTriggerProps = {} & (
   | ChakraDrawer.ContentProps
   | ChakraDialog.ContentProps
 );
+
+export type ModalCloseButtonProps = IconButtonProps & {
+  closeTriggerProps?: ModalCloseTriggerProps;
+};
 
 export type ModalHeaderProps = {} & (
   | ChakraDrawer.HeaderProps

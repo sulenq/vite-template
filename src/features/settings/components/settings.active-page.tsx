@@ -124,7 +124,11 @@ export const SettingsActivePageHeader = (props: StackProps) => {
           <>
             <Dialog.FullscreenButton />
 
-            <Modal.CloseButton />
+            <Modal.CloseButton
+              closeTriggerProps={{
+                pos: "static",
+              }}
+            />
           </>
         )}
       </HStack>

@@ -129,8 +129,12 @@ export const SettingsMenuBody = (props: StackProps) => {
 
                   return (
                     <Fragment key={navKey}>
-                      {!isItemFirstIndex && (
-                        <Separator borderColor={"bg.canvas"} />
+                      {!isItemFirstIndex && isSmallViewport && (
+                        <Separator
+                          borderColor={"bg.canvas"}
+                          w={"calc(100% - 40px)"}
+                          ml={"auto"}
+                        />
                       )}
 
                       <NavButton

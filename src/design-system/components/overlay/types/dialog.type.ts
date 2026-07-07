@@ -1,5 +1,6 @@
 // src/design-system/components/overlay/types/dialog.type.ts
 
+import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
 
 export type DialogRootProps = {
@@ -15,3 +16,7 @@ export type DialogContentProps = {
   portalRef?: React.RefObject<HTMLElement | null>;
   backdrop?: boolean;
 } & ChakraDialog.ContentProps;
+
+export type DialogCloseButtonProps = IconButtonProps & {
+  closeTriggerProps?: ChakraDialog.CloseTriggerProps;
+};

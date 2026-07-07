@@ -7,6 +7,7 @@ import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { Box } from "@/design-system/components/layout/ui/box";
 import type {
+  DrawerCloseButtonProps,
   DrawerContentProps,
   DrawerRootProps,
 } from "@/design-system/components/overlay/types/drawer.type";
@@ -358,10 +359,10 @@ const DrawerCloseTrigger = (props: ChakraDrawer.CloseTriggerProps) => {
   return (
     <ChakraDrawer.CloseTrigger
       asChild
-      {...restProps}
       pos={"absolute"}
       top={3}
       right={3}
+      {...restProps}
       onClick={(event) => {
         back();
         onClick?.(event);
@@ -370,15 +371,18 @@ const DrawerCloseTrigger = (props: ChakraDrawer.CloseTriggerProps) => {
   );
 };
 
-const DrawerCloseButton = (props: IconButtonProps) => {
+const DrawerCloseButton = (props: DrawerCloseButtonProps) => {
+  // Props
+  const { closeTriggerProps, ...restProps } = props;
+
   return (
-    <DrawerCloseTrigger>
+    <DrawerCloseTrigger {...closeTriggerProps}>
       <IconButton
         size={"2xs"}
         variant={"subtle"}
         bg={"an1"}
         rounded={"full"}
-        {...props}
+        {...restProps}
       >
         <AppTablerIcon icon={IconX} boxSize={4} />
       </IconButton>
