@@ -78,5 +78,6 @@ export function usePopModal(options: UsePopModalOptions) {
     open,
     toggle,
     close,
+    depth,
   };
 }

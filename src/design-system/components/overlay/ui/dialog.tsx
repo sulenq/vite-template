@@ -302,6 +302,9 @@ const DialogCloseTrigger = (props: ChakraDialog.CloseTriggerProps) => {
   // Props
   const { onClick, ...restProps } = props;
 
+  // Contexts
+  const { close } = useDialogContext();
+
   return (
     <ChakraDialog.CloseTrigger
       asChild
@@ -310,7 +313,11 @@ const DialogCloseTrigger = (props: ChakraDialog.CloseTriggerProps) => {
       right={3}
       {...restProps}
       onClick={(event) => {
-        back();
+        if (close) {
+          close();
+        } else {
+          back();
+        }
         onClick?.(event);
       }}
     />

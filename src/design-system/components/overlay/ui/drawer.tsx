@@ -356,6 +356,9 @@ const DrawerCloseTrigger = (props: ChakraDrawer.CloseTriggerProps) => {
   // Props
   const { onClick, ...restProps } = props;
 
+  // Contexts
+  const { close } = useDrawerContext();
+
   return (
     <ChakraDrawer.CloseTrigger
       asChild
@@ -364,7 +367,11 @@ const DrawerCloseTrigger = (props: ChakraDrawer.CloseTriggerProps) => {
       right={3}
       {...restProps}
       onClick={(event) => {
-        back();
+        if (close) {
+          close();
+        } else {
+          back();
+        }
         onClick?.(event);
       }}
     />

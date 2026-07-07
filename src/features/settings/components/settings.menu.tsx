@@ -114,10 +114,9 @@ export const SettingsMenuBody = (props: StackProps) => {
 
               <VStack
                 className={"nav-list"}
-                gap={1}
+                overflow={"clip"}
                 bg={"bg.body"}
                 rounded={theme.radii.container}
-                p={isSmallViewport ? 1 : 0}
               >
                 {group.list.map((navKey, itemIndex) => {
                   const isNavActive = activeSettingNavKey === navKey;
@@ -130,15 +129,14 @@ export const SettingsMenuBody = (props: StackProps) => {
                   return (
                     <Fragment key={navKey}>
                       {!isItemFirstIndex && isSmallViewport && (
-                        <Separator
-                          borderColor={"bg.canvas"}
-                          w={"calc(100% - 40px)"}
-                          ml={"auto"}
-                        />
+                        <Separator borderColor={"bg.canvas"} />
                       )}
 
                       <NavButton
+                        size={"lg"}
                         variant={isNavActive ? "subtle" : "ghost"}
+                        pl={3}
+                        rounded={isSmallViewport ? "none" : "inherit"}
                         onClick={() => {
                           navigate({
                             search: (prev) => ({
