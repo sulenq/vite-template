@@ -27,9 +27,7 @@ export const DataListPagination = (props: DataListPaginationProps) => {
       </IconButton>
 
       <P whiteSpace={"nowrap"}>
-        <TNum>
-          {page} {totalPage ? `/ ${totalPage}` : ""}
-        </TNum>
+        <TNum>{page}</TNum>
       </P>
 
       <IconButton
