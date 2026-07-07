@@ -383,7 +383,7 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
                 </P>
               </VStack>
 
-              <Modal.CloseButton />
+              <Modal.CloseButton mb={"auto"} />
             </Modal.Header>
 
             <Modal.Body pt={0}>
