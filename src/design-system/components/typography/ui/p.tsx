@@ -2,6 +2,7 @@
 
 "use client";
 
+import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
 import { Span, Text, type TextProps, type SpanProps } from "@chakra-ui/react";
 import parse, { domToReact, type DOMNode } from "html-react-parser";
 import { forwardRef } from "react";
@@ -57,6 +58,21 @@ export const PSerif = forwardRef<HTMLParagraphElement, PProps>(
   },
 );
 
+export const ClampedP = forwardRef<HTMLParagraphElement, PProps>(
+  function ClampedP(props, ref) {
+    // Props
+    const { children, ...restProps } = props;
+
+    return (
+      <Tooltip content={children}>
+        <P ref={ref} lineClamp={1} {...restProps}>
+          {children}
+        </P>
+      </Tooltip>
+    );
+  },
+);
+
 export type TNumProps = {
   numberFont?: boolean;
 } & SpanProps;
@@ -64,7 +80,7 @@ export type TNumProps = {
 export const TNum = forwardRef<HTMLParagraphElement, TNumProps>(
   function TNum(props, ref) {
     // Props
-    const { children = "", numberFont = true, ...restProps } = props;
+    const { children = "", numberFont = false, ...restProps } = props;
 
     // Constants
     const characters = String(children).split("");

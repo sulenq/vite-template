@@ -26,7 +26,7 @@ export type DataListTableSortIconProps = {
   direction: "asc" | "desc";
 };
 
-// -----------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 export type DataListTableColumnDataType = "string" | "number" | "date" | "time";
 

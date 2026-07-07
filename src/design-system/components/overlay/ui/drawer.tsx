@@ -70,7 +70,7 @@ function getScrollableAncestor(el: HTMLElement | null): HTMLElement | null {
   return null;
 }
 
-// -----------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 const DrawerRoot = (props: DrawerRootProps) => {
   // Props

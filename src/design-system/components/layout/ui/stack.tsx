@@ -9,11 +9,11 @@ import {
 import { forwardRef } from "react";
 
 export const VStack = forwardRef<HTMLDivElement, StackProps>((props, ref) => {
-  return <ChakraVStack ref={ref} align="stretch" gap={0} {...props} />;
+  return <ChakraVStack ref={ref} align={"stretch"} gap={0} {...props} />;
 });
 
 export const HStack = forwardRef<HTMLDivElement, StackProps>((props, ref) => {
-  return <ChakraHStack ref={ref} align="stretch" gap={0} {...props} />;
+  return <ChakraHStack ref={ref} align={"stretch"} gap={0} {...props} />;
 });
 
 export const Spacer = forwardRef<HTMLDivElement, StackProps>((props, ref) => {

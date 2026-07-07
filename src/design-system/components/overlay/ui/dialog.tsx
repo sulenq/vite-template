@@ -60,7 +60,7 @@ export function useDialogContext() {
   return context;
 }
 
-// -----------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 const DialogRoot = (props: DialogRootProps) => {
   // Props

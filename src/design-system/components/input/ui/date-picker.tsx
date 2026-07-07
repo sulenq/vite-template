@@ -1,7 +1,7 @@
 // src/design-system/components/input/ui/date-picker.tsx
 
 import { CalendarDate } from "@internationalized/date";
-import { memo, useCallback, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 
 import {
   Button,
@@ -9,43 +9,36 @@ import {
 } from "@/design-system/components/button/ui/button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { DatePickerProps } from "@/design-system/components/input/types/date-picker.type";
-import type { DateValue } from "@/design-system/components/input/types/date-picker.type";
 import {
   buildCalendarGrid,
   buildTimezoneLabel,
   buildYearPage,
-  DAYS_HEADER,
+  getTodayDate,
   getYearPageStart,
+  MONTHS,
   MONTHS_SHORT,
   parseISODate,
   resolveTimezone,
-  getTodayDate,
   toISODate,
   validateDate,
+  WEEKDAYS_HEADER,
   YEAR_PAGE_SIZE,
 } from "@/design-system/components/input/utils/date.utils";
-import { Box } from "@/design-system/components/layout/ui/box";
+import { Grid } from "@/design-system/components/layout/ui/grid";
 import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
-import { P } from "@/design-system/components/typography/ui/p";
+import { ClampedP, P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
-
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
+import {
+  IconChevronLeft,
+  IconChevronRight,
+  IconWorld,
+} from "@tabler/icons-react";
 
 type View = "day" | "month" | "year";
 
-type DatePickerInternalProps = DatePickerProps & {
-  /** Called when the user clicks Confirm. */
-  onConfirm?: (value: DateValue) => void;
-  /** Called when the user clicks Cancel. */
-  onCancel?: () => void;
-};
-
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------
 // Hook: useDatePickerState
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------
 
 function useDatePickerState(props: DatePickerProps) {
   const {
@@ -62,7 +55,7 @@ function useDatePickerState(props: DatePickerProps) {
   const tz = useMemo(() => resolveTimezone(timezone), [timezone]);
   const todayDate = useMemo(() => getTodayDate(tz), [tz]);
 
-  // Committed value (what has been externally set)
+  // Uncontrolled fallback value
   const [internalValue, setInternalValue] = useState<CalendarDate | null>(() =>
     parseISODate(defaultValue),
   );
@@ -71,9 +64,6 @@ function useDatePickerState(props: DatePickerProps) {
     if (controlled) return parseISODate(value);
     return internalValue;
   }, [controlled, internalValue, value]);
-
-  // Temporary selection — what the user is hovering/picking before Confirm
-  const [tempDate, setTempDate] = useState<CalendarDate | null>(selectedDate);
 
   // View state
   const [viewDate, setViewDate] = useState<CalendarDate>(
@@ -87,61 +77,38 @@ function useDatePickerState(props: DatePickerProps) {
     [min, max, disabledDates],
   );
 
-  const tempValidation = useMemo(() => {
-    if (!tempDate) return { valid: false as const, reason: "No date selected" };
-    return validateDate(tempDate, validationOptions);
-  }, [tempDate, validationOptions]);
-
   const isDateDisabled = useCallback(
-    (date: CalendarDate): boolean => {
-      return !validateDate(date, validationOptions).valid;
-    },
+    (date: CalendarDate): boolean =>
+      !validateDate(date, validationOptions).valid,
     [validationOptions],
   );
 
-  function commitValue(date: CalendarDate | null) {
-    const iso = date ? toISODate(date) : null;
+  // Selecting a day commits immediately — no intermediate confirm step
+  function selectDate(date: CalendarDate) {
+    if (isDateDisabled(date)) return;
+
     if (!controlled) {
       setInternalValue(date);
     }
-    onValueChange?.(iso);
-  }
-
-  function selectTemp(date: CalendarDate) {
-    setTempDate(date);
-  }
-
-  function confirm() {
-    if (!tempValidation.valid) return;
-    commitValue(tempDate);
-  }
-
-  function reset(date: CalendarDate | null) {
-    setTempDate(date);
-    setViewDate(date ?? todayDate);
-    setView("day");
+    onValueChange?.(toISODate(date));
   }
 
   return {
     selectedDate,
-    tempDate,
     viewDate,
     view,
     todayDate,
     tz,
-    tempValidation,
     isDateDisabled,
-    selectTemp,
-    confirm,
-    reset,
+    selectDate,
     setViewDate,
     setView,
   };
 }
 
-// ---------------------------------------------------------------------------
-// Sub-components
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------
+// Nav Header
+// -------------------------------------------------------------------------------------
 
 type NavHeaderProps = {
   label: string;
@@ -159,41 +126,35 @@ const NavHeader = memo(function NavHeader({
   labelClickable = false,
 }: NavHeaderProps) {
   return (
-    <HStack justify="space-between" align="center" px={2} py={1}>
-      <IconButton
-        size="xs"
-        variant="ghost"
-        aria-label="Previous"
-        onClick={onPrev}
-      >
-        <AppTablerIcon icon={IconChevronLeft} boxSize={4} />
+    <HStack justify={"space-between"} align={"center"} gap={1} py={1}>
+      <IconButton variant={"ghost"} aria-label={"Previous"} onClick={onPrev}>
+        <AppTablerIcon icon={IconChevronLeft} />
       </IconButton>
 
-      <P
-        fontWeight="medium"
+      <Button
+        flex={1}
         cursor={labelClickable ? "pointer" : "default"}
+        bg={labelClickable ? "" : "none"}
+        userSelect={"none"}
         onClick={labelClickable ? onLabelClick : undefined}
-        _hover={labelClickable ? { textDecoration: "underline" } : undefined}
-        userSelect="none"
       >
         {label}
-      </P>
+      </Button>
 
-      <IconButton size="xs" variant="ghost" aria-label="Next" onClick={onNext}>
-        <AppTablerIcon icon={IconChevronRight} boxSize={4} />
+      <IconButton variant={"ghost"} aria-label={"Next"} onClick={onNext}>
+        <AppTablerIcon icon={IconChevronRight} />
       </IconButton>
     </HStack>
   );
 });
 
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------
 // Day View
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------
 
 type DayViewProps = {
   viewDate: CalendarDate;
   selectedDate: CalendarDate | null;
-  tempDate: CalendarDate | null;
   todayDate: CalendarDate;
   isDateDisabled: (date: CalendarDate) => boolean;
   onSelectDay: (date: CalendarDate) => void;
@@ -204,7 +165,7 @@ type DayViewProps = {
 
 const DayView = memo(function DayView({
   viewDate,
-  tempDate,
+  selectedDate,
   todayDate,
   isDateDisabled,
   onSelectDay,
@@ -212,16 +173,19 @@ const DayView = memo(function DayView({
   onNextMonth,
   onGoToMonthView,
 }: DayViewProps) {
+  // Stores
   const { theme } = useThemeStore();
+
+  // Resolved Values
   const grid = useMemo(
     () => buildCalendarGrid(viewDate.year, viewDate.month),
     [viewDate.year, viewDate.month],
   );
 
-  const label = `${MONTHS_SHORT[viewDate.month - 1]} ${viewDate.year}`;
+  const label = `${MONTHS[viewDate.month - 1]} ${viewDate.year}`;
 
   return (
-    <VStack gap={1}>
+    <VStack gap={4}>
       <NavHeader
         label={label}
         onPrev={onPrevMonth}
@@ -230,69 +194,67 @@ const DayView = memo(function DayView({
         labelClickable
       />
 
-      {/* Day-of-week header */}
-      <HStack justify="space-between" px={2}>
-        {DAYS_HEADER.map((d) => (
-          <Box key={d} w="36px" textAlign="center">
-            <P textStyle="xs" color="fg.muted" fontWeight="medium">
+      {/* Calendar grid */}
+      <VStack gap={2}>
+        {/* Day-of-week header */}
+        <HStack justify={"space-between"}>
+          {WEEKDAYS_HEADER.map((d, index) => (
+            <P
+              key={index}
+              w={"40px"}
+              color={"fg.muted"}
+              fontWeight={"medium"}
+              textAlign={"center"}
+            >
               {d}
             </P>
-          </Box>
-        ))}
-      </HStack>
+          ))}
+        </HStack>
 
-      {/* Calendar grid */}
-      <VStack gap={0} px={2}>
         {grid.map((week, wi) => (
-          <HStack key={wi} justify="space-between">
+          <HStack key={wi} justify={"space-between"}>
             {week.map((cell) => {
               const iso = toISODate(cell.date);
-              const isSelected = tempDate ? toISODate(tempDate) === iso : false;
+              const isSelected = selectedDate
+                ? toISODate(selectedDate) === iso
+                : false;
               const isToday = toISODate(todayDate) === iso;
               const disabled = isDateDisabled(cell.date);
               const dimmed = !cell.isCurrentMonth;
 
               return (
-                <Box
+                <Button
                   key={iso}
-                  as="button"
-                  w="36px"
-                  h="36px"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
+                  variant={isSelected ? "subtle" : "ghost"}
+                  w={"40px"}
+                  h={"40px"}
+                  p={0}
                   rounded={theme.radii.component}
-                  cursor={disabled ? "not-allowed" : "pointer"}
-                  onClick={() => !disabled && onSelectDay(cell.date)}
-                  aria-label={iso}
-                  aria-pressed={isSelected}
-                  aria-disabled={disabled}
+                  opacity={dimmed && !isSelected ? 0.35 : disabled ? 0.35 : 1}
                   tabIndex={disabled ? -1 : 0}
+                  disabled={disabled}
+                  onClick={() => !disabled && onSelectDay(cell.date)}
                   onKeyDown={(e: React.KeyboardEvent) => {
                     if ((e.key === "Enter" || e.key === " ") && !disabled) {
                       onSelectDay(cell.date);
                     }
                   }}
-                  bg={isSelected ? "colorPalette.solid" : undefined}
-                  colorPalette={isSelected ? undefined : undefined}
-                  opacity={dimmed && !isSelected ? 0.35 : disabled ? 0.35 : 1}
-                  _hover={
-                    !disabled && !isSelected ? { bg: "bg.subtle" } : undefined
-                  }
-                  outline={isToday && !isSelected ? "2px solid" : undefined}
-                  outlineColor={
-                    isToday && !isSelected ? "colorPalette.solid" : undefined
-                  }
+                  aria-label={iso}
+                  aria-pressed={isSelected}
+                  aria-disabled={disabled}
                 >
                   <P
-                    textStyle="sm"
-                    color={isSelected ? "white" : undefined}
-                    fontWeight={isToday ? "bold" : "normal"}
+                    fontWeight={isToday || isSelected ? "bold" : "normal"}
                     lineHeight={1}
+                    py={1}
+                    borderBottom={"3px solid"}
+                    borderColor={
+                      isToday ? `${theme.colorPalette}.solid` : "transparent"
+                    }
                   >
                     {cell.date.day}
                   </P>
-                </Box>
+                </Button>
               );
             })}
           </HStack>
@@ -302,9 +264,9 @@ const DayView = memo(function DayView({
   );
 });
 
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------
 // Month View
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------
 
 type MonthViewProps = {
   viewDate: CalendarDate;
@@ -333,45 +295,33 @@ const MonthView = memo(function MonthView({
         labelClickable
       />
 
-      <Box display="grid" gridTemplateColumns="repeat(3, 1fr)" gap={1} px={2}>
+      <Grid gridTemplateColumns={"repeat(3, 1fr)"} gap={1}>
         {MONTHS_SHORT.map((name, i) => {
           const monthNum = i + 1;
           const isActive = viewDate.month === monthNum;
 
           return (
-            <Box
+            <Button
               key={name}
-              as="button"
-              h="40px"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
+              h={"40px"}
               rounded={theme.radii.component}
-              cursor="pointer"
-              bg={isActive ? "colorPalette.solid" : undefined}
-              _hover={!isActive ? { bg: "bg.subtle" } : undefined}
+              variant={isActive ? "subtle" : "ghost"}
               onClick={() => onSelectMonth(monthNum)}
               aria-label={name}
               aria-pressed={isActive}
             >
-              <P
-                textStyle="sm"
-                color={isActive ? "white" : undefined}
-                fontWeight={isActive ? "medium" : "normal"}
-              >
-                {name}
-              </P>
-            </Box>
+              <P fontWeight={isActive ? "bold" : "normal"}>{name}</P>
+            </Button>
           );
         })}
-      </Box>
+      </Grid>
     </VStack>
   );
 });
 
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------
 // Year View
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------
 
 type YearViewProps = {
   viewDate: CalendarDate;
@@ -391,54 +341,40 @@ const YearView = memo(function YearView({
   const { theme } = useThemeStore();
   const years = useMemo(() => buildYearPage(yearPageStart), [yearPageStart]);
 
-  const label = `${yearPageStart} – ${yearPageStart + YEAR_PAGE_SIZE - 1}`;
+  const label = `${yearPageStart} - ${yearPageStart + YEAR_PAGE_SIZE - 1}`;
 
   return (
     <VStack gap={2}>
       <NavHeader label={label} onPrev={onPrevPage} onNext={onNextPage} />
 
-      <Box display="grid" gridTemplateColumns="repeat(4, 1fr)" gap={1} px={2}>
+      <Grid gridTemplateColumns={"repeat(4, 1fr)"} gap={1}>
         {years.map((y) => {
           const isActive = viewDate.year === y;
 
           return (
-            <Box
+            <Button
               key={y}
-              as="button"
-              h="40px"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
+              variant={isActive ? "subtle" : "ghost"}
               rounded={theme.radii.component}
-              cursor="pointer"
-              bg={isActive ? "colorPalette.solid" : undefined}
-              _hover={!isActive ? { bg: "bg.subtle" } : undefined}
               onClick={() => onSelectYear(y)}
               aria-label={String(y)}
               aria-pressed={isActive}
             >
-              <P
-                textStyle="sm"
-                color={isActive ? "white" : undefined}
-                fontWeight={isActive ? "medium" : "normal"}
-              >
-                {y}
-              </P>
-            </Box>
+              <P fontWeight={isActive ? "bold" : "normal"}>{y}</P>
+            </Button>
           );
         })}
-      </Box>
+      </Grid>
     </VStack>
   );
 });
 
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------
 // DatePicker (public)
-// ---------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------
 
-export const DatePicker = memo(function DatePicker(
-  props: DatePickerInternalProps,
-) {
+export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
+  // Props
   const {
     value,
     defaultValue,
@@ -450,14 +386,24 @@ export const DatePicker = memo(function DatePicker(
     disabled,
     locale: _locale,
     inputFormat: _inputFormat,
-    onConfirm,
-    onCancel,
     ...restProps
   } = props;
 
+  // Stores
   const { theme } = useThemeStore();
 
-  const state = useDatePickerState({
+  // Hooks
+  const {
+    selectedDate,
+    viewDate,
+    view,
+    todayDate,
+    tz,
+    isDateDisabled,
+    selectDate,
+    setViewDate,
+    setView,
+  } = useDatePickerState({
     value,
     defaultValue,
     onValueChange,
@@ -465,33 +411,16 @@ export const DatePicker = memo(function DatePicker(
     max,
     disabledDates,
     timezone,
-    disabled,
   });
-
-  const {
-    selectedDate,
-    tempDate,
-    viewDate,
-    view,
-    todayDate,
-    tz,
-    tempValidation,
-    isDateDisabled,
-    selectTemp,
-    confirm,
-    reset,
-    setViewDate,
-    setView,
-  } = state;
 
   const [yearPageStart, setYearPageStart] = useState(() =>
     getYearPageStart(viewDate.year),
   );
 
   // Keep year page in sync with view when switching
-  const prevViewRef = useRef(view);
-  if (prevViewRef.current !== view) {
-    prevViewRef.current = view;
+  const [prevView, setPrevView] = useState(view);
+  if (prevView !== view) {
+    setPrevView(view);
     if (view === "year") {
       setYearPageStart(getYearPageStart(viewDate.year));
     }
@@ -512,12 +441,14 @@ export const DatePicker = memo(function DatePicker(
         : v.set({ month: v.month + 1 }),
     );
   }
+
   function prevYear() {
     setViewDate((v) => v.set({ year: v.year - 1 }));
   }
   function nextYear() {
     setViewDate((v) => v.set({ year: v.year + 1 }));
   }
+
   function prevYearPage() {
     setYearPageStart((p) => p - YEAR_PAGE_SIZE);
   }
@@ -535,44 +466,31 @@ export const DatePicker = memo(function DatePicker(
     setView("month");
   }
 
-  function handleGoToday() {
+  function goToToday() {
     setViewDate(todayDate);
     setView("day");
-  }
-
-  function handleConfirm() {
-    if (!tempValidation.valid) return;
-    confirm();
-    onConfirm?.(tempDate ? toISODate(tempDate) : null);
-  }
-
-  function handleClear() {
-    reset(selectedDate);
-    onCancel?.();
   }
 
   const timezoneLabel = useMemo(() => buildTimezoneLabel(tz), [tz]);
 
   return (
     <VStack
-      gap={0}
+      overflow={"hidden"}
+      w={"full"}
       rounded={theme.radii.container}
-      overflow="hidden"
       opacity={disabled ? 0.5 : 1}
       pointerEvents={disabled ? "none" : undefined}
-      w="full"
       {...restProps}
     >
       {/* Calendar body */}
-      <VStack gap={2} py={3} w="full">
+      <VStack gap={4} w={"full"}>
         {view === "day" && (
           <DayView
             viewDate={viewDate}
             selectedDate={selectedDate}
-            tempDate={tempDate}
             todayDate={todayDate}
             isDateDisabled={isDateDisabled}
-            onSelectDay={selectTemp}
+            onSelectDay={selectDate}
             onPrevMonth={prevMonth}
             onNextMonth={nextMonth}
             onGoToMonthView={() => setView("month")}
@@ -599,55 +517,25 @@ export const DatePicker = memo(function DatePicker(
           />
         )}
 
-        {/* Today button */}
-        {view === "day" && (
-          <Box px={2} w="full">
+        <HStack align={"center"} justify={"space-between"}>
+          <HStack align={"center"} gap={2} color={"fg.muted"}>
+            <AppTablerIcon icon={IconWorld} size={"sm"} />
+
+            <ClampedP fontSize={"sm"}>{timezoneLabel}</ClampedP>
+          </HStack>
+
+          {view === "day" && (
             <Button
-              variant="subtle"
-              size="xs"
-              w="full"
-              onClick={handleGoToday}
-              aria-label="Go to today"
+              size={"xs"}
+              color={"fg.muted"}
+              fontSize={"sm"}
+              onClick={goToToday}
             >
-              Today
+              Go to today
             </Button>
-          </Box>
-        )}
-      </VStack>
-
-      {/* Footer */}
-      <HStack
-        borderTop="1px solid"
-        borderColor="border.subtle"
-        p={3}
-        gap={3}
-        align="center"
-      >
-        <P textStyle="xs" color="fg.muted" flex={1} lineClamp={1}>
-          {timezoneLabel}
-        </P>
-
-        <HStack gap={2}>
-          <Button size="sm" variant="ghost" onClick={handleClear}>
-            Clear
-          </Button>
-
-          <Button
-            size="sm"
-            primary
-            disabled={!tempValidation.valid}
-            onClick={handleConfirm}
-            aria-label="Confirm date selection"
-            title={
-              !tempValidation.valid
-                ? (tempValidation as { valid: false; reason: string }).reason
-                : undefined
-            }
-          >
-            Confirm
-          </Button>
+          )}
         </HStack>
-      </HStack>
+      </VStack>
     </VStack>
   );
 });

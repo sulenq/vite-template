@@ -46,7 +46,7 @@ export function useModalContext() {
   return context;
 }
 
-// -----------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 const ModalRoot = (props: ModalRootProps) => {
   // Props

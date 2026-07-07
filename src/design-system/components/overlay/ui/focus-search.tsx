@@ -47,7 +47,7 @@ const useFocusTriggerContext = () => {
   return context;
 };
 
-// -----------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 export const FocusSearchTrigger = <T,>(props: FocusSearchTriggerProps<T>) => {
   // Props

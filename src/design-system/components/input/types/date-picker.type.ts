@@ -1,3 +1,5 @@
+// src/design-system/components/input/types/date-picker.type.ts
+
 import type { StackProps } from "@/design-system/components/layout/types/stack.type";
 
 export type DateFormat = "dmy" | "mdy" | "ymd";

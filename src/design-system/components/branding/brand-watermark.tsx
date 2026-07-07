@@ -7,7 +7,7 @@ import { P, type PProps } from "@/design-system/components/typography/ui/p";
 import { APP } from "@/design-system/constants/_meta";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 
-// -----------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 export const BrandWatermark = (props: PProps) => {
   // Props

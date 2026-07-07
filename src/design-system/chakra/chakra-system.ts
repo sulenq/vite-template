@@ -22,9 +22,9 @@ export const chakraConfig = defineConfig({
       bg: "bg.body",
       fontWeight: "normal",
     },
-    "div, button, input, span, section, article, li, ul, ol, a, label, strong, em":
+    "div, p, button, input, span, section, article, li, ul, ol, a, label, strong, em":
       {
-        fontSize: "md !important",
+        fontSize: "md",
         fontWeight: "normal",
       },
   },
@@ -566,6 +566,19 @@ export const chakraConfig = defineConfig({
         number: { value: "Plus Jakarta Sans Variable, sans-serif" },
       },
       fontSizes: {
+        // xs: { value: "0.75rem" }, // 12px
+        // sm: { value: "0.8125rem" }, // 13px
+        // md: { value: "0.875rem" }, // 14px
+        // lg: { value: "1rem" }, // 16px
+        // xl: { value: "1.125rem" }, // 18px
+        // "2xl": { value: "1.3125rem" }, // 21px
+        // "3xl": { value: "1.625rem" }, // 26px
+        // "4xl": { value: "2rem" }, // 32px
+        // "5xl": { value: "2.5rem" }, // 40px
+        // "6xl": { value: "3.125rem" }, // 50px
+        // "7xl": { value: "3.9375rem" }, // 63px
+        // "8xl": { value: "5rem" }, // 80px
+        // "9xl": { value: "6.3125rem" }, // 101px
         xs: { value: "0.75rem" }, // 12px
         sm: { value: "0.875rem" }, // 14px
         md: { value: "0.9375rem" }, // 15px

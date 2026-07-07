@@ -35,7 +35,7 @@ export function useContainerContext() {
   return context;
 }
 
-// -----------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 const ContainerRoot = forwardRef<HTMLDivElement, ContainerRootProps>(
   (props, ref) => {

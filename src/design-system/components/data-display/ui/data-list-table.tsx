@@ -76,7 +76,7 @@ const useDataListTableContext = () => {
   return ctx;
 };
 
-// -----------------------------------------------------------------
+// ---------------------------------------------------------------------------
 
 const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
   (props, ref) => {
