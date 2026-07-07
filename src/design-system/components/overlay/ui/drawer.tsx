@@ -314,6 +314,10 @@ const DrawerContent = (props: DrawerContentProps) => {
 
         <ChakraDrawer.Content
           ref={contentRef}
+          bg={"bg.body"}
+          border={"1px solid"}
+          borderColor={"border.subtle"}
+          shadow={"md"}
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
@@ -321,7 +325,6 @@ const DrawerContent = (props: DrawerContentProps) => {
           {...(fullscreen || size === "full"
             ? { rounded: 0 }
             : rounded[placement as keyof typeof rounded])}
-          bg={"bg.body"}
           _open={{
             animationDuration: "slowest",
           }}
@@ -356,7 +359,9 @@ const DrawerCloseTrigger = (props: ChakraDrawer.CloseTriggerProps) => {
     <ChakraDrawer.CloseTrigger
       asChild
       {...restProps}
-      pos={"static"}
+      pos={"absolute"}
+      top={3}
+      right={3}
       onClick={(event) => {
         back();
         onClick?.(event);
@@ -407,7 +412,7 @@ const DrawerFullscreenButton = (props: IconButtonProps) => {
 };
 
 const DrawerHeader = (props: ChakraDrawer.HeaderProps) => {
-  return <ChakraDrawer.Header p={4} {...props} />;
+  return <ChakraDrawer.Header pos={"relative"} p={4} {...props} />;
 };
 
 const DrawerBody = (props: ChakraDrawer.BodyProps) => {

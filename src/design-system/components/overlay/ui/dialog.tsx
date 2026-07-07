@@ -267,10 +267,10 @@ const DialogContent = (props: DialogContentProps) => {
           ref={contentRef}
           overflow={"clip"}
           bg={"bg.body"}
-          shadow={"sm"}
-          border={"1px solid"}
-          borderColor={"shadowLine"}
           rounded={isFullscreen ? 0 : theme.radii.container}
+          border={"1px solid"}
+          borderColor={"border.subtle"}
+          shadow={"md"}
           onAnimationStart={() => {
             if (!contentRef.current) return;
             updateDialogOffset(modalKey);
@@ -305,7 +305,9 @@ const DialogCloseTrigger = (props: ChakraDialog.CloseTriggerProps) => {
     <ChakraDialog.CloseTrigger
       asChild
       {...restProps}
-      pos={"static"}
+      pos={"absolute"}
+      top={3}
+      right={3}
       onClick={(event) => {
         back();
         onClick?.(event);
@@ -357,7 +359,7 @@ const DialogFullscreenButton = (props: IconButtonProps) => {
 };
 
 const DialogHeader = (props: ChakraDialog.TitleProps) => {
-  return <ChakraDialog.Header p={4} {...props} />;
+  return <ChakraDialog.Header pos={"relative"} p={4} {...props} />;
 };
 
 const DialogBody = (props: ChakraDialog.BodyProps) => {
