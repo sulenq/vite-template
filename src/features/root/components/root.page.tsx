@@ -585,7 +585,11 @@ export const Inputs = () => {
 
           <SearchInput placeholder={"Search..."} />
 
-          <DateInput modalKey={"date-input"} w={"250px"} />
+          <DateInput
+            modalKey={"date-input"}
+            datePickerSubtitle={"Pick a day for your leaves"}
+            w={"250px"}
+          />
 
           <Select
             selectOptions={[

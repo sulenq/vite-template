@@ -9,7 +9,7 @@ import { VStack } from "@/design-system/components/layout/ui/stack";
 import { ActionBar } from "@/design-system/components/overlay/ui/action-bar";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
 import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
-import { P } from "@/design-system/components/typography/ui/p";
+import { P, TNum } from "@/design-system/components/typography/ui/p";
 import { Portal } from "@/design-system/components/utilities/portal";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import { Fragment } from "react";
@@ -106,7 +106,9 @@ export const DataListBatchActionBar = (props: DataListBatchActionBarProps) => {
       <Portal>
         <ActionBar.Positioner zIndex={4}>
           <ActionBar.Content>
-            <Button color={"fg.muted"}>{selectedItems.length} selected</Button>
+            <Button color={"fg.muted"} unstyled px={4}>
+              <TNum>{selectedItems.length}</TNum> selected
+            </Button>
 
             <ActionBar.Separator />
 

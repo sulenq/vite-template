@@ -247,7 +247,7 @@ const DayView = memo(function DayView({
                     fontWeight={isToday || isSelected ? "bold" : "normal"}
                     lineHeight={1}
                     py={1}
-                    borderBottom={"3px solid"}
+                    borderBottom={"2px solid"}
                     borderColor={
                       isToday ? `${theme.colorPalette}.solid` : "transparent"
                     }
@@ -531,7 +531,7 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
             userSelect={"none"}
             onClick={goToToday}
           >
-            Go to today
+            <P>Go to today</P>
           </Button>
         </HStack>
       </VStack>

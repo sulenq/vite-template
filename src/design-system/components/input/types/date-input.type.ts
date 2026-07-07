@@ -4,6 +4,7 @@ import type { DatePickerProps } from "@/design-system/components/input/types/dat
 
 export type DateInputProps = DatePickerProps & {
   modalKey?: string;
+  datePickerSubtitle?: string;
 };
 
 export type FieldKey = "day" | "month" | "year";

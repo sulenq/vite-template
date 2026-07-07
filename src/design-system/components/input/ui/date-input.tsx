@@ -91,6 +91,7 @@ type FieldInputProps = {
   disabled?: boolean;
   onValueChange: (field: FieldKey, value: string) => void;
   onAutoAdvance: (fromField: FieldKey) => void;
+  onArrowNavigate: (fromField: FieldKey, direction: "left" | "right") => void;
   onBlur: () => void;
   inputRef: React.RefObject<HTMLInputElement | null>;
 };
@@ -104,6 +105,7 @@ const FieldInput = memo(function FieldInput(props: FieldInputProps) {
     disabled,
     onValueChange,
     onAutoAdvance,
+    onArrowNavigate,
     inputRef,
     onBlur,
   } = props;
@@ -115,10 +117,10 @@ const FieldInput = memo(function FieldInput(props: FieldInputProps) {
 
   // Handlers
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    const raw = e.target.value.replace(/\D/g, "").slice(0, maxLen);
-    onValueChange(fieldKey, raw);
+    const rawValue = e.target.value.replace(/\D/g, "").slice(0, maxLen);
+    onValueChange(fieldKey, rawValue);
 
-    if (raw.length === maxLen) {
+    if (rawValue.length === maxLen) {
       onAutoAdvance(fieldKey);
     }
   }
@@ -126,6 +128,29 @@ const FieldInput = memo(function FieldInput(props: FieldInputProps) {
   function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Backspace" && value === "") {
       onAutoAdvance(fieldKey); // go back
+      return;
+    }
+
+    // Only jump fields when the caret is already at the edge of the segment —
+    // otherwise let the browser move the caret within the current value normally.
+    if (e.key === "ArrowRight") {
+      const { selectionStart, selectionEnd } = e.currentTarget;
+      const atEnd =
+        selectionStart === value.length && selectionEnd === value.length;
+      if (atEnd) {
+        e.preventDefault();
+        onArrowNavigate(fieldKey, "right");
+      }
+      return;
+    }
+
+    if (e.key === "ArrowLeft") {
+      const { selectionStart, selectionEnd } = e.currentTarget;
+      const atStart = selectionStart === 0 && selectionEnd === 0;
+      if (atStart) {
+        e.preventDefault();
+        onArrowNavigate(fieldKey, "left");
+      }
     }
   }
 
@@ -171,6 +196,7 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
     timezone,
     locale,
     disabled,
+    datePickerSubtitle,
     ...restProps
   } = props;
 
@@ -240,15 +266,29 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
     [controlled, onValueChange, validationOptions],
   );
 
+  // ref mirror of fields, updated synchronously in event handlers
+  // so blur (which can fire before React re-renders, e.g. during
+  // auto-advance's synchronous .focus() call) always reads the latest value
+  const fieldsRef = useRef<FieldValues>(fields);
+
+  // keep ref in sync whenever the render-time reset happens
+  if (prevCommittedRef.current !== committedValue) {
+    prevCommittedRef.current = committedValue;
+    const resetFields = isoToFields(committedValue);
+    fieldsRef.current = resetFields;
+    setFields(resetFields);
+  }
+
   // Field change handler
   function handleFieldChange(field: FieldKey, rawValue: string) {
     const nextFields = { ...fields, [field]: rawValue };
+    fieldsRef.current = nextFields; // sync ref before autoAdvance can trigger a stale blur
     setFields(nextFields);
   }
 
-  // Field on blur — commit
+  // Field on blur — commit using the ref, not the (possibly stale) closure value
   function handleFieldBlur() {
-    commitFields(fields);
+    commitFields(fieldsRef.current);
   }
 
   // Auto-advance focus
@@ -273,14 +313,6 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
     }
   }
 
-  // Commit from calendar picker
-  // function handlePickerConfirm() {
-  //   if (!controlled) setInternalValue(internalValue);
-  //   onValueChange?.(internalValue);
-  //   setFields(isoToFields(internalValue));
-  //   close();
-  // }
-
   // Container click — focus first empty field or last field if all filled
   function handleContainerClick(e: React.MouseEvent<HTMLDivElement>) {
     const target = e.target as HTMLElement;
@@ -292,10 +324,32 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
     fieldRefs.current[targetField]?.current?.focus();
   }
 
+  // Cursor lands at the opposite edge of the field it enters — feels like
+  // continuous typing across segments instead of a jarring reset.
+  function handleArrowNavigate(
+    fromField: FieldKey,
+    direction: "left" | "right",
+  ) {
+    const currentIdx = fieldOrder.indexOf(fromField);
+    const targetIdx = direction === "right" ? currentIdx + 1 : currentIdx - 1;
+
+    // Already at the first/last field — no field to jump to, stay put.
+    if (targetIdx < 0 || targetIdx >= fieldOrder.length) return;
+
+    const targetField = fieldOrder[targetIdx];
+    const targetInput = fieldRefs.current[targetField]?.current;
+    if (!targetInput) return;
+
+    targetInput.focus();
+    const caretPos = direction === "right" ? 0 : targetInput.value.length;
+    targetInput.setSelectionRange(caretPos, caretPos);
+  }
+
   // Derive inline validation state for field border
   const isFieldsValid = useMemo(() => {
     const cd = fieldsToCalendarDate(fields);
     if (!cd)
+      // if fields empty will return true
       return fields.day === "" && fields.month === "" && fields.year === "";
     const result = validateFromFields(
       cd.day,
@@ -336,6 +390,7 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
               disabled={disabled}
               onValueChange={handleFieldChange}
               onAutoAdvance={handleAutoAdvance}
+              onArrowNavigate={handleArrowNavigate}
               onBlur={handleFieldBlur}
               inputRef={fieldRefs.current[field]}
             />
@@ -373,14 +428,17 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
 
           <Modal.Content>
             <Modal.Header>
-              <VStack gap={1} pl={"24px"} mx={"auto"}>
+              <VStack gap={1} mx={"auto"}>
                 <P fontWeight={"semibold"} textAlign={"center"}>
                   Select Date
                 </P>
 
-                <P fontSize={"sm"} textAlign={"center"} color={"fg.muted"}>
-                  Pick a day for your leaves
-                </P>
+                {/* TODO: make the subtitle dynamic based on props */}
+                {datePickerSubtitle && (
+                  <P fontSize={"sm"} textAlign={"center"} color={"fg.muted"}>
+                    {datePickerSubtitle}
+                  </P>
+                )}
               </VStack>
 
               <Modal.CloseButton mb={"auto"} />
