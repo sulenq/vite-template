@@ -174,20 +174,31 @@ const DialogTrigger = (props: ChakraDialog.TriggerProps) => {
   );
 };
 
+const DialogPositioner = (props: ChakraDialog.PositionerProps) => {
+  return <ChakraDialog.Positioner {...props} />;
+};
+
 const DialogBackdrop = (props: ChakraDialog.BackdropProps) => {
+  // Props
+  const { onClick, ...restProps } = props;
+
+  // Contexts
+  const { close } = useDialogContext();
+
   return (
     <ChakraDialog.Backdrop
       pointerEvents={"auto"}
-      onClick={() => {
-        back();
+      onClick={(event) => {
+        if (close) {
+          close();
+        } else {
+          back();
+        }
+        onClick?.(event);
       }}
-      {...props}
+      {...restProps}
     />
   );
-};
-
-const DialogPositioner = (props: ChakraDialog.PositionerProps) => {
-  return <ChakraDialog.Positioner {...props} />;
 };
 
 const DialogContent = (props: DialogContentProps) => {

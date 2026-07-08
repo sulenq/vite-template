@@ -180,16 +180,31 @@ const DrawerTrigger = (props: ChakraDrawer.TriggerProps) => {
   );
 };
 
+const DrawerPositioner = (props: ChakraDrawer.PositionerProps) => {
+  return <ChakraDrawer.Positioner {...props} />;
+};
+
 const DrawerBackdrop = (props: ChakraDrawer.BackdropProps) => {
+  // Props
+  const { onClick, ...restProps } = props;
+
+  // Contexts
   const { close } = useDrawerContext();
 
   return (
-    <ChakraDrawer.Backdrop pointerEvents={"auto"} onClick={close} {...props} />
+    <ChakraDrawer.Backdrop
+      pointerEvents={"auto"}
+      onClick={(event) => {
+        if (close) {
+          close();
+        } else {
+          back();
+        }
+        onClick?.(event);
+      }}
+      {...restProps}
+    />
   );
-};
-
-const DrawerPositioner = (props: ChakraDrawer.PositionerProps) => {
-  return <ChakraDrawer.Positioner {...props} />;
 };
 
 const DrawerContent = (props: DrawerContentProps) => {
