@@ -10,7 +10,9 @@ import {
   useMemo,
   useRef,
   useState,
+  forwardRef,
   type ChangeEvent,
+  type FocusEvent,
   type KeyboardEvent,
 } from "react";
 
@@ -91,7 +93,7 @@ type FieldInputProps = {
   onValueChange: (field: FieldKey, value: string) => void;
   onAutoAdvance: (fromField: FieldKey) => void;
   onArrowNavigate: (fromField: FieldKey, direction: "left" | "right") => void;
-  onBlur: () => void;
+  onBlur: (e: FocusEvent<HTMLInputElement>) => void;
   inputRef: React.RefObject<HTMLInputElement | null>;
 };
 
@@ -181,13 +183,17 @@ const FieldInput = memo(function FieldInput(props: FieldInputProps) {
 // DateInput
 // -------------------------------------------------------------------------------------
 
-export const DateInput = memo(function DateInput(props: DateInputProps) {
+export const DateInput = memo(
+  forwardRef<HTMLInputElement, DateInputProps>(function DateInput(props, ref) {
   // Props
   const {
     modalKey: propsModalKey = "",
     value: controlledValue,
     defaultValue,
     onValueChange,
+    name,
+    onChange,
+    onBlur,
     inputFormat = "dmy",
     min,
     max,
@@ -242,6 +248,22 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
     [min, max, disabledDates],
   );
 
+  // RHF Handlers
+  const handleValueChange = useCallback(
+    (iso: DateValue) => {
+      if (!controlled) setInternalValue(iso);
+      onValueChange?.(iso);
+
+      if (onChange) {
+        onChange({
+          target: { name, value: iso || "" },
+          type: "change",
+        } as unknown as ChangeEvent<HTMLInputElement>);
+      }
+    },
+    [controlled, onValueChange, onChange, name],
+  );
+
   // Commit value from fields
   const commitFields = useCallback(
     (nextFields: FieldValues) => {
@@ -259,10 +281,9 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
       const date = new CalendarDate(year, month, day);
       const iso = toISODate(date);
 
-      if (!controlled) setInternalValue(iso);
-      onValueChange?.(iso);
+      handleValueChange(iso);
     },
-    [controlled, onValueChange, validationOptions],
+    [handleValueChange, validationOptions],
   );
 
   // ref mirror of fields, updated synchronously in event handlers
@@ -285,8 +306,14 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
     setFields(nextFields);
   }
 
-  function handleFieldBlur() {
+  function handleFieldBlur(e: FocusEvent<HTMLInputElement>) {
     commitFields(fieldsRef.current);
+    if (onBlur) {
+      onBlur({
+        ...e,
+        target: { ...e.target, name },
+      } as unknown as FocusEvent<HTMLInputElement>);
+    }
   }
 
   function handleAutoAdvance(fromField: FieldKey) {
@@ -357,7 +384,9 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
   const showError = !isFieldsValid;
 
   return (
-    <HStack
+    <>
+      <input type="hidden" name={name} ref={ref} value={committedValue || ""} />
+      <HStack
       justify={"space-between"}
       gap={1}
       border={"1px solid"}
@@ -400,7 +429,7 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
           modalKey={modalKey}
           datePickerSubtitle={datePickerSubtitle}
           value={committedValue}
-          onValueChange={setInternalValue}
+          onValueChange={handleValueChange}
           min={min}
           max={max}
           disabledDates={disabledDates}
@@ -421,5 +450,6 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
         </DatePickerTrigger>
       )}
     </HStack>
+    </>
   );
-});
+}));
