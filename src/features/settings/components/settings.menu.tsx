@@ -90,11 +90,7 @@ export const SettingsMenuBody = (props: StackProps) => {
   const isSmallViewport = useIsSmallViewport();
 
   return (
-    <VScrollContainer
-      className={"settings-menu__body"}
-      gap={isSmallViewport ? 4 : 2}
-      {...restProps}
-    >
+    <VScrollContainer gap={isSmallViewport ? 4 : 2} {...restProps}>
       {SETTINGS_NAV_GROUPS.map((group, index) => {
         const isFirstIndex = index === 0;
         const groupTitle = group?.titleKey
@@ -105,7 +101,7 @@ export const SettingsMenuBody = (props: StackProps) => {
           <Fragment key={index}>
             {!isSmallViewport && !isFirstIndex && <Separator />}
 
-            <VStack className={"nav-group"}>
+            <VStack>
               {groupTitle && (
                 <P fontSize={"xs"} color={"fg.subtle"} px={2} mb={2}>
                   {groupTitle}
@@ -113,7 +109,7 @@ export const SettingsMenuBody = (props: StackProps) => {
               )}
 
               <VStack
-                className={"nav-list"}
+                gap={isSmallViewport ? 0 : 1}
                 overflow={"clip"}
                 bg={"bg.body"}
                 rounded={theme.radii.container}
