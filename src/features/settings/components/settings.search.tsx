@@ -57,7 +57,7 @@ export const SettingsSearchButton = (props: IconButtonProps) => {
   return (
     <SettingsSearchTrigger
       modalKey={modalKey + ".search"}
-      queryKey={"settings-nav-search"}
+      queryKey={"settingsSearch"}
     >
       <IconButton {...props}>
         <AppTablerIcon icon={IconSearch} />
