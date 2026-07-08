@@ -389,9 +389,6 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
     ...restProps
   } = props;
 
-  // Stores
-  const { theme } = useThemeStore();
-
   // Hooks
   const {
     selectedDate,
@@ -475,9 +472,7 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
 
   return (
     <VStack
-      overflow={"hidden"}
       w={"full"}
-      rounded={theme.radii.container}
       opacity={disabled ? 0.5 : 1}
       pointerEvents={disabled ? "none" : undefined}
       {...restProps}

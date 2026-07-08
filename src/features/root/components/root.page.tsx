@@ -574,23 +574,18 @@ export const Inputs = () => {
 
         <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
           <Checkbox>Checkbox</Checkbox>
-
           <Input placeholder={"Text input..."} w={"200px"} />
-
           <PasswordInput
             placeholder={"Password input..."}
             w={"200px"}
             withPasswordStrength
           />
-
           <SearchInput placeholder={"Search..."} />
-
           <DateInput
             modalKey={"date-input"}
-            datePickerSubtitle={"Pick a day for your leaves"}
+            // datePickerSubtitle={"Pick a day for your leaves"}
             w={"250px"}
           />
-
           <Select
             selectOptions={[
               { label: "Option 1", value: "option-1" },
