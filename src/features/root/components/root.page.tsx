@@ -60,7 +60,7 @@ import { useState } from "react";
 export const RootPage = () => {
   return (
     <VStack minH={"100dvh"} bg={"bg.canvas"} gap={4}>
-      <KeyFeatures />
+      <IntegratedFeatures />
       <Branding />
       <Buttons />
       <DataDisplay />
@@ -73,14 +73,14 @@ export const RootPage = () => {
   );
 };
 
-export const KeyFeatures = () => {
+export const IntegratedFeatures = () => {
   const { setLocale } = useLocale();
 
   return (
     <Container.Root w={"full"} px={SPACING_MD}>
       <Container.Body gap={4} p={4}>
         <P textAlign={"center"} fontWeight={"semibold"}>
-          Key Features
+          Integrated Features
         </P>
 
         <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={2}>
@@ -625,7 +625,7 @@ export const Navigation = () => {
         </P>
 
         <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <Link to="https://youtube.com" target="_blank">
+          <Link to={"https://youtube.com"} target={"_blank"}>
             youtube.com
           </Link>
         </HStack>

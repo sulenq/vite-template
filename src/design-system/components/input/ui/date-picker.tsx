@@ -8,7 +8,14 @@ import {
   IconButton,
 } from "@/design-system/components/button/ui/button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import type { DatePickerProps } from "@/design-system/components/input/types/date-picker.type";
+import type {
+  DatePickerProps,
+  DayViewProps,
+  MonthViewProps,
+  NavHeaderProps,
+  DatePickerMode,
+  YearViewProps,
+} from "@/design-system/components/input/types/date-picker.type";
 import {
   buildCalendarGrid,
   buildTimezoneLabel,
@@ -35,8 +42,6 @@ import {
   IconChevronRight,
   IconWorld,
 } from "@tabler/icons-react";
-
-type View = "day" | "month" | "year";
 
 // -------------------------------------------------------------------------------------
 // Hook: useDatePickerState
@@ -67,11 +72,11 @@ function useDatePickerState(props: DatePickerProps) {
     return internalValue;
   }, [controlled, internalValue, value]);
 
-  // View state
+  // States
   const [viewDate, setViewDate] = useState<CalendarDate>(
     () => selectedDate ?? todayDate,
   );
-  const [view, setView] = useState<View>("day");
+  const [datePickerMode, setDatePickerMode] = useState<DatePickerMode>("day");
 
   // Validation constraints
   const validationOptions = useMemo(
@@ -98,27 +103,19 @@ function useDatePickerState(props: DatePickerProps) {
   return {
     selectedDate,
     viewDate,
-    view,
+    datePickerMode,
     todayDate,
     tz,
     isDateDisabled,
     selectDate,
     setViewDate,
-    setView,
+    setDatePickerMode,
   };
 }
 
 // -------------------------------------------------------------------------------------
 // Nav Header
 // -------------------------------------------------------------------------------------
-
-type NavHeaderProps = {
-  label: string;
-  onPrev: () => void;
-  onNext: () => void;
-  onLabelClick?: () => void;
-  labelClickable?: boolean;
-};
 
 const NavHeader = memo(function NavHeader({
   label,
@@ -151,30 +148,22 @@ const NavHeader = memo(function NavHeader({
 });
 
 // -------------------------------------------------------------------------------------
-// Day View
+// Day DatePickerMode
 // -------------------------------------------------------------------------------------
 
-type DayViewProps = {
-  viewDate: CalendarDate;
-  selectedDate: CalendarDate | null;
-  todayDate: CalendarDate;
-  isDateDisabled: (date: CalendarDate) => boolean;
-  onSelectDay: (date: CalendarDate) => void;
-  onPrevMonth: () => void;
-  onNextMonth: () => void;
-  onGoToMonthView: () => void;
-};
+const DayView = memo(function DayView(props: DayViewProps) {
+  // Props
+  const {
+    viewDate,
+    selectedDate,
+    todayDate,
+    isDateDisabled,
+    onSelectDay,
+    onPrevMonth,
+    onNextMonth,
+    onGoToMonthView,
+  } = props;
 
-const DayView = memo(function DayView({
-  viewDate,
-  selectedDate,
-  todayDate,
-  isDateDisabled,
-  onSelectDay,
-  onPrevMonth,
-  onNextMonth,
-  onGoToMonthView,
-}: DayViewProps) {
   // Stores
   const { theme } = useThemeStore();
 
@@ -183,7 +172,6 @@ const DayView = memo(function DayView({
     () => buildCalendarGrid(viewDate.year, viewDate.month),
     [viewDate.year, viewDate.month],
   );
-
   const label = `${MONTHS[viewDate.month - 1]} ${viewDate.year}`;
 
   return (
@@ -267,24 +255,15 @@ const DayView = memo(function DayView({
 });
 
 // -------------------------------------------------------------------------------------
-// Month View
+// Month DatePickerMode
 // -------------------------------------------------------------------------------------
 
-type MonthViewProps = {
-  viewDate: CalendarDate;
-  onSelectMonth: (month: number) => void;
-  onPrevYear: () => void;
-  onNextYear: () => void;
-  onGoToYearView: () => void;
-};
+const MonthView = memo(function MonthView(props: MonthViewProps) {
+  // Props
+  const { viewDate, onSelectMonth, onPrevYear, onNextYear, onGoToYearView } =
+    props;
 
-const MonthView = memo(function MonthView({
-  viewDate,
-  onSelectMonth,
-  onPrevYear,
-  onNextYear,
-  onGoToYearView,
-}: MonthViewProps) {
+  // Stores
   const { theme } = useThemeStore();
 
   return (
@@ -322,27 +301,19 @@ const MonthView = memo(function MonthView({
 });
 
 // -------------------------------------------------------------------------------------
-// Year View
+// Year DatePickerMode
 // -------------------------------------------------------------------------------------
 
-type YearViewProps = {
-  viewDate: CalendarDate;
-  onSelectYear: (year: number) => void;
-  yearPageStart: number;
-  onPrevPage: () => void;
-  onNextPage: () => void;
-};
+const YearView = memo(function YearView(props: YearViewProps) {
+  // Props
+  const { viewDate, onSelectYear, yearPageStart, onPrevPage, onNextPage } =
+    props;
 
-const YearView = memo(function YearView({
-  viewDate,
-  onSelectYear,
-  yearPageStart,
-  onPrevPage,
-  onNextPage,
-}: YearViewProps) {
+  // Stores
   const { theme } = useThemeStore();
-  const years = useMemo(() => buildYearPage(yearPageStart), [yearPageStart]);
 
+  // Resolved Values
+  const years = useMemo(() => buildYearPage(yearPageStart), [yearPageStart]);
   const label = `${yearPageStart} - ${yearPageStart + YEAR_PAGE_SIZE - 1}`;
 
   return (
@@ -395,13 +366,13 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
   const {
     selectedDate,
     viewDate,
-    view,
+    datePickerMode,
     todayDate,
     tz,
     isDateDisabled,
     selectDate,
     setViewDate,
-    setView,
+    setDatePickerMode,
   } = useDatePickerState({
     value,
     defaultValue,
@@ -416,11 +387,11 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
     getYearPageStart(viewDate.year),
   );
 
-  // Keep year page in sync with view when switching
-  const [prevView, setPrevView] = useState(view);
-  if (prevView !== view) {
-    setPrevView(view);
-    if (view === "year") {
+  // Keep year page in sync with datePickerMode when switching
+  const [prevDatePickerMode, setPrevDatePickerMode] = useState(datePickerMode);
+  if (prevDatePickerMode !== datePickerMode) {
+    setPrevDatePickerMode(datePickerMode);
+    if (datePickerMode === "year") {
       setYearPageStart(getYearPageStart(viewDate.year));
     }
   }
@@ -457,17 +428,17 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
 
   function handleSelectMonth(month: number) {
     setViewDate((v) => v.set({ month }));
-    setView("day");
+    setDatePickerMode("day");
   }
 
   function handleSelectYear(year: number) {
     setViewDate((v) => v.set({ year }));
-    setView("month");
+    setDatePickerMode("month");
   }
 
   function goToToday() {
     setViewDate(todayDate);
-    setView("day");
+    setDatePickerMode("day");
   }
 
   const timezoneLabel = useMemo(() => buildTimezoneLabel(tz), [tz]);
@@ -481,7 +452,7 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
     >
       {/* Calendar body */}
       <VStack gap={4} w={"full"}>
-        {view === "day" && (
+        {datePickerMode === "day" && (
           <DayView
             viewDate={viewDate}
             selectedDate={selectedDate}
@@ -490,21 +461,21 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
             onSelectDay={selectDate}
             onPrevMonth={prevMonth}
             onNextMonth={nextMonth}
-            onGoToMonthView={() => setView("month")}
+            onGoToMonthView={() => setDatePickerMode("month")}
           />
         )}
 
-        {view === "month" && (
+        {datePickerMode === "month" && (
           <MonthView
             viewDate={viewDate}
             onSelectMonth={handleSelectMonth}
             onPrevYear={prevYear}
             onNextYear={nextYear}
-            onGoToYearView={() => setView("year")}
+            onGoToYearView={() => setDatePickerMode("year")}
           />
         )}
 
-        {view === "year" && (
+        {datePickerMode === "year" && (
           <YearView
             viewDate={viewDate}
             onSelectYear={handleSelectYear}
