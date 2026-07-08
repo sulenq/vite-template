@@ -38,7 +38,7 @@ export const SteppedNumberInput = (props: SteppedNumberInputProps) => {
   const { theme } = useThemeStore();
 
   return (
-    <ChakraNumberInput.Root size={size} {...restProps}>
+    <ChakraNumberInput.Root size={size} w={"min"} {...restProps}>
       <HStack align={"center"} gap={2}>
         <ChakraNumberInput.DecrementTrigger asChild>
           <IconButton flex={0} variant={"outline"} size={size}>

@@ -609,7 +609,7 @@ export const Inputs = () => {
 
           <NumberInput placeholder={"Number input..."} w={"200px"} />
 
-          <SteppedNumberInput w={"100px"} />
+          <SteppedNumberInput />
         </HStack>
       </Container.Body>
     </Container.Root>
