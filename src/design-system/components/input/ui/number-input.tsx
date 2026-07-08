@@ -21,6 +21,7 @@ export const NumberInput = (props: NumberInputProps) => {
   return (
     <ChakraNumberInput.Root {...restProps}>
       <ChakraNumberInput.Control />
+
       <ChakraNumberInput.Input
         placeholder={placeholder}
         rounded={theme.radii.component}
@@ -32,6 +33,9 @@ export const NumberInput = (props: NumberInputProps) => {
 export const SteppedNumberInput = (props: SteppedNumberInputProps) => {
   // Props
   const { placeholder, size, ...restProps } = props;
+
+  // Stores
+  const { theme } = useThemeStore();
 
   return (
     <ChakraNumberInput.Root size={size} {...restProps}>
@@ -47,6 +51,7 @@ export const SteppedNumberInput = (props: SteppedNumberInputProps) => {
           flex={1}
           minW={"calc(24px + 3ch)"}
           textAlign={"center"}
+          rounded={theme.radii.component}
         />
 
         <ChakraNumberInput.IncrementTrigger asChild>

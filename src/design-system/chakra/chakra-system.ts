@@ -9,7 +9,6 @@ import {
   DIALOG_OFFSET_Y_VAR,
 } from "@/design-system/components/overlay/stores/use-dialog-animation-store";
 import { checkboxRecipe } from "@/design-system/chakra/slot-recipes/checkbox.recipe";
-import { inputRecipe } from "@/design-system/chakra/recipes/input.recipe";
 import { selectRecipe } from "@/design-system/chakra/slot-recipes/select.recipe";
 
 export const chakraConfig = defineConfig({
@@ -110,8 +109,6 @@ export const chakraConfig = defineConfig({
         bodyLight: { value: "#ffffff" },
         bodyDark: { value: "#1f1f1f" },
 
-        shadowLine: { value: "#8a90960c" },
-
         an0: { value: "#757b800f" },
         an1: { value: "#757b801f" },
         an2: { value: "#757b802f" },
@@ -123,16 +120,45 @@ export const chakraConfig = defineConfig({
         neutral: {
           50: { value: "#f8f8f8" },
           100: { value: "#f3f3f5" },
-          200: { value: "#e8e8e9" },
+          200: { value: "#ececf0" },
           300: { value: "#dbdbdd" },
-          400: { value: "#cdcac6" },
-          500: { value: "#88827c" },
+          400: { value: "#a5a5ad" },
+          500: { value: "#6e6e76" },
           600: { value: "#66615c" },
           700: { value: "#3d3f3f" },
           800: { value: "#2e2f2f" },
           900: { value: "#292929" },
-          950: { value: "#171717" },
+          950: { value: "#252525" },
         },
+
+        // gray: {
+        //   50: { value: "#f8f8f8" },
+
+        //   100: { value: "#f3f3f5" },
+
+        //   200: { value: "#e8e8e9" },
+
+        //   300: { value: "#dbdbdd" },
+
+        //   // fg.muted-dark
+        //   // fg.subtle-light
+        //   400: { value: "#a5a5ad" },
+
+        //   // fg.subtle-dark
+        //   500: { value: "#6e6e76" },
+
+        //   // fg.muted-light
+        //   600: { value: "#66615c" },
+
+        //   // placeholder-light
+        //   700: { value: "#3d3f3f" },
+
+        //   800: { value: "#2e2f2f" },
+
+        //   900: { value: "#292929" },
+
+        //   950: { value: "#171717" },
+        // },
 
         // slight blue tint
         grey: {
@@ -663,20 +689,20 @@ export const chakraConfig = defineConfig({
         bg: {
           subtle: {
             value: {
-              base: "{colors.neutral.100} !important",
-              _dark: "{colors.neutral.900} !important",
+              base: "{colors.neutral.50} !important",
+              _dark: "{colors.neutral.950} !important",
             },
           },
           muted: {
             value: {
-              base: "{colors.neutral.200} !important",
-              _dark: "{colors.neutral.800} !important",
+              base: "{colors.neutral.100} !important",
+              _dark: "{colors.neutral.900} !important",
             },
           },
           emphasized: {
             value: {
-              base: "{colors.neutral.300} !important",
-              _dark: "{colors.neutral.700} !important",
+              base: "{colors.neutral.200} !important",
+              _dark: "{colors.neutral.800} !important",
             },
           },
           canvas: {
@@ -706,6 +732,12 @@ export const chakraConfig = defineConfig({
         },
 
         border: {
+          DEFAULT: {
+            value: {
+              base: "{colors.neutral.200} !important",
+              _dark: "{colors.neutral.800} !important",
+            },
+          },
           subtle: {
             value: {
               base: "{colors.an1} !important",
@@ -2201,9 +2233,7 @@ export const chakraConfig = defineConfig({
 
     animationStyles: {},
 
-    recipes: {
-      input: inputRecipe,
-    },
+    recipes: {},
 
     slotRecipes: {
       select: selectRecipe,

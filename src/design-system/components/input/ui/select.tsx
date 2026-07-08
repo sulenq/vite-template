@@ -90,7 +90,7 @@ export default function Select(props: SelectProps) {
                   bg: "bg.subtle",
                 }}
                 _selected={{
-                  bg: "bg.subtle",
+                  bg: "bg.muted",
                 }}
               >
                 {item.label}

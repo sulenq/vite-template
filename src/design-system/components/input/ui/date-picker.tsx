@@ -514,7 +514,7 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
           />
         )}
 
-        <HStack align={"center"} justify={"space-between"}>
+        <HStack align={"center"} justify={"space-between"} p={2}>
           <HStack align={"center"} gap={2} color={"fg.muted"}>
             <AppTablerIcon icon={IconWorld} size={"sm"} />
 

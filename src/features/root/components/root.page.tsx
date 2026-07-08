@@ -604,6 +604,7 @@ export const Inputs = () => {
               { label: "Option 5", value: "option-5" },
             ]}
             w={"200px"}
+            variant={"subtle"}
           />
 
           <NumberInput placeholder={"Number input..."} w={"200px"} />
