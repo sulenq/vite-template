@@ -1,7 +1,7 @@
 // src/design-system/components/input/ui/date-picker.tsx
 
 import { CalendarDate } from "@internationalized/date";
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState, type ReactNode } from "react";
 
 import {
   Button,
@@ -26,6 +26,8 @@ import {
 } from "@/design-system/components/input/utils/date.utils";
 import { Grid } from "@/design-system/components/layout/ui/grid";
 import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
+import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
+import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { ClampedP, P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import {
@@ -531,5 +533,88 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
         </HStack>
       </VStack>
     </VStack>
+  );
+});
+
+// -------------------------------------------------------------------------------------
+// DatePickerTrigger (public)
+// -------------------------------------------------------------------------------------
+
+export type DatePickerTriggerProps = DatePickerProps & {
+  children: ReactNode;
+  modalKey: string;
+  datePickerSubtitle?: string;
+};
+
+export const DatePickerTrigger = memo(function DatePickerTrigger(
+  props: DatePickerTriggerProps,
+) {
+  const {
+    children,
+    modalKey: propsModalKey = "",
+    datePickerSubtitle,
+    value,
+    onValueChange,
+    min,
+    max,
+    disabledDates,
+    timezone,
+    locale,
+    inputFormat,
+    ...restProps
+  } = props;
+
+  const { modalKey, isOpen, open, close } = usePopModal({
+    modalKey: propsModalKey,
+  });
+
+  if (!modalKey) return <>{children}</>;
+
+  return (
+    <Modal.Root
+      modalKey={modalKey}
+      opened={isOpen}
+      open={open}
+      close={close}
+      size={"sm"}
+    >
+      <Modal.Trigger>{children}</Modal.Trigger>
+
+      <Modal.Content>
+        <Modal.Header>
+          <VStack gap={1} mx={"auto"}>
+            <P fontWeight={"semibold"} textAlign={"center"}>
+              Select Date
+            </P>
+
+            {/* TODO: make the subtitle dynamic based on props */}
+            {datePickerSubtitle && (
+              <P fontSize={"sm"} textAlign={"center"} color={"fg.muted"}>
+                {datePickerSubtitle}
+              </P>
+            )}
+          </VStack>
+
+          <Modal.CloseButton mb={"auto"} />
+        </Modal.Header>
+
+        <Modal.Body pt={0}>
+          <DatePicker
+            value={value}
+            onValueChange={(val) => {
+              onValueChange?.(val);
+              close();
+            }}
+            min={min}
+            max={max}
+            disabledDates={disabledDates}
+            timezone={timezone}
+            locale={locale}
+            inputFormat={inputFormat}
+            {...restProps}
+          />
+        </Modal.Body>
+      </Modal.Content>
+    </Modal.Root>
   );
 });

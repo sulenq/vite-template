@@ -22,7 +22,7 @@ import type {
   FieldValues,
 } from "@/design-system/components/input/types/date-input.type";
 import type { DateValue } from "@/design-system/components/input/types/date-picker.type";
-import { DatePicker } from "@/design-system/components/input/ui/date-picker";
+import { DatePickerTrigger } from "@/design-system/components/input/ui/date-picker";
 import { Input } from "@/design-system/components/input/ui/input";
 import {
   getFieldOrder,
@@ -32,9 +32,8 @@ import {
   toISODate,
   validateFromFields,
 } from "@/design-system/components/input/utils/date.utils";
-import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
+import { HStack } from "@/design-system/components/layout/ui/stack";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
-import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { IconCalendarSearch } from "@tabler/icons-react";
@@ -204,7 +203,7 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
   const { theme } = useThemeStore();
 
   // Hooks
-  const { modalKey, isOpen, open, close } = usePopModal({
+  const { modalKey } = usePopModal({
     modalKey: propsModalKey,
   });
 
@@ -397,61 +396,29 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
       </HStack>
 
       {modalKey && (
-        <Modal.Root
+        <DatePickerTrigger
           modalKey={modalKey}
-          opened={isOpen}
-          open={open}
-          close={close}
-          size={"sm"}
+          datePickerSubtitle={datePickerSubtitle}
+          value={committedValue}
+          onValueChange={setInternalValue}
+          min={min}
+          max={max}
+          disabledDates={disabledDates}
+          timezone={timezone}
+          locale={locale}
+          inputFormat={inputFormat}
         >
-          <Modal.Trigger>
-            <IconButton
-              size={"xs"}
-              variant={"ghost"}
-              aspectRatio={"square"}
-              mr={-1}
-              my={"auto"}
-              aria-label={"Open date picker"}
-            >
-              <AppTablerIcon icon={IconCalendarSearch} />
-            </IconButton>
-          </Modal.Trigger>
-
-          <Modal.Content>
-            <Modal.Header>
-              <VStack gap={1} mx={"auto"}>
-                <P fontWeight={"semibold"} textAlign={"center"}>
-                  Select Date
-                </P>
-
-                {/* TODO: make the subtitle dynamic based on props */}
-                {datePickerSubtitle && (
-                  <P fontSize={"sm"} textAlign={"center"} color={"fg.muted"}>
-                    {datePickerSubtitle}
-                  </P>
-                )}
-              </VStack>
-
-              <Modal.CloseButton mb={"auto"} />
-            </Modal.Header>
-
-            <Modal.Body pt={0}>
-              <DatePicker
-                value={committedValue}
-                onValueChange={(value) => {
-                  setInternalValue(value);
-                  close();
-                }}
-                min={min}
-                max={max}
-                disabledDates={disabledDates}
-                timezone={timezone}
-                locale={locale}
-                inputFormat={inputFormat}
-              />
-            </Modal.Body>
-          </Modal.Content>
-        </Modal.Root>
+          <IconButton
+            size={"xs"}
+            variant={"ghost"}
+            aspectRatio={"square"}
+            mr={-1}
+            my={"auto"}
+            aria-label={"Open date picker"}
+          >
+            <AppTablerIcon icon={IconCalendarSearch} />
+          </IconButton>
+        </DatePickerTrigger>
       )}
     </HStack>
   );
