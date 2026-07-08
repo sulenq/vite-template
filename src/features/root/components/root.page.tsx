@@ -24,6 +24,10 @@ import {
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 import { DateInput } from "@/design-system/components/input/ui/date-input";
 import { Input } from "@/design-system/components/input/ui/input";
+import {
+  NumberInput,
+  SteppedNumberInput,
+} from "@/design-system/components/input/ui/number-input";
 import { PasswordInput } from "@/design-system/components/input/ui/password-input";
 import { SearchInput } from "@/design-system/components/input/ui/search-input";
 import Select from "@/design-system/components/input/ui/select";
@@ -574,18 +578,23 @@ export const Inputs = () => {
 
         <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
           <Checkbox>Checkbox</Checkbox>
+
           <Input placeholder={"Text input..."} w={"200px"} />
+
           <PasswordInput
             placeholder={"Password input..."}
             w={"200px"}
             withPasswordStrength
           />
+
           <SearchInput placeholder={"Search..."} />
+
           <DateInput
             modalKey={"date-input"}
             // datePickerSubtitle={"Pick a day for your leaves"}
             w={"250px"}
           />
+
           <Select
             selectOptions={[
               { label: "Option 1", value: "option-1" },
@@ -596,6 +605,10 @@ export const Inputs = () => {
             ]}
             w={"200px"}
           />
+
+          <NumberInput placeholder={"Number input..."} w={"200px"} />
+
+          <SteppedNumberInput w={"100px"} />
         </HStack>
       </Container.Body>
     </Container.Root>

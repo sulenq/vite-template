@@ -279,19 +279,17 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
     setFields(resetFields);
   }
 
-  // Field change handler
+  // Handlers
   function handleFieldChange(field: FieldKey, rawValue: string) {
     const nextFields = { ...fields, [field]: rawValue };
     fieldsRef.current = nextFields; // sync ref before autoAdvance can trigger a stale blur
     setFields(nextFields);
   }
 
-  // Field on blur — commit using the ref, not the (possibly stale) closure value
   function handleFieldBlur() {
     commitFields(fieldsRef.current);
   }
 
-  // Auto-advance focus
   function handleAutoAdvance(fromField: FieldKey) {
     const currentIdx = fieldOrder.indexOf(fromField);
     const currentValue = fields[fromField];
@@ -313,7 +311,6 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
     }
   }
 
-  // Container click — focus first empty field or last field if all filled
   function handleContainerClick(e: React.MouseEvent<HTMLDivElement>) {
     const target = e.target as HTMLElement;
     if (target.closest("input, button")) return; // don't hijack clicks on field/button
@@ -324,8 +321,6 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
     fieldRefs.current[targetField]?.current?.focus();
   }
 
-  // Cursor lands at the opposite edge of the field it enters — feels like
-  // continuous typing across segments instead of a jarring reset.
   function handleArrowNavigate(
     fromField: FieldKey,
     direction: "left" | "right",
@@ -345,7 +340,7 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
     targetInput.setSelectionRange(caretPos, caretPos);
   }
 
-  // Derive inline validation state for field border
+  // Derived Values
   const isFieldsValid = useMemo(() => {
     const cd = fieldsToCalendarDate(fields);
     if (!cd)
@@ -359,9 +354,6 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
     );
     return result.valid;
   }, [fields, validationOptions]);
-
-  //   const hasPartialInput =
-  //     fields.day !== "" || fields.month !== "" || fields.year !== "";
 
   const showError = !isFieldsValid;
 
