@@ -8,7 +8,7 @@ type UsePopModalOptions = {
   depth?: number;
 };
 
-export const MODAL_QUERY_KEY = "activeModalKey";
+export const MODAL_SEARCH_PARAM_KEY = "activeModalKey";
 
 export function usePopModal(options: UsePopModalOptions) {
   // Options

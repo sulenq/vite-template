@@ -1,7 +1,5 @@
 // src/design-system/hooks/use-search-param.ts
 
-// design-system/hooks/use-query-param.ts
-
 import { useNavigate, useSearch } from "@tanstack/react-router";
 
 export function useSearchParam<ValueType extends string = string>(
