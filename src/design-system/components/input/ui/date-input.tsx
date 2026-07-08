@@ -416,11 +416,10 @@ export const DateInput = memo(function DateInput(props: DateInputProps) {
             <IconButton
               size={"xs"}
               variant={"ghost"}
-              aria-label={"Open date picker"}
               aspectRatio={"square"}
-              h={"calc(100% - {spacing.2})"}
               mr={-1}
               my={"auto"}
+              aria-label={"Open date picker"}
             >
               <AppTablerIcon icon={IconCalendarSearch} />
             </IconButton>
