@@ -7,6 +7,7 @@ import type {
   SteppedNumberInputProps,
 } from "@/design-system/components/input/types/number-input.type";
 import { HStack } from "@/design-system/components/layout/ui/stack";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { NumberInput as ChakraNumberInput } from "@chakra-ui/react";
 import { IconMinus, IconPlus } from "@tabler/icons-react";
 
@@ -14,10 +15,16 @@ export const NumberInput = (props: NumberInputProps) => {
   // Props
   const { placeholder, ...restProps } = props;
 
+  // Stores
+  const { theme } = useThemeStore();
+
   return (
     <ChakraNumberInput.Root {...restProps}>
       <ChakraNumberInput.Control />
-      <ChakraNumberInput.Input placeholder={placeholder} />
+      <ChakraNumberInput.Input
+        placeholder={placeholder}
+        rounded={theme.radii.component}
+      />
     </ChakraNumberInput.Root>
   );
 };
