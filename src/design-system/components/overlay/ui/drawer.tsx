@@ -21,6 +21,7 @@ import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -218,7 +219,7 @@ const DrawerContent = (props: DrawerContentProps) => {
   } = props;
 
   // Contexts
-  const { modalKey, fullscreen, swipeToDismiss, placement, size } =
+  const { modalKey, opened, fullscreen, swipeToDismiss, placement, size } =
     useDrawerContext();
   const { theme } = useThemeStore();
 
@@ -322,6 +323,13 @@ const DrawerContent = (props: DrawerContentProps) => {
     modeRef.current = null;
     scrollElRef.current = null;
   }
+
+  useEffect(() => {
+    if (opened && contentRef.current) {
+      contentRef.current.style.transform = "";
+      contentRef.current.style.transition = "";
+    }
+  }, [opened]);
 
   return (
     <Portal disabled={!portalled} container={portalRef}>
