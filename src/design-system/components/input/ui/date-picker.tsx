@@ -436,10 +436,10 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
     setDatePickerMode("month");
   }
 
-  function goToToday() {
-    setViewDate(todayDate);
-    setDatePickerMode("day");
-  }
+  // function goToToday() {
+  //   setViewDate(todayDate);
+  //   setDatePickerMode("day");
+  // }
 
   const timezoneLabel = useMemo(() => buildTimezoneLabel(tz), [tz]);
 
@@ -492,15 +492,14 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
             <ClampedP fontSize={"sm"}>{timezoneLabel}</ClampedP>
           </HStack>
 
-          <Button
-            unstyled
-            fontSize={"sm"}
+          {/* <Button
+            size={"xs"}
             cursor={"pointer"}
             userSelect={"none"}
             onClick={goToToday}
           >
             <P>Go to today</P>
-          </Button>
+          </Button> */}
         </HStack>
       </VStack>
     </VStack>
