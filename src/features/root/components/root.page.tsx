@@ -39,7 +39,7 @@ import { Dialog } from "@/design-system/components/overlay/ui/dialog";
 import { Drawer } from "@/design-system/components/overlay/ui/drawer";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
-import { P } from "@/design-system/components/typography/ui/p";
+import { P, TNum } from "@/design-system/components/typography/ui/p";
 import { SPACING_MD } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { SettingsTrigger } from "@/features/settings/components/settings";
@@ -848,7 +848,27 @@ export const Typography = () => {
         </P>
 
         <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <P>{"This paragraph rendered as p tag"}</P>
+          <VStack>
+            <P color={"fg.solid"}>{"Default Color"}</P>
+            <P color={"fg.emphasized"}>{"Emphasized color"}</P>
+            <P color={"fg.muted"}>{"Muted color"}</P>
+            <P color={"fg.subtle"}>{"Subtle color"}</P>
+          </VStack>
+
+          <VStack>
+            <P>
+              Tabular num <TNum>12</TNum>
+            </P>
+            <P>
+              Tabular num <TNum>15</TNum>
+            </P>
+            <P>
+              Tabular num <TNum>25</TNum>
+            </P>
+            <P>
+              Tabular num <TNum>81</TNum>
+            </P>
+          </VStack>
         </HStack>
       </Container.Body>
     </Container.Root>
