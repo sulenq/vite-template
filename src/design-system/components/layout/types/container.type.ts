@@ -2,9 +2,9 @@
 
 import type { StackProps } from "@/design-system/components/layout/types/stack.type";
 
-export type ContainerRootProps = {
+export type ContainerRootProps = StackProps & {
   withContext?: boolean;
-} & StackProps;
+};
 
 export type ContainerHeaderProps = StackProps;
 

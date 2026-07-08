@@ -14,10 +14,10 @@ export type FocusSearchTriggerProps<T> = {
   onResultSelect?: (result: SearchIndexItem<T>) => void;
 };
 
-export type FocusSearchResultItemProps = {
+export type FocusSearchResultItemProps = StackProps & {
   result: SearchIndexItem;
   onResultSelect?: (result: SearchIndexItem) => void;
   idx: number;
   selectedIdx: number;
   setSelectedIdx: (idx: number) => void;
-} & StackProps;
+};

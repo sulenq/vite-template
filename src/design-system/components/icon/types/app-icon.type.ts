@@ -7,13 +7,13 @@ import type {
 } from "@tabler/icons-react";
 import type { LucideIcon, LucideProps } from "lucide-react";
 
-export type AppLucideIconProps = {
+export type AppLucideIconProps = IconProps & {
   icon?: LucideIcon;
   lucideIconProps?: LucideProps;
-} & IconProps;
+};
 
-export type AppTablerIconProps = {
+export type AppTablerIconProps = IconProps & {
   icon?: TablerIcon;
   tablerIconProps?: TablerIconProps;
   size?: "xs" | "sm" | "md" | "lg" | "xl";
-} & IconProps;
+};

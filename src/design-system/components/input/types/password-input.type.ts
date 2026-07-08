@@ -12,14 +12,14 @@ export type PasswordVisibilityProps = {
   visibilityIcon?: { on: React.ReactNode; off: React.ReactNode };
 };
 
-export type PasswordInputProps = {
-  rootProps?: InputGroupProps;
-  withPasswordStrength?: boolean;
-  strengthOptions?: Options<string>;
-} & InputProps &
-  PasswordVisibilityProps;
+export type PasswordInputProps = InputProps &
+  PasswordVisibilityProps & {
+    rootProps?: InputGroupProps;
+    withPasswordStrength?: boolean;
+    strengthOptions?: Options<string>;
+  };
 
-export type PasswordStrengthMeterProps = {
+export type PasswordStrengthMeterProps = StackProps & {
   max?: number;
   value: number;
-} & StackProps;
+};

@@ -3,19 +3,19 @@
 import type { StackProps } from "@/design-system/components/layout/types/stack.type";
 import type { TablerIcon } from "@tabler/icons-react";
 
-export type FeedbackStateProps = {
+export type FeedbackStateProps = StackProps & {
   icon?: React.ReactNode;
   tablerIcon?: TablerIcon;
   title?: string;
   description?: string;
-} & StackProps;
+};
 
-export type FeedbackNoResultProps = {
+export type FeedbackNoResultProps = FeedbackStateProps & {
   icon?: React.ReactNode;
   tablerIcon?: TablerIcon;
   query?: string;
-} & FeedbackStateProps;
+};
 
-export type FeedbackRetryProps = {
+export type FeedbackRetryProps = FeedbackStateProps & {
   onRetry?: () => void;
-} & FeedbackStateProps;
+};

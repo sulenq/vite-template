@@ -6,7 +6,7 @@ import type {
 } from "@/design-system/components/data-display/types/data-list.type";
 import type { StackProps } from "@/design-system/components/layout/types/stack.type";
 
-export type DataListTableRootProps = {
+export type DataListTableRootProps = Omit<StackProps, "page"> & {
   children: React.ReactNode;
   headers: FormattedTableHeader[];
   items: FormattedListItem[];
@@ -15,11 +15,11 @@ export type DataListTableRootProps = {
   batchActions?: DataListBatchActionsGenerator[];
   itemActions?: DataListItemActionsGenerator[];
   withNumbering?: boolean;
-} & Omit<StackProps, "page">;
+};
 
-export type DataListTableHeaderProps = {} & StackProps;
+export type DataListTableHeaderProps = StackProps & {};
 
-export type DataListTableBodyProps = {} & StackProps; // Unused type
+export type DataListTableBodyProps = StackProps & {}; // Unused type
 
 export type DataListTableSortIconProps = {
   active: boolean;

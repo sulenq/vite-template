@@ -7,7 +7,10 @@ export type SelectOption = {
   value: unknown;
 };
 
-export type SelectProps = {
+export type SelectProps = Omit<
+  SelectRootProps,
+  "value" | "onValueChange" | "collection"
+> & {
   value?: string;
   onValueChange?: (value: string) => void;
   selectOptions?: SelectOption[];
@@ -17,4 +20,4 @@ export type SelectProps = {
   portalled?: boolean;
   portalRef?: React.RefObject<HTMLElement | null>;
   suffixLabel?: React.ReactNode;
-} & Omit<SelectRootProps, "value" | "onValueChange" | "collection">;
+};
