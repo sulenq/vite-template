@@ -23,6 +23,7 @@ import {
 } from "@/design-system/components/icon/ui/app-icon";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 import { DateInput } from "@/design-system/components/input/ui/date-input";
+import { FileInput } from "@/design-system/components/input/ui/file-input";
 import { Input } from "@/design-system/components/input/ui/input";
 import {
   NumberInput,
@@ -56,6 +57,7 @@ import {
 } from "@tabler/icons-react";
 import { CogIcon } from "lucide-react";
 import { useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
 
 export const RootPage = () => {
   return (
@@ -573,6 +575,21 @@ export const Feedback = () => {
 };
 
 export const Inputs = () => {
+  const { register, getValues, control } = useForm();
+  const number1 = useWatch({
+    control,
+    name: "number1",
+  });
+  const attachments = useWatch({
+    control,
+    name: "attachments",
+  });
+
+  console.log({
+    number1,
+    attachments,
+  });
+
   return (
     <Container.Root w={"full"} px={SPACING_MD}>
       <Container.Body gap={4} p={4}>
@@ -611,10 +628,33 @@ export const Inputs = () => {
             variant={"subtle"}
           />
 
-          <NumberInput placeholder={"Number input..."} w={"200px"} />
+          <NumberInput
+            inputProps={register("number1")}
+            placeholder={"Number input..."}
+            formatOptions={{
+              style: "unit",
+              unit: "inch",
+              unitDisplay: "long",
+            }}
+            w={"200px"}
+          />
 
-          <SteppedNumberInput />
+          <SteppedNumberInput inputProps={register("number2")} />
+
+          <FileInput
+            inputProps={register("attachments")}
+            variant={"dropzone"}
+            maxFiles={5}
+          />
         </HStack>
+
+        <Button
+          onClick={() => {
+            console.log(getValues());
+          }}
+        >
+          View log values
+        </Button>
       </Container.Body>
     </Container.Root>
   );

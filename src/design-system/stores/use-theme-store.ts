@@ -17,6 +17,7 @@ type ThemeStore = {
     container: string;
   };
   ambienceColor: boolean;
+  // currency: string
 };
 
 export const DEFAULT: ThemeStore = {

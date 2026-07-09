@@ -1,6 +1,5 @@
 // src/design-system/components/input/ui/password-input.tsx
 
-import { mergeRefs } from "@/design-system/chakra/utils/mergeRefs";
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import type {
@@ -11,6 +10,7 @@ import { Input } from "@/design-system/components/input/ui/input";
 import { InputGroup } from "@/design-system/components/input/ui/input-group";
 import { Box } from "@/design-system/components/layout/ui/box";
 import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
+import { mergeRefs } from "@/shared/utils/react/merge-refs";
 import { useControllableState, type ButtonProps } from "@chakra-ui/react";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import { passwordStrength, type Options } from "check-password-strength";
