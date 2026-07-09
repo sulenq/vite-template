@@ -15,7 +15,7 @@ import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { isImageFile } from "@/shared/utils/data/file";
 import { FileUpload, useFileUploadContext } from "@chakra-ui/react";
 import { IconArrowBackUp, IconUpload, IconX } from "@tabler/icons-react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 const FileIcon = (props: FileIconProps) => {
   // Props
@@ -130,6 +130,8 @@ const ExistingFileItem = (props: {
 };
 
 export const FileInput = (props: FileInputProps) => {
+  const [resetKey, setResetKey] = useState(0);
+
   // Props
   const {
     inputProps,
@@ -156,10 +158,15 @@ export const FileInput = (props: FileInputProps) => {
 
   return (
     <FileUpload.Root
+      key={resetKey}
       accept={accept}
       maxFiles={effectiveMaxFiles}
       disabled={disabled || isSlotFull}
       onFileReject={(details) => {
+        // Force remount on next render so Ark UI's internal dedup state is
+        // cleared — this ensures the same file selection always re-triggers
+        // onFileReject instead of being silently swallowed.
+        setResetKey((k) => k + 1);
         console.log("rejected");
         // TODO: replace with real toast engine
         const tooMany = details.files.some((f) =>
