@@ -137,11 +137,15 @@ export const Buttons = () => {
         </P>
 
         <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <Button primary>Label</Button>
-          <Button variant={"surface"}>Label</Button>
-          <Button variant={"subtle"}>Label</Button>
-          <Button variant={"outline"}>Label</Button>
-          <Button>Label</Button>
+          <Button primary>Primary</Button>
+
+          <Button variant={"surface"}>Surface</Button>
+
+          <Button variant={"subtle"}>Subtle</Button>
+
+          <Button variant={"outline"}>Outline</Button>
+
+          <Button>Default/Ghost</Button>
         </HStack>
       </Container.Body>
     </Container.Root>
@@ -840,6 +844,8 @@ export const Overlay = () => {
 // ---------------------------------------------------------------------------
 
 export const Typography = () => {
+  const [tnum, setTnum] = useState<number>(1);
+
   return (
     <Container.Root w={"full"} px={SPACING_MD}>
       <Container.Body gap={4} p={4}>
@@ -847,26 +853,41 @@ export const Typography = () => {
           Typography
         </P>
 
-        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={8}>
           <VStack>
-            <P color={"fg.solid"}>{"Default Color"}</P>
-            <P color={"fg.emphasized"}>{"Emphasized color"}</P>
-            <P color={"fg.muted"}>{"Muted color"}</P>
-            <P color={"fg.subtle"}>{"Subtle color"}</P>
+            <P color={"fg.solid"}>{"Default"}</P>
+            <P color={"fg.emphasized"}>{"Emphasized"}</P>
+            <P color={"fg.muted"}>{"Muted"}</P>
+            <P color={"fg.subtle"}>{"Subtle"}</P>
           </VStack>
 
-          <VStack>
-            <P>
-              Tabular num <TNum>12</TNum>
-            </P>
-            <P>
-              Tabular num <TNum>15</TNum>
-            </P>
-            <P>
-              Tabular num <TNum>25</TNum>
-            </P>
-            <P>
-              Tabular num <TNum>81</TNum>
+          <VStack gap={2}>
+            <HStack align={"center"} gap={4}>
+              <VStack>
+                <HStack align={"center"} justify={"space-between"} gap={2}>
+                  <P>Normal text</P>
+                  <P>{tnum}</P>
+                </HStack>
+
+                <HStack align={"center"} justify={"space-between"} gap={2}>
+                  <P>Tabular num</P>
+                  <P>
+                    <TNum>{tnum}</TNum>
+                  </P>
+                </HStack>
+              </VStack>
+
+              <Button
+                size={"xs"}
+                variant={"outline"}
+                onClick={() => setTnum((p) => p + 1)}
+              >
+                + 1
+              </Button>
+            </HStack>
+
+            <P fontSize={"xs"} color={"fg.subtle"} w={"120px"}>
+              *Tabular num has consistent width per char
             </P>
           </VStack>
         </HStack>

@@ -107,7 +107,7 @@ export const TNum = forwardRef<HTMLParagraphElement, TNumProps>(
           <Span
             key={index}
             display={"inline-block"}
-            w={"0.85ch"}
+            w={"0.95ch"}
             fontSize={"inherit"}
             textAlign={"center"}
           >
