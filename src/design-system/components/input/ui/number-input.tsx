@@ -1,3 +1,5 @@
+// src/design-system/components/input/ui/number-input.tsx
+
 import { useRef } from "react";
 
 import { IconButton } from "@/design-system/components/button/ui/button";
