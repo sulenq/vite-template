@@ -15,7 +15,7 @@ import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { isImageFile } from "@/shared/utils/data/file";
 import { FileUpload, useFileUploadContext } from "@chakra-ui/react";
 import { IconArrowBackUp, IconUpload, IconX } from "@tabler/icons-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const FileIcon = (props: FileIconProps) => {
   // Props
@@ -101,7 +101,6 @@ const ExistingFileItem = (props: {
             aspectRatio: "1 / 1",
             height: "20px",
             objectFit: "cover",
-            borderRadius: theme.radii.component,
           }}
         />
       ) : (
@@ -129,58 +128,60 @@ const ExistingFileItem = (props: {
   );
 };
 
-export const FileInput = (props: FileInputProps) => {
-  const [resetKey, setResetKey] = useState(0);
-
-  // Props
+// Inner component — must live inside FileUpload.Root so it can access context.
+// Reads acceptedFiles to correctly compute whether all slots are taken.
+// Also handles restoring previously accepted files after a remount caused by rejection.
+const FileInputInner = (props: {
+  variant: "button" | "dropzone";
+  disabled?: boolean;
+  label: string;
+  effectiveMaxFiles: number;
+  existingFiles: FileInputExistingItem[];
+  onToggleDeleteExisting?: (id: string) => void;
+  // Ref that always holds the latest acceptedFiles so the parent can snapshot it
+  acceptedFilesRef: React.RefObject<File[]>;
+  // Ref carrying files to restore after a remount (populated by parent before key bump)
+  filesToRestoreRef: React.RefObject<File[]>;
+}) => {
   const {
-    inputProps,
-    variant = "button",
-    accept,
-    maxFiles = 5,
+    variant,
     disabled,
-    label = "Upload files",
-    existingFiles = [],
+    label,
+    effectiveMaxFiles,
+    existingFiles,
     onToggleDeleteExisting,
+    acceptedFilesRef,
+    filesToRestoreRef,
   } = props;
 
   // Stores
   const { theme } = useThemeStore();
 
-  // Resolved Values
-  // `maxFiles` is the combined cap — subtract existing (not staged-for-delete)
-  // to get how many new files are actually still allowed.
-  const existingRemainingCount = existingFiles.filter(
-    (file) => !file.markedForDelete,
-  ).length;
-  const effectiveMaxFiles = Math.max(maxFiles - existingRemainingCount, 0);
-  const isSlotFull = effectiveMaxFiles <= 0;
+  // Contexts — acceptedFiles reflects what Ark UI actually holds in memory
+  const { acceptedFiles, setFiles } = useFileUploadContext();
+
+  // Keep parent's snapshot ref up-to-date so it can save files before remount
+  useEffect(() => {
+    acceptedFilesRef.current = acceptedFiles;
+  }, [acceptedFiles, acceptedFilesRef]);
+
+  // On mount: if the parent left files to restore (because we just remounted
+  // after a rejection), push them back into Ark's state.
+  useEffect(() => {
+    const toRestore = filesToRestoreRef.current;
+    if (toRestore.length > 0) {
+      filesToRestoreRef.current = [];
+      setFiles(toRestore);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // isSlotFull must account for BOTH existing files AND newly accepted files
+  const isSlotFull =
+    effectiveMaxFiles <= 0 || acceptedFiles.length >= effectiveMaxFiles;
 
   return (
-    <FileUpload.Root
-      key={resetKey}
-      accept={accept}
-      maxFiles={effectiveMaxFiles}
-      disabled={disabled || isSlotFull}
-      onFileReject={(details) => {
-        // Force remount on next render so Ark UI's internal dedup state is
-        // cleared — this ensures the same file selection always re-triggers
-        // onFileReject instead of being silently swallowed.
-        setResetKey((k) => k + 1);
-        console.log("rejected");
-        // TODO: replace with real toast engine
-        const tooMany = details.files.some((f) =>
-          f.errors.includes("TOO_MANY_FILES"),
-        );
-        if (tooMany) {
-          console.error(
-            `Only ${effectiveMaxFiles} slot(s) left — you selected too many files at once ${details.files.length}.`,
-          );
-        }
-      }}
-    >
-      <FileUpload.HiddenInput {...inputProps} />
-
+    <>
       {existingFiles.length > 0 && (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {existingFiles.map((file) => (
@@ -221,6 +222,75 @@ export const FileInput = (props: FileInputProps) => {
         ))}
 
       <FileInputList />
+    </>
+  );
+};
+
+export const FileInput = (props: FileInputProps) => {
+  const [resetKey, setResetKey] = useState(0);
+
+  // Refs for preserving accepted files across remounts triggered by rejection.
+  // acceptedFilesRef: always mirrors the latest Ark acceptedFiles (updated by inner).
+  // filesToRestoreRef: populated right before a key bump, consumed on next mount.
+  const acceptedFilesRef = useRef<File[]>([]);
+  const filesToRestoreRef = useRef<File[]>([]);
+
+  // Props
+  const {
+    inputProps,
+    variant = "button",
+    accept,
+    maxFiles = 5,
+    disabled,
+    label = "Upload files",
+    existingFiles = [],
+    onToggleDeleteExisting,
+  } = props;
+
+  // Resolved Values
+  // `maxFiles` is the combined cap — subtract existing (not staged-for-delete)
+  // to get how many new files are actually still allowed.
+  const existingRemainingCount = existingFiles.filter(
+    (file) => !file.markedForDelete,
+  ).length;
+  const effectiveMaxFiles = Math.max(maxFiles - existingRemainingCount, 0);
+
+  return (
+    <FileUpload.Root
+      key={resetKey}
+      accept={accept}
+      maxFiles={effectiveMaxFiles}
+      disabled={disabled || effectiveMaxFiles <= 0}
+      onFileReject={(details) => {
+        // Save accepted files BEFORE remount so the inner component can
+        // restore them after Ark's state is wiped by the key change.
+        filesToRestoreRef.current = acceptedFilesRef.current;
+        // Force remount so Ark UI's internal dedup state is cleared —
+        // this ensures the same rejected file always re-triggers onFileReject.
+        setResetKey((k) => k + 1);
+        // TODO: replace with real toast engine
+        const tooMany = details.files.some((f) =>
+          f.errors.includes("TOO_MANY_FILES"),
+        );
+        if (tooMany) {
+          console.error(
+            `Only ${effectiveMaxFiles} slot(s) left — you selected too many files at once ${details.files.length}.`,
+          );
+        }
+      }}
+    >
+      <FileUpload.HiddenInput {...inputProps} />
+
+      <FileInputInner
+        variant={variant}
+        disabled={disabled}
+        label={label}
+        effectiveMaxFiles={effectiveMaxFiles}
+        existingFiles={existingFiles}
+        onToggleDeleteExisting={onToggleDeleteExisting}
+        acceptedFilesRef={acceptedFilesRef}
+        filesToRestoreRef={filesToRestoreRef}
+      />
     </FileUpload.Root>
   );
 };
