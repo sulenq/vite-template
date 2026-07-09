@@ -612,14 +612,14 @@ export const chakraConfig = defineConfig({
         md: { value: "0.9375rem" }, // 15px
         lg: { value: "1rem" }, // 16px
         xl: { value: "1.125rem" }, // 18px
-        "2xl": { value: "1.375rem" }, // 22px
-        "3xl": { value: "1.75rem" }, // 28px
-        "4xl": { value: "2.125rem" }, // 34px
-        "5xl": { value: "2.625rem" }, // 42px
-        "6xl": { value: "3.375rem" }, // 54px
-        "7xl": { value: "4.25rem" }, // 68px
-        "8xl": { value: "5.5rem" }, // 88px
-        "9xl": { value: "7rem" }, // 112px,
+        "2xl": { value: "1.25rem" }, // 20px
+        "3xl": { value: "1.5rem" }, // 24px
+        "4xl": { value: "1.875rem" }, // 30px
+        "5xl": { value: "2.25rem" }, // 36px
+        "6xl": { value: "3rem" }, // 48px
+        "7xl": { value: "3.75rem" }, // 60px
+        "8xl": { value: "4.5rem" }, // 72px
+        "9xl": { value: "6rem" }, // 96px
       },
       fontWeights: {
         normal: { value: "500" },

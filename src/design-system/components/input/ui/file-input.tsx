@@ -2,47 +2,81 @@
 
 import {
   Button,
-  FileUpload,
-  Float,
-  Icon,
-  useFileUploadContext,
-} from "@chakra-ui/react";
-import { IconFile, IconUpload, IconX } from "@tabler/icons-react";
+  IconButton,
+} from "@/design-system/components/button/ui/button";
+import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import type {
+  FileIconProps,
+  FileInputProps,
+} from "@/design-system/components/input/types/file-input.type";
+import { getFileIcon } from "@/design-system/components/input/utils/get-file-icon";
+import { HStack } from "@/design-system/components/layout/ui/stack";
+import { ClampedP, P } from "@/design-system/components/typography/ui/p";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
+import { isImageFile } from "@/shared/utils/data/file";
+import { FileUpload, useFileUploadContext } from "@chakra-ui/react";
+import { IconUpload, IconX } from "@tabler/icons-react";
+import { useMemo } from "react";
 
-import type { FileInputProps } from "../types/file-input.type";
+const FileIcon = (props: FileIconProps) => {
+  // Props
+  const { mimeType, ...restProps } = props;
 
-// Renders the accepted-files list from Ark's own internal state.
-// Reading it here (instead of from the `files` prop) is the actual test:
-// if this list updates correctly on select AND on delete, it proves Ark's
-// file-upload machine stayed in sync with the composed native input.
-function FileInputList() {
+  // Resolved Values
+  const icon = useMemo(() => getFileIcon(mimeType), [mimeType]);
+
+  return <AppTablerIcon icon={icon} {...restProps} />;
+};
+
+const FileInputList = () => {
+  // Stores
+  const { theme } = useThemeStore();
+
+  // Contexts
   const fileUpload = useFileUploadContext();
 
   return (
     <FileUpload.ItemGroup>
       {fileUpload.acceptedFiles.map((file) => (
-        <FileUpload.Item key={file.name} file={file}>
-          <Icon>
-            <IconFile />
-          </Icon>
-          <FileUpload.ItemName />
-          <FileUpload.ItemSizeText />
-          <Float placement={"top-end"}>
-            <FileUpload.ItemDeleteTrigger asChild>
-              <Button size={"2xs"} variant={"ghost"} aria-label={"Remove file"}>
-                <Icon>
-                  <IconX />
-                </Icon>
-              </Button>
-            </FileUpload.ItemDeleteTrigger>
-          </Float>
+        <FileUpload.Item
+          key={file.name}
+          file={file}
+          p={3}
+          pl={4}
+          bg={"bg.body"}
+          rounded={theme.radii.component}
+        >
+          {isImageFile(file.type) ? (
+            <FileUpload.ItemPreviewImage aspectRatio={"square"} h={"20px"} />
+          ) : (
+            <FileIcon mimeType={file.type} />
+          )}
+
+          <HStack align={"center"} gap={4}>
+            <ClampedP>{file.name}</ClampedP>
+
+            <FileUpload.ItemSizeText whiteSpace={"nowrap"} mt={1} />
+          </HStack>
+
+          <FileUpload.ItemDeleteTrigger asChild>
+            <IconButton
+              size={"xs"}
+              h={"32px"}
+              ml={"auto"}
+              my={"auto"}
+              aria-label={"Remove file"}
+            >
+              <AppTablerIcon icon={IconX} />
+            </IconButton>
+          </FileUpload.ItemDeleteTrigger>
         </FileUpload.Item>
       ))}
     </FileUpload.ItemGroup>
   );
-}
+};
 
-export function FileInput(props: FileInputProps) {
+export const FileInput = (props: FileInputProps) => {
+  // Props
   const {
     inputProps,
     variant = "button",
@@ -52,31 +86,33 @@ export function FileInput(props: FileInputProps) {
     label = "Upload files",
   } = props;
 
+  // Stores
+  const { theme } = useThemeStore();
+
   return (
     <FileUpload.Root accept={accept} maxFiles={maxFiles} disabled={disabled}>
-      {/*
-        THE ACTUAL TEST: register()'s onChange/onBlur/name/ref are spread
-        directly onto Ark's hidden input. If Ark composes props via
-        mergeProps instead of overriding them, both RHF's form state AND
-        Ark's internal `acceptedFiles` state should update together.
-      */}
       <FileUpload.HiddenInput {...inputProps} />
 
       {variant === "dropzone" ? (
-        <FileUpload.Dropzone>
-          <Icon fontSize={"2xl"} color={"fg.muted"}>
-            <IconUpload />
-          </Icon>
+        <FileUpload.Dropzone
+          w={"full"}
+          bg={"bg.body"}
+          rounded={theme.radii.component}
+        >
+          <AppTablerIcon icon={IconUpload} color={"fg.muted"} />
+
           <FileUpload.DropzoneContent>
             <FileUpload.Label>{label}</FileUpload.Label>
+            <P textAlign={"center"} color={"fg.subtle"}>
+              Click to upload or drag and drop
+            </P>
           </FileUpload.DropzoneContent>
         </FileUpload.Dropzone>
       ) : (
         <FileUpload.Trigger asChild>
           <Button variant={"outline"} disabled={disabled}>
-            <Icon>
-              <IconUpload />
-            </Icon>
+            <AppTablerIcon icon={IconUpload} />
+
             {label}
           </Button>
         </FileUpload.Trigger>
@@ -85,4 +121,4 @@ export function FileInput(props: FileInputProps) {
       <FileInputList />
     </FileUpload.Root>
   );
-}
+};

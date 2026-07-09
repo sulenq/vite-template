@@ -57,7 +57,7 @@ import {
 } from "@tabler/icons-react";
 import { CogIcon } from "lucide-react";
 import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 export const RootPage = () => {
   return (
@@ -575,20 +575,7 @@ export const Feedback = () => {
 };
 
 export const Inputs = () => {
-  const { register, getValues, control } = useForm();
-  const number1 = useWatch({
-    control,
-    name: "number1",
-  });
-  const attachments = useWatch({
-    control,
-    name: "attachments",
-  });
-
-  console.log({
-    number1,
-    attachments,
-  });
+  const { register, getValues } = useForm();
 
   return (
     <Container.Root w={"full"} px={SPACING_MD}>
@@ -644,7 +631,7 @@ export const Inputs = () => {
           <FileInput
             inputProps={register("attachments")}
             variant={"dropzone"}
-            maxFiles={5}
+            maxFiles={2}
           />
         </HStack>
 
@@ -653,7 +640,7 @@ export const Inputs = () => {
             console.log(getValues());
           }}
         >
-          View log values
+          Log input values
         </Button>
       </Container.Body>
     </Container.Root>

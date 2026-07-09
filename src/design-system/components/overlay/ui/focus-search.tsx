@@ -15,7 +15,7 @@ import type {
 import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { Kbd } from "@/design-system/components/typography/ui/kbd";
 import { P } from "@/design-system/components/typography/ui/p";
-import { useSearchParam } from "@/design-system/hooks/use-search-param";
+import { useFocusSearch } from "@/design-system/hooks/use-focus-search";
 import { useSearch } from "@/design-system/hooks/use-search";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import type {
@@ -145,7 +145,7 @@ const FocusSearchResultItem = (
 
 const FocusSearchBody = () => {
   const { queryKey, searchIndex, onResultSelect } = useFocusTriggerContext();
-  const { queryValue } = useSearchParam(queryKey);
+  const { queryValue } = useFocusSearch(queryKey);
   const [query, setQuery] = useState<string>(queryValue ?? "");
 
   const { results, recentResults, addRecent, clearAllRecent } = useSearch(

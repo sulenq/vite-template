@@ -2,7 +2,7 @@
 
 import { useNavigate, useSearch } from "@tanstack/react-router";
 
-export function useSearchParam<ValueType extends string = string>(
+export function useFocusSearch<ValueType extends string = string>(
   queryKey?: string,
   validValues?: readonly ValueType[],
 ) {
