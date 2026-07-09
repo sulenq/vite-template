@@ -61,7 +61,7 @@ export const RootPage = () => {
   return (
     <VStack minH={"100dvh"} bg={"bg.canvas"} gap={4}>
       <IntegratedFeatures />
-      <Branding />
+      {/* <Branding /> */}
       <Buttons />
       <DataDisplay />
       <Feedback />
@@ -844,7 +844,7 @@ export const Overlay = () => {
 // ---------------------------------------------------------------------------
 
 export const Typography = () => {
-  const [tnum, setTnum] = useState<number>(1);
+  const [tnum, setTnum] = useState<number>(10);
 
   return (
     <Container.Root w={"full"} px={SPACING_MD}>

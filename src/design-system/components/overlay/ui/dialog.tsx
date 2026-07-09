@@ -278,6 +278,7 @@ const DialogContent = (props: DialogContentProps) => {
         <ChakraDialog.Content
           ref={contentRef}
           overflow={"clip"}
+          pos={"relative"}
           bg={"bg.body"}
           rounded={isFullscreen ? 0 : theme.radii.container}
           border={"1px solid"}

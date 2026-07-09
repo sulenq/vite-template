@@ -338,6 +338,8 @@ const DrawerContent = (props: DrawerContentProps) => {
 
         <ChakraDrawer.Content
           ref={contentRef}
+          overflow={"clip"}
+          pos={"relative"}
           bg={"bg.body"}
           border={"1px solid"}
           borderColor={"border.subtle"}
