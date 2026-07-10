@@ -17,12 +17,16 @@ import { FeedbackAccessDenied } from "@/design-system/components/feedback/ui/fee
 import { FeedbackNoData } from "@/design-system/components/feedback/ui/feedback-state.no-data";
 import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-state.no-result";
 import { FeedbackRetry } from "@/design-system/components/feedback/ui/feedback-state.retry";
+import { DotIndicator } from "@/design-system/components/feedback/ui/indicator";
 import {
   AppLucideIcon,
   AppTablerIcon,
 } from "@/design-system/components/icon/ui/app-icon";
+import type { FieldProps } from "@/design-system/components/input/types/field.type";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 import { DateInput } from "@/design-system/components/input/ui/date-input";
+import { Field } from "@/design-system/components/input/ui/field";
+import { Fieldset } from "@/design-system/components/input/ui/fieldset";
 import { FileInput } from "@/design-system/components/input/ui/file-input";
 import { Input } from "@/design-system/components/input/ui/input";
 import {
@@ -34,6 +38,7 @@ import { SearchInput } from "@/design-system/components/input/ui/search-input";
 import Select from "@/design-system/components/input/ui/select";
 import { Container } from "@/design-system/components/layout/ui/container";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
+import { Group } from "@/design-system/components/layout/ui/group";
 import { Link } from "@/design-system/components/navigation/ui/link";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import { Dialog } from "@/design-system/components/overlay/ui/dialog";
@@ -605,12 +610,20 @@ export const Feedback = () => {
   );
 };
 
+// -------------------------------------------------------------------------------------
+
+const FieldTemplate = (props: FieldProps) => {
+  return <Field errorText={"Invalid input"} w={"fit"} {...props} />;
+};
+
 export const Inputs = () => {
   const {
     register,
     getValues,
     //  control
   } = useForm();
+
+  const [invalid, setInvalid] = useState<boolean>(false);
 
   // const number1 = useWatch({
   //   control,
@@ -626,64 +639,94 @@ export const Inputs = () => {
           Inputs
         </P>
 
-        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <Checkbox>Checkbox</Checkbox>
+        <Fieldset>
+          <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+            <FieldTemplate invalid={invalid}>
+              <Checkbox>Checkbox</Checkbox>
+            </FieldTemplate>
 
-          <Input placeholder={"Text input..."} w={"200px"} />
+            <FieldTemplate invalid={invalid}>
+              <Input placeholder={"Text input..."} w={"200px"} />
+            </FieldTemplate>
 
-          <PasswordInput
-            placeholder={"Password input..."}
-            w={"200px"}
-            withPasswordStrength
-          />
+            <FieldTemplate invalid={invalid}>
+              <PasswordInput
+                placeholder={"Password input..."}
+                w={"200px"}
+                withPasswordStrength
+              />
+            </FieldTemplate>
 
-          <SearchInput placeholder={"Search..."} />
+            <FieldTemplate invalid={invalid}>
+              <SearchInput placeholder={"Search..."} />
+            </FieldTemplate>
 
-          <DateInput
-            modalKey={"date-input"}
-            datePickerSubtitle={"Pick a day for your leaves"}
-            w={"250px"}
-          />
+            <FieldTemplate invalid={invalid}>
+              <DateInput
+                modalKey={"date-input"}
+                datePickerSubtitle={"Pick a day for your leaves"}
+                w={"250px"}
+              />
+            </FieldTemplate>
 
-          <Select
-            selectOptions={[
-              { label: "Option 1", value: "option-1" },
-              { label: "Option 2", value: "option-2" },
-              { label: "Option 3", value: "option-3" },
-              { label: "Option 4", value: "option-4" },
-              { label: "Option 5", value: "option-5" },
-            ]}
-            w={"200px"}
-          />
+            <FieldTemplate invalid={invalid}>
+              <Select
+                selectOptions={[
+                  { label: "Option 1", value: "option-1" },
+                  { label: "Option 2", value: "option-2" },
+                  { label: "Option 3", value: "option-3" },
+                  { label: "Option 4", value: "option-4" },
+                  { label: "Option 5", value: "option-5" },
+                ]}
+                w={"200px"}
+              />
+            </FieldTemplate>
 
-          <NumberInput
-            inputProps={register("number1")}
-            placeholder={"Number input..."}
-            formatOptions={{
-              style: "unit",
-              unit: "inch",
-              unitDisplay: "long",
+            <FieldTemplate invalid={invalid}>
+              <NumberInput
+                inputProps={register("number1")}
+                placeholder={"Number input..."}
+                formatOptions={{
+                  style: "unit",
+                  unit: "inch",
+                  unitDisplay: "long",
+                }}
+                w={"200px"}
+              />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <SteppedNumberInput hiddenInputProps={register("number2")} />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <FileInput
+                inputProps={register("attachments")}
+                variant={"dropzone"}
+                maxFiles={2}
+                w={"350px"}
+              />
+            </FieldTemplate>
+          </HStack>
+        </Fieldset>
+
+        <Group justify={"center"}>
+          <Button
+            onClick={() => {
+              console.log(getValues());
             }}
-            w={"200px"}
-          />
+          >
+            Log input values
+          </Button>
 
-          <SteppedNumberInput hiddenInputProps={register("number2")} />
-
-          <FileInput
-            inputProps={register("attachments")}
-            variant={"dropzone"}
-            maxFiles={2}
-            w={"350px"}
-          />
-        </HStack>
-
-        <Button
-          onClick={() => {
-            console.log(getValues());
-          }}
-        >
-          Log input values
-        </Button>
+          <Button
+            onClick={() => {
+              setInvalid((ps) => !ps);
+            }}
+          >
+            Toggle invalid <DotIndicator checked={invalid} />
+          </Button>
+        </Group>
       </Container.Body>
     </Container.Root>
   );
