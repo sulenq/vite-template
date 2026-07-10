@@ -3,6 +3,7 @@
 import type { ComponentPropsWithRef } from "react";
 
 import { NumberInput as ChakraNumberInput } from "@chakra-ui/react";
+import type { ButtonProps } from "@/design-system/components/button/types/button.type";
 
 export type NumberInputProps = NumberInputRootProps & {
   placeholder?: string;
@@ -13,8 +14,9 @@ export type NumberInputProps = NumberInputRootProps & {
 export type SteppedNumberInputProps = NumberInputRootProps & {
   placeholder?: string;
   size?: NumberInputRootProps["size"];
-  inputProps?: NumberInputInputProps;
+  hiddenInputProps?: NumberInputInputProps;
   onValueChange?: (details: { value: number; formattedValue: string }) => void;
+  buttonVariant?: ButtonProps["variant"];
 };
 
 export type NumberInputHiddenSyncProps = {

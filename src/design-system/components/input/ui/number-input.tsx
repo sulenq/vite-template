@@ -8,14 +8,14 @@ import type {
   NumberInputProps,
   SteppedNumberInputProps,
 } from "@/design-system/components/input/types/number-input.type";
-import { HStack } from "@/design-system/components/layout/ui/flex-box";
+import { Group } from "@/design-system/components/layout/ui/group";
+import { VISUALLY_HIDDEN_INPUT_STYLE } from "@/design-system/constants/css-preset";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { dispatchNativeInputEvent } from "@/shared/utils/dom/dispatch-native-input-event";
 import { mergeRefs } from "@/shared/utils/react/merge-refs";
 import { cssCalc } from "@/shared/utils/style/css-calc";
 import { NumberInput as ChakraNumberInput } from "@chakra-ui/react";
 import { IconMinus, IconPlus } from "@tabler/icons-react";
-import { VISUALLY_HIDDEN_INPUT_STYLE } from "@/design-system/constants/css-preset";
 
 // `valueAsNumber` is NaN while the input is empty (Number("") === NaN).
 function toSyncValue(valueAsNumber: number): string {
@@ -79,7 +79,13 @@ export const NumberInput = (props: NumberInputProps) => {
 
 export const SteppedNumberInput = (props: SteppedNumberInputProps) => {
   // Props
-  const { placeholder, size, inputProps, ...restProps } = props;
+  const {
+    placeholder,
+    size,
+    hiddenInputProps,
+    buttonVariant = "outline",
+    ...restProps
+  } = props;
 
   // Stores
   const { theme } = useThemeStore();
@@ -110,28 +116,31 @@ export const SteppedNumberInput = (props: SteppedNumberInputProps) => {
         style={VISUALLY_HIDDEN_INPUT_STYLE}
         tabIndex={-1}
         aria-hidden
-        {...inputProps}
-        ref={mergeRefs(hiddenInputRef, inputProps?.ref)}
+        {...hiddenInputProps}
+        ref={mergeRefs(hiddenInputRef, hiddenInputProps?.ref)}
       />
-      <HStack align={"center"} gap={2}>
+
+      <Group attached align={"center"}>
         <ChakraNumberInput.DecrementTrigger asChild>
-          <IconButton flex={0} variant={"outline"} size={size}>
+          <IconButton flex={0} variant={buttonVariant} size={size}>
             <AppTablerIcon icon={IconMinus} />
           </IconButton>
         </ChakraNumberInput.DecrementTrigger>
+
         <ChakraNumberInput.Input
           placeholder={placeholder}
           flex={1}
           minW={"calc(24px + 3ch)"}
-          textAlign={"center"}
           rounded={theme.radii.component}
+          textAlign={"center"}
         />
+
         <ChakraNumberInput.IncrementTrigger asChild>
-          <IconButton flex={0} variant={"outline"} size={size}>
+          <IconButton flex={0} variant={buttonVariant} size={size}>
             <AppTablerIcon icon={IconPlus} />
           </IconButton>
         </ChakraNumberInput.IncrementTrigger>
-      </HStack>
+      </Group>
     </ChakraNumberInput.Root>
   );
 };

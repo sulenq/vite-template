@@ -11,7 +11,7 @@ import type {
   DrawerContentProps,
   DrawerRootProps,
 } from "@/design-system/components/overlay/types/drawer.type";
-import { Portal } from "@/design-system/components/utilities/portal";
+import { Portal } from "@/design-system/components/utilities/ui/portal";
 import { MODAL_BASE_ZINDEX } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { useFirstMountEffect } from "@/shared/hooks/use-first-mount-effect";

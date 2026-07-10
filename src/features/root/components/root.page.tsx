@@ -41,6 +41,7 @@ import { Drawer } from "@/design-system/components/overlay/ui/drawer";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { P, TNum } from "@/design-system/components/typography/ui/p";
+import { DownloadTrigger } from "@/design-system/components/utilities/ui/download-trigger";
 import { SPACING_MD } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { SettingsTrigger } from "@/features/settings/components/settings";
@@ -65,6 +66,7 @@ export const RootPage = () => {
       <IntegratedFeatures />
       {/* <Branding /> */}
       <Buttons />
+      <Utilities />
       <DataDisplay />
       <Feedback />
       <Inputs />
@@ -148,6 +150,35 @@ export const Buttons = () => {
           <Button variant={"outline"}>Outline</Button>
 
           <Button>Default/Ghost</Button>
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+export const Utilities = () => {
+  const data = async () => {
+    const res = await fetch(
+      "https://fastly.picsum.photos/id/718/2880/1800.jpg?hmac=JZydaTGOvhjzXYg-o7Y5fytAXeTnAnCt_cadeQ3Mzjo",
+    );
+    return res.blob();
+  };
+
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Utilities
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <DownloadTrigger
+            data={data}
+            fileName={"wolf-2k.jpg"}
+            mimeType={"image/jpeg"}
+          >
+            <Button>Download Wolf Image</Button>
+          </DownloadTrigger>
         </HStack>
       </Container.Body>
     </Container.Root>
@@ -623,7 +654,6 @@ export const Inputs = () => {
               { label: "Option 5", value: "option-5" },
             ]}
             w={"200px"}
-            variant={"subtle"}
           />
 
           <NumberInput
@@ -637,7 +667,7 @@ export const Inputs = () => {
             w={"200px"}
           />
 
-          <SteppedNumberInput inputProps={register("number2")} />
+          <SteppedNumberInput hiddenInputProps={register("number2")} />
 
           <FileInput
             inputProps={register("attachments")}

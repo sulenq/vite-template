@@ -1,4 +1,4 @@
-// src/design-system/components/layout/ui/stack.tsx
+// src/design-system/components/layout/ui/flex-box.tsx
 
 import type {
   CenterProps,

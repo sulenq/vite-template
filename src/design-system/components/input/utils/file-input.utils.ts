@@ -1,4 +1,4 @@
-// src/design-system/components/input/utils/get-file-icon.ts
+// src/design-system/components/input/utils/file-input.utils.ts
 
 import {
   IconArchive,

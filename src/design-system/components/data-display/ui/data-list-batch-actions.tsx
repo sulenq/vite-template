@@ -13,7 +13,7 @@ import { ActionBar } from "@/design-system/components/overlay/ui/action-bar";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
 import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
 import { P, TNum } from "@/design-system/components/typography/ui/p";
-import { Portal } from "@/design-system/components/utilities/portal";
+import { Portal } from "@/design-system/components/utilities/ui/portal";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import { Fragment } from "react";
 import { Button } from "@/design-system/components/button/ui/button";

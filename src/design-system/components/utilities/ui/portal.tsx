@@ -1,4 +1,4 @@
-// src/design-system/components/utilities/portal.tsx
+// src/design-system/components/utilities/ui/portal.tsx
 
 import { type ReactNode } from "react";
 import { Portal as ChakraPortal } from "@chakra-ui/react";
