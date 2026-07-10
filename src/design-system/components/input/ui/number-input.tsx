@@ -8,7 +8,7 @@ import type {
   NumberInputProps,
   SteppedNumberInputProps,
 } from "@/design-system/components/input/types/number-input.type";
-import { HStack } from "@/design-system/components/layout/ui/stack";
+import { HStack } from "@/design-system/components/layout/ui/flex-box";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { dispatchNativeInputEvent } from "@/shared/utils/dom/dispatch-native-input-event";
 import { mergeRefs } from "@/shared/utils/react/merge-refs";

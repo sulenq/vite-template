@@ -33,7 +33,7 @@ import { PasswordInput } from "@/design-system/components/input/ui/password-inpu
 import { SearchInput } from "@/design-system/components/input/ui/search-input";
 import Select from "@/design-system/components/input/ui/select";
 import { Container } from "@/design-system/components/layout/ui/container";
-import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
+import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { Link } from "@/design-system/components/navigation/ui/link";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import { Dialog } from "@/design-system/components/overlay/ui/dialog";

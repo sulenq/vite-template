@@ -32,7 +32,7 @@ import {
   YEAR_PAGE_SIZE,
 } from "@/design-system/components/input/utils/date.utils";
 import { Grid } from "@/design-system/components/layout/ui/grid";
-import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
+import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { ClampedP, P } from "@/design-system/components/typography/ui/p";

@@ -8,7 +8,7 @@ import type {
 import { CheckIndicator } from "@/design-system/components/feedback/ui/indicator";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 import { Separator } from "@/design-system/components/layout/ui/separator";
-import { VStack } from "@/design-system/components/layout/ui/stack";
+import { VStack } from "@/design-system/components/layout/ui/flex-box";
 import { ActionBar } from "@/design-system/components/overlay/ui/action-bar";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
 import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";

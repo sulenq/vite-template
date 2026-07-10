@@ -11,7 +11,7 @@ import type {
   FileInputProps,
 } from "@/design-system/components/input/types/file-input.type";
 import { getFileIcon } from "@/design-system/components/input/utils/file-input.utils";
-import { HStack } from "@/design-system/components/layout/ui/stack";
+import { HStack } from "@/design-system/components/layout/ui/flex-box";
 import { Image } from "@/design-system/components/media/ui/image";
 import { ClampedP, P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";

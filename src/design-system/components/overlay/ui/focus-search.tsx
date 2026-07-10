@@ -6,7 +6,7 @@ import FeedbackState from "@/design-system/components/feedback/ui/feedback-state
 import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-state.no-result";
 import { SearchInput } from "@/design-system/components/input/ui/search-input";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
-import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
+import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import type {
   FocusSearchResultItemProps,

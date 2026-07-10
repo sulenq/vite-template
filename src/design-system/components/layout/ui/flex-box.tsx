@@ -1,7 +1,11 @@
 // src/design-system/components/layout/ui/stack.tsx
 
-import type { StackProps } from "@/design-system/components/layout/types/stack.type";
+import type {
+  CenterProps,
+  StackProps,
+} from "@/design-system/components/layout/types/stack.type";
 import {
+  Center as ChakraCenter,
   HStack as ChakraHStack,
   VStack as ChakraVStack,
   Spacer as ChakraSpacer,
@@ -18,4 +22,8 @@ export const HStack = forwardRef<HTMLDivElement, StackProps>((props, ref) => {
 
 export const Spacer = forwardRef<HTMLDivElement, StackProps>((props, ref) => {
   return <ChakraSpacer ref={ref} {...props} />;
+});
+
+export const Center = forwardRef<HTMLDivElement, CenterProps>((props, ref) => {
+  return <ChakraCenter ref={ref} {...props} />;
 });

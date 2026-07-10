@@ -34,7 +34,7 @@ import {
   toISODate,
   validateFromFields,
 } from "@/design-system/components/input/utils/date.utils";
-import { HStack } from "@/design-system/components/layout/ui/stack";
+import { HStack } from "@/design-system/components/layout/ui/flex-box";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
@@ -185,271 +185,279 @@ const FieldInput = memo(function FieldInput(props: FieldInputProps) {
 
 export const DateInput = memo(
   forwardRef<HTMLInputElement, DateInputProps>(function DateInput(props, ref) {
-  // Props
-  const {
-    modalKey: propsModalKey = "",
-    value: controlledValue,
-    defaultValue,
-    onValueChange,
-    name,
-    onChange,
-    onBlur,
-    inputFormat = "dmy",
-    min,
-    max,
-    disabledDates,
-    timezone,
-    locale,
-    disabled,
-    datePickerSubtitle,
-    ...restProps
-  } = props;
+    // Props
+    const {
+      modalKey: propsModalKey = "",
+      value: controlledValue,
+      defaultValue,
+      onValueChange,
+      name,
+      onChange,
+      onBlur,
+      inputFormat = "dmy",
+      min,
+      max,
+      disabledDates,
+      timezone,
+      locale,
+      disabled,
+      datePickerSubtitle,
+      ...restProps
+    } = props;
 
-  // Stores
-  const { theme } = useThemeStore();
+    // Stores
+    const { theme } = useThemeStore();
 
-  // Hooks
-  const { modalKey } = usePopModal({
-    modalKey: propsModalKey,
-  });
+    // Hooks
+    const { modalKey } = usePopModal({
+      modalKey: propsModalKey,
+    });
 
-  // States
-  const [internalValue, setInternalValue] = useState<DateValue>(
-    () => defaultValue ?? null,
-  );
-
-  // Derived Values
-  const controlled = controlledValue !== undefined;
-  const committedValue = controlled ? (controlledValue ?? null) : internalValue;
-
-  const [fields, setFields] = useState<FieldValues>(() =>
-    isoToFields(committedValue),
-  );
-
-  // Refs
-  const prevCommittedRef = useRef<DateValue>(committedValue);
-  if (prevCommittedRef.current !== committedValue) {
-    prevCommittedRef.current = committedValue;
-    setFields(isoToFields(committedValue));
-  }
-
-  // Refs for focus management
-  const fieldOrder = useMemo(() => getFieldOrder(inputFormat), [inputFormat]);
-  const fieldRefs = useRef<
-    Record<FieldKey, React.RefObject<HTMLInputElement | null>>
-  >({
-    day: { current: null },
-    month: { current: null },
-    year: { current: null },
-  });
-
-  const validationOptions = useMemo(
-    () => ({ min, max, disabledDates }),
-    [min, max, disabledDates],
-  );
-
-  // RHF Handlers
-  const handleValueChange = useCallback(
-    (iso: DateValue) => {
-      if (!controlled) setInternalValue(iso);
-      onValueChange?.(iso);
-
-      if (onChange) {
-        onChange({
-          target: { name, value: iso || "" },
-          type: "change",
-        } as unknown as ChangeEvent<HTMLInputElement>);
-      }
-    },
-    [controlled, onValueChange, onChange, name],
-  );
-
-  // Commit value from fields
-  const commitFields = useCallback(
-    (nextFields: FieldValues) => {
-      const day = parseInt(nextFields.day, 10);
-      const month = parseInt(nextFields.month, 10);
-      const year = parseInt(nextFields.year, 10);
-
-      if (isNaN(day) || isNaN(month) || isNaN(year)) {
-        return;
-      }
-
-      const result = validateFromFields(day, month, year, validationOptions);
-      if (!result.valid) return;
-
-      const date = new CalendarDate(year, month, day);
-      const iso = toISODate(date);
-
-      handleValueChange(iso);
-    },
-    [handleValueChange, validationOptions],
-  );
-
-  // ref mirror of fields, updated synchronously in event handlers
-  // so blur (which can fire before React re-renders, e.g. during
-  // auto-advance's synchronous .focus() call) always reads the latest value
-  const fieldsRef = useRef<FieldValues>(fields);
-
-  // keep ref in sync whenever the render-time reset happens
-  if (prevCommittedRef.current !== committedValue) {
-    prevCommittedRef.current = committedValue;
-    const resetFields = isoToFields(committedValue);
-    fieldsRef.current = resetFields;
-    setFields(resetFields);
-  }
-
-  // Handlers
-  function handleFieldChange(field: FieldKey, rawValue: string) {
-    const nextFields = { ...fields, [field]: rawValue };
-    fieldsRef.current = nextFields; // sync ref before autoAdvance can trigger a stale blur
-    setFields(nextFields);
-  }
-
-  function handleFieldBlur(e: FocusEvent<HTMLInputElement>) {
-    commitFields(fieldsRef.current);
-    if (onBlur) {
-      onBlur({
-        ...e,
-        target: { ...e.target, name },
-      } as unknown as FocusEvent<HTMLInputElement>);
-    }
-  }
-
-  function handleAutoAdvance(fromField: FieldKey) {
-    const currentIdx = fieldOrder.indexOf(fromField);
-    const currentValue = fields[fromField];
-
-    // Empty value (after backspace) -> move back, unless already at first field
-    if (currentValue === "") {
-      if (currentIdx > 0) {
-        const prevField = fieldOrder[currentIdx - 1];
-        fieldRefs.current[prevField]?.current?.focus();
-      }
-      return; // always return here, including when at index 0
-    }
-
-    // On fill — advance to next
-    const nextIdx = currentIdx + 1;
-    if (nextIdx < fieldOrder.length) {
-      const nextField = fieldOrder[nextIdx];
-      fieldRefs.current[nextField].current?.focus();
-    }
-  }
-
-  function handleContainerClick(e: React.MouseEvent<HTMLDivElement>) {
-    const target = e.target as HTMLElement;
-    if (target.closest("input, button")) return; // don't hijack clicks on field/button
-
-    const emptyField = fieldOrder.find((field) => fields[field] === "");
-    const targetField = emptyField ?? fieldOrder[fieldOrder.length - 1];
-
-    fieldRefs.current[targetField]?.current?.focus();
-  }
-
-  function handleArrowNavigate(
-    fromField: FieldKey,
-    direction: "left" | "right",
-  ) {
-    const currentIdx = fieldOrder.indexOf(fromField);
-    const targetIdx = direction === "right" ? currentIdx + 1 : currentIdx - 1;
-
-    // Already at the first/last field — no field to jump to, stay put.
-    if (targetIdx < 0 || targetIdx >= fieldOrder.length) return;
-
-    const targetField = fieldOrder[targetIdx];
-    const targetInput = fieldRefs.current[targetField]?.current;
-    if (!targetInput) return;
-
-    targetInput.focus();
-    const caretPos = direction === "right" ? 0 : targetInput.value.length;
-    targetInput.setSelectionRange(caretPos, caretPos);
-  }
-
-  // Derived Values
-  const isFieldsValid = useMemo(() => {
-    const cd = fieldsToCalendarDate(fields);
-    if (!cd)
-      // if fields empty will return true
-      return fields.day === "" && fields.month === "" && fields.year === "";
-    const result = validateFromFields(
-      cd.day,
-      cd.month,
-      cd.year,
-      validationOptions,
+    // States
+    const [internalValue, setInternalValue] = useState<DateValue>(
+      () => defaultValue ?? null,
     );
-    return result.valid;
-  }, [fields, validationOptions]);
 
-  const showError = !isFieldsValid;
+    // Derived Values
+    const controlled = controlledValue !== undefined;
+    const committedValue = controlled
+      ? (controlledValue ?? null)
+      : internalValue;
 
-  return (
-    <>
-      <input type="hidden" name={name} ref={ref} value={committedValue || ""} />
-      <HStack
-      justify={"space-between"}
-      gap={1}
-      border={"1px solid"}
-      borderColor={showError ? "red.solid" : "neutral.muted"}
-      rounded={theme.radii.component}
-      opacity={disabled ? 0.5 : 1}
-      pointerEvents={disabled ? "none" : undefined}
-      transition={"200ms"}
-      px={2}
-      h={10}
-      onClick={handleContainerClick}
-      {...restProps}
-    >
-      <HStack flex={1} align={"center"}>
-        {fieldOrder.map((field, idx) => (
-          <Fragment key={field}>
-            <FieldInput
-              id={`${modalKey}-${field}`}
-              fieldKey={field}
-              value={fields[field]}
-              disabled={disabled}
-              onValueChange={handleFieldChange}
-              onAutoAdvance={handleAutoAdvance}
-              onArrowNavigate={handleArrowNavigate}
-              onBlur={handleFieldBlur}
-              inputRef={fieldRefs.current[field]}
-            />
+    const [fields, setFields] = useState<FieldValues>(() =>
+      isoToFields(committedValue),
+    );
 
-            {idx < fieldOrder.length - 1 && (
-              <P color="fg.muted" lineHeight={1} userSelect="none">
-                -
-              </P>
-            )}
-          </Fragment>
-        ))}
-      </HStack>
+    // Refs
+    const prevCommittedRef = useRef<DateValue>(committedValue);
+    if (prevCommittedRef.current !== committedValue) {
+      prevCommittedRef.current = committedValue;
+      setFields(isoToFields(committedValue));
+    }
 
-      {modalKey && (
-        <DatePickerTrigger
-          modalKey={modalKey}
-          datePickerSubtitle={datePickerSubtitle}
-          value={committedValue}
-          onValueChange={handleValueChange}
-          min={min}
-          max={max}
-          disabledDates={disabledDates}
-          timezone={timezone}
-          locale={locale}
-          inputFormat={inputFormat}
+    // Refs for focus management
+    const fieldOrder = useMemo(() => getFieldOrder(inputFormat), [inputFormat]);
+    const fieldRefs = useRef<
+      Record<FieldKey, React.RefObject<HTMLInputElement | null>>
+    >({
+      day: { current: null },
+      month: { current: null },
+      year: { current: null },
+    });
+
+    const validationOptions = useMemo(
+      () => ({ min, max, disabledDates }),
+      [min, max, disabledDates],
+    );
+
+    // RHF Handlers
+    const handleValueChange = useCallback(
+      (iso: DateValue) => {
+        if (!controlled) setInternalValue(iso);
+        onValueChange?.(iso);
+
+        if (onChange) {
+          onChange({
+            target: { name, value: iso || "" },
+            type: "change",
+          } as unknown as ChangeEvent<HTMLInputElement>);
+        }
+      },
+      [controlled, onValueChange, onChange, name],
+    );
+
+    // Commit value from fields
+    const commitFields = useCallback(
+      (nextFields: FieldValues) => {
+        const day = parseInt(nextFields.day, 10);
+        const month = parseInt(nextFields.month, 10);
+        const year = parseInt(nextFields.year, 10);
+
+        if (isNaN(day) || isNaN(month) || isNaN(year)) {
+          return;
+        }
+
+        const result = validateFromFields(day, month, year, validationOptions);
+        if (!result.valid) return;
+
+        const date = new CalendarDate(year, month, day);
+        const iso = toISODate(date);
+
+        handleValueChange(iso);
+      },
+      [handleValueChange, validationOptions],
+    );
+
+    // ref mirror of fields, updated synchronously in event handlers
+    // so blur (which can fire before React re-renders, e.g. during
+    // auto-advance's synchronous .focus() call) always reads the latest value
+    const fieldsRef = useRef<FieldValues>(fields);
+
+    // keep ref in sync whenever the render-time reset happens
+    if (prevCommittedRef.current !== committedValue) {
+      prevCommittedRef.current = committedValue;
+      const resetFields = isoToFields(committedValue);
+      fieldsRef.current = resetFields;
+      setFields(resetFields);
+    }
+
+    // Handlers
+    function handleFieldChange(field: FieldKey, rawValue: string) {
+      const nextFields = { ...fields, [field]: rawValue };
+      fieldsRef.current = nextFields; // sync ref before autoAdvance can trigger a stale blur
+      setFields(nextFields);
+    }
+
+    function handleFieldBlur(e: FocusEvent<HTMLInputElement>) {
+      commitFields(fieldsRef.current);
+      if (onBlur) {
+        onBlur({
+          ...e,
+          target: { ...e.target, name },
+        } as unknown as FocusEvent<HTMLInputElement>);
+      }
+    }
+
+    function handleAutoAdvance(fromField: FieldKey) {
+      const currentIdx = fieldOrder.indexOf(fromField);
+      const currentValue = fields[fromField];
+
+      // Empty value (after backspace) -> move back, unless already at first field
+      if (currentValue === "") {
+        if (currentIdx > 0) {
+          const prevField = fieldOrder[currentIdx - 1];
+          fieldRefs.current[prevField]?.current?.focus();
+        }
+        return; // always return here, including when at index 0
+      }
+
+      // On fill — advance to next
+      const nextIdx = currentIdx + 1;
+      if (nextIdx < fieldOrder.length) {
+        const nextField = fieldOrder[nextIdx];
+        fieldRefs.current[nextField].current?.focus();
+      }
+    }
+
+    function handleContainerClick(e: React.MouseEvent<HTMLDivElement>) {
+      const target = e.target as HTMLElement;
+      if (target.closest("input, button")) return; // don't hijack clicks on field/button
+
+      const emptyField = fieldOrder.find((field) => fields[field] === "");
+      const targetField = emptyField ?? fieldOrder[fieldOrder.length - 1];
+
+      fieldRefs.current[targetField]?.current?.focus();
+    }
+
+    function handleArrowNavigate(
+      fromField: FieldKey,
+      direction: "left" | "right",
+    ) {
+      const currentIdx = fieldOrder.indexOf(fromField);
+      const targetIdx = direction === "right" ? currentIdx + 1 : currentIdx - 1;
+
+      // Already at the first/last field — no field to jump to, stay put.
+      if (targetIdx < 0 || targetIdx >= fieldOrder.length) return;
+
+      const targetField = fieldOrder[targetIdx];
+      const targetInput = fieldRefs.current[targetField]?.current;
+      if (!targetInput) return;
+
+      targetInput.focus();
+      const caretPos = direction === "right" ? 0 : targetInput.value.length;
+      targetInput.setSelectionRange(caretPos, caretPos);
+    }
+
+    // Derived Values
+    const isFieldsValid = useMemo(() => {
+      const cd = fieldsToCalendarDate(fields);
+      if (!cd)
+        // if fields empty will return true
+        return fields.day === "" && fields.month === "" && fields.year === "";
+      const result = validateFromFields(
+        cd.day,
+        cd.month,
+        cd.year,
+        validationOptions,
+      );
+      return result.valid;
+    }, [fields, validationOptions]);
+
+    const showError = !isFieldsValid;
+
+    return (
+      <>
+        <input
+          type="hidden"
+          name={name}
+          ref={ref}
+          value={committedValue || ""}
+        />
+        <HStack
+          justify={"space-between"}
+          gap={1}
+          border={"1px solid"}
+          borderColor={showError ? "red.solid" : "neutral.muted"}
+          rounded={theme.radii.component}
+          opacity={disabled ? 0.5 : 1}
+          pointerEvents={disabled ? "none" : undefined}
+          transition={"200ms"}
+          px={2}
+          h={10}
+          onClick={handleContainerClick}
+          {...restProps}
         >
-          <IconButton
-            size={"xs"}
-            variant={"ghost"}
-            aspectRatio={"square"}
-            mr={-1}
-            my={"auto"}
-            aria-label={"Open date picker"}
-          >
-            <AppTablerIcon icon={IconCalendarSearch} />
-          </IconButton>
-        </DatePickerTrigger>
-      )}
-    </HStack>
-    </>
-  );
-}));
+          <HStack flex={1} align={"center"}>
+            {fieldOrder.map((field, idx) => (
+              <Fragment key={field}>
+                <FieldInput
+                  id={`${modalKey}-${field}`}
+                  fieldKey={field}
+                  value={fields[field]}
+                  disabled={disabled}
+                  onValueChange={handleFieldChange}
+                  onAutoAdvance={handleAutoAdvance}
+                  onArrowNavigate={handleArrowNavigate}
+                  onBlur={handleFieldBlur}
+                  inputRef={fieldRefs.current[field]}
+                />
+
+                {idx < fieldOrder.length - 1 && (
+                  <P color="fg.muted" lineHeight={1} userSelect="none">
+                    -
+                  </P>
+                )}
+              </Fragment>
+            ))}
+          </HStack>
+
+          {modalKey && (
+            <DatePickerTrigger
+              modalKey={modalKey}
+              datePickerSubtitle={datePickerSubtitle}
+              value={committedValue}
+              onValueChange={handleValueChange}
+              min={min}
+              max={max}
+              disabledDates={disabledDates}
+              timezone={timezone}
+              locale={locale}
+              inputFormat={inputFormat}
+            >
+              <IconButton
+                size={"xs"}
+                variant={"ghost"}
+                aspectRatio={"square"}
+                mr={-1}
+                my={"auto"}
+                aria-label={"Open date picker"}
+              >
+                <AppTablerIcon icon={IconCalendarSearch} />
+              </IconButton>
+            </DatePickerTrigger>
+          )}
+        </HStack>
+      </>
+    );
+  }),
+);

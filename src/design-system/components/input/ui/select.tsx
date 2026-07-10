@@ -1,7 +1,7 @@
 // src/design-system/components/input/ui/select.tsx
 
 import type { SelectProps } from "@/design-system/components/input/types/select.type";
-import { HStack } from "@/design-system/components/layout/ui/stack";
+import { HStack } from "@/design-system/components/layout/ui/flex-box";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import {
   Select as ChakraSelect,

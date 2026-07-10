@@ -1,7 +1,7 @@
 // src/design-system/components/data-display/ui/data-list-item-actions.tsx
 
 import type { DataListItemActionsTriggerProps } from "@/design-system/components/data-display/types/data-list.type";
-import { VStack } from "@/design-system/components/layout/ui/stack";
+import { VStack } from "@/design-system/components/layout/ui/flex-box";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
 import React from "react";
 

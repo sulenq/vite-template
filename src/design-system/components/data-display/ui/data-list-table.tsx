@@ -24,7 +24,7 @@ import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 import type { StackProps } from "@/design-system/components/layout/types/stack.type";
 import { Grid } from "@/design-system/components/layout/ui/grid";
-import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
+import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { P } from "@/design-system/components/typography/ui/p";
 import {
   TABLE_ACTIONS_CELL_W,

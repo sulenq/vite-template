@@ -4,7 +4,7 @@
 
 import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback-state.type";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import { VStack } from "@/design-system/components/layout/ui/stack";
+import { VStack } from "@/design-system/components/layout/ui/flex-box";
 import { P } from "@/design-system/components/typography/ui/p";
 import { FEEDBACK_CONTAINER_MIN_H } from "@/design-system/constants/styles";
 

@@ -9,7 +9,7 @@ import type {
 import { Input } from "@/design-system/components/input/ui/input";
 import { InputGroup } from "@/design-system/components/input/ui/input-group";
 import { Box } from "@/design-system/components/layout/ui/box";
-import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
+import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { mergeRefs } from "@/shared/utils/react/merge-refs";
 import { useControllableState, type ButtonProps } from "@chakra-ui/react";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";

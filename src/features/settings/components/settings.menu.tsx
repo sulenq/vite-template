@@ -9,7 +9,7 @@ import type { StackProps } from "@/design-system/components/layout/types/stack.t
 import { NavButton } from "@/design-system/components/layout/ui/nav";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { Separator } from "@/design-system/components/layout/ui/separator";
-import { HStack, VStack } from "@/design-system/components/layout/ui/stack";
+import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { P } from "@/design-system/components/typography/ui/p";
 import { HEADER_H } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
