@@ -57,7 +57,7 @@ import {
 } from "@tabler/icons-react";
 import { CogIcon } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 export const RootPage = () => {
   return (
@@ -575,7 +575,13 @@ export const Feedback = () => {
 };
 
 export const Inputs = () => {
-  const { register, getValues } = useForm();
+  const { register, getValues, control } = useForm();
+  const attachments = useWatch({
+    control,
+    name: "attachments",
+  });
+
+  console.log(attachments);
 
   return (
     <Container.Root w={"full"} px={SPACING_MD}>

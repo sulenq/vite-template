@@ -12,125 +12,74 @@ import { getFileIcon } from "@/design-system/components/input/utils/get-file-ico
 import { HStack } from "@/design-system/components/layout/ui/stack";
 import { ClampedP, P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import { isImageFile } from "@/shared/utils/data/file";
+import { useObjectUrl } from "@/shared/hooks/use-object-url";
+import { formatFileSize, isImageFile } from "@/shared/utils/data/file";
 import { FileUpload, useFileUploadContext } from "@chakra-ui/react";
 import { IconArrowBackUp, IconUpload, IconX } from "@tabler/icons-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const FileIcon = (props: FileIconProps) => {
+export const FileInput = (props: FileInputProps) => {
   // Props
-  const { mimeType, ...restProps } = props;
+  const {
+    inputProps,
+    variant = "button",
+    accept,
+    maxFiles = 5,
+    disabled,
+    label = "Upload files",
+    existingFiles = [],
+    onToggleDeleteExisting,
+  } = props;
+
+  // Refs
+  const acceptedFilesRef = useRef<File[]>([]);
+  const filesToRestoreRef = useRef<File[]>([]);
+
+  // States
+  const [resetKey, setResetKey] = useState(0);
 
   // Resolved Values
-  const icon = useMemo(() => getFileIcon(mimeType), [mimeType]);
-
-  return <AppTablerIcon icon={icon} {...restProps} />;
-};
-
-const FileInputList = () => {
-  // Stores
-  const { theme } = useThemeStore();
-
-  // Contexts
-  const fileUpload = useFileUploadContext();
+  const existingRemainingCount = existingFiles.filter(
+    (file) => !file.markedForDelete,
+  ).length;
+  const effectiveMaxFiles = Math.max(maxFiles - existingRemainingCount, 0);
 
   return (
-    <FileUpload.ItemGroup>
-      {fileUpload.acceptedFiles.map((file) => (
-        <FileUpload.Item
-          key={file.name}
-          file={file}
-          p={3}
-          pl={4}
-          bg={"bg.body"}
-          rounded={theme.radii.component}
-        >
-          {isImageFile(file.type) ? (
-            <FileUpload.ItemPreviewImage aspectRatio={"square"} h={"20px"} />
-          ) : (
-            <FileIcon mimeType={file.type} />
-          )}
-          <HStack align={"center"} gap={4}>
-            <ClampedP>{file.name}</ClampedP>
-            <FileUpload.ItemSizeText whiteSpace={"nowrap"} mt={1} />
-          </HStack>
-          <FileUpload.ItemDeleteTrigger asChild>
-            <IconButton
-              size={"xs"}
-              h={"32px"}
-              ml={"auto"}
-              my={"auto"}
-              aria-label={"Remove file"}
-            >
-              <AppTablerIcon icon={IconX} />
-            </IconButton>
-          </FileUpload.ItemDeleteTrigger>
-        </FileUpload.Item>
-      ))}
-    </FileUpload.ItemGroup>
-  );
-};
-
-// Existing files are NOT native File objects, so they can't use Ark's
-// FileUpload.Item/ItemDeleteTrigger (those are wired to acceptedFiles
-// internal state). This renders the same visual shape manually instead.
-const ExistingFileItem = (props: {
-  file: FileInputExistingItem;
-  disabled?: boolean;
-  onToggleDelete?: (id: string) => void;
-}) => {
-  // Props
-  const { file, disabled, onToggleDelete } = props;
-
-  // Stores
-  const { theme } = useThemeStore();
-
-  return (
-    <HStack
-      p={3}
-      pl={4}
-      bg={"bg.body"}
-      rounded={theme.radii.component}
-      opacity={file.markedForDelete ? 0.5 : 1}
+    <FileUpload.Root
+      key={resetKey}
+      accept={accept}
+      maxFiles={effectiveMaxFiles}
+      disabled={disabled || effectiveMaxFiles <= 0}
+      onFileReject={(details) => {
+        filesToRestoreRef.current = acceptedFilesRef.current;
+        setResetKey((k) => k + 1);
+        // TODO: replace with real toast engine
+        const tooMany = details.files.some((f) =>
+          f.errors.includes("TOO_MANY_FILES"),
+        );
+        if (tooMany) {
+          console.error(
+            `Only ${effectiveMaxFiles} slot(s) left — you selected too many files at once (${details.files.length}).`,
+          );
+        }
+      }}
     >
-      {file.url && isImageFile(file.mimeType ?? "") ? (
-        <img
-          src={file.url}
-          alt={file.name}
-          style={{
-            aspectRatio: "1 / 1",
-            height: "20px",
-            objectFit: "cover",
-          }}
-        />
-      ) : (
-        <FileIcon mimeType={file.mimeType ?? ""} />
-      )}
-      <HStack align={"center"} gap={4}>
-        <ClampedP
-          textDecoration={file.markedForDelete ? "line-through" : undefined}
-        >
-          {file.name}
-        </ClampedP>
-      </HStack>
-      <IconButton
-        size={"xs"}
-        h={"32px"}
-        ml={"auto"}
-        my={"auto"}
+      <FileUpload.HiddenInput {...inputProps} />
+
+      <FileInputInner
+        variant={variant}
         disabled={disabled}
-        aria-label={file.markedForDelete ? "Undo remove file" : "Remove file"}
-        onClick={() => onToggleDelete?.(file.id)}
-      >
-        <AppTablerIcon icon={file.markedForDelete ? IconArrowBackUp : IconX} />
-      </IconButton>
-    </HStack>
+        label={label}
+        effectiveMaxFiles={effectiveMaxFiles}
+        existingFiles={existingFiles}
+        onToggleDeleteExisting={onToggleDeleteExisting}
+        acceptedFilesRef={acceptedFilesRef}
+        filesToRestoreRef={filesToRestoreRef}
+      />
+    </FileUpload.Root>
   );
 };
 
-// Inner component — must live inside FileUpload.Root so it can access context.
-// Reads acceptedFiles to correctly compute whether all slots are taken.
-// Also handles restoring previously accepted files after a remount caused by rejection.
 const FileInputInner = (props: {
   variant: "button" | "dropzone";
   disabled?: boolean;
@@ -138,11 +87,10 @@ const FileInputInner = (props: {
   effectiveMaxFiles: number;
   existingFiles: FileInputExistingItem[];
   onToggleDeleteExisting?: (id: string) => void;
-  // Ref that always holds the latest acceptedFiles so the parent can snapshot it
   acceptedFilesRef: React.RefObject<File[]>;
-  // Ref carrying files to restore after a remount (populated by parent before key bump)
   filesToRestoreRef: React.RefObject<File[]>;
 }) => {
+  // Props
   const {
     variant,
     disabled,
@@ -157,7 +105,7 @@ const FileInputInner = (props: {
   // Stores
   const { theme } = useThemeStore();
 
-  // Contexts — acceptedFiles reflects what Ark UI actually holds in memory
+  // Contexts
   const { acceptedFiles, setFiles } = useFileUploadContext();
 
   // Keep parent's snapshot ref up-to-date so it can save files before remount
@@ -176,13 +124,13 @@ const FileInputInner = (props: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // isSlotFull must account for BOTH existing files AND newly accepted files
+  // Derived Values
   const isSlotFull =
     effectiveMaxFiles <= 0 || acceptedFiles.length >= effectiveMaxFiles;
 
   return (
     <>
-      {existingFiles.length > 0 && (
+      {(existingFiles.length > 0 || acceptedFiles.length > 0) && (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {existingFiles.map((file) => (
             <ExistingFileItem
@@ -195,8 +143,6 @@ const FileInputInner = (props: {
         </div>
       )}
 
-      {/* Full on combined count — force the user to un-mark or delete an
-          existing file before a new one can be added. */}
       {!isSlotFull &&
         (variant === "dropzone" ? (
           <FileUpload.Dropzone
@@ -221,76 +167,149 @@ const FileInputInner = (props: {
           </FileUpload.Trigger>
         ))}
 
-      <FileInputList />
+      {acceptedFiles.map((file) => (
+        <NewFileItem
+          key={file.name}
+          file={file}
+          disabled={disabled}
+          // TODO: this delete path (setFiles) hasn't been re-verified for
+          // native-event compose the way FileUpload.ItemDeleteTrigger was
+          // — retest that register()'s watch()/getValues() stay in sync
+          // after removing a file through this button.
+          onDelete={() => setFiles(acceptedFiles.filter((f) => f !== file))}
+        />
+      ))}
     </>
   );
 };
 
-export const FileInput = (props: FileInputProps) => {
-  const [resetKey, setResetKey] = useState(0);
-
-  // Refs for preserving accepted files across remounts triggered by rejection.
-  // acceptedFilesRef: always mirrors the latest Ark acceptedFiles (updated by inner).
-  // filesToRestoreRef: populated right before a key bump, consumed on next mount.
-  const acceptedFilesRef = useRef<File[]>([]);
-  const filesToRestoreRef = useRef<File[]>([]);
-
+// Unified, fully presentational — knows nothing about Ark or existing-file
+// APIs. Both new and existing files get normalized down to these props.
+const FileItem = (props: {
+  name: string;
+  mimeType: string;
+  sizeLabel?: string;
+  previewUrl?: string;
+  markedForDelete?: boolean;
+  disabled?: boolean;
+  onDelete: () => void;
+}) => {
   // Props
   const {
-    inputProps,
-    variant = "button",
-    accept,
-    maxFiles = 5,
+    name,
+    mimeType,
+    sizeLabel,
+    previewUrl,
+    markedForDelete,
     disabled,
-    label = "Upload files",
-    existingFiles = [],
-    onToggleDeleteExisting,
+    onDelete,
   } = props;
 
-  // Resolved Values
-  // `maxFiles` is the combined cap — subtract existing (not staged-for-delete)
-  // to get how many new files are actually still allowed.
-  const existingRemainingCount = existingFiles.filter(
-    (file) => !file.markedForDelete,
-  ).length;
-  const effectiveMaxFiles = Math.max(maxFiles - existingRemainingCount, 0);
+  // Stores
+  const { theme } = useThemeStore();
 
   return (
-    <FileUpload.Root
-      key={resetKey}
-      accept={accept}
-      maxFiles={effectiveMaxFiles}
-      disabled={disabled || effectiveMaxFiles <= 0}
-      onFileReject={(details) => {
-        // Save accepted files BEFORE remount so the inner component can
-        // restore them after Ark's state is wiped by the key change.
-        filesToRestoreRef.current = acceptedFilesRef.current;
-        // Force remount so Ark UI's internal dedup state is cleared —
-        // this ensures the same rejected file always re-triggers onFileReject.
-        setResetKey((k) => k + 1);
-        // TODO: replace with real toast engine
-        const tooMany = details.files.some((f) =>
-          f.errors.includes("TOO_MANY_FILES"),
-        );
-        if (tooMany) {
-          console.error(
-            `Only ${effectiveMaxFiles} slot(s) left — you selected too many files at once ${details.files.length}.`,
-          );
-        }
-      }}
+    <HStack
+      align={"center"}
+      gap={4}
+      w={"full"}
+      p={3}
+      pl={4}
+      bg={"bg.body"}
+      border={"1px solid"}
+      borderColor={"border.subtle"}
+      rounded={theme.radii.component}
+      opacity={markedForDelete ? 0.5 : 1}
     >
-      <FileUpload.HiddenInput {...inputProps} />
+      {previewUrl && isImageFile(mimeType) ? (
+        <img
+          src={previewUrl}
+          alt={name}
+          style={{
+            aspectRatio: "1 / 1",
+            height: "20px",
+            objectFit: "cover",
+          }}
+        />
+      ) : (
+        <FileIcon mimeType={mimeType} />
+      )}
 
-      <FileInputInner
-        variant={variant}
+      <HStack align={"center"} gap={4}>
+        <ClampedP textDecoration={markedForDelete ? "line-through" : undefined}>
+          {name}
+        </ClampedP>
+
+        {sizeLabel && (
+          <P whiteSpace={"nowrap"} color={"fg.subtle"}>
+            {sizeLabel}
+          </P>
+        )}
+      </HStack>
+
+      <IconButton
+        size={"xs"}
+        h={"32px"}
+        ml={"auto"}
         disabled={disabled}
-        label={label}
-        effectiveMaxFiles={effectiveMaxFiles}
-        existingFiles={existingFiles}
-        onToggleDeleteExisting={onToggleDeleteExisting}
-        acceptedFilesRef={acceptedFilesRef}
-        filesToRestoreRef={filesToRestoreRef}
-      />
-    </FileUpload.Root>
+        aria-label={markedForDelete ? "Undo remove file" : "Remove file"}
+        onClick={onDelete}
+      >
+        <AppTablerIcon icon={markedForDelete ? IconArrowBackUp : IconX} />
+      </IconButton>
+    </HStack>
   );
+};
+
+const NewFileItem = (props: {
+  file: File;
+  disabled?: boolean;
+  onDelete: () => void;
+}) => {
+  // Props
+  const { file, disabled, onDelete } = props;
+
+  // Resolved Values
+  const previewUrl = useObjectUrl(isImageFile(file.type) ? file : undefined);
+
+  return (
+    <FileItem
+      name={file.name}
+      mimeType={file.type}
+      sizeLabel={formatFileSize(file.size)}
+      previewUrl={previewUrl}
+      disabled={disabled}
+      onDelete={onDelete}
+    />
+  );
+};
+
+const ExistingFileItem = (props: {
+  file: FileInputExistingItem;
+  disabled?: boolean;
+  onToggleDelete?: (id: string) => void;
+}) => {
+  // Props
+  const { file, disabled, onToggleDelete } = props;
+
+  return (
+    <FileItem
+      name={file.name}
+      mimeType={file.mimeType ?? ""}
+      previewUrl={file.url}
+      markedForDelete={file.markedForDelete}
+      disabled={disabled}
+      onDelete={() => onToggleDelete?.(file.id)}
+    />
+  );
+};
+
+const FileIcon = (props: FileIconProps) => {
+  // Props
+  const { mimeType, ...restProps } = props;
+
+  // Resolved Values
+  const icon = useMemo(() => getFileIcon(mimeType), [mimeType]);
+
+  return <AppTablerIcon icon={icon} {...restProps} />;
 };
