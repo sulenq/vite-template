@@ -25,7 +25,13 @@ import type {
 import { t } from "@/shared/libs/i18n/-typed";
 import { back } from "@/shared/utils/client/navigation";
 import { isEmptyArray } from "@/shared/utils/data/array";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type KeyboardEvent,
+} from "react";
 
 type FocusTriggerContextValue = {
   modalKey: string;
@@ -172,7 +178,7 @@ const FocusSearchBody = () => {
     back();
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: KeyboardEvent) => {
     if (items.length === 0) return;
     if (e.key === "ArrowDown") {
       e.preventDefault();

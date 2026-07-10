@@ -20,7 +20,7 @@ import { isEmptyArray } from "@/shared/utils/data/array";
 import { formatFileSize, isImageFile } from "@/shared/utils/data/file";
 import { FileUpload, useFileUploadContext } from "@chakra-ui/react";
 import { IconArrowBackUp, IconUpload, IconX } from "@tabler/icons-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
 
 export const FileInput = (props: FileInputProps) => {
   // Props
@@ -93,8 +93,8 @@ const FileInputInner = (props: {
   effectiveMaxFiles: number;
   existingFiles: FileInputExistingItem[];
   onToggleDeleteExisting?: (id: string) => void;
-  acceptedFilesRef: React.RefObject<File[]>;
-  filesToRestoreRef: React.RefObject<File[]>;
+  acceptedFilesRef: RefObject<File[]>;
+  filesToRestoreRef: RefObject<File[]>;
 }) => {
   // Props
   const {

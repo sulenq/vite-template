@@ -2,6 +2,7 @@
 
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
+import type { RefObject } from "react";
 
 export type DialogRootProps = Omit<ChakraDialog.RootProps, "open"> & {
   modalKey: string;
@@ -13,7 +14,7 @@ export type DialogRootProps = Omit<ChakraDialog.RootProps, "open"> & {
 
 export type DialogContentProps = ChakraDialog.ContentProps & {
   portalled?: boolean;
-  portalRef?: React.RefObject<HTMLElement | null>;
+  portalRef?: RefObject<HTMLElement | null>;
   backdrop?: boolean;
 };
 

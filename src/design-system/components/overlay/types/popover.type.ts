@@ -1,12 +1,13 @@
 // src/design-system/components/overlay/types/popover.type.ts
 
 import { Popover as ChakraPopover } from "@chakra-ui/react";
+import type { RefObject } from "react";
 
 export type PopoverRootProps = ChakraPopover.RootProps & {};
 
 export type PopoverContentProps = ChakraPopover.ContentProps & {
   portalled?: boolean;
-  portalRef?: React.RefObject<HTMLElement | null>;
+  portalRef?: RefObject<HTMLElement | null>;
 };
 
 export type PopoverArrowProps = ChakraPopover.ArrowProps & {};

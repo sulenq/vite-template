@@ -24,13 +24,18 @@ import { RootRoute } from "@/routes/-typed";
 import { t } from "@/shared/libs/i18n/-typed";
 import { back } from "@/shared/utils/client/navigation";
 import { IconChevronLeft } from "@tabler/icons-react";
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 
 export type SettingsActivePageContextValue = {
   activeSettingNavKey: SettingNavKey | undefined;
-  setActiveSettingNavKey: React.Dispatch<
-    React.SetStateAction<SettingNavKey | undefined>
-  >;
+  setActiveSettingNavKey: Dispatch<SetStateAction<SettingNavKey | undefined>>;
 };
 
 const SettingsActivePageContext =

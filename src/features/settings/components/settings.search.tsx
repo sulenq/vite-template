@@ -10,10 +10,10 @@ import { useModalContext } from "@/design-system/components/overlay/ui/modal";
 import { useSettingSearchIndex } from "@/features/settings/hooks/use-settings-search-index";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
 import { RootRoute } from "@/routes/-typed";
-import { IconSearch } from "@tabler/icons-react";
+import { IconSearch, type ReactNode } from "@tabler/icons-react";
 
 interface SettingsSearchTriggerProps {
-  children: React.ReactNode;
+  children: ReactNode;
   modalKey: string;
   queryKey: string;
 }

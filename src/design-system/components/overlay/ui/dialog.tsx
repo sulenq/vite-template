@@ -29,13 +29,16 @@ import { useFirstMountEffect } from "@/shared/hooks/use-first-mount-effect";
 import { back } from "@/shared/utils/client/navigation";
 import { Dialog as ChakraDialog } from "@chakra-ui/react";
 import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
-import React, {
+import {
   createContext,
   useContext,
   useLayoutEffect,
   useMemo,
   useRef,
   useState,
+  type Dispatch,
+  type MouseEvent,
+  type SetStateAction,
 } from "react";
 
 export type DialogContextValue = {
@@ -44,7 +47,7 @@ export type DialogContextValue = {
   open?: () => void;
   close?: () => void;
   fullscreen: boolean;
-  setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
+  setFullscreen: Dispatch<SetStateAction<boolean>>;
   clickOriginAnimation: boolean;
   size: ChakraDialog.RootProps["size"];
 };
@@ -156,7 +159,7 @@ const DialogTrigger = (props: ChakraDialog.TriggerProps) => {
 
   // Handlers
   const initOriginPoint = clickOriginAnimation
-    ? (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    ? (e: MouseEvent) => {
         updateClickOrigin(modalKey, e.currentTarget);
       }
     : undefined;

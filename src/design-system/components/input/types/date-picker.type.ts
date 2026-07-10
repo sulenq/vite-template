@@ -2,6 +2,7 @@
 
 import type { StackProps } from "@/design-system/components/layout/types/stack.type";
 import type { CalendarDate } from "@internationalized/date";
+import type { ReactNode } from "react";
 
 export type DatePickerProps = Omit<
   StackProps,
@@ -63,4 +64,10 @@ export type YearViewProps = {
   yearPageStart: number;
   onPrevPage: () => void;
   onNextPage: () => void;
+};
+
+export type DatePickerTriggerProps = DatePickerProps & {
+  children: ReactNode;
+  modalKey: string;
+  datePickerSubtitle?: string;
 };

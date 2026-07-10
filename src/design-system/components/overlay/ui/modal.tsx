@@ -23,7 +23,14 @@ import { triggerFullscreenAnimation } from "@/design-system/components/overlay/u
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { type DrawerRootProps } from "@chakra-ui/react";
 import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 
 export type ModalContextValue = {
   modalKey: string;
@@ -31,7 +38,7 @@ export type ModalContextValue = {
   open?: () => void;
   close?: () => void;
   fullscreen: boolean;
-  setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
+  setFullscreen: Dispatch<SetStateAction<boolean>>;
   isSmallViewport: boolean;
 };
 

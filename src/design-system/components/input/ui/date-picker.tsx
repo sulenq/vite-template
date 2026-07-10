@@ -1,7 +1,14 @@
 // src/design-system/components/input/ui/date-picker.tsx
 
 import { CalendarDate } from "@internationalized/date";
-import { memo, useCallback, useMemo, useState, type ReactNode } from "react";
+import {
+  memo,
+  useCallback,
+  useMemo,
+  useState,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 
 import {
   Button,
@@ -230,7 +237,7 @@ const DayView = memo(function DayView(props: DayViewProps) {
                   tabIndex={disabled ? -1 : 0}
                   disabled={disabled}
                   onClick={() => !disabled && onSelectDay(cell.date)}
-                  onKeyDown={(e: React.KeyboardEvent) => {
+                  onKeyDown={(e: KeyboardEvent) => {
                     if ((e.key === "Enter" || e.key === " ") && !disabled) {
                       onSelectDay(cell.date);
                     }

@@ -5,6 +5,7 @@ import {
   Dialog as ChakraDialog,
   Drawer as ChakraDrawer,
 } from "@chakra-ui/react";
+import type { RefObject } from "react";
 
 export type PopModalTriggerProps = ModalTriggerProps & {
   modalKey: string;
@@ -38,7 +39,7 @@ export type ModalContentProps = (
   | ChakraDialog.ContentProps
 ) & {
   portalled?: boolean;
-  portalRef?: React.RefObject<HTMLElement | null>;
+  portalRef?: RefObject<HTMLElement | null>;
   backdrop?: boolean;
 };
 

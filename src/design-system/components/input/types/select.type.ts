@@ -1,6 +1,7 @@
 // src/design-system/components/input/types/select.type.ts
 
 import type { SelectRootProps } from "@chakra-ui/react";
+import type { ReactNode, RefObject } from "react";
 
 export type SelectOption = {
   label: string;
@@ -18,6 +19,6 @@ export type SelectProps = Omit<
   width?: string | number;
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   portalled?: boolean;
-  portalRef?: React.RefObject<HTMLElement | null>;
-  suffixLabel?: React.ReactNode;
+  portalRef?: RefObject<HTMLElement | null>;
+  suffixLabel?: ReactNode;
 };

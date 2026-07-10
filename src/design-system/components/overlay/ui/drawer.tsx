@@ -25,6 +25,8 @@ import {
   useMemo,
   useRef,
   useState,
+  type Dispatch,
+  type SetStateAction,
   type TouchEvent,
 } from "react";
 
@@ -36,7 +38,7 @@ type DrawerContextValue = {
   open?: () => void;
   close?: () => void;
   fullscreen: boolean;
-  setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
+  setFullscreen: Dispatch<SetStateAction<boolean>>;
   swipeToDismiss: boolean;
   placement: ChakraDrawer.RootProps["placement"];
   size: ChakraDrawer.RootProps["size"];

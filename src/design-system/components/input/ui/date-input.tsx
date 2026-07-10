@@ -14,6 +14,8 @@ import {
   type ChangeEvent,
   type FocusEvent,
   type KeyboardEvent,
+  type RefObject,
+  type MouseEvent,
 } from "react";
 
 import { IconButton } from "@/design-system/components/button/ui/button";
@@ -94,7 +96,7 @@ type FieldInputProps = {
   onAutoAdvance: (fromField: FieldKey) => void;
   onArrowNavigate: (fromField: FieldKey, direction: "left" | "right") => void;
   onBlur: (e: FocusEvent<HTMLInputElement>) => void;
-  inputRef: React.RefObject<HTMLInputElement | null>;
+  inputRef: RefObject<HTMLInputElement | null>;
 };
 
 const FieldInput = memo(function FieldInput(props: FieldInputProps) {
@@ -238,7 +240,7 @@ export const DateInput = memo(
     // Refs for focus management
     const fieldOrder = useMemo(() => getFieldOrder(inputFormat), [inputFormat]);
     const fieldRefs = useRef<
-      Record<FieldKey, React.RefObject<HTMLInputElement | null>>
+      Record<FieldKey, RefObject<HTMLInputElement | null>>
     >({
       day: { current: null },
       month: { current: null },
@@ -339,7 +341,7 @@ export const DateInput = memo(
       }
     }
 
-    function handleContainerClick(e: React.MouseEvent<HTMLDivElement>) {
+    function handleContainerClick(e: MouseEvent<HTMLDivElement>) {
       const target = e.target as HTMLElement;
       if (target.closest("input, button")) return; // don't hijack clicks on field/button
 

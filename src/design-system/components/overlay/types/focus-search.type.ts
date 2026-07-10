@@ -5,9 +5,10 @@ import type {
   SearchIndexItem,
 } from "@/design-system/types/search.type";
 import type { StackProps } from "@chakra-ui/react";
+import type { ReactNode } from "react";
 
 export type FocusSearchTriggerProps<T> = {
-  children: React.ReactNode;
+  children: ReactNode;
   modalKey: string;
   queryKey: string;
   searchIndex: SearchIndex<T>;

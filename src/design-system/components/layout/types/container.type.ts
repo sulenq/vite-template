@@ -9,3 +9,12 @@ export type ContainerRootProps = StackProps & {
 export type ContainerHeaderProps = StackProps;
 
 export type ContainerBodyProps = StackProps;
+
+export type ContainerContextValue = {
+  dimension: {
+    width: number;
+    height: number;
+  };
+  isValidDimension: boolean;
+  isSmContainer: boolean;
+};

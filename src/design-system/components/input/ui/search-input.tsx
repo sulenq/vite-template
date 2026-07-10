@@ -9,7 +9,7 @@ import { Input } from "@/design-system/components/input/ui/input";
 import { useFocusSearch } from "@/design-system/hooks/use-focus-search";
 import { InputGroup } from "@chakra-ui/react";
 import { IconSearch, IconX } from "@tabler/icons-react";
-import { forwardRef, useRef, useState } from "react";
+import { forwardRef, useRef, useState, type ChangeEvent } from "react";
 
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
   (
@@ -29,7 +29,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     );
 
     // Handlers
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    function handleChange(e: ChangeEvent<HTMLInputElement>) {
       const next = e.currentTarget.value;
       setValue(next);
       setQueryValue(next);
