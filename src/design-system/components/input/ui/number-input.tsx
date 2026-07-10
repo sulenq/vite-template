@@ -15,7 +15,9 @@ import { mergeRefs } from "@/shared/utils/react/merge-refs";
 import { cssCalc } from "@/shared/utils/style/css-calc";
 import { NumberInput as ChakraNumberInput } from "@chakra-ui/react";
 import { IconMinus, IconPlus } from "@tabler/icons-react";
+import { VISUALLY_HIDDEN_INPUT_STYLE } from "@/design-system/constants/css-preset";
 
+// `valueAsNumber` is NaN while the input is empty (Number("") === NaN).
 function toSyncValue(valueAsNumber: number): string {
   return Number.isNaN(valueAsNumber) ? "" : String(valueAsNumber);
 }
@@ -28,29 +30,41 @@ export const NumberInput = (props: NumberInputProps) => {
   const { theme } = useThemeStore();
 
   // Refs
-  const internalRef = useRef<HTMLInputElement>(null);
+  // Dedicated node for RHF — decoupled from the visible input, so whatever
+  // Ark renders there (raw digits or a formatOptions-formatted string like
+  // "€45.00") never touches what register()/getValues() reads. Must be
+  // type="text" (visually hidden), NOT type="hidden" — React doesn't wire up
+  // its synthetic event/value-tracking system the same way for type="hidden".
+  const hiddenInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <ChakraNumberInput.Root
       {...restProps}
       onValueChange={(details) => {
-        restProps.onValueChange?.(details);
-
-        if (internalRef.current) {
+        restProps.onValueChange?.({
+          value: details.valueAsNumber,
+          formattedValue: details.value,
+        });
+        if (hiddenInputRef.current) {
           dispatchNativeInputEvent(
-            internalRef.current,
+            hiddenInputRef.current,
             toSyncValue(details.valueAsNumber),
           );
         }
       }}
     >
+      <input
+        type={"text"}
+        style={VISUALLY_HIDDEN_INPUT_STYLE}
+        tabIndex={-1}
+        aria-hidden
+        {...inputProps}
+        ref={mergeRefs(hiddenInputRef, inputProps?.ref)}
+      />
       <ChakraNumberInput.Input
         placeholder={placeholder}
         rounded={theme.radii.component}
-        {...inputProps}
-        ref={mergeRefs(internalRef, inputProps?.ref)}
       />
-
       <ChakraNumberInput.Control>
         <ChakraNumberInput.IncrementTrigger
           roundedTopRight={cssCalc(`${theme.radii.component} - 1px`)}
@@ -71,7 +85,7 @@ export const SteppedNumberInput = (props: SteppedNumberInputProps) => {
   const { theme } = useThemeStore();
 
   // Refs
-  const internalRef = useRef<HTMLInputElement>(null);
+  const hiddenInputRef = useRef<HTMLInputElement>(null);
 
   return (
     <ChakraNumberInput.Root
@@ -79,15 +93,26 @@ export const SteppedNumberInput = (props: SteppedNumberInputProps) => {
       w={"min"}
       {...restProps}
       onValueChange={(details) => {
-        restProps.onValueChange?.(details);
-        if (internalRef.current) {
+        restProps.onValueChange?.({
+          value: details.valueAsNumber,
+          formattedValue: details.value,
+        });
+        if (hiddenInputRef.current) {
           dispatchNativeInputEvent(
-            internalRef.current,
+            hiddenInputRef.current,
             toSyncValue(details.valueAsNumber),
           );
         }
       }}
     >
+      <input
+        type={"text"}
+        style={VISUALLY_HIDDEN_INPUT_STYLE}
+        tabIndex={-1}
+        aria-hidden
+        {...inputProps}
+        ref={mergeRefs(hiddenInputRef, inputProps?.ref)}
+      />
       <HStack align={"center"} gap={2}>
         <ChakraNumberInput.DecrementTrigger asChild>
           <IconButton flex={0} variant={"outline"} size={size}>
@@ -100,8 +125,6 @@ export const SteppedNumberInput = (props: SteppedNumberInputProps) => {
           minW={"calc(24px + 3ch)"}
           textAlign={"center"}
           rounded={theme.radii.component}
-          {...inputProps}
-          ref={mergeRefs(internalRef, inputProps?.ref)}
         />
         <ChakraNumberInput.IncrementTrigger asChild>
           <IconButton flex={0} variant={"outline"} size={size}>

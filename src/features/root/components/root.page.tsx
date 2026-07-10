@@ -57,7 +57,7 @@ import {
 } from "@tabler/icons-react";
 import { CogIcon } from "lucide-react";
 import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 export const RootPage = () => {
   return (
@@ -575,13 +575,18 @@ export const Feedback = () => {
 };
 
 export const Inputs = () => {
-  const { register, getValues, control } = useForm();
-  const attachments = useWatch({
-    control,
-    name: "attachments",
-  });
+  const {
+    register,
+    getValues,
+    //  control
+  } = useForm();
 
-  console.log(attachments);
+  // const number1 = useWatch({
+  //   control,
+  //   name: "number1",
+  // });
+
+  // console.log("number1", number1);
 
   return (
     <Container.Root w={"full"} px={SPACING_MD}>
@@ -605,7 +610,7 @@ export const Inputs = () => {
 
           <DateInput
             modalKey={"date-input"}
-            // datePickerSubtitle={"Pick a day for your leaves"}
+            datePickerSubtitle={"Pick a day for your leaves"}
             w={"250px"}
           />
 
@@ -638,6 +643,7 @@ export const Inputs = () => {
             inputProps={register("attachments")}
             variant={"dropzone"}
             maxFiles={2}
+            w={"350px"}
           />
         </HStack>
 

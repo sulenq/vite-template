@@ -1,3 +1,5 @@
+// src/design-system/components/input/ui/file-input.tsx
+
 import {
   Button,
   IconButton,
@@ -8,11 +10,13 @@ import type {
   FileInputExistingItem,
   FileInputProps,
 } from "@/design-system/components/input/types/file-input.type";
-import { getFileIcon } from "@/design-system/components/input/utils/get-file-icon";
+import { getFileIcon } from "@/design-system/components/input/utils/file-input.utils";
 import { HStack } from "@/design-system/components/layout/ui/stack";
+import { Image } from "@/design-system/components/media/ui/image";
 import { ClampedP, P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { useObjectUrl } from "@/shared/hooks/use-object-url";
+import { isEmptyArray } from "@/shared/utils/data/array";
 import { formatFileSize, isImageFile } from "@/shared/utils/data/file";
 import { FileUpload, useFileUploadContext } from "@chakra-ui/react";
 import { IconArrowBackUp, IconUpload, IconX } from "@tabler/icons-react";
@@ -29,6 +33,7 @@ export const FileInput = (props: FileInputProps) => {
     label = "Upload files",
     existingFiles = [],
     onToggleDeleteExisting,
+    ...restProps
   } = props;
 
   // Refs
@@ -63,6 +68,7 @@ export const FileInput = (props: FileInputProps) => {
           );
         }
       }}
+      {...restProps}
     >
       <FileUpload.HiddenInput {...inputProps} />
 
@@ -113,8 +119,6 @@ const FileInputInner = (props: {
     acceptedFilesRef.current = acceptedFiles;
   }, [acceptedFiles, acceptedFilesRef]);
 
-  // On mount: if the parent left files to restore (because we just remounted
-  // after a rejection), push them back into Ark's state.
   useEffect(() => {
     const toRestore = filesToRestoreRef.current;
     if (toRestore.length > 0) {
@@ -130,7 +134,7 @@ const FileInputInner = (props: {
 
   return (
     <>
-      {(existingFiles.length > 0 || acceptedFiles.length > 0) && (
+      {(!isEmptyArray(existingFiles) || !isEmptyArray(acceptedFiles)) && (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           {existingFiles.map((file) => (
             <ExistingFileItem
@@ -143,39 +147,41 @@ const FileInputInner = (props: {
         </div>
       )}
 
-      {!isSlotFull &&
-        (variant === "dropzone" ? (
-          <FileUpload.Dropzone
-            w={"full"}
-            bg={"bg.body"}
-            rounded={theme.radii.component}
-          >
-            <AppTablerIcon icon={IconUpload} color={"fg.muted"} />
-            <FileUpload.DropzoneContent>
-              <FileUpload.Label>{label}</FileUpload.Label>
-              <P textAlign={"center"} color={"fg.subtle"}>
-                Click to upload or drag and drop
-              </P>
-            </FileUpload.DropzoneContent>
-          </FileUpload.Dropzone>
-        ) : (
-          <FileUpload.Trigger asChild>
-            <Button variant={"outline"} disabled={disabled}>
-              <AppTablerIcon icon={IconUpload} />
-              {label}
-            </Button>
-          </FileUpload.Trigger>
-        ))}
+      {!isSlotFull && (
+        <>
+          {variant === "button" && (
+            <FileUpload.Trigger asChild>
+              <Button variant={"outline"} disabled={disabled}>
+                <AppTablerIcon icon={IconUpload} />
+                {label}
+              </Button>
+            </FileUpload.Trigger>
+          )}
+
+          {variant === "dropzone" && (
+            <FileUpload.Dropzone
+              w={"full"}
+              bg={"bg.body"}
+              rounded={theme.radii.component}
+              cursor={"pointer"}
+            >
+              <AppTablerIcon icon={IconUpload} color={"fg.muted"} />
+              <FileUpload.DropzoneContent>
+                <FileUpload.Label>{label}</FileUpload.Label>
+                <P textAlign={"center"} color={"fg.subtle"}>
+                  Click to upload or drag and drop
+                </P>
+              </FileUpload.DropzoneContent>
+            </FileUpload.Dropzone>
+          )}
+        </>
+      )}
 
       {acceptedFiles.map((file) => (
         <NewFileItem
           key={file.name}
           file={file}
           disabled={disabled}
-          // TODO: this delete path (setFiles) hasn't been re-verified for
-          // native-event compose the way FileUpload.ItemDeleteTrigger was
-          // — retest that register()'s watch()/getValues() stay in sync
-          // after removing a file through this button.
           onDelete={() => setFiles(acceptedFiles.filter((f) => f !== file))}
         />
       ))}
@@ -183,8 +189,6 @@ const FileInputInner = (props: {
   );
 };
 
-// Unified, fully presentational — knows nothing about Ark or existing-file
-// APIs. Both new and existing files get normalized down to these props.
 const FileItem = (props: {
   name: string;
   mimeType: string;
@@ -222,35 +226,30 @@ const FileItem = (props: {
       opacity={markedForDelete ? 0.5 : 1}
     >
       {previewUrl && isImageFile(mimeType) ? (
-        <img
+        <Image
           src={previewUrl}
           alt={name}
-          style={{
-            aspectRatio: "1 / 1",
-            height: "20px",
-            objectFit: "cover",
-          }}
+          h={"20px"}
+          aspectRatio={"square"}
+          objectFit={"cover"}
         />
       ) : (
         <FileIcon mimeType={mimeType} />
       )}
 
-      <HStack align={"center"} gap={4}>
-        <ClampedP textDecoration={markedForDelete ? "line-through" : undefined}>
-          {name}
-        </ClampedP>
+      <ClampedP textDecoration={markedForDelete ? "line-through" : undefined}>
+        {name}
+      </ClampedP>
 
-        {sizeLabel && (
-          <P whiteSpace={"nowrap"} color={"fg.subtle"}>
-            {sizeLabel}
-          </P>
-        )}
-      </HStack>
+      {sizeLabel && (
+        <P whiteSpace={"nowrap"} color={"fg.subtle"} ml={"auto"}>
+          {sizeLabel}
+        </P>
+      )}
 
       <IconButton
         size={"xs"}
         h={"32px"}
-        ml={"auto"}
         disabled={disabled}
         aria-label={markedForDelete ? "Undo remove file" : "Remove file"}
         onClick={onDelete}

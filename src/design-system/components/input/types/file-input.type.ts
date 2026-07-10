@@ -1,4 +1,7 @@
+// src/design-system/components/input/types/file-input.type.ts
+
 import type { AppTablerIconProps } from "@/design-system/components/icon/types/app-icon.type";
+import type { FileUpload } from "@chakra-ui/react";
 import type { UseFormRegisterReturn } from "react-hook-form";
 
 export interface FileInputExistingItem {
@@ -9,7 +12,7 @@ export interface FileInputExistingItem {
   markedForDelete?: boolean;
 }
 
-export interface FileInputProps {
+export type FileInputProps = FileUpload.RootProps & {
   inputProps: UseFormRegisterReturn;
   files?: FileList | File[] | null;
   maxFiles?: number;
@@ -20,7 +23,7 @@ export interface FileInputProps {
   accept?: string;
   disabled?: boolean;
   label?: string;
-}
+};
 
 export type FileInputVariant = "button" | "dropzone";
 

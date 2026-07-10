@@ -220,7 +220,13 @@ const DayView = memo(function DayView(props: DayViewProps) {
                   h={"40px"}
                   p={0}
                   rounded={theme.radii.component}
-                  opacity={dimmed && !isSelected ? 0.35 : disabled ? 0.35 : 1}
+                  color={
+                    dimmed && !isSelected
+                      ? "fg.subtle"
+                      : disabled
+                        ? "fg.subtle"
+                        : "fg"
+                  }
                   tabIndex={disabled ? -1 : 0}
                   disabled={disabled}
                   onClick={() => !disabled && onSelectDay(cell.date)}
@@ -485,7 +491,7 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
           />
         )}
 
-        <HStack align={"center"} justify={"space-between"} p={2}>
+        <HStack align={"center"} justify={"space-between"} p={1}>
           <HStack align={"center"} gap={2} color={"fg.muted"}>
             <AppTablerIcon icon={IconWorld} size={"sm"} />
 
