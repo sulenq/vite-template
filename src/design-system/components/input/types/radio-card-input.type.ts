@@ -6,7 +6,9 @@ export type RadioCardInputRootProps = ChakraRadioCard.RootProps;
 
 export type RadioCardInputLabelProps = ChakraRadioCard.LabelProps;
 
-export type RadioCardInputItemProps = ChakraRadioCard.ItemProps;
+export type RadioCardInputItemProps = ChakraRadioCard.ItemProps & {
+  hideCheckedOutline?: boolean;
+};
 
 export type RadioCardInputItemControlProps = ChakraRadioCard.ItemControlProps;
 

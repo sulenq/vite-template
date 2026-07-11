@@ -48,7 +48,7 @@ const RadioCardInputItem = React.forwardRef<
   HTMLDivElement,
   RadioCardInputItemProps
 >(function RadioCardInputItem(props, ref) {
-  const { children, value, ...restProps } = props;
+  const { children, value, hideCheckedOutline = false, ...restProps } = props;
   const { theme } = useThemeStore();
 
   return (
@@ -57,6 +57,14 @@ const RadioCardInputItem = React.forwardRef<
       value={value}
       cursor={"pointer"}
       rounded={theme.radii.component}
+      _checked={
+        hideCheckedOutline
+          ? {
+              borderColor: "border",
+              boxShadow: "none",
+            }
+          : undefined
+      }
       {...restProps}
     >
       <ChakraRadioCard.ItemHiddenInput />
