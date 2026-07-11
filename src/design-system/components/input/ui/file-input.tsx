@@ -6,35 +6,55 @@ import {
 } from "@/design-system/components/button/ui/button";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import type {
+  ExistingFileItemProps,
   FileIconProps,
-  FileInputExistingItem,
+  FileinputInnerProps,
   FileInputProps,
+  FileItemProps,
+  NewFileItemProps,
 } from "@/design-system/components/input/types/file-input.type";
 import { getFileIcon } from "@/design-system/components/input/utils/file-input.utils";
-import { HStack } from "@/design-system/components/layout/ui/flex-box";
+import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { Image } from "@/design-system/components/media/ui/image";
 import { ClampedP, P } from "@/design-system/components/typography/ui/p";
+import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { useObjectUrl } from "@/shared/hooks/use-object-url";
+import { t } from "@/shared/libs/i18n/-typed";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import { formatFileSize, isImageFile } from "@/shared/utils/data/file";
-import { FileUpload, useFileUploadContext } from "@chakra-ui/react";
-import { IconArrowBackUp, IconUpload, IconX } from "@tabler/icons-react";
-import { useEffect, useMemo, useRef, useState, type RefObject } from "react";
+import {
+  FileUpload,
+  FormatByte,
+  useFieldContext,
+  useFileUploadContext,
+} from "@chakra-ui/react";
+import {
+  IconArrowBackUp,
+  IconArrowDownDashed,
+  IconUpload,
+  IconX,
+} from "@tabler/icons-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export const FileInput = (props: FileInputProps) => {
   // Props
   const {
     inputProps,
-    variant = "button",
+    variant = "auto",
     accept,
-    maxFiles = 5,
+    maxFiles = 1,
+    maxFileSize = 5 * 1024 * 1024, // 5MB
     disabled,
-    label = "Upload files",
+    label = t["common.upload_files"](),
     existingFiles = [],
     onToggleDeleteExisting,
     ...restProps
   } = props;
+
+  // Contexts
+  const fieldContext = useFieldContext();
+  const isFieldInvalid = fieldContext?.invalid;
 
   // Refs
   const acceptedFilesRef = useRef<File[]>([]);
@@ -73,9 +93,13 @@ export const FileInput = (props: FileInputProps) => {
       <FileUpload.HiddenInput {...inputProps} />
 
       <FileInputInner
+        accept={accept}
+        maxFiles={maxFiles}
+        maxFileSize={maxFileSize}
         variant={variant}
         disabled={disabled}
         label={label}
+        invalid={isFieldInvalid}
         effectiveMaxFiles={effectiveMaxFiles}
         existingFiles={existingFiles}
         onToggleDeleteExisting={onToggleDeleteExisting}
@@ -86,21 +110,16 @@ export const FileInput = (props: FileInputProps) => {
   );
 };
 
-const FileInputInner = (props: {
-  variant: "button" | "dropzone";
-  disabled?: boolean;
-  label: string;
-  effectiveMaxFiles: number;
-  existingFiles: FileInputExistingItem[];
-  onToggleDeleteExisting?: (id: string) => void;
-  acceptedFilesRef: RefObject<File[]>;
-  filesToRestoreRef: RefObject<File[]>;
-}) => {
+const FileInputInner = (props: FileinputInnerProps) => {
   // Props
   const {
+    accept,
+    maxFiles,
+    maxFileSize,
     variant,
     disabled,
     label,
+    invalid,
     effectiveMaxFiles,
     existingFiles,
     onToggleDeleteExisting,
@@ -112,7 +131,14 @@ const FileInputInner = (props: {
   const { theme } = useThemeStore();
 
   // Contexts
-  const { acceptedFiles, setFiles } = useFileUploadContext();
+  const { acceptedFiles, setFiles, dragging } = useFileUploadContext();
+
+  // Hooks
+  const isSmallViewport = useIsSmallViewport();
+
+  // Resolved Values
+  const resolvedVariant =
+    variant === "auto" ? (isSmallViewport ? "button" : "dropzone") : variant;
 
   // Keep parent's snapshot ref up-to-date so it can save files before remount
   useEffect(() => {
@@ -149,30 +175,114 @@ const FileInputInner = (props: {
 
       {!isSlotFull && (
         <>
-          {variant === "button" && (
+          {resolvedVariant === "button" && (
             <FileUpload.Trigger asChild>
-              <Button variant={"outline"} disabled={disabled}>
+              <Button
+                variant={"outline"}
+                w={"full"}
+                disabled={disabled}
+                borderColor={invalid ? "border.error" : undefined}
+              >
                 <AppTablerIcon icon={IconUpload} />
                 {label}
               </Button>
             </FileUpload.Trigger>
           )}
 
-          {variant === "dropzone" && (
-            <FileUpload.Dropzone
-              w={"full"}
-              bg={"bg.body"}
-              rounded={theme.radii.component}
-              cursor={"pointer"}
-            >
-              <AppTablerIcon icon={IconUpload} color={"fg.muted"} />
-              <FileUpload.DropzoneContent>
-                <FileUpload.Label>{label}</FileUpload.Label>
-                <P textAlign={"center"} color={"fg.subtle"}>
-                  Click to upload or drag and drop
-                </P>
-              </FileUpload.DropzoneContent>
-            </FileUpload.Dropzone>
+          {resolvedVariant === "dropzone" && (
+            <VStack pos={"relative"} w={"full"}>
+              <FileUpload.Dropzone
+                w={"full"}
+                minH={"220px"}
+                p={4}
+                border={"2px dashed"}
+                borderColor={dragging ? "transparent" : "border.muted"}
+                rounded={theme.radii.component}
+                cursor={"pointer"}
+              >
+                <FileUpload.DropzoneContent
+                  gap={4}
+                  transform={dragging ? "translateY(25%)" : ""}
+                  transition={"200ms"}
+                >
+                  <AppTablerIcon
+                    icon={dragging ? IconArrowDownDashed : IconUpload}
+                    size={"lg"}
+                    color={"fg.muted"}
+                  />
+
+                  <VStack>
+                    <FileUpload.Label>
+                      {dragging
+                        ? t["common.drop_it_here"]()
+                        : t["common.chose_or_drag_to_upload"]()}
+                    </FileUpload.Label>
+
+                    <P
+                      fontSize={"sm"}
+                      textAlign={"center"}
+                      color={"fg.subtle"}
+                      opacity={dragging ? 0 : 1}
+                      transition={"200ms"}
+                    >
+                      {accept?.map((a: string) => a).join(", ")}
+                      {` max ${maxFiles} files `}
+                      {maxFileSize && (
+                        <>
+                          (<FormatByte value={maxFileSize} />)
+                        </>
+                      )}
+                    </P>
+                  </VStack>
+
+                  <Button
+                    variant={"outline"}
+                    size={"xs"}
+                    pointerEvents={"none"}
+                    opacity={dragging ? 0 : 1}
+                    transition={"200ms"}
+                  >
+                    {t["common.browse_files"]()}
+                  </Button>
+                </FileUpload.DropzoneContent>
+              </FileUpload.Dropzone>
+
+              {dragging && (
+                <svg
+                  width={"100%"}
+                  height={"100%"}
+                  preserveAspectRatio={"none"}
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    overflow: "visible",
+                    pointerEvents: "none",
+                  }}
+                >
+                  <rect
+                    x={1}
+                    y={1}
+                    width={"calc(100% - 2px)"}
+                    height={"calc(100% - 2px)"}
+                    rx={theme.radii.component}
+                    fill={"none"}
+                    stroke={"currentColor"}
+                    strokeWidth={1.5}
+                    strokeDasharray={"6 4"}
+                    style={{
+                      animation: "marching-ants 0.6s linear infinite",
+                      vectorEffect: "non-scaling-stroke",
+                    }}
+                  />
+                </svg>
+              )}
+
+              <style>{`
+                @keyframes marching-ants {
+                  to { stroke-dashoffset: -10; }
+                }
+              `}</style>
+            </VStack>
           )}
         </>
       )}
@@ -182,6 +292,8 @@ const FileInputInner = (props: {
           key={file.name}
           file={file}
           disabled={disabled}
+          border={"1px solid"}
+          borderColor={invalid ? "border.error" : "border.muted"}
           onDelete={() => setFiles(acceptedFiles.filter((f) => f !== file))}
         />
       ))}
@@ -189,15 +301,7 @@ const FileInputInner = (props: {
   );
 };
 
-const FileItem = (props: {
-  name: string;
-  mimeType: string;
-  sizeLabel?: string;
-  previewUrl?: string;
-  markedForDelete?: boolean;
-  disabled?: boolean;
-  onDelete: () => void;
-}) => {
+const FileItem = (props: FileItemProps) => {
   // Props
   const {
     name,
@@ -207,6 +311,7 @@ const FileItem = (props: {
     markedForDelete,
     disabled,
     onDelete,
+    ...restProps
   } = props;
 
   // Stores
@@ -224,6 +329,7 @@ const FileItem = (props: {
       borderColor={"border.subtle"}
       rounded={theme.radii.component}
       opacity={markedForDelete ? 0.5 : 1}
+      {...restProps}
     >
       {previewUrl && isImageFile(mimeType) ? (
         <Image
@@ -251,7 +357,11 @@ const FileItem = (props: {
         size={"xs"}
         h={"32px"}
         disabled={disabled}
-        aria-label={markedForDelete ? "Undo remove file" : "Remove file"}
+        aria-label={
+          markedForDelete
+            ? t["common.undo_remove_file"]()
+            : t["common.remove_file"]()
+        }
         onClick={onDelete}
       >
         <AppTablerIcon icon={markedForDelete ? IconArrowBackUp : IconX} />
@@ -260,13 +370,9 @@ const FileItem = (props: {
   );
 };
 
-const NewFileItem = (props: {
-  file: File;
-  disabled?: boolean;
-  onDelete: () => void;
-}) => {
+const NewFileItem = (props: NewFileItemProps) => {
   // Props
-  const { file, disabled, onDelete } = props;
+  const { file, disabled, onDelete, ...restProps } = props;
 
   // Resolved Values
   const previewUrl = useObjectUrl(isImageFile(file.type) ? file : undefined);
@@ -279,17 +385,14 @@ const NewFileItem = (props: {
       previewUrl={previewUrl}
       disabled={disabled}
       onDelete={onDelete}
+      {...restProps}
     />
   );
 };
 
-const ExistingFileItem = (props: {
-  file: FileInputExistingItem;
-  disabled?: boolean;
-  onToggleDelete?: (id: string) => void;
-}) => {
+const ExistingFileItem = (props: ExistingFileItemProps) => {
   // Props
-  const { file, disabled, onToggleDelete } = props;
+  const { file, disabled, onToggleDelete, ...restProps } = props;
 
   return (
     <FileItem
@@ -299,6 +402,7 @@ const ExistingFileItem = (props: {
       markedForDelete={file.markedForDelete}
       disabled={disabled}
       onDelete={() => onToggleDelete?.(file.id)}
+      {...restProps}
     />
   );
 };

@@ -702,9 +702,9 @@ export const Inputs = () => {
             <FieldTemplate invalid={invalid}>
               <FileInput
                 inputProps={register("attachments")}
-                variant={"dropzone"}
+                accept={[".jpeg, .jpg, .png, "]}
                 maxFiles={2}
-                w={"350px"}
+                maxW={"350px"}
               />
             </FieldTemplate>
           </HStack>

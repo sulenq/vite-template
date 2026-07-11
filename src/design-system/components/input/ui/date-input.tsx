@@ -40,6 +40,7 @@ import { HStack } from "@/design-system/components/layout/ui/flex-box";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
+import { useFieldContext } from "@chakra-ui/react";
 import { IconCalendarSearch } from "@tabler/icons-react";
 
 // -------------------------------------------------------------------------------------
@@ -209,6 +210,10 @@ export const DateInput = memo(
 
     // Stores
     const { theme } = useThemeStore();
+
+    // Contexts
+    const fieldContext = useFieldContext();
+    const isFieldInvalid = fieldContext?.invalid;
 
     // Hooks
     const { modalKey } = usePopModal({
@@ -399,7 +404,9 @@ export const DateInput = memo(
           justify={"space-between"}
           gap={1}
           border={"1px solid"}
-          borderColor={showError ? "red.solid" : "neutral.muted"}
+          borderColor={
+            showError || isFieldInvalid ? "border.error" : "border.muted"
+          }
           rounded={theme.radii.component}
           opacity={disabled ? 0.5 : 1}
           pointerEvents={disabled ? "none" : undefined}

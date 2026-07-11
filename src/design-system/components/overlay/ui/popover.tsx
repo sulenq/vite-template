@@ -74,7 +74,7 @@ const PopoverCloseTrigger = forwardRef<
     <ChakraPopover.CloseTrigger
       ref={ref}
       asChild
-      position={"absolute"}
+      pos={"absolute"}
       top={"1"}
       insetEnd={"1"}
       {...restProps}
