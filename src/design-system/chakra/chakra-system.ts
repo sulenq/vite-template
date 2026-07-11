@@ -118,9 +118,9 @@ export const chakraConfig = defineConfig({
         placeholder: { value: "#96969691" },
 
         neutral: {
-          50: { value: "#f8f8f8" },
+          50: { value: "#f8f8fa" },
           100: { value: "#f3f3f5" },
-          200: { value: "#ececf0" },
+          200: { value: "#ececef" },
           300: { value: "#dbdbdd" },
           400: { value: "#a5a5ad" },
           500: { value: "#6e6e76" },

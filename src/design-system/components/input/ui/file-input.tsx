@@ -131,7 +131,8 @@ const FileInputInner = (props: FileinputInnerProps) => {
   const { theme } = useThemeStore();
 
   // Contexts
-  const { acceptedFiles, setFiles, dragging } = useFileUploadContext();
+  const { acceptedFiles, setFiles, dragging, openFilePicker } =
+    useFileUploadContext();
 
   // Hooks
   const isSmallViewport = useIsSmallViewport();
@@ -199,6 +200,9 @@ const FileInputInner = (props: FileinputInnerProps) => {
                 borderColor={dragging ? "transparent" : "border.muted"}
                 rounded={theme.radii.component}
                 cursor={"pointer"}
+                _hover={{
+                  bg: "bg.subtle",
+                }}
               >
                 <FileUpload.DropzoneContent
                   gap={4}
@@ -237,8 +241,9 @@ const FileInputInner = (props: FileinputInnerProps) => {
 
                   <Button
                     variant={"outline"}
-                    size={"xs"}
-                    pointerEvents={"none"}
+                    size={"sm"}
+                    onClick={openFilePicker}
+                    // pointerEvents={"none"}
                     opacity={dragging ? 0 : 1}
                     transition={"200ms"}
                   >
@@ -348,7 +353,12 @@ const FileItem = (props: FileItemProps) => {
       </ClampedP>
 
       {sizeLabel && (
-        <P whiteSpace={"nowrap"} color={"fg.subtle"} ml={"auto"}>
+        <P
+          ml={"auto"}
+          fontSize={"sm"}
+          whiteSpace={"nowrap"}
+          color={"fg.subtle"}
+        >
           {sizeLabel}
         </P>
       )}
