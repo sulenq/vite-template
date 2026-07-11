@@ -74,10 +74,12 @@ export const FileInput = (props: FileInputProps) => {
       key={resetKey}
       accept={accept}
       maxFiles={effectiveMaxFiles}
+      maxFileSize={maxFileSize}
       disabled={disabled || effectiveMaxFiles <= 0}
       onFileReject={(details) => {
         filesToRestoreRef.current = acceptedFilesRef.current;
         setResetKey((k) => k + 1);
+
         // TODO: replace with real toast engine
         const tooMany = details.files.some((f) =>
           f.errors.includes("TOO_MANY_FILES"),
@@ -85,6 +87,25 @@ export const FileInput = (props: FileInputProps) => {
         if (tooMany) {
           console.error(
             `Only ${effectiveMaxFiles} slot(s) left — you selected too many files at once (${details.files.length}).`,
+          );
+        }
+
+        // TODO: replace with real toast engine
+        const invalidType = details.files.some((f) =>
+          f.errors.includes("FILE_INVALID_TYPE"),
+        );
+        if (invalidType) {
+          const allowedTypes = accept?.join(", ") ?? "-";
+          console.error(`Invalid file type — allowed types: ${allowedTypes}.`);
+        }
+
+        // TODO: replace with real toast engine
+        const tooLarge = details.files.some((f) =>
+          f.errors.includes("FILE_TOO_LARGE"),
+        );
+        if (tooLarge) {
+          console.error(
+            `File too large — maximum allowed size is ${maxFileSize} bytes.`,
           );
         }
       }}

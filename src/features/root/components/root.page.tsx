@@ -702,7 +702,7 @@ export const Inputs = () => {
             <FieldTemplate invalid={invalid}>
               <FileInput
                 inputProps={register("attachments")}
-                accept={[".jpeg, .jpg, .png, "]}
+                accept={[".jpeg", ".jpg"]}
                 maxFiles={2}
                 maxW={"350px"}
               />
