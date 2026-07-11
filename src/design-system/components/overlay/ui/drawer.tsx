@@ -157,7 +157,11 @@ const DrawerRoot = (props: DrawerRootProps) => {
         trapFocus={false}
         preventScroll
         onEscapeKeyDown={() => {
-          back();
+          if (close) {
+            close();
+          } else {
+            back();
+          }
         }}
       />
     </DrawerContext.Provider>

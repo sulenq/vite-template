@@ -23,6 +23,7 @@ import { useObjectUrl } from "@/shared/hooks/use-object-url";
 import { t } from "@/shared/libs/i18n/-typed";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import { formatFileSize, isImageFile } from "@/shared/utils/data/file";
+import { cssCalc } from "@/shared/utils/style/css-calc";
 import {
   FileUpload,
   FormatByte,
@@ -217,6 +218,7 @@ const FileInputInner = (props: FileinputInnerProps) => {
                 w={"full"}
                 minH={"220px"}
                 p={4}
+                bg={"bg.body"}
                 border={"2px dashed"}
                 borderColor={dragging ? "transparent" : "border.muted"}
                 rounded={theme.radii.component}
@@ -227,6 +229,7 @@ const FileInputInner = (props: FileinputInnerProps) => {
               >
                 <FileUpload.DropzoneContent
                   gap={4}
+                  mt={1}
                   transform={dragging ? "translateY(25%)" : ""}
                   transition={"200ms"}
                 >
@@ -234,9 +237,10 @@ const FileInputInner = (props: FileinputInnerProps) => {
                     icon={dragging ? IconArrowDownDashed : IconUpload}
                     size={"lg"}
                     color={"fg.muted"}
+                    animation={dragging ? "bounce" : ""}
                   />
 
-                  <VStack>
+                  <VStack gap={1}>
                     <FileUpload.Label>
                       {dragging
                         ? t["common.drop_it_here"]()
@@ -263,10 +267,10 @@ const FileInputInner = (props: FileinputInnerProps) => {
                   <Button
                     variant={"outline"}
                     size={"sm"}
-                    onClick={openFilePicker}
-                    // pointerEvents={"none"}
+                    rounded={cssCalc(`${theme.radii.component} - 4px`)}
                     opacity={dragging ? 0 : 1}
                     transition={"200ms"}
+                    onClick={openFilePicker}
                   >
                     {t["common.browse_files"]()}
                   </Button>

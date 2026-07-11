@@ -143,7 +143,11 @@ const DialogRoot = (props: DialogRootProps) => {
         trapFocus={false}
         preventScroll
         onEscapeKeyDown={() => {
-          back();
+          if (close) {
+            close();
+          } else {
+            back();
+          }
         }}
       />
     </DialogContext.Provider>

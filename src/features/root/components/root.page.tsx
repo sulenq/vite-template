@@ -34,8 +34,14 @@ import {
   SteppedNumberInput,
 } from "@/design-system/components/input/ui/number-input";
 import { PasswordInput } from "@/design-system/components/input/ui/password-input";
+import { PinInput } from "@/design-system/components/input/ui/pin-input";
+import { RadioCardInput } from "@/design-system/components/input/ui/radio-card-input";
+import { RadioInput } from "@/design-system/components/input/ui/radio-input";
 import { SearchInput } from "@/design-system/components/input/ui/search-input";
 import Select from "@/design-system/components/input/ui/select";
+import { Slider } from "@/design-system/components/input/ui/slider";
+import { Switch } from "@/design-system/components/input/ui/switch";
+import { Textarea } from "@/design-system/components/input/ui/textarea";
 import { Container } from "@/design-system/components/layout/ui/container";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { Group } from "@/design-system/components/layout/ui/group";
@@ -54,9 +60,11 @@ import { getLocale, getLocaleLabel } from "@/shared/libs/i18n/-typed";
 import { useLocale } from "@/shared/libs/i18n/locale-provider";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import {
+  IconArrowRight,
   IconDownload,
   IconEdit,
   IconFilter2,
+  IconForbid,
   IconLanguage,
   IconPlus,
   IconTrash,
@@ -182,7 +190,7 @@ export const Utilities = () => {
             fileName={"wolf-2k.jpg"}
             mimeType={"image/jpeg"}
           >
-            <Button>Download Wolf Image</Button>
+            <Button>Download trigger</Button>
           </DownloadTrigger>
         </HStack>
       </Container.Body>
@@ -640,7 +648,7 @@ export const Inputs = () => {
         </P>
 
         <Fieldset>
-          <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={12}>
             <FieldTemplate invalid={invalid}>
               <Checkbox>Checkbox</Checkbox>
             </FieldTemplate>
@@ -699,13 +707,89 @@ export const Inputs = () => {
               <SteppedNumberInput hiddenInputProps={register("number2")} />
             </FieldTemplate>
 
-            <FieldTemplate invalid={invalid}>
+            <FieldTemplate invalid={invalid} w={"320px"}>
               <FileInput
                 inputProps={register("attachments")}
                 accept={[".jpeg", ".jpg"]}
                 maxFiles={2}
                 maxW={"350px"}
               />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <PinInput />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <Switch>Switch</Switch>
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <RadioInput
+                options={[
+                  { label: "Option 1", value: "option-1" },
+                  { label: "Option 2", value: "option-2" },
+                ]}
+              />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <RadioCardInput.Root defaultValue="option-1">
+                <HStack gap={4}>
+                  <RadioCardInput.Item value="option-1">
+                    <RadioCardInput.ItemControl>
+                      <VStack gap={1}>
+                        <AppTablerIcon
+                          icon={IconArrowRight}
+                          size={"xl"}
+                          color={"fg.muted"}
+                          mb={1}
+                        />
+
+                        <RadioCardInput.ItemText>
+                          Option 1
+                        </RadioCardInput.ItemText>
+
+                        <RadioCardInput.ItemDescription>
+                          Description 1
+                        </RadioCardInput.ItemDescription>
+                      </VStack>
+
+                      <RadioCardInput.ItemIndicator />
+                    </RadioCardInput.ItemControl>
+                  </RadioCardInput.Item>
+
+                  <RadioCardInput.Item value="option-2">
+                    <RadioCardInput.ItemControl>
+                      <VStack gap={1}>
+                        <AppTablerIcon
+                          icon={IconForbid}
+                          size={"xl"}
+                          color={"fg.muted"}
+                          mb={1}
+                        />
+
+                        <RadioCardInput.ItemText>
+                          Option 2
+                        </RadioCardInput.ItemText>
+
+                        <RadioCardInput.ItemDescription>
+                          Description 2
+                        </RadioCardInput.ItemDescription>
+                      </VStack>
+                      <RadioCardInput.ItemIndicator />
+                    </RadioCardInput.ItemControl>
+                  </RadioCardInput.Item>
+                </HStack>
+              </RadioCardInput.Root>
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <Textarea placeholder="textarea" />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <Slider defaultValue={[25]} w={"200px"} />
             </FieldTemplate>
           </HStack>
         </Fieldset>
