@@ -22,8 +22,8 @@ import {
   AppLucideIcon,
   AppTablerIcon,
 } from "@/design-system/components/icon/ui/app-icon";
+import { useExistingFiles } from "@/design-system/components/input/hooks/use-existing-files";
 import type { FieldProps } from "@/design-system/components/input/types/field.type";
-import type { FileInputExistingItem } from "@/design-system/components/input/types/file-input.type";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 import { DateInput } from "@/design-system/components/input/ui/date-input";
 import { Field } from "@/design-system/components/input/ui/field";
@@ -645,8 +645,8 @@ const DemoFileInput = (
     },
   ];
 
-  const [existingFiles, setExistingFiles] = useState<FileInputExistingItem[]>(
-    apiResponse.map((att) => ({
+  const { existingFiles, toggleMarkedForDelete } = useExistingFiles({
+    initialExistingFiles: apiResponse.map((att) => ({
       id: att.attachment_id,
       name: att.file_name,
       size: att.file_size,
@@ -654,7 +654,7 @@ const DemoFileInput = (
       mimeType: att.content_type,
       // markedForDelete: true,
     })),
-  );
+  });
 
   return (
     <FieldTemplate w={"320px"} {...props}>
@@ -663,18 +663,7 @@ const DemoFileInput = (
         accept={[".jpeg", ".jpg"]}
         maxFiles={2}
         existingFiles={existingFiles}
-        onToggleDeleteExisting={(id: string) => {
-          setExistingFiles((prev) =>
-            prev.map((file) =>
-              file.id === id
-                ? {
-                    ...file,
-                    markedForDelete: !file.markedForDelete,
-                  }
-                : file,
-            ),
-          );
-        }}
+        onToggleDeleteExisting={toggleMarkedForDelete}
       />
     </FieldTemplate>
   );

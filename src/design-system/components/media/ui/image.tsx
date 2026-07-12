@@ -1,3 +1,5 @@
+// src/design-system/components/media/ui/image.tsx
+
 import { useState } from "react";
 
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
