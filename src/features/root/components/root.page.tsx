@@ -645,21 +645,36 @@ const DemoFileInput = (
     },
   ];
 
-  const existingFiles: FileInputExistingItem[] = apiResponse.map((att) => ({
-    id: att.attachment_id,
-    name: att.file_name,
-    size: att.file_size,
-    url: att.file_url,
-    mimeType: att.content_type,
-  }));
+  const [existingFiles, setExistingFiles] = useState<FileInputExistingItem[]>(
+    apiResponse.map((att) => ({
+      id: att.attachment_id,
+      name: att.file_name,
+      size: att.file_size,
+      url: att.file_url,
+      mimeType: att.content_type,
+      // markedForDelete: true,
+    })),
+  );
 
   return (
     <FieldTemplate w={"320px"} {...props}>
       <FileInput
         inputProps={props.inputProps}
-        existingFiles={existingFiles}
         accept={[".jpeg", ".jpg"]}
         maxFiles={2}
+        existingFiles={existingFiles}
+        onToggleDeleteExisting={(id: string) => {
+          setExistingFiles((prev) =>
+            prev.map((file) =>
+              file.id === id
+                ? {
+                    ...file,
+                    markedForDelete: !file.markedForDelete,
+                  }
+                : file,
+            ),
+          );
+        }}
       />
     </FieldTemplate>
   );

@@ -186,8 +186,6 @@ const FileInputInner = (props: FileinputInnerProps) => {
   // Derived Values
   const isSlotFull =
     effectiveMaxFiles <= 0 || acceptedFiles.length >= effectiveMaxFiles;
-  // Replace-all mode already has effectiveMaxFiles=maxFiles, so existing files
-  // never block the upload area. Just hide when the slot is truly full.
   const showInputComponent = !isSlotFull;
 
   return (
@@ -208,6 +206,7 @@ const FileInputInner = (props: FileinputInnerProps) => {
       )}
 
       {/* Input component */}
+
       {showInputComponent && (
         <VStack>
           {resolvedVariant === "button" && (
@@ -372,11 +371,10 @@ const ExistingFileItem = (props: ExistingFileItemProps) => {
   // Props
   const { file, disabled, onToggleDelete, hasNewFiles, ...restProps } = props;
 
-  // In replace-all mode (no onToggleDelete), mark existing as "will be replaced"
-  // only when the user has already queued new files.
+  // Derived Values
   const isReplaceAll = !onToggleDelete;
   const effectiveMarkedForDelete =
-    file.markedForDelete || (isReplaceAll && !!hasNewFiles);
+    file.markedForDelete || (isReplaceAll && hasNewFiles);
 
   return (
     <FileItem
@@ -408,6 +406,9 @@ const FileItem = (props: FileItemProps) => {
   // Stores
   const { theme } = useThemeStore();
 
+  // Derived Values
+  const contentOpacity = markedForDelete ? 0.5 : 1;
+
   return (
     <HStack
       align={"center"}
@@ -419,29 +420,39 @@ const FileItem = (props: FileItemProps) => {
       border={"1px solid"}
       borderColor={"border.subtle"}
       rounded={theme.radii.component}
-      opacity={markedForDelete ? 0.5 : 1}
       {...restProps}
     >
       {previewUrl && isImageFile(mimeType) ? (
         <Image
           src={previewUrl}
           alt={name}
-          fallback={<AppTablerIcon icon={IconPhotoOff} />}
+          fallback={
+            <AppTablerIcon icon={IconPhotoOff} opacity={contentOpacity} />
+          }
           w={"20px"}
           h={"20px"}
           objectFit={"cover"}
+          opacity={contentOpacity}
         />
       ) : (
-        <FileIcon mimeType={mimeType} />
+        <FileIcon mimeType={mimeType} opacity={contentOpacity} />
       )}
 
-      <ClampedP textDecoration={markedForDelete ? "line-through" : undefined}>
+      <ClampedP
+        textDecoration={markedForDelete ? "line-through" : undefined}
+        opacity={contentOpacity}
+      >
         {name}
       </ClampedP>
 
       <HStack align={"center"} gap={4} ml={"auto"}>
         {sizeLabel && (
-          <P fontSize={"sm"} whiteSpace={"nowrap"} color={"fg.subtle"}>
+          <P
+            fontSize={"sm"}
+            whiteSpace={"nowrap"}
+            color={"fg.subtle"}
+            opacity={contentOpacity}
+          >
             {sizeLabel}
           </P>
         )}

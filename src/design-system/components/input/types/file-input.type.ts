@@ -45,7 +45,6 @@ export type ExistingFileItemProps = StackProps & {
   file: FileInputExistingItem;
   disabled?: boolean;
   onToggleDelete?: (id: string) => void;
-  /** Replace-all mode: mark existing as "will be replaced" when new files are queued. */
   hasNewFiles?: boolean;
 };
 
