@@ -21,6 +21,7 @@ import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport"
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { useObjectUrl } from "@/shared/hooks/use-object-url";
 import { t } from "@/shared/libs/i18n/-typed";
+import { isEmptyArray } from "@/shared/utils/data/array";
 import { formatFileSize, isImageFile } from "@/shared/utils/data/file";
 import { cssCalc } from "@/shared/utils/style/css-calc";
 import {
@@ -183,25 +184,32 @@ const FileInputInner = (props: FileinputInnerProps) => {
   }, []);
 
   // Derived Values
-  const isReplaceAllMode = !onToggleDeleteExisting;
   const isSlotFull =
     effectiveMaxFiles <= 0 || acceptedFiles.length >= effectiveMaxFiles;
-  // In replace-all mode, always show the upload area regardless of existing files
-  const showUploadArea = isReplaceAllMode || !isSlotFull;
+  // Replace-all mode already has effectiveMaxFiles=maxFiles, so existing files
+  // never block the upload area. Just hide when the slot is truly full.
+  const showInputComponent = !isSlotFull;
 
   return (
-    <VStack w={"full"}>
-      {existingFiles.map((file) => (
-        <ExistingFileItem
-          key={file.id}
-          file={file}
-          disabled={disabled}
-          onToggleDelete={onToggleDeleteExisting}
-        />
-      ))}
+    <VStack gap={2} w={"full"}>
+      {/* Existing file list */}
+      {!isEmptyArray(existingFiles) && (
+        <VStack gap={2}>
+          {existingFiles.map((file) => (
+            <ExistingFileItem
+              key={file.id}
+              file={file}
+              disabled={disabled}
+              onToggleDelete={onToggleDeleteExisting}
+              hasNewFiles={acceptedFiles.length > 0}
+            />
+          ))}
+        </VStack>
+      )}
 
-      {showUploadArea && (
-        <VStack my={2}>
+      {/* Input component */}
+      {showInputComponent && (
+        <VStack>
           {resolvedVariant === "button" && (
             <FileUpload.Trigger asChild>
               <Button
@@ -321,16 +329,21 @@ const FileInputInner = (props: FileinputInnerProps) => {
         </VStack>
       )}
 
-      {acceptedFiles.map((file) => (
-        <NewFileItem
-          key={file.name}
-          file={file}
-          disabled={disabled}
-          border={"1px solid"}
-          borderColor={invalid ? "border.error" : "border.muted"}
-          onDelete={() => setFiles(acceptedFiles.filter((f) => f !== file))}
-        />
-      ))}
+      {/* New file list */}
+      {!isEmptyArray(acceptedFiles) && (
+        <VStack gap={2}>
+          {acceptedFiles.map((file) => (
+            <NewFileItem
+              key={file.name}
+              file={file}
+              disabled={disabled}
+              border={"1px solid"}
+              borderColor={invalid ? "border.error" : "border.muted"}
+              onDelete={() => setFiles(acceptedFiles.filter((f) => f !== file))}
+            />
+          ))}
+        </VStack>
+      )}
     </VStack>
   );
 };
@@ -357,7 +370,13 @@ const NewFileItem = (props: NewFileItemProps) => {
 
 const ExistingFileItem = (props: ExistingFileItemProps) => {
   // Props
-  const { file, disabled, onToggleDelete, ...restProps } = props;
+  const { file, disabled, onToggleDelete, hasNewFiles, ...restProps } = props;
+
+  // In replace-all mode (no onToggleDelete), mark existing as "will be replaced"
+  // only when the user has already queued new files.
+  const isReplaceAll = !onToggleDelete;
+  const effectiveMarkedForDelete =
+    file.markedForDelete || (isReplaceAll && !!hasNewFiles);
 
   return (
     <FileItem
@@ -365,7 +384,7 @@ const ExistingFileItem = (props: ExistingFileItemProps) => {
       mimeType={file.mimeType ?? ""}
       previewUrl={file.url}
       sizeLabel={file.size != null ? formatFileSize(file.size) : undefined}
-      markedForDelete={file.markedForDelete}
+      markedForDelete={effectiveMarkedForDelete}
       disabled={disabled}
       onDelete={onToggleDelete ? () => onToggleDelete(file.id) : undefined}
       {...restProps}
