@@ -169,11 +169,28 @@ const FileInputInner = (props: FileinputInnerProps) => {
   const resolvedVariant =
     variant === "auto" ? (isSmallViewport ? "button" : "dropzone") : variant;
 
+  // Derived Values
+  const isSlotFull =
+    effectiveMaxFiles <= 0 || acceptedFiles.length >= effectiveMaxFiles;
+  const showInputComponent = !isSlotFull;
+
+  // Handlers
+  function handleToggleDeleteExisting(id: string) {
+    const target = existingFiles.find((f) => f.id === id);
+    const isRestoring = target?.markedForDelete === true;
+    if (isRestoring && acceptedFiles.length > 0) {
+      const newEffectiveMax = effectiveMaxFiles - 1;
+      if (acceptedFiles.length > newEffectiveMax) {
+        setFiles(acceptedFiles.slice(0, Math.max(newEffectiveMax, 0)));
+      }
+    }
+    onToggleDeleteExisting?.(id);
+  }
+
   // Keep parent's snapshot ref up-to-date so it can save files before remount
   useEffect(() => {
     acceptedFilesRef.current = acceptedFiles;
   }, [acceptedFiles, acceptedFilesRef]);
-
   useEffect(() => {
     const toRestore = filesToRestoreRef.current;
     if (toRestore.length > 0) {
@@ -182,11 +199,6 @@ const FileInputInner = (props: FileinputInnerProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Derived Values
-  const isSlotFull =
-    effectiveMaxFiles <= 0 || acceptedFiles.length >= effectiveMaxFiles;
-  const showInputComponent = !isSlotFull;
 
   return (
     <VStack gap={2} w={"full"}>
@@ -198,7 +210,9 @@ const FileInputInner = (props: FileinputInnerProps) => {
               key={file.id}
               file={file}
               disabled={disabled}
-              onToggleDelete={onToggleDeleteExisting}
+              onToggleDelete={
+                onToggleDeleteExisting ? handleToggleDeleteExisting : undefined
+              }
               hasNewFiles={acceptedFiles.length > 0}
             />
           ))}
