@@ -14,7 +14,11 @@ import type {
   NewFileItemProps,
 } from "@/design-system/components/input/types/file-input.type";
 import { getFileIcon } from "@/design-system/components/input/utils/file-input.utils";
-import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
+import {
+  Center,
+  HStack,
+  VStack,
+} from "@/design-system/components/layout/ui/flex-box";
 import { Image } from "@/design-system/components/media/ui/image";
 import { ClampedP, P } from "@/design-system/components/typography/ui/p";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
@@ -66,9 +70,6 @@ export const FileInput = (props: FileInputProps) => {
   const [resetKey, setResetKey] = useState(0);
 
   // Resolved Values
-  // When onToggleDeleteExisting is provided: manage existing files individually
-  // (slots = maxFiles - remaining existing). Otherwise: replace-all flow — full
-  // slot quota is always available for new uploads.
   const existingRemainingCount = existingFiles.filter(
     (file) => !file.markedForDelete,
   ).length;
@@ -170,6 +171,7 @@ const FileInputInner = (props: FileinputInnerProps) => {
     variant === "auto" ? (isSmallViewport ? "button" : "dropzone") : variant;
 
   // Derived Values
+  const isReplaceAllMode = !onToggleDeleteExisting;
   const isSlotFull =
     effectiveMaxFiles <= 0 || acceptedFiles.length >= effectiveMaxFiles;
   const showInputComponent = !isSlotFull;
@@ -182,6 +184,7 @@ const FileInputInner = (props: FileinputInnerProps) => {
       const newEffectiveMax = effectiveMaxFiles - 1;
       if (acceptedFiles.length > newEffectiveMax) {
         setFiles(acceptedFiles.slice(0, Math.max(newEffectiveMax, 0)));
+        // TODO: info toast wuth content t["file_input.auto_trimmed_warning"]()
       }
     }
     onToggleDeleteExisting?.(id);
@@ -220,9 +223,8 @@ const FileInputInner = (props: FileinputInnerProps) => {
       )}
 
       {/* Input component */}
-
-      {showInputComponent && (
-        <VStack>
+      {showInputComponent ? (
+        <VStack w={"full"}>
           {resolvedVariant === "button" && (
             <FileUpload.Trigger asChild>
               <Button
@@ -340,6 +342,25 @@ const FileInputInner = (props: FileinputInnerProps) => {
             </VStack>
           )}
         </VStack>
+      ) : (
+        <Center
+          w={"full"}
+          p={4}
+          border={"1px dashed"}
+          borderColor={"border.muted"}
+          rounded={theme.radii.component}
+          bg={"bg.subtle"}
+        >
+          <P fontSize={"sm"} color={"fg.subtle"} textAlign={"center"}>
+            {t["file_input.limit_reached"]()}
+          </P>
+        </Center>
+      )}
+
+      {isReplaceAllMode && !isEmptyArray(existingFiles) && (
+        <P fontSize={"xs"} color={"fg.subtle"} textAlign={"center"}>
+          {t["file_input.replace_hint"]()}
+        </P>
       )}
 
       {/* New file list */}
@@ -460,7 +481,18 @@ const FileItem = (props: FileItemProps) => {
       </ClampedP>
 
       <HStack align={"center"} gap={4} ml={"auto"}>
-        {sizeLabel && (
+        {markedForDelete && (
+          <P
+            fontSize={"xs"}
+            color={"fg.subtle"}
+            fontStyle={"italic"}
+            whiteSpace={"nowrap"}
+          >
+            {t["file_input.scheduled_removal"]()}
+          </P>
+        )}
+
+        {!markedForDelete && sizeLabel && (
           <P
             fontSize={"sm"}
             whiteSpace={"nowrap"}
