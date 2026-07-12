@@ -21,7 +21,6 @@ import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport"
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { useObjectUrl } from "@/shared/hooks/use-object-url";
 import { t } from "@/shared/libs/i18n/-typed";
-import { isEmptyArray } from "@/shared/utils/data/array";
 import { formatFileSize, isImageFile } from "@/shared/utils/data/file";
 import { cssCalc } from "@/shared/utils/style/css-calc";
 import {
@@ -33,6 +32,7 @@ import {
 import {
   IconArrowBackUp,
   IconArrowDownDashed,
+  IconPhotoOff,
   IconUpload,
   IconX,
 } from "@tabler/icons-react";
@@ -65,10 +65,15 @@ export const FileInput = (props: FileInputProps) => {
   const [resetKey, setResetKey] = useState(0);
 
   // Resolved Values
+  // When onToggleDeleteExisting is provided: manage existing files individually
+  // (slots = maxFiles - remaining existing). Otherwise: replace-all flow — full
+  // slot quota is always available for new uploads.
   const existingRemainingCount = existingFiles.filter(
     (file) => !file.markedForDelete,
   ).length;
-  const effectiveMaxFiles = Math.max(maxFiles - existingRemainingCount, 0);
+  const effectiveMaxFiles = onToggleDeleteExisting
+    ? Math.max(maxFiles - existingRemainingCount, 0)
+    : maxFiles;
 
   return (
     <FileUpload.Root
@@ -178,26 +183,25 @@ const FileInputInner = (props: FileinputInnerProps) => {
   }, []);
 
   // Derived Values
+  const isReplaceAllMode = !onToggleDeleteExisting;
   const isSlotFull =
     effectiveMaxFiles <= 0 || acceptedFiles.length >= effectiveMaxFiles;
+  // In replace-all mode, always show the upload area regardless of existing files
+  const showUploadArea = isReplaceAllMode || !isSlotFull;
 
   return (
-    <>
-      {(!isEmptyArray(existingFiles) || !isEmptyArray(acceptedFiles)) && (
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          {existingFiles.map((file) => (
-            <ExistingFileItem
-              key={file.id}
-              file={file}
-              disabled={disabled}
-              onToggleDelete={onToggleDeleteExisting}
-            />
-          ))}
-        </div>
-      )}
+    <VStack w={"full"}>
+      {existingFiles.map((file) => (
+        <ExistingFileItem
+          key={file.id}
+          file={file}
+          disabled={disabled}
+          onToggleDelete={onToggleDeleteExisting}
+        />
+      ))}
 
-      {!isSlotFull && (
-        <>
+      {showUploadArea && (
+        <VStack my={2}>
           {resolvedVariant === "button" && (
             <FileUpload.Trigger asChild>
               <Button
@@ -314,7 +318,7 @@ const FileInputInner = (props: FileinputInnerProps) => {
               `}</style>
             </VStack>
           )}
-        </>
+        </VStack>
       )}
 
       {acceptedFiles.map((file) => (
@@ -327,7 +331,45 @@ const FileInputInner = (props: FileinputInnerProps) => {
           onDelete={() => setFiles(acceptedFiles.filter((f) => f !== file))}
         />
       ))}
-    </>
+    </VStack>
+  );
+};
+
+const NewFileItem = (props: NewFileItemProps) => {
+  // Props
+  const { file, disabled, onDelete, ...restProps } = props;
+
+  // Resolved Values
+  const previewUrl = useObjectUrl(isImageFile(file.type) ? file : undefined);
+
+  return (
+    <FileItem
+      name={file.name}
+      mimeType={file.type}
+      sizeLabel={formatFileSize(file.size)}
+      previewUrl={previewUrl}
+      disabled={disabled}
+      onDelete={onDelete}
+      {...restProps}
+    />
+  );
+};
+
+const ExistingFileItem = (props: ExistingFileItemProps) => {
+  // Props
+  const { file, disabled, onToggleDelete, ...restProps } = props;
+
+  return (
+    <FileItem
+      name={file.name}
+      mimeType={file.mimeType ?? ""}
+      previewUrl={file.url}
+      sizeLabel={file.size != null ? formatFileSize(file.size) : undefined}
+      markedForDelete={file.markedForDelete}
+      disabled={disabled}
+      onDelete={onToggleDelete ? () => onToggleDelete(file.id) : undefined}
+      {...restProps}
+    />
   );
 };
 
@@ -365,8 +407,9 @@ const FileItem = (props: FileItemProps) => {
         <Image
           src={previewUrl}
           alt={name}
+          fallback={<AppTablerIcon icon={IconPhotoOff} />}
+          w={"20px"}
           h={"20px"}
-          aspectRatio={"square"}
           objectFit={"cover"}
         />
       ) : (
@@ -377,68 +420,30 @@ const FileItem = (props: FileItemProps) => {
         {name}
       </ClampedP>
 
-      {sizeLabel && (
-        <P
-          ml={"auto"}
-          fontSize={"sm"}
-          whiteSpace={"nowrap"}
-          color={"fg.subtle"}
-        >
-          {sizeLabel}
-        </P>
-      )}
+      <HStack align={"center"} gap={4} ml={"auto"}>
+        {sizeLabel && (
+          <P fontSize={"sm"} whiteSpace={"nowrap"} color={"fg.subtle"}>
+            {sizeLabel}
+          </P>
+        )}
 
-      <IconButton
-        size={"xs"}
-        h={"32px"}
-        disabled={disabled}
-        aria-label={
-          markedForDelete
-            ? t["common.undo_remove_file"]()
-            : t["common.remove_file"]()
-        }
-        onClick={onDelete}
-      >
-        <AppTablerIcon icon={markedForDelete ? IconArrowBackUp : IconX} />
-      </IconButton>
+        {onDelete && (
+          <IconButton
+            size={"xs"}
+            h={"32px"}
+            disabled={disabled}
+            aria-label={
+              markedForDelete
+                ? t["common.undo_remove_file"]()
+                : t["common.remove_file"]()
+            }
+            onClick={onDelete}
+          >
+            <AppTablerIcon icon={markedForDelete ? IconArrowBackUp : IconX} />
+          </IconButton>
+        )}
+      </HStack>
     </HStack>
-  );
-};
-
-const NewFileItem = (props: NewFileItemProps) => {
-  // Props
-  const { file, disabled, onDelete, ...restProps } = props;
-
-  // Resolved Values
-  const previewUrl = useObjectUrl(isImageFile(file.type) ? file : undefined);
-
-  return (
-    <FileItem
-      name={file.name}
-      mimeType={file.type}
-      sizeLabel={formatFileSize(file.size)}
-      previewUrl={previewUrl}
-      disabled={disabled}
-      onDelete={onDelete}
-      {...restProps}
-    />
-  );
-};
-
-const ExistingFileItem = (props: ExistingFileItemProps) => {
-  // Props
-  const { file, disabled, onToggleDelete, ...restProps } = props;
-
-  return (
-    <FileItem
-      name={file.name}
-      mimeType={file.mimeType ?? ""}
-      previewUrl={file.url}
-      markedForDelete={file.markedForDelete}
-      disabled={disabled}
-      onDelete={() => onToggleDelete?.(file.id)}
-      {...restProps}
-    />
   );
 };
 

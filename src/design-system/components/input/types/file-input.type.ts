@@ -54,12 +54,13 @@ export type FileItemProps = StackProps & {
   previewUrl?: string;
   markedForDelete?: boolean;
   disabled?: boolean;
-  onDelete: () => void;
+  onDelete?: () => void;
 };
 
 export interface FileInputExistingItem {
   id: string;
   name: string;
+  size?: number;
   url?: string;
   mimeType?: string;
   markedForDelete?: boolean;

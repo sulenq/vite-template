@@ -23,6 +23,7 @@ import {
   AppTablerIcon,
 } from "@/design-system/components/icon/ui/app-icon";
 import type { FieldProps } from "@/design-system/components/input/types/field.type";
+import type { FileInputExistingItem } from "@/design-system/components/input/types/file-input.type";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 import { DateInput } from "@/design-system/components/input/ui/date-input";
 import { Field } from "@/design-system/components/input/ui/field";
@@ -71,7 +72,7 @@ import {
 } from "@tabler/icons-react";
 import { CogIcon } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 
 export const RootPage = () => {
   return (
@@ -624,6 +625,46 @@ const FieldTemplate = (props: FieldProps) => {
   return <Field errorText={"Invalid input"} w={"fit"} {...props} />;
 };
 
+const DemoFileInput = (
+  props: FieldProps & { inputProps: UseFormRegisterReturn },
+) => {
+  const apiResponse = [
+    {
+      attachment_id: "att_001",
+      file_name: "invoice-january.pdf",
+      file_size: 8000,
+      file_url: "https://cdn.example.com/files/invoice-january.pdf",
+      content_type: "application/pdf",
+    },
+    {
+      attachment_id: "att_002",
+      file_name: "product-photo.jpg",
+      file_size: 1420,
+      file_url: "https://cdn.example.com/files/product-photo.jpg",
+      content_type: "image/jpeg",
+    },
+  ];
+
+  const existingFiles: FileInputExistingItem[] = apiResponse.map((att) => ({
+    id: att.attachment_id,
+    name: att.file_name,
+    size: att.file_size,
+    url: att.file_url,
+    mimeType: att.content_type,
+  }));
+
+  return (
+    <FieldTemplate w={"320px"} {...props}>
+      <FileInput
+        inputProps={props.inputProps}
+        existingFiles={existingFiles}
+        accept={[".jpeg", ".jpg"]}
+        maxFiles={2}
+      />
+    </FieldTemplate>
+  );
+};
+
 export const Inputs = () => {
   const {
     register,
@@ -707,14 +748,10 @@ export const Inputs = () => {
               <SteppedNumberInput hiddenInputProps={register("number2")} />
             </FieldTemplate>
 
-            <FieldTemplate invalid={invalid} w={"320px"}>
-              <FileInput
-                inputProps={register("attachments")}
-                accept={[".jpeg", ".jpg"]}
-                maxFiles={2}
-                maxW={"350px"}
-              />
-            </FieldTemplate>
+            <DemoFileInput
+              invalid={invalid}
+              inputProps={register("attachments")}
+            />
 
             <FieldTemplate invalid={invalid}>
               <PinInput />

@@ -95,7 +95,9 @@ export default function Select(props: SelectProps) {
               >
                 {item.label}
 
-                <ChakraSelect.ItemIndicator />
+                <ChakraSelect.ItemIndicator
+                  color={`${theme.colorPalette}.solid`}
+                />
               </ChakraSelect.Item>
             ))}
           </ChakraSelect.Content>
