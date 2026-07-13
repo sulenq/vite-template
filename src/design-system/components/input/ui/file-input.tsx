@@ -20,6 +20,7 @@ import {
   VStack,
 } from "@/design-system/components/layout/ui/flex-box";
 import { Image } from "@/design-system/components/media/ui/image";
+import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
 import { ClampedP, P } from "@/design-system/components/typography/ui/p";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
@@ -504,19 +505,27 @@ const FileItem = (props: FileItemProps) => {
         )}
 
         {onDelete && (
-          <IconButton
-            size={"xs"}
-            h={"32px"}
-            disabled={disabled}
-            aria-label={
+          <Tooltip
+            content={
               markedForDelete
                 ? t["common.undo_remove_file"]()
                 : t["common.remove_file"]()
             }
-            onClick={onDelete}
           >
-            <AppTablerIcon icon={markedForDelete ? IconArrowBackUp : IconX} />
-          </IconButton>
+            <IconButton
+              size={"xs"}
+              h={"32px"}
+              disabled={disabled}
+              aria-label={
+                markedForDelete
+                  ? t["common.undo_remove_file"]()
+                  : t["common.remove_file"]()
+              }
+              onClick={onDelete}
+            >
+              <AppTablerIcon icon={markedForDelete ? IconArrowBackUp : IconX} />
+            </IconButton>
+          </Tooltip>
         )}
       </HStack>
     </HStack>
