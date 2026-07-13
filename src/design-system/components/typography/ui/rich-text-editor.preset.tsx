@@ -65,6 +65,7 @@ export const RichTextEditorPresetEssential = (props: RichEditorPresetProps) => {
           <Control.Bold />
           <Control.Italic />
           <Control.Underline />
+          <Control.Strikethrough />
         </RichTextEditor.ControlGroup>
 
         <RichTextEditor.ControlGroup>

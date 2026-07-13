@@ -4,6 +4,7 @@
 
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { CloseButton } from "@/design-system/components/button/ui/close-button";
+import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import SelectInput from "@/design-system/components/input/ui/select";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { Popover } from "@/design-system/components/overlay/ui/popover";
@@ -11,6 +12,33 @@ import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
 import { Portal } from "@/design-system/components/utilities/ui/portal";
 import type { IconButtonProps } from "@chakra-ui/react";
 import { ColorSwatch } from "@chakra-ui/react";
+import {
+  IconAlignCenter,
+  IconAlignJustified,
+  IconAlignLeft,
+  IconAlignRight,
+  IconArrowBackUp,
+  IconArrowForwardUp,
+  IconBold,
+  IconCode,
+  IconColorSwatch,
+  IconH1,
+  IconH2,
+  IconH3,
+  IconH4,
+  IconHighlight,
+  IconItalic,
+  IconLink,
+  IconLinkOff,
+  IconList,
+  IconListNumbers,
+  IconMinus,
+  IconQuote,
+  IconStrikethrough,
+  IconSubscript,
+  IconSuperscript,
+  IconUnderline,
+} from "@tabler/icons-react";
 import "@tiptap/extension-font-family";
 import "@tiptap/extension-highlight";
 import "@tiptap/extension-link";
@@ -21,33 +49,6 @@ import "@tiptap/extension-text-style";
 import "@tiptap/extension-underline";
 import "@tiptap/starter-kit";
 import { forwardRef, useId, useState } from "react";
-import {
-  LuAlignCenter,
-  LuAlignJustify,
-  LuAlignLeft,
-  LuAlignRight,
-  LuBold,
-  LuCode,
-  LuHeading1,
-  LuHeading2,
-  LuHeading3,
-  LuHeading4,
-  LuHighlighter,
-  LuItalic,
-  LuLink,
-  LuLink2,
-  LuList,
-  LuListOrdered,
-  LuMinus,
-  LuQuote,
-  LuRotateCcw,
-  LuRotateCw,
-  LuStrikethrough,
-  LuSubscript,
-  LuSuperscript,
-  LuType,
-  LuUnderline,
-} from "react-icons/lu";
 import type {
   BooleanControlConfig,
   ButtonControlProps,
@@ -55,14 +56,17 @@ import type {
   SwatchControlConfig,
 } from "../types/rich-text-editor.type";
 import { useRichTextEditorContext } from "./rich-text-editor.context";
+import type { SelectProps } from "@/design-system/components/input/types/select.type";
 
 export const ButtonControl = forwardRef<HTMLButtonElement, ButtonControlProps>(
   function ButtonControl(props, ref) {
-    const { icon, label, ...rest } = props;
+    const { icon, tablerIcon, label, ...rest } = props;
     return (
       <Tooltip content={label}>
-        <IconButton ref={ref} size={"2xs"} aria-label={label} {...rest}>
+        <IconButton ref={ref} aria-label={label} {...rest}>
           {icon}
+
+          <AppTablerIcon icon={tablerIcon} />
         </IconButton>
       </Tooltip>
     );
@@ -75,6 +79,7 @@ export function createBooleanControl(config: BooleanControlConfig) {
   const {
     label,
     icon: Icon,
+    tablerIcon,
     isDisabled,
     command,
     getVariant,
@@ -94,7 +99,7 @@ export function createBooleanControl(config: BooleanControlConfig) {
         <ButtonControl
           ref={ref}
           label={label}
-          icon={<Icon />}
+          icon={Icon ? <Icon /> : <AppTablerIcon icon={tablerIcon} />}
           variant={variant}
           onClick={() => command(editor)}
           disabled={disabled}
@@ -114,14 +119,14 @@ export function createSelectControl(config: SelectControlConfig) {
   const {
     label,
     options,
-    w = "70px",
+    w = "80px",
     getValue,
     command,
     isDisabled,
     getProps,
   } = config;
 
-  function SelectControl(props) {
+  function SelectControl(props: SelectProps) {
     const { editor } = useRichTextEditorContext();
     const controlId = useId();
 
@@ -136,21 +141,15 @@ export function createSelectControl(config: SelectControlConfig) {
       <SelectInput
         selectOptions={options}
         variant={"ghost"}
-        size={"xs"}
         positioning={{ sameWidth: false }}
         placeholder={label}
         flexShrink={0}
         w={w}
-        fontSize={"sm"}
         {...props}
         value={currentValue}
         onValueChange={(value) => command(editor, value)}
         disabled={disabled}
         ids={{ trigger: controlId }}
-        css={{
-          "--select-trigger-height": "sizes.6",
-          "--select-trigger-padding-x": "spacing.2",
-        }}
         {...dynamicProps}
       />
     );
@@ -171,6 +170,7 @@ export function createSwatchControl(config: SwatchControlConfig) {
     onRemove,
     isDisabled,
     icon: Icon,
+    tablerIcon,
     getProps,
   } = config;
 
@@ -196,7 +196,6 @@ export function createSwatchControl(config: SwatchControlConfig) {
             <Popover.Trigger asChild>
               <IconButton
                 ref={ref}
-                size={"2xs"}
                 aria-label={label}
                 disabled={disabled}
                 {...dynamicProps}
@@ -204,6 +203,8 @@ export function createSwatchControl(config: SwatchControlConfig) {
               >
                 <VStack align={"center"} gap={"1px"}>
                   {Icon && <Icon />}
+
+                  {tablerIcon && <AppTablerIcon icon={tablerIcon} />}
                   <ColorSwatch value={currentValue} h={"4px"} w={"100%"} />
                 </VStack>
               </IconButton>
@@ -229,7 +230,6 @@ export function createSwatchControl(config: SwatchControlConfig) {
                     {showRemove && onRemove && (
                       <Popover.CloseTrigger asChild>
                         <CloseButton
-                          size={"2xs"}
                           onClick={() => {
                             onRemove(editor);
                             setOpen(false);
@@ -255,7 +255,7 @@ export function createSwatchControl(config: SwatchControlConfig) {
 
 export const FontFamily = createSelectControl({
   label: "Font Family",
-  width: "80px",
+  w: "80px",
   options: [
     { value: "default", label: "Default" },
     { value: "serif", label: "Serif" },
@@ -272,7 +272,7 @@ export const FontFamily = createSelectControl({
 
 export const FontSize = createSelectControl({
   label: "Font Size",
-  width: "64px",
+  w: "80px",
   options: [
     { value: "12px", label: "12px" },
     { value: "14px", label: "14px" },
@@ -286,56 +286,56 @@ export const FontSize = createSelectControl({
 
 export const Bold = createBooleanControl({
   label: "Bold",
-  icon: LuBold,
+  tablerIcon: IconBold,
   command: (editor) => editor.chain().focus().toggleBold().run(),
   getVariant: (editor) => (editor.isActive("bold") ? "subtle" : "ghost"),
 });
 
 export const Italic = createBooleanControl({
   label: "Italic",
-  icon: LuItalic,
+  tablerIcon: IconItalic,
   command: (editor) => editor.chain().focus().toggleItalic().run(),
   getVariant: (editor) => (editor.isActive("italic") ? "subtle" : "ghost"),
 });
 
 export const Underline = createBooleanControl({
   label: "Underline",
-  icon: LuUnderline,
+  tablerIcon: IconUnderline,
   command: (editor) => editor.chain().focus().toggleUnderline().run(),
   getVariant: (editor) => (editor.isActive("underline") ? "subtle" : "ghost"),
 });
 
 export const Strikethrough = createBooleanControl({
   label: "Strikethrough",
-  icon: LuStrikethrough,
+  tablerIcon: IconStrikethrough,
   command: (editor) => editor.chain().focus().toggleStrike().run(),
   getVariant: (editor) => (editor.isActive("strike") ? "subtle" : "ghost"),
 });
 
 export const Code = createBooleanControl({
   label: "Code",
-  icon: LuCode,
+  tablerIcon: IconCode,
   command: (editor) => editor.chain().focus().toggleCode().run(),
   getVariant: (editor) => (editor.isActive("code") ? "subtle" : "ghost"),
 });
 
 export const Subscript = createBooleanControl({
   label: "Subscript",
-  icon: LuSubscript,
+  tablerIcon: IconSubscript,
   command: (editor) => editor.chain().focus().toggleSubscript().run(),
   getVariant: (editor) => (editor.isActive("subscript") ? "subtle" : "ghost"),
 });
 
 export const Superscript = createBooleanControl({
   label: "Superscript",
-  icon: LuSuperscript,
+  tablerIcon: IconSuperscript,
   command: (editor) => editor.chain().focus().toggleSuperscript().run(),
   getVariant: (editor) => (editor.isActive("superscript") ? "subtle" : "ghost"),
 });
 
 export const H1 = createBooleanControl({
   label: "H1",
-  icon: LuHeading1,
+  tablerIcon: IconH1,
   command: (editor) => editor.chain().focus().toggleHeading({ level: 1 }).run(),
   getVariant: (editor) =>
     editor.isActive("heading", { level: 1 }) ? "subtle" : "ghost",
@@ -343,7 +343,7 @@ export const H1 = createBooleanControl({
 
 export const H2 = createBooleanControl({
   label: "H2",
-  icon: LuHeading2,
+  tablerIcon: IconH2,
   command: (editor) => editor.chain().focus().toggleHeading({ level: 2 }).run(),
   getVariant: (editor) =>
     editor.isActive("heading", { level: 2 }) ? "subtle" : "ghost",
@@ -351,7 +351,7 @@ export const H2 = createBooleanControl({
 
 export const H3 = createBooleanControl({
   label: "H3",
-  icon: LuHeading3,
+  tablerIcon: IconH3,
   command: (editor) => editor.chain().focus().toggleHeading({ level: 3 }).run(),
   getVariant: (editor) =>
     editor.isActive("heading", { level: 3 }) ? "subtle" : "ghost",
@@ -359,7 +359,7 @@ export const H3 = createBooleanControl({
 
 export const H4 = createBooleanControl({
   label: "H4",
-  icon: LuHeading4,
+  tablerIcon: IconH4,
   command: (editor) => editor.chain().focus().toggleHeading({ level: 4 }).run(),
   getVariant: (editor) =>
     editor.isActive("heading", { level: 4 }) ? "subtle" : "ghost",
@@ -367,35 +367,35 @@ export const H4 = createBooleanControl({
 
 export const BulletList = createBooleanControl({
   label: "Bullet List",
-  icon: LuList,
+  tablerIcon: IconList,
   command: (editor) => editor.chain().focus().toggleBulletList().run(),
   getVariant: (editor) => (editor.isActive("bulletList") ? "subtle" : "ghost"),
 });
 
 export const OrderedList = createBooleanControl({
   label: "Ordered List",
-  icon: LuListOrdered,
+  tablerIcon: IconListNumbers,
   command: (editor) => editor.chain().focus().toggleOrderedList().run(),
   getVariant: (editor) => (editor.isActive("orderedList") ? "subtle" : "ghost"),
 });
 
 export const Blockquote = createBooleanControl({
   label: "Blockquote",
-  icon: LuQuote,
+  tablerIcon: IconQuote,
   command: (editor) => editor.chain().focus().toggleBlockquote().run(),
   getVariant: (editor) => (editor.isActive("blockquote") ? "subtle" : "ghost"),
 });
 
 export const Hr = createBooleanControl({
   label: "Horizontal Rule",
-  icon: LuMinus,
+  tablerIcon: IconMinus,
   command: (editor) => editor.chain().focus().setHorizontalRule().run(),
   getVariant: (editor) => (editor.isActive("blockquote") ? "subtle" : "ghost"),
 });
 
 export const Link = createBooleanControl({
   label: "Link",
-  icon: LuLink,
+  tablerIcon: IconLink,
   command: (editor) => {
     const url = window.prompt("Enter URL");
     if (url)
@@ -411,14 +411,14 @@ export const Link = createBooleanControl({
 
 export const Unlink = createBooleanControl({
   label: "Unlink",
-  icon: LuLink2,
+  tablerIcon: IconLinkOff,
   command: (editor) => editor.chain().focus().unsetLink().run(),
   getVariant: (editor) => (editor.isActive("link") ? "subtle" : "ghost"),
 });
 
 export const AlignLeft = createBooleanControl({
   label: "Align Left",
-  icon: LuAlignLeft,
+  tablerIcon: IconAlignLeft,
   command: (editor) => editor.chain().focus().setTextAlign("left").run(),
   getVariant: (editor) =>
     editor.isActive({ textAlign: "left" }) ? "subtle" : "ghost",
@@ -426,7 +426,7 @@ export const AlignLeft = createBooleanControl({
 
 export const AlignCenter = createBooleanControl({
   label: "Align Center",
-  icon: LuAlignCenter,
+  tablerIcon: IconAlignCenter,
   command: (editor) => editor.chain().focus().setTextAlign("center").run(),
   getVariant: (editor) =>
     editor.isActive({ textAlign: "center" }) ? "subtle" : "ghost",
@@ -434,7 +434,7 @@ export const AlignCenter = createBooleanControl({
 
 export const AlignJustify = createBooleanControl({
   label: "Align Justify",
-  icon: LuAlignJustify,
+  tablerIcon: IconAlignJustified,
   command: (editor) => editor.chain().focus().setTextAlign("justify").run(),
   getVariant: (editor) =>
     editor.isActive({ textAlign: "justify" }) ? "subtle" : "ghost",
@@ -442,7 +442,7 @@ export const AlignJustify = createBooleanControl({
 
 export const AlignRight = createBooleanControl({
   label: "Align Right",
-  icon: LuAlignRight,
+  tablerIcon: IconAlignRight,
   command: (editor) => editor.chain().focus().setTextAlign("right").run(),
   getVariant: (editor) =>
     editor.isActive({ textAlign: "right" }) ? "subtle" : "ghost",
@@ -450,7 +450,7 @@ export const AlignRight = createBooleanControl({
 
 export const Undo = createBooleanControl({
   label: "Undo",
-  icon: LuRotateCcw,
+  tablerIcon: IconArrowBackUp,
   command: (editor) => editor.chain().focus().undo().run(),
   isDisabled: (editor) => !editor.can().undo(),
   getVariant: (editor) => (editor.isActive("link") ? "subtle" : "ghost"),
@@ -458,7 +458,7 @@ export const Undo = createBooleanControl({
 
 export const Redo = createBooleanControl({
   label: "Redo",
-  icon: LuRotateCw,
+  tablerIcon: IconArrowForwardUp,
   command: (editor) => editor.chain().focus().redo().run(),
   isDisabled: (editor) => !editor.can().redo(),
   getVariant: (editor) => (editor.isActive("link") ? "subtle" : "ghost"),
@@ -466,6 +466,7 @@ export const Redo = createBooleanControl({
 
 export const TextColor = createSwatchControl({
   label: "Text Color",
+  icon: IconColorSwatch,
   swatches: [
     { label: "Black", value: "#000000", color: "#000000" },
     { label: "Red", value: "#FF0000", color: "#FF0000" },
@@ -484,12 +485,12 @@ export const TextColor = createSwatchControl({
   }),
   command: (editor, color) =>
     editor.chain().focus().setMark("textStyle", { color }).run(),
-  icon: LuType,
   onRemove: (editor) => editor.chain().focus().unsetMark("textStyle").run(),
 });
 
 export const Highlight = createSwatchControl({
   label: "Highlight",
+  tablerIcon: IconHighlight,
   swatches: [
     { label: "Yellow", value: "#FFFF00", color: "#FFFF00" },
     { label: "Green", value: "#00FF00", color: "#00FF00" },
@@ -507,7 +508,6 @@ export const Highlight = createSwatchControl({
   }),
   command: (editor, color) =>
     editor.chain().focus().toggleHighlight({ color }).run(),
-  icon: LuHighlighter,
   showRemove: true,
   onRemove: (editor) => editor.chain().focus().unsetHighlight().run(),
 });

@@ -3,6 +3,7 @@
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { SelectProps } from "@/design-system/components/input/types/select.type";
 import { HStack } from "@/design-system/components/layout/ui/flex-box";
+import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import {
   Select as ChakraSelect,
@@ -49,25 +50,38 @@ export default function SelectInput(props: SelectProps) {
     >
       <ChakraSelect.HiddenSelect />
 
-      <ChakraSelect.Control>
-        <ChakraSelect.Trigger
-          rounded={theme.radii.component}
-          cursor={"pointer"}
-        >
-          <HStack w={"full"}>
+      <Tooltip
+        content={
+          <HStack w={"200%"}>
             <ChakraSelect.ValueText
-              fontSize={props?.fontSize}
+              fontSize={"sm"}
               placeholder={placeholder}
-              minH={"20px"}
+              whiteSpace={"nowrap"}
             />
             {suffixLabel}
           </HStack>
-        </ChakraSelect.Trigger>
+        }
+      >
+        <ChakraSelect.Control>
+          <ChakraSelect.Trigger
+            rounded={theme.radii.component}
+            cursor={"pointer"}
+          >
+            <HStack w={"full"}>
+              <ChakraSelect.ValueText
+                fontSize={props?.fontSize}
+                placeholder={placeholder}
+                minH={"20px"}
+              />
+              {suffixLabel}
+            </HStack>
+          </ChakraSelect.Trigger>
 
-        <ChakraSelect.IndicatorGroup>
-          <ChakraSelect.Indicator boxSize={5} color={props?.color} />
-        </ChakraSelect.IndicatorGroup>
-      </ChakraSelect.Control>
+          <ChakraSelect.IndicatorGroup>
+            <ChakraSelect.Indicator boxSize={5} color={props?.color} />
+          </ChakraSelect.IndicatorGroup>
+        </ChakraSelect.Control>
+      </Tooltip>
 
       <Portal container={portalRef} disabled={!portalled}>
         <ChakraSelect.Positioner>

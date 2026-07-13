@@ -26,8 +26,8 @@ const proseMirrorBaseCss = defineStyle({
   rounded: "l2",
   lineHeight: "1.5",
 
-  "--content-padding-x": "spacing.5",
-  "--content-padding-y": "spacing.5",
+  "--content-padding-x": "spacing.4",
+  "--content-padding-y": "spacing.4",
 
   "& img.ProseMirror-selectednode": {
     outlineWidth: "2px",
@@ -245,15 +245,6 @@ export const RichTextEditorToolbar = React.forwardRef<
   );
 });
 
-export const RichTextEditorFooter = React.forwardRef<
-  HTMLDivElement,
-  StackProps
->(function RichTextEditorFooter(props, ref) {
-  return (
-    <HStack ref={ref} gap={"1"} borderTopWidth={"1px"} p={"3"} {...props} />
-  );
-});
-
 export const RichTextEditorContent = React.forwardRef<
   HTMLDivElement,
   RichTextEditorContentProps
@@ -268,6 +259,15 @@ export const RichTextEditorControlGroup = React.forwardRef<
   RichTextEditorControlGroupProps
 >(function RichTextEditorButtonGroup(props, ref) {
   return <HStack ref={ref} gap={"1"} {...props} />;
+});
+
+export const RichTextEditorFooter = React.forwardRef<
+  HTMLDivElement,
+  StackProps
+>(function RichTextEditorFooter(props, ref) {
+  return (
+    <HStack ref={ref} gap={"1"} borderTopWidth={"1px"} p={"3"} {...props} />
+  );
 });
 
 export const RichTextEditor = {
