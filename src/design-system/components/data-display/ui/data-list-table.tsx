@@ -205,30 +205,24 @@ const DataListTableRoot = forwardRef<HTMLDivElement, DataListTableRootProps>(
   },
 );
 
-const DataListTableCell = forwardRef<HTMLDivElement, StackProps>(
-  (props, ref) => {
-    return (
-      <HStack
-        className="table-cell"
-        ref={ref}
-        align={"center"}
-        justify={"center"}
-        gap={2}
-        px={4}
-        py={2}
-        bg={"bg.body"}
-        whiteSpace={"nowrap"}
-        userSelect={"none"}
-        {...props}
-      />
-    );
-  },
-);
+const DataListTableCell = (props: StackProps) => {
+  return (
+    <HStack
+      className="table-cell"
+      align={"center"}
+      justify={"center"}
+      gap={2}
+      px={4}
+      py={2}
+      bg={"bg.body"}
+      whiteSpace={"nowrap"}
+      userSelect={"none"}
+      {...props}
+    />
+  );
+};
 
-const DataListTableHeader = forwardRef<
-  HTMLDivElement,
-  DataListTableHeaderProps
->((props, ref) => {
+const DataListTableHeader = (props: DataListTableHeaderProps) => {
   // Stores
   const { theme } = useThemeStore();
 
@@ -249,7 +243,6 @@ const DataListTableHeader = forwardRef<
   return (
     <Box
       role={"row"}
-      ref={ref}
       display={"grid"}
       gridTemplateColumns={"subgrid"}
       gridColumn={"1 / -1"}
@@ -312,7 +305,7 @@ const DataListTableHeader = forwardRef<
       )}
     </Box>
   );
-});
+};
 
 const DataListTableBody = () => {
   // Stores
