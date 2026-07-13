@@ -17,6 +17,7 @@ import {
   RichTextEditorContext,
   useRichTextEditorContext,
 } from "./rich-text-editor.context";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 
 const proseMirrorBaseCss = defineStyle({
   display: "flex",
@@ -216,15 +217,23 @@ export const RichTextEditorToolbar = React.forwardRef<
   HTMLDivElement,
   RichTextEditorToolbarProps
 >(function RichTextEditorToolbar(props, ref) {
+  // Props
   const { variant = "fixed", stickyOffset = "0px", ...rest } = props;
+
+  // Stores
+  const { theme } = useThemeStore();
+
+  // Derived Values
   const variantStyles = toolbarStylesMap[variant];
 
   return (
     <HStack
       ref={ref}
       flexWrap={"wrap"}
-      separator={<StackSeparator h={"5"} alignSelf={"center"} />}
       gapY={2}
+      bg={"bg.body"}
+      roundedTop={theme.radii.component}
+      separator={<StackSeparator h={"5"} alignSelf={"center"} />}
       {...rest}
       style={{
         ["--sticky-offset" as string]: stickyOffset,

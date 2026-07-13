@@ -7,6 +7,7 @@ import {
   Control,
   RichTextEditor,
 } from "@/design-system/components/typography/ui/rich-text-editor";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { t } from "@/shared/libs/i18n/-typed";
 import Placeholder from "@tiptap/extension-placeholder";
 import Subscript from "@tiptap/extension-subscript";
@@ -19,6 +20,9 @@ import StarterKit from "@tiptap/starter-kit";
 export const RichTextEditorPresetEssential = (props: RichEditorPresetProps) => {
   // Props
   const { editorOptions, ...rootProps } = props;
+
+  // Stores
+  const { theme } = useThemeStore();
 
   // Hooks
   const editor = useEditor({
@@ -44,7 +48,7 @@ export const RichTextEditorPresetEssential = (props: RichEditorPresetProps) => {
     <RichTextEditor.Root
       editor={editor}
       borderWidth={"1px"}
-      rounded={"l2"}
+      rounded={theme.radii.component}
       {...rootProps}
     >
       <RichTextEditor.Toolbar>

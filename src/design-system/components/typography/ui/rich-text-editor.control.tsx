@@ -5,15 +5,9 @@
 import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
 import type { BoxProps, IconButtonProps } from "@chakra-ui/react";
 import {
-  Box,
-  CloseButton,
   ColorSwatch,
-  HStack,
-  IconButton,
   Popover,
-  Portal,
   Select,
-  VStack,
   createListCollection,
 } from "@chakra-ui/react";
 import "@tiptap/extension-font-family";
@@ -60,6 +54,12 @@ import type {
   SwatchControlConfig,
 } from "../types/rich-text-editor.type";
 import { useRichTextEditorContext } from "./rich-text-editor.context";
+import { IconButton } from "@/design-system/components/button/ui/button";
+import { Span } from "@/design-system/components/typography/ui/span";
+import { Portal } from "@/design-system/components/utilities/ui/portal";
+import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
+import { CloseButton } from "@/design-system/components/button/ui/close-button";
+import { Box } from "@/design-system/components/layout/ui/box";
 
 export const ButtonControl = React.forwardRef<
   HTMLButtonElement,
@@ -182,11 +182,7 @@ export function createSelectControl(config: SelectControlConfig) {
             <Select.Content minW={"20"}>
               {options.map((opt) => (
                 <Select.Item key={opt.value} item={opt.value}>
-                  {opt.icon && (
-                    <Box as={"span"} marginEnd={"2"}>
-                      {opt.icon}
-                    </Box>
-                  )}
+                  {opt.icon && <Span marginEnd={"2"}>{opt.icon}</Span>}
                   <Select.ItemText fontSize={"sm"}>{opt.label}</Select.ItemText>
                 </Select.Item>
               ))}
@@ -244,7 +240,7 @@ export function createSwatchControl(config: SwatchControlConfig) {
                 {...dynamicProps}
                 {...props}
               >
-                <VStack gap={"1px"}>
+                <VStack align={"center"} gap={"1px"}>
                   {Icon && <Icon />}
                   <ColorSwatch value={currentValue} h={"4px"} w={"100%"} />
                 </VStack>
@@ -256,7 +252,7 @@ export function createSwatchControl(config: SwatchControlConfig) {
             <Popover.Positioner>
               <Popover.Content width={"auto"}>
                 <Popover.Body>
-                  <HStack wrap={"wrap"}>
+                  <HStack align={"center"} wrap={"wrap"}>
                     {swatches.map((swatch) => (
                       <ColorSwatch
                         key={swatch.value}
