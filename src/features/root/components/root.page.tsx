@@ -672,7 +672,7 @@ const DemoFileInput = (
 
 const DemoRichTextEditor = (props: FieldProps) => {
   return (
-    <FieldTemplate w={"350px"} {...props}>
+    <FieldTemplate maxW={"550px"} {...props}>
       <RichTextEditorPresetEssential />
     </FieldTemplate>
   );

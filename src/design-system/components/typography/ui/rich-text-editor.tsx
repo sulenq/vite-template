@@ -70,9 +70,12 @@ const proseMirrorBaseCss = defineStyle({
       letterSpacing: "-0.01em",
       lineHeight: "1.5em",
     },
-    "& h1, h2, h3, h4, h5, h6": {
+    "& h1, & h2, & h3, & h4, & h5, & h6": {
       color: "fg",
       fontWeight: "600",
+    },
+    "& h1 span, & h2 span, & h3 span, & h4 span, & h5 span, & h6 span strong": {
+      fontSize: "inherit !important",
     },
     "& code": {
       bg: "bg.muted",
@@ -132,8 +135,12 @@ const proseMirrorBaseCss = defineStyle({
     },
     "& hr": { my: "4" },
     "& a": { color: "blue.fg", textDecoration: "underline" },
-    "& em": { fontStyle: "italic" },
-    "& strong": { fontWeight: "bold" },
+    "& em": { fontStyle: "italic", fontSize: "inherit", fontWeight: "inherit" },
+    "& strong": {
+      fontWeight: "bold",
+      fontSize: "inherit",
+      fontStyle: "inherit",
+    },
     "& p.is-editor-empty:first-of-type::before": {
       content: "attr(data-placeholder)",
       color: "fg.muted",
@@ -215,8 +222,9 @@ export const RichTextEditorToolbar = React.forwardRef<
   return (
     <HStack
       ref={ref}
-      flexWrap="wrap"
-      separator={<StackSeparator h="5" alignSelf="center" />}
+      flexWrap={"wrap"}
+      separator={<StackSeparator h={"5"} alignSelf={"center"} />}
+      gapY={2}
       {...rest}
       style={{
         ["--sticky-offset" as string]: stickyOffset,
@@ -231,7 +239,9 @@ export const RichTextEditorFooter = React.forwardRef<
   HTMLDivElement,
   StackProps
 >(function RichTextEditorFooter(props, ref) {
-  return <HStack ref={ref} gap="1" borderTopWidth="1px" p="3" {...props} />;
+  return (
+    <HStack ref={ref} gap={"1"} borderTopWidth={"1px"} p={"3"} {...props} />
+  );
 });
 
 export const RichTextEditorContent = React.forwardRef<
@@ -247,7 +257,7 @@ export const RichTextEditorControlGroup = React.forwardRef<
   HTMLDivElement,
   RichTextEditorControlGroupProps
 >(function RichTextEditorButtonGroup(props, ref) {
-  return <HStack ref={ref} gap="1" {...props} />;
+  return <HStack ref={ref} gap={"1"} {...props} />;
 });
 
 export const RichTextEditor = {

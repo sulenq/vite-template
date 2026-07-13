@@ -68,7 +68,7 @@ export const ButtonControl = React.forwardRef<
   const { icon, label, ...rest } = props;
   return (
     <Tooltip content={label}>
-      <IconButton ref={ref} size="2xs" aria-label={label} {...rest}>
+      <IconButton ref={ref} size={"2xs"} aria-label={label} {...rest}>
         {icon}
       </IconButton>
     </Tooltip>
@@ -154,8 +154,8 @@ export function createSelectControl(config: SelectControlConfig) {
       <Select.Root
         width={width}
         {...props}
-        size="xs"
-        variant="ghost"
+        size={"xs"}
+        variant={"ghost"}
         collection={collection}
         value={[currentValue]}
         onValueChange={(details) => command(editor, details.value[0])}
@@ -170,21 +170,24 @@ export function createSelectControl(config: SelectControlConfig) {
       >
         <Tooltip content={label} ids={{ trigger: controlId }}>
           <Select.Trigger ref={ref}>
-            <Select.ValueText>{displayValue}</Select.ValueText>
+            <Select.ValueText flexShrink={0} fontSize={"sm"}>
+              {displayValue}
+            </Select.ValueText>
             <Select.Indicator />
           </Select.Trigger>
         </Tooltip>
+
         <Portal>
           <Select.Positioner>
-            <Select.Content minW="20">
+            <Select.Content minW={"20"}>
               {options.map((opt) => (
                 <Select.Item key={opt.value} item={opt.value}>
                   {opt.icon && (
-                    <Box as="span" marginEnd="2">
+                    <Box as={"span"} marginEnd={"2"}>
                       {opt.icon}
                     </Box>
                   )}
-                  <Select.ItemText>{opt.label}</Select.ItemText>
+                  <Select.ItemText fontSize={"sm"}>{opt.label}</Select.ItemText>
                 </Select.Item>
               ))}
             </Select.Content>
@@ -229,21 +232,21 @@ export function createSwatchControl(config: SwatchControlConfig) {
           open={open}
           onOpenChange={(e) => setOpen(e.open)}
           ids={{ trigger: triggerId }}
-          size="sm"
+          size={"sm"}
         >
           <Tooltip content={label} ids={{ trigger: triggerId }}>
             <Popover.Trigger asChild>
               <IconButton
                 ref={ref}
-                size="2xs"
+                size={"2xs"}
                 aria-label={label}
                 disabled={disabled}
                 {...dynamicProps}
                 {...props}
               >
-                <VStack gap="1px">
+                <VStack gap={"1px"}>
                   {Icon && <Icon />}
-                  <ColorSwatch value={currentValue} h="4px" w="100%" />
+                  <ColorSwatch value={currentValue} h={"4px"} w={"100%"} />
                 </VStack>
               </IconButton>
             </Popover.Trigger>
@@ -251,9 +254,9 @@ export function createSwatchControl(config: SwatchControlConfig) {
 
           <Portal>
             <Popover.Positioner>
-              <Popover.Content width="auto">
+              <Popover.Content width={"auto"}>
                 <Popover.Body>
-                  <HStack wrap="wrap">
+                  <HStack wrap={"wrap"}>
                     {swatches.map((swatch) => (
                       <ColorSwatch
                         key={swatch.value}
@@ -268,7 +271,7 @@ export function createSwatchControl(config: SwatchControlConfig) {
                     {showRemove && onRemove && (
                       <Popover.CloseTrigger asChild>
                         <CloseButton
-                          size="2xs"
+                          size={"2xs"}
                           onClick={() => {
                             onRemove(editor);
                             setOpen(false);
