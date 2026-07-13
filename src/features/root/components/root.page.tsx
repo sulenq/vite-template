@@ -629,6 +629,7 @@ const FieldTemplate = (props: FieldProps) => {
 const DemoFileInput = (
   props: FieldProps & { inputProps: UseFormRegisterReturn },
 ) => {
+  const { inputProps, ...restProps } = props;
   const apiResponse = [
     {
       attachment_id: "att_001",
@@ -658,9 +659,9 @@ const DemoFileInput = (
   });
 
   return (
-    <FieldTemplate w={"320px"} {...props}>
+    <FieldTemplate w={"320px"} {...restProps}>
       <FileInput
-        inputProps={props.inputProps}
+        inputProps={inputProps}
         accept={[".jpeg", ".jpg"]}
         maxFiles={2}
         existingFiles={existingFiles}

@@ -1,9 +1,12 @@
 // src/design-system/components/input/types/select.type.ts
 
 import type { SelectRootProps } from "@chakra-ui/react";
+import type { TablerIcon } from "@tabler/icons-react";
 import type { ReactNode, RefObject } from "react";
 
 export type SelectOption = {
+  icon?: ReactNode;
+  tablerIcon?: TablerIcon;
   label: string;
   value: unknown;
 };

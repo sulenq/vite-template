@@ -231,6 +231,7 @@ export const RichTextEditorToolbar = React.forwardRef<
       ref={ref}
       flexWrap={"wrap"}
       gapY={2}
+      p={2}
       bg={"bg.body"}
       roundedTop={theme.radii.component}
       separator={<StackSeparator h={"5"} alignSelf={"center"} />}

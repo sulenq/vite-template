@@ -1,5 +1,6 @@
 // src/design-system/components/input/ui/select.tsx
 
+import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { SelectProps } from "@/design-system/components/input/types/select.type";
 import { HStack } from "@/design-system/components/layout/ui/flex-box";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
@@ -9,7 +10,7 @@ import {
   createListCollection,
 } from "@chakra-ui/react";
 
-export default function Select(props: SelectProps) {
+export default function SelectInput(props: SelectProps) {
   // Props
   const {
     value,
@@ -80,10 +81,12 @@ export default function Select(props: SelectProps) {
           >
             {collection.items.map((item) => (
               <ChakraSelect.Item
-                item={item}
                 key={String(item.value)}
+                item={item}
+                gap={2}
                 p={2}
                 rounded={theme?.radii.component}
+                fontSize={restProps.fontSize}
                 cursor={"pointer"}
                 transition={"200ms"}
                 _hover={{
@@ -93,6 +96,10 @@ export default function Select(props: SelectProps) {
                   bg: "bg.muted",
                 }}
               >
+                {item.icon}
+
+                {item.tablerIcon && <AppTablerIcon icon={item.tablerIcon} />}
+
                 {item.label}
 
                 <ChakraSelect.ItemIndicator

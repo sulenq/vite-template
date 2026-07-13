@@ -1,11 +1,7 @@
 // src/design-system/components/typography/types/rich-text-editor.type.ts
 
-import type {
-  BoxProps,
-  StackProps,
-  IconButtonProps,
-  Select,
-} from "@chakra-ui/react";
+import type { SelectProps } from "@/design-system/components/input/types/select.type";
+import type { BoxProps, IconButtonProps, StackProps } from "@chakra-ui/react";
 import type { Editor, EditorContent, EditorOptions } from "@tiptap/react";
 import type * as React from "react";
 
@@ -63,14 +59,14 @@ export type SelectOption = {
   icon?: React.ReactNode;
 };
 
-export type SelectControlConfig = BaseControlConfig & {
-  options: SelectOption[];
-  width?: Select.RootProps["width"];
-  getValue: (editor: Editor) => string;
-  command: (editor: Editor, value: string) => void;
-  placeholder?: string;
-  renderValue?: (value: string, option?: SelectOption) => React.ReactNode;
-};
+export type SelectControlConfig = BaseControlConfig &
+  SelectProps & {
+    options: SelectOption[];
+    getValue: (editor: Editor) => string;
+    command: (editor: Editor, value: string) => void;
+    placeholder?: string;
+    // renderValue?: (value: string, option?: SelectOption) => React.ReactNode;
+  };
 
 export type SwatchOption = {
   value: string;

@@ -2,14 +2,15 @@
 
 "use client";
 
+import { IconButton } from "@/design-system/components/button/ui/button";
+import { CloseButton } from "@/design-system/components/button/ui/close-button";
+import SelectInput from "@/design-system/components/input/ui/select";
+import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
+import { Popover } from "@/design-system/components/overlay/ui/popover";
 import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
-import type { BoxProps, IconButtonProps } from "@chakra-ui/react";
-import {
-  ColorSwatch,
-  Popover,
-  Select,
-  createListCollection,
-} from "@chakra-ui/react";
+import { Portal } from "@/design-system/components/utilities/ui/portal";
+import type { IconButtonProps } from "@chakra-ui/react";
+import { ColorSwatch } from "@chakra-ui/react";
 import "@tiptap/extension-font-family";
 import "@tiptap/extension-highlight";
 import "@tiptap/extension-link";
@@ -19,7 +20,7 @@ import "@tiptap/extension-text-align";
 import "@tiptap/extension-text-style";
 import "@tiptap/extension-underline";
 import "@tiptap/starter-kit";
-import * as React from "react";
+import { forwardRef, useId, useState } from "react";
 import {
   LuAlignCenter,
   LuAlignJustify,
@@ -54,26 +55,19 @@ import type {
   SwatchControlConfig,
 } from "../types/rich-text-editor.type";
 import { useRichTextEditorContext } from "./rich-text-editor.context";
-import { IconButton } from "@/design-system/components/button/ui/button";
-import { Span } from "@/design-system/components/typography/ui/span";
-import { Portal } from "@/design-system/components/utilities/ui/portal";
-import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
-import { CloseButton } from "@/design-system/components/button/ui/close-button";
-import { Box } from "@/design-system/components/layout/ui/box";
 
-export const ButtonControl = React.forwardRef<
-  HTMLButtonElement,
-  ButtonControlProps
->(function ButtonControl(props, ref) {
-  const { icon, label, ...rest } = props;
-  return (
-    <Tooltip content={label}>
-      <IconButton ref={ref} size={"2xs"} aria-label={label} {...rest}>
-        {icon}
-      </IconButton>
-    </Tooltip>
-  );
-});
+export const ButtonControl = forwardRef<HTMLButtonElement, ButtonControlProps>(
+  function ButtonControl(props, ref) {
+    const { icon, label, ...rest } = props;
+    return (
+      <Tooltip content={label}>
+        <IconButton ref={ref} size={"2xs"} aria-label={label} {...rest}>
+          {icon}
+        </IconButton>
+      </Tooltip>
+    );
+  },
+);
 
 ///////////////////// Boolean Control /////////////////////
 
@@ -87,7 +81,7 @@ export function createBooleanControl(config: BooleanControlConfig) {
     getProps,
   } = config;
 
-  const BooleanControl = React.forwardRef<HTMLButtonElement, IconButtonProps>(
+  const BooleanControl = forwardRef<HTMLButtonElement, IconButtonProps>(
     function BooleanControl(props, ref) {
       const { editor } = useRichTextEditorContext();
       if (!editor) return null;
@@ -120,80 +114,48 @@ export function createSelectControl(config: SelectControlConfig) {
   const {
     label,
     options,
-    width,
+    w = "70px",
     getValue,
     command,
-    placeholder = "Select",
-    renderValue,
     isDisabled,
     getProps,
   } = config;
 
-  const SelectControl = React.forwardRef<
-    HTMLButtonElement,
-    Omit<Select.RootProps, "collection">
-  >(function SelectControl(props, ref) {
+  function SelectControl(props) {
     const { editor } = useRichTextEditorContext();
-    const controlId = React.useId();
+    const controlId = useId();
 
     if (!editor) return null;
 
     const currentValue = getValue(editor);
     const disabled = isDisabled ? isDisabled(editor) : false;
 
-    const currentOption = options.find((o) => o.value === currentValue);
-    const displayValue =
-      renderValue && currentOption
-        ? renderValue(currentValue, currentOption)
-        : currentOption?.label || placeholder;
-
-    const collection = createListCollection({ items: options });
     const dynamicProps = getProps ? getProps(editor) : {};
 
     return (
-      <Select.Root
-        width={width}
-        {...props}
-        size={"xs"}
+      <SelectInput
+        selectOptions={options}
         variant={"ghost"}
-        collection={collection}
-        value={[currentValue]}
-        onValueChange={(details) => command(editor, details.value[0])}
+        size={"xs"}
+        positioning={{ sameWidth: false }}
+        placeholder={label}
+        flexShrink={0}
+        w={w}
+        fontSize={"sm"}
+        {...props}
+        value={currentValue}
+        onValueChange={(value) => command(editor, value)}
         disabled={disabled}
         ids={{ trigger: controlId }}
-        positioning={{ sameWidth: false }}
         css={{
           "--select-trigger-height": "sizes.6",
           "--select-trigger-padding-x": "spacing.2",
         }}
         {...dynamicProps}
-      >
-        <Tooltip content={label} ids={{ trigger: controlId }}>
-          <Select.Trigger ref={ref}>
-            <Select.ValueText flexShrink={0} fontSize={"sm"}>
-              {displayValue}
-            </Select.ValueText>
-            <Select.Indicator />
-          </Select.Trigger>
-        </Tooltip>
-
-        <Portal>
-          <Select.Positioner>
-            <Select.Content minW={"20"}>
-              {options.map((opt) => (
-                <Select.Item key={opt.value} item={opt.value}>
-                  {opt.icon && <Span marginEnd={"2"}>{opt.icon}</Span>}
-                  <Select.ItemText fontSize={"sm"}>{opt.label}</Select.ItemText>
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select.Positioner>
-        </Portal>
-      </Select.Root>
+      />
     );
-  });
+  }
 
-  SelectControl.displayName = `SelectControl(${label})`;
   return SelectControl;
 }
 
@@ -212,11 +174,11 @@ export function createSwatchControl(config: SwatchControlConfig) {
     getProps,
   } = config;
 
-  const SwatchControl = React.forwardRef<HTMLButtonElement, IconButtonProps>(
+  const SwatchControl = forwardRef<HTMLButtonElement, IconButtonProps>(
     function SwatchControl(props, ref) {
       const { editor } = useRichTextEditorContext();
-      const [open, setOpen] = React.useState(false);
-      const triggerId = React.useId();
+      const [open, setOpen] = useState(false);
+      const triggerId = useId();
 
       if (!editor) return null;
       const currentValue = getValue(editor);
@@ -288,6 +250,8 @@ export function createSwatchControl(config: SwatchControlConfig) {
   SwatchControl.displayName = `SwatchControl(${label || "Unnamed"})`;
   return SwatchControl;
 }
+
+// -------------------------------------------------------------------------------------
 
 export const FontFamily = createSelectControl({
   label: "Font Family",
@@ -500,19 +464,17 @@ export const Redo = createBooleanControl({
   getVariant: (editor) => (editor.isActive("link") ? "subtle" : "ghost"),
 });
 
-const SWATCH_OPTIONS = [
-  { label: "Black", value: "#000000", color: "#000000" },
-  { label: "Red", value: "#FF0000", color: "#FF0000" },
-  { label: "Green", value: "#00FF00", color: "#00FF00" },
-  { label: "Blue", value: "#0000FF", color: "#0000FF" },
-  { label: "Yellow", value: "#FFFF00", color: "#FFFF00" },
-  { label: "Purple", value: "#800080", color: "#800080" },
-  { label: "Orange", value: "#FFA500", color: "#FFA500" },
-];
-
 export const TextColor = createSwatchControl({
   label: "Text Color",
-  swatches: SWATCH_OPTIONS,
+  swatches: [
+    { label: "Black", value: "#000000", color: "#000000" },
+    { label: "Red", value: "#FF0000", color: "#FF0000" },
+    { label: "Green", value: "#00FF00", color: "#00FF00" },
+    { label: "Blue", value: "#0000FF", color: "#0000FF" },
+    { label: "Yellow", value: "#FFFF00", color: "#FFFF00" },
+    { label: "Purple", value: "#800080", color: "#800080" },
+    { label: "Orange", value: "#FFA500", color: "#FFA500" },
+  ],
   getValue: (editor) => {
     const color = editor.getAttributes("textStyle")?.color;
     return color || "";
@@ -526,18 +488,16 @@ export const TextColor = createSwatchControl({
   onRemove: (editor) => editor.chain().focus().unsetMark("textStyle").run(),
 });
 
-const HIGHLIGHT_SWATCH_OPTIONS = [
-  { label: "Yellow", value: "#FFFF00", color: "#FFFF00" },
-  { label: "Green", value: "#00FF00", color: "#00FF00" },
-  { label: "Cyan", value: "#00FFFF", color: "#00FFFF" },
-  { label: "Pink", value: "#FF69B4", color: "#FF69B4" },
-  { label: "Orange", value: "#FFA500", color: "#FFA500" },
-  { label: "Purple", value: "#DDA0DD", color: "#DDA0DD" },
-];
-
 export const Highlight = createSwatchControl({
   label: "Highlight",
-  swatches: HIGHLIGHT_SWATCH_OPTIONS,
+  swatches: [
+    { label: "Yellow", value: "#FFFF00", color: "#FFFF00" },
+    { label: "Green", value: "#00FF00", color: "#00FF00" },
+    { label: "Cyan", value: "#00FFFF", color: "#00FFFF" },
+    { label: "Pink", value: "#FF69B4", color: "#FF69B4" },
+    { label: "Orange", value: "#FFA500", color: "#FFA500" },
+    { label: "Purple", value: "#DDA0DD", color: "#DDA0DD" },
+  ],
   getValue: (editor) => {
     const color = editor.getAttributes("highlight")?.color;
     return color || "";
@@ -552,51 +512,49 @@ export const Highlight = createSwatchControl({
   onRemove: (editor) => editor.chain().focus().unsetHighlight().run(),
 });
 
-const TEXT_STYLE_OPTIONS = [
-  { value: "paragraph", label: "Paragraph" },
-  { value: "heading1", label: "Heading 1" },
-  { value: "heading2", label: "Heading 2" },
-  { value: "heading3", label: "Heading 3" },
-  { value: "blockquote", label: "Quote" },
-  { value: "horizontalRule", label: "Divider", icon: <LuMinus /> },
-];
-
-export const TextStyle = createSelectControl({
-  label: "Text Style",
-  width: "120px",
-  placeholder: "Paragraph",
-  options: TEXT_STYLE_OPTIONS,
-  getValue: (editor) => {
-    if (editor.isActive("heading", { level: 1 })) return "heading1";
-    if (editor.isActive("heading", { level: 2 })) return "heading2";
-    if (editor.isActive("heading", { level: 3 })) return "heading3";
-    if (editor.isActive("blockquote")) return "blockquote";
-    return "paragraph";
-  },
-  command: (editor, value) => {
-    if (value === "paragraph") {
-      editor.chain().focus().setParagraph().run();
-    } else if (value === "heading1") {
-      editor.chain().focus().toggleHeading({ level: 1 }).run();
-    } else if (value === "heading2") {
-      editor.chain().focus().toggleHeading({ level: 2 }).run();
-    } else if (value === "heading3") {
-      editor.chain().focus().toggleHeading({ level: 3 }).run();
-    } else if (value === "blockquote") {
-      editor.chain().focus().toggleBlockquote().run();
-    } else if (value === "horizontalRule") {
-      editor.chain().focus().setHorizontalRule().run();
-    }
-  },
-  renderValue: (value, option) => {
-    const textStyle: Record<string, BoxProps> = {
-      paragraph: { fontWeight: "normal", fontSize: "sm" },
-      heading1: { fontWeight: "bold", fontSize: "lg" },
-      heading2: { fontWeight: "semibold", fontSize: "md" },
-      heading3: { fontWeight: "medium", fontSize: "sm" },
-      blockquote: { fontStyle: "italic", fontSize: "sm" },
-      horizontalRule: { fontWeight: "medium", fontSize: "sm" },
-    };
-    return <Box {...textStyle[value]}>{option?.label || "Paragraph"}</Box>;
-  },
-});
+// export const TextStyle = createSelectControl({
+//   label: "Text Style",
+//   width: "120px",
+//   placeholder: "Paragraph",
+//   options: [
+//     { value: "paragraph", label: "Paragraph" },
+//     { value: "heading1", label: "Heading 1" },
+//     { value: "heading2", label: "Heading 2" },
+//     { value: "heading3", label: "Heading 3" },
+//     { value: "blockquote", label: "Quote" },
+//     { value: "horizontalRule", label: "Divider", icon: <LuMinus /> },
+//   ],
+//   getValue: (editor) => {
+//     if (editor.isActive("heading", { level: 1 })) return "heading1";
+//     if (editor.isActive("heading", { level: 2 })) return "heading2";
+//     if (editor.isActive("heading", { level: 3 })) return "heading3";
+//     if (editor.isActive("blockquote")) return "blockquote";
+//     return "paragraph";
+//   },
+//   command: (editor, value) => {
+//     if (value === "paragraph") {
+//       editor.chain().focus().setParagraph().run();
+//     } else if (value === "heading1") {
+//       editor.chain().focus().toggleHeading({ level: 1 }).run();
+//     } else if (value === "heading2") {
+//       editor.chain().focus().toggleHeading({ level: 2 }).run();
+//     } else if (value === "heading3") {
+//       editor.chain().focus().toggleHeading({ level: 3 }).run();
+//     } else if (value === "blockquote") {
+//       editor.chain().focus().toggleBlockquote().run();
+//     } else if (value === "horizontalRule") {
+//       editor.chain().focus().setHorizontalRule().run();
+//     }
+//   },
+//   renderValue: (value, option) => {
+//     const textStyle: Record<string, BoxProps> = {
+//       paragraph: { fontWeight: "normal", fontSize: "sm" },
+//       heading1: { fontWeight: "bold", fontSize: "lg" },
+//       heading2: { fontWeight: "semibold", fontSize: "md" },
+//       heading3: { fontWeight: "medium", fontSize: "sm" },
+//       blockquote: { fontStyle: "italic", fontSize: "sm" },
+//       horizontalRule: { fontWeight: "medium", fontSize: "sm" },
+//     };
+//     return <Box {...textStyle[value]}>{option?.label || "Paragraph"}</Box>;
+//   },
+// });
