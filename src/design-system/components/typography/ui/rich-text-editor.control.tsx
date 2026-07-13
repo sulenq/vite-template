@@ -1,6 +1,9 @@
+// src/design-system/components/typography/ui/rich-text-editor.control.tsx
+
 "use client";
 
-import type { IconButtonProps, BoxProps } from "@chakra-ui/react";
+import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
+import type { BoxProps, IconButtonProps } from "@chakra-ui/react";
 import {
   Box,
   CloseButton,
@@ -13,17 +16,15 @@ import {
   VStack,
   createListCollection,
 } from "@chakra-ui/react";
-import { Editor } from "@tiptap/react";
-import "@tiptap/starter-kit";
 import "@tiptap/extension-font-family";
-import "@tiptap/extension-text-style";
-import "@tiptap/extension-underline";
+import "@tiptap/extension-highlight";
+import "@tiptap/extension-link";
 import "@tiptap/extension-subscript";
 import "@tiptap/extension-superscript";
-import "@tiptap/extension-link";
 import "@tiptap/extension-text-align";
-import "@tiptap/extension-highlight";
-import { useRichTextEditorContext } from "./rich-text-editor.context";
+import "@tiptap/extension-text-style";
+import "@tiptap/extension-underline";
+import "@tiptap/starter-kit";
 import * as React from "react";
 import {
   LuAlignCenter,
@@ -52,23 +53,13 @@ import {
   LuType,
   LuUnderline,
 } from "react-icons/lu";
-import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
-
-export interface BaseControlConfig {
-  label: string;
-  icon?: React.ElementType;
-  isDisabled?: (editor: Editor) => boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getProps?: (editor: Editor) => Record<string, any>;
-}
-
-export interface ButtonControlProps extends Omit<
-  IconButtonProps,
-  "aria-label"
-> {
-  icon: React.ReactNode;
-  label: string;
-}
+import type {
+  BooleanControlConfig,
+  ButtonControlProps,
+  SelectControlConfig,
+  SwatchControlConfig,
+} from "../types/rich-text-editor.type";
+import { useRichTextEditorContext } from "./rich-text-editor.context";
 
 export const ButtonControl = React.forwardRef<
   HTMLButtonElement,
@@ -85,12 +76,6 @@ export const ButtonControl = React.forwardRef<
 });
 
 ///////////////////// Boolean Control /////////////////////
-
-export interface BooleanControlConfig extends BaseControlConfig {
-  icon: React.ElementType;
-  command: (editor: Editor) => void;
-  getVariant?: (editor: Editor) => IconButtonProps["variant"];
-}
 
 export function createBooleanControl(config: BooleanControlConfig) {
   const {
@@ -130,21 +115,6 @@ export function createBooleanControl(config: BooleanControlConfig) {
 }
 
 ///////////////////// Select Control (with options) /////////////////////
-
-export interface SelectOption {
-  value: string;
-  label: string;
-  icon?: React.ReactNode;
-}
-
-export interface SelectControlConfig extends BaseControlConfig {
-  options: SelectOption[];
-  width?: Select.RootProps["width"];
-  getValue: (editor: Editor) => string;
-  command: (editor: Editor, value: string) => void;
-  placeholder?: string;
-  renderValue?: (value: string, option?: SelectOption) => React.ReactNode;
-}
 
 export function createSelectControl(config: SelectControlConfig) {
   const {
@@ -229,19 +199,6 @@ export function createSelectControl(config: SelectControlConfig) {
 }
 
 ///////////////////// Swatch Control (with color swatches) /////////////////////
-
-export interface SwatchOption {
-  value: string;
-  color: string;
-  label?: string;
-}
-export interface SwatchControlConfig extends BaseControlConfig {
-  swatches: SwatchOption[];
-  getValue: (editor: Editor) => string;
-  command: (editor: Editor, value: string) => void;
-  showRemove?: boolean;
-  onRemove?: (editor: Editor) => void;
-}
 
 export function createSwatchControl(config: SwatchControlConfig) {
   const {

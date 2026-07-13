@@ -53,6 +53,7 @@ import { Drawer } from "@/design-system/components/overlay/ui/drawer";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { P, TNum } from "@/design-system/components/typography/ui/p";
+import { RichTextEditorPresetEssential } from "@/design-system/components/typography/ui/rich-text-editor.preset";
 import { DownloadTrigger } from "@/design-system/components/utilities/ui/download-trigger";
 import { SPACING_MD } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
@@ -669,6 +670,14 @@ const DemoFileInput = (
   );
 };
 
+const DemoRichTextEditor = (props: FieldProps) => {
+  return (
+    <FieldTemplate w={"350px"} {...props}>
+      <RichTextEditorPresetEssential />
+    </FieldTemplate>
+  );
+};
+
 export const Inputs = () => {
   const {
     register,
@@ -832,6 +841,8 @@ export const Inputs = () => {
             <FieldTemplate invalid={invalid}>
               <Slider defaultValue={[25]} w={"200px"} />
             </FieldTemplate>
+
+            <DemoRichTextEditor />
           </HStack>
         </Fieldset>
 

@@ -1,11 +1,10 @@
+// src/design-system/components/typography/ui/rich-text-editor.context.tsx
+
 "use client";
 
-import { Editor } from "@tiptap/react";
 import * as React from "react";
 
-export interface RichTextEditorContextValue {
-  editor: Editor | null;
-}
+import type { RichTextEditorContextValue } from "../types/rich-text-editor.type";
 
 export const RichTextEditorContext =
   React.createContext<RichTextEditorContextValue | null>(null);

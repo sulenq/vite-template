@@ -1,13 +1,22 @@
+// src/design-system/components/typography/ui/rich-text-editor.tsx
+
 "use client";
 
-import type { BoxProps, StackProps, SystemStyleObject } from "@chakra-ui/react";
+import type { StackProps, SystemStyleObject } from "@chakra-ui/react";
 import { Box, HStack, StackSeparator, defineStyle } from "@chakra-ui/react";
-import { Editor, EditorContent } from "@tiptap/react";
+import { EditorContent } from "@tiptap/react";
+import * as React from "react";
+import type {
+  RichTextEditorContentProps,
+  RichTextEditorControlGroupProps,
+  RichTextEditorProps,
+  RichTextEditorToolbarProps,
+  RichTextEditorToolbarVariant,
+} from "../types/rich-text-editor.type";
 import {
   RichTextEditorContext,
   useRichTextEditorContext,
 } from "./rich-text-editor.context";
-import * as React from "react";
 
 const proseMirrorBaseCss = defineStyle({
   display: "flex",
@@ -148,11 +157,6 @@ const proseMirrorBaseCss = defineStyle({
   },
 });
 
-export interface RichTextEditorProps extends BoxProps {
-  editor: Editor | null;
-  disabled?: boolean;
-}
-
 export const RichTextEditorRoot = React.forwardRef<
   HTMLDivElement,
   RichTextEditorProps
@@ -172,13 +176,6 @@ export const RichTextEditorRoot = React.forwardRef<
     </RichTextEditorContext.Provider>
   );
 });
-
-type RichTextEditorToolbarVariant = "sticky" | "floating" | "fixed";
-
-export interface RichTextEditorToolbarProps extends StackProps {
-  variant?: RichTextEditorToolbarVariant;
-  stickyOffset?: string;
-}
 
 const toolbarStylesMap: Record<
   RichTextEditorToolbarVariant,
@@ -237,11 +234,6 @@ export const RichTextEditorFooter = React.forwardRef<
   return <HStack ref={ref} gap="1" borderTopWidth="1px" p="3" {...props} />;
 });
 
-export interface RichTextEditorContentProps extends Omit<
-  React.ComponentProps<typeof EditorContent>,
-  "editor"
-> {}
-
 export const RichTextEditorContent = React.forwardRef<
   HTMLDivElement,
   RichTextEditorContentProps
@@ -250,8 +242,6 @@ export const RichTextEditorContent = React.forwardRef<
   if (!editor) return null;
   return <EditorContent editor={editor} {...props} innerRef={ref} />;
 });
-
-export interface RichTextEditorControlGroupProps extends StackProps {}
 
 export const RichTextEditorControlGroup = React.forwardRef<
   HTMLDivElement,
