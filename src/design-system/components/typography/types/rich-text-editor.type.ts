@@ -4,7 +4,7 @@ import type { SelectProps } from "@/design-system/components/input/types/select.
 import type { BoxProps, IconButtonProps, StackProps } from "@chakra-ui/react";
 import type { TablerIcon } from "@tabler/icons-react";
 import type { Editor, EditorContent, EditorOptions } from "@tiptap/react";
-import type * as React from "react";
+import type { ComponentProps, ReactNode } from "react";
 
 export type RichEditorPresetProps = RichTextEditorRootProps & {
   editorOptions?: Partial<EditorOptions>;
@@ -29,7 +29,7 @@ export type RichTextEditorToolbarProps = StackProps & {
 };
 
 export type RichTextEditorContentProps = Omit<
-  React.ComponentProps<typeof EditorContent>,
+  ComponentProps<typeof EditorContent>,
   "editor"
 >;
 
@@ -37,7 +37,7 @@ export type RichTextEditorControlGroupProps = StackProps;
 
 export type BaseControlConfig = {
   label: string;
-  icon?: React.ElementType;
+  icon?: ReactNode;
   tablerIcon?: TablerIcon;
   isDisabled?: (editor: Editor) => boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,20 +45,20 @@ export type BaseControlConfig = {
 };
 
 export type ButtonControlProps = Omit<IconButtonProps, "aria-label"> & {
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   tablerIcon?: TablerIcon;
   label: string;
 };
 
 export type BooleanControlConfig = BaseControlConfig & {
-  icon?: React.ElementType;
+  icon?: ReactNode;
   tablerIcon?: TablerIcon;
   command: (editor: Editor) => void;
   getVariant?: (editor: Editor) => IconButtonProps["variant"];
 };
 
 export type SelectOption = {
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   tablerIcon?: TablerIcon;
   value: string;
   label: string;
@@ -70,7 +70,7 @@ export type SelectControlConfig = BaseControlConfig &
     getValue: (editor: Editor) => string;
     command: (editor: Editor, value: string) => void;
     placeholder?: string;
-    // renderValue?: (value: string, option?: SelectOption) => React.ReactNode;
+    // renderValue?: (value: string, option?: SelectOption) => ReactNode;
   };
 
 export type SwatchOption = {

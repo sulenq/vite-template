@@ -10,4 +10,5 @@ export type TooltipProps = ChakraTooltip.RootProps & {
   content: ReactNode;
   contentProps?: ChakraTooltip.ContentProps;
   disabled?: boolean;
+  asChild?: boolean;
 };

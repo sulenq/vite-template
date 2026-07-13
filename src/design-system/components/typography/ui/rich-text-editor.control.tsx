@@ -4,7 +4,11 @@
 
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { CloseButton } from "@/design-system/components/button/ui/close-button";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import {
+  AppLucideIcon,
+  AppTablerIcon,
+} from "@/design-system/components/icon/ui/app-icon";
+import type { SelectProps } from "@/design-system/components/input/types/select.type";
 import SelectInput from "@/design-system/components/input/ui/select";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { Popover } from "@/design-system/components/overlay/ui/popover";
@@ -21,13 +25,13 @@ import {
   IconArrowForwardUp,
   IconBold,
   IconCode,
-  IconColorSwatch,
   IconH1,
   IconH2,
   IconH3,
   IconH4,
   IconHighlight,
   IconItalic,
+  IconLetterA,
   IconLink,
   IconLinkOff,
   IconList,
@@ -37,7 +41,6 @@ import {
   IconStrikethrough,
   IconSubscript,
   IconSuperscript,
-  IconUnderline,
 } from "@tabler/icons-react";
 import "@tiptap/extension-font-family";
 import "@tiptap/extension-highlight";
@@ -48,6 +51,7 @@ import "@tiptap/extension-text-align";
 import "@tiptap/extension-text-style";
 import "@tiptap/extension-underline";
 import "@tiptap/starter-kit";
+import { UnderlineIcon } from "lucide-react";
 import { forwardRef, useId, useState } from "react";
 import type {
   BooleanControlConfig,
@@ -56,17 +60,18 @@ import type {
   SwatchControlConfig,
 } from "../types/rich-text-editor.type";
 import { useRichTextEditorContext } from "./rich-text-editor.context";
-import type { SelectProps } from "@/design-system/components/input/types/select.type";
 
 export const ButtonControl = forwardRef<HTMLButtonElement, ButtonControlProps>(
   function ButtonControl(props, ref) {
+    // Props
     const { icon, tablerIcon, label, ...rest } = props;
+
     return (
       <Tooltip content={label}>
         <IconButton ref={ref} aria-label={label} {...rest}>
           {icon}
 
-          <AppTablerIcon icon={tablerIcon} />
+          {tablerIcon && <AppTablerIcon icon={tablerIcon} />}
         </IconButton>
       </Tooltip>
     );
@@ -76,15 +81,8 @@ export const ButtonControl = forwardRef<HTMLButtonElement, ButtonControlProps>(
 ///////////////////// Boolean Control /////////////////////
 
 export function createBooleanControl(config: BooleanControlConfig) {
-  const {
-    label,
-    icon: Icon,
-    tablerIcon,
-    isDisabled,
-    command,
-    getVariant,
-    getProps,
-  } = config;
+  const { label, icon, tablerIcon, isDisabled, command, getVariant, getProps } =
+    config;
 
   const BooleanControl = forwardRef<HTMLButtonElement, IconButtonProps>(
     function BooleanControl(props, ref) {
@@ -99,7 +97,7 @@ export function createBooleanControl(config: BooleanControlConfig) {
         <ButtonControl
           ref={ref}
           label={label}
-          icon={Icon ? <Icon /> : <AppTablerIcon icon={tablerIcon} />}
+          icon={icon || <AppTablerIcon icon={tablerIcon} />}
           variant={variant}
           onClick={() => command(editor)}
           disabled={disabled}
@@ -145,6 +143,9 @@ export function createSelectControl(config: SelectControlConfig) {
         placeholder={label}
         flexShrink={0}
         w={w}
+        _hover={{
+          bg: "bg.subtle",
+        }}
         {...props}
         value={currentValue}
         onValueChange={(value) => command(editor, value)}
@@ -169,7 +170,7 @@ export function createSwatchControl(config: SwatchControlConfig) {
     showRemove = false,
     onRemove,
     isDisabled,
-    icon: Icon,
+    icon,
     tablerIcon,
     getProps,
   } = config;
@@ -193,7 +194,7 @@ export function createSwatchControl(config: SwatchControlConfig) {
           size={"sm"}
         >
           <Tooltip content={label} ids={{ trigger: triggerId }}>
-            <Popover.Trigger asChild>
+            <Popover.Trigger>
               <IconButton
                 ref={ref}
                 aria-label={label}
@@ -202,9 +203,10 @@ export function createSwatchControl(config: SwatchControlConfig) {
                 {...props}
               >
                 <VStack align={"center"} gap={"1px"}>
-                  {Icon && <Icon />}
+                  {icon}
 
                   {tablerIcon && <AppTablerIcon icon={tablerIcon} />}
+
                   <ColorSwatch value={currentValue} h={"4px"} w={"100%"} />
                 </VStack>
               </IconButton>
@@ -215,7 +217,7 @@ export function createSwatchControl(config: SwatchControlConfig) {
             <Popover.Positioner>
               <Popover.Content width={"auto"}>
                 <Popover.Body>
-                  <HStack align={"center"} wrap={"wrap"}>
+                  <HStack align={"center"} wrap={"wrap"} gap={1}>
                     {swatches.map((swatch) => (
                       <ColorSwatch
                         key={swatch.value}
@@ -300,7 +302,7 @@ export const Italic = createBooleanControl({
 
 export const Underline = createBooleanControl({
   label: "Underline",
-  tablerIcon: IconUnderline,
+  icon: <AppLucideIcon icon={UnderlineIcon} />,
   command: (editor) => editor.chain().focus().toggleUnderline().run(),
   getVariant: (editor) => (editor.isActive("underline") ? "subtle" : "ghost"),
 });
@@ -466,7 +468,7 @@ export const Redo = createBooleanControl({
 
 export const TextColor = createSwatchControl({
   label: "Text Color",
-  icon: IconColorSwatch,
+  icon: <AppTablerIcon icon={IconLetterA} size={"sm"} />,
   swatches: [
     { label: "Black", value: "#000000", color: "#000000" },
     { label: "Red", value: "#FF0000", color: "#FF0000" },

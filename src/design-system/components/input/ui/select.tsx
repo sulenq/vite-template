@@ -22,6 +22,7 @@ export default function SelectInput(props: SelectProps) {
     portalled = true,
     portalRef,
     suffixLabel,
+    _hover,
     ...restProps
   } = props;
 
@@ -62,7 +63,7 @@ export default function SelectInput(props: SelectProps) {
           </HStack>
         }
       >
-        <ChakraSelect.Control>
+        <ChakraSelect.Control rounded={theme.radii.component} _hover={_hover}>
           <ChakraSelect.Trigger
             rounded={theme.radii.component}
             cursor={"pointer"}
