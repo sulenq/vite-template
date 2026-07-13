@@ -148,6 +148,7 @@ const DialogRoot = (props: DialogRootProps) => {
           } else {
             back();
           }
+          setTimeout(() => setFullscreen(false), 200);
         }}
       />
     </DialogContext.Provider>
@@ -190,7 +191,7 @@ const DialogBackdrop = (props: ChakraDialog.BackdropProps) => {
   const { onClick, ...restProps } = props;
 
   // Contexts
-  const { close } = useDialogContext();
+  const { close, setFullscreen } = useDialogContext();
 
   return (
     <ChakraDialog.Backdrop
@@ -201,6 +202,7 @@ const DialogBackdrop = (props: ChakraDialog.BackdropProps) => {
         } else {
           back();
         }
+        setTimeout(() => setFullscreen(false), 200);
         onClick?.(event);
       }}
       {...restProps}
@@ -322,7 +324,7 @@ const DialogCloseTrigger = (props: ChakraDialog.CloseTriggerProps) => {
   const { onClick, ...restProps } = props;
 
   // Contexts
-  const { close } = useDialogContext();
+  const { close, setFullscreen } = useDialogContext();
 
   return (
     <ChakraDialog.CloseTrigger
@@ -337,6 +339,7 @@ const DialogCloseTrigger = (props: ChakraDialog.CloseTriggerProps) => {
         } else {
           back();
         }
+        setTimeout(() => setFullscreen(false), 200);
         onClick?.(event);
       }}
     />
