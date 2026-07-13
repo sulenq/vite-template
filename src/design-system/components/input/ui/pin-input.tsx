@@ -27,12 +27,14 @@ export const PinInput = React.forwardRef<HTMLInputElement, PinInputProps>(
         {...restProps}
       >
         <ChakraPinInput.HiddenInput ref={ref} />
+
         <ChakraPinInput.Control gap={attached ? 0 : 2}>
           {Array.from({ length: count }).map((_, index) => (
             <ChakraPinInput.Input
               key={index}
               index={index}
               rounded={attached ? undefined : theme.radii.component}
+              pb={"2px"}
               _first={
                 attached
                   ? { borderStartRadius: theme.radii.component }
