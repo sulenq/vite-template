@@ -6,7 +6,7 @@ import { Editor, EditorContent } from "@tiptap/react";
 import {
   RichTextEditorContext,
   useRichTextEditorContext,
-} from "./rich-text-editor-context";
+} from "./rich-text-editor.context";
 import * as React from "react";
 
 const proseMirrorBaseCss = defineStyle({
@@ -268,12 +268,12 @@ export const RichTextEditor = {
   Footer: RichTextEditorFooter,
 } as const;
 
-export * as Control from "./rich-text-editor-control";
+export * as Control from "./rich-text-editor.control";
 
 export {
   createBooleanControl,
   createSelectControl,
   createSwatchControl,
-} from "./rich-text-editor-control";
+} from "./rich-text-editor.control";
 
-export { useRichTextEditorContext } from "./rich-text-editor-context";
+export { useRichTextEditorContext } from "./rich-text-editor.context";

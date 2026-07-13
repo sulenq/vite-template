@@ -23,7 +23,7 @@ import "@tiptap/extension-superscript";
 import "@tiptap/extension-link";
 import "@tiptap/extension-text-align";
 import "@tiptap/extension-highlight";
-import { useRichTextEditorContext } from "./rich-text-editor-context";
+import { useRichTextEditorContext } from "./rich-text-editor.context";
 import * as React from "react";
 import {
   LuAlignCenter,
