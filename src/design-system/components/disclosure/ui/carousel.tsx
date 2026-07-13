@@ -1,0 +1,75 @@
+// src/design-system/components/disclosure/ui/carousel.tsx
+
+"use client";
+
+import { forwardRef } from "react";
+import { Carousel as ChakraCarousel } from "@chakra-ui/react";
+import type {
+  CarouselRootProps,
+  CarouselControlProps,
+  CarouselPrevTriggerProps,
+  CarouselNextTriggerProps,
+  CarouselItemGroupProps,
+  CarouselItemProps,
+  CarouselIndicatorGroupProps,
+  CarouselIndicatorProps,
+} from "@/design-system/components/disclosure/type/carousel.type";
+
+const CarouselRoot = forwardRef<HTMLDivElement, CarouselRootProps>(
+  (props, ref) => {
+    return <ChakraCarousel.Root ref={ref} {...props} />;
+  }
+);
+
+const CarouselControl = forwardRef<HTMLDivElement, CarouselControlProps>(
+  (props, ref) => {
+    return <ChakraCarousel.Control ref={ref} {...props} />;
+  }
+);
+
+const CarouselPrevTrigger = forwardRef<HTMLButtonElement, CarouselPrevTriggerProps>(
+  (props, ref) => {
+    return <ChakraCarousel.PrevTrigger ref={ref} {...props} />;
+  }
+);
+
+const CarouselNextTrigger = forwardRef<HTMLButtonElement, CarouselNextTriggerProps>(
+  (props, ref) => {
+    return <ChakraCarousel.NextTrigger ref={ref} {...props} />;
+  }
+);
+
+const CarouselItemGroup = forwardRef<HTMLDivElement, CarouselItemGroupProps>(
+  (props, ref) => {
+    return <ChakraCarousel.ItemGroup ref={ref} {...props} />;
+  }
+);
+
+const CarouselItem = forwardRef<HTMLDivElement, CarouselItemProps>(
+  (props, ref) => {
+    return <ChakraCarousel.Item ref={ref} {...props} />;
+  }
+);
+
+const CarouselIndicatorGroup = forwardRef<HTMLDivElement, CarouselIndicatorGroupProps>(
+  (props, ref) => {
+    return <ChakraCarousel.IndicatorGroup ref={ref} {...props} />;
+  }
+);
+
+const CarouselIndicator = forwardRef<HTMLButtonElement, CarouselIndicatorProps>(
+  (props, ref) => {
+    return <ChakraCarousel.Indicator ref={ref} {...props} />;
+  }
+);
+
+export const Carousel = {
+  Root: CarouselRoot,
+  Control: CarouselControl,
+  PrevTrigger: CarouselPrevTrigger,
+  NextTrigger: CarouselNextTrigger,
+  ItemGroup: CarouselItemGroup,
+  Item: CarouselItem,
+  IndicatorGroup: CarouselIndicatorGroup,
+  Indicator: CarouselIndicator,
+};
