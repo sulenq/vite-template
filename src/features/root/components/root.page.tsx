@@ -68,6 +68,7 @@ import { Dialog } from "@/design-system/components/overlay/ui/dialog";
 import { Drawer } from "@/design-system/components/overlay/ui/drawer";
 import { Menu } from "@/design-system/components/overlay/ui/menu";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
+import { toast } from "@/design-system/components/toast";
 import { P, TNum } from "@/design-system/components/typography/ui/p";
 import { RichTextEditorPresetEssential } from "@/design-system/components/typography/ui/rich-text-editor.preset";
 import { Span } from "@/design-system/components/typography/ui/span";
@@ -103,7 +104,8 @@ export const RootPage = () => {
   return (
     <VStack minH={"100dvh"} bg={"bg.canvas"} gap={4}>
       <IntegratedFeatures />
-      {/* <Branding /> */}
+      <Branding />
+      <Toast />
       <Typography />
       <Navigation />
       <Buttons />
@@ -117,7 +119,31 @@ export const RootPage = () => {
   );
 };
 
-export const IntegratedFeatures = () => {
+const Toast = () => {
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Toast
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <Button
+            onClick={() => {
+              toast.create({
+                title: "Toast title",
+              });
+            }}
+          >
+            Toast
+          </Button>
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+const IntegratedFeatures = () => {
   const { setLocale } = useLocale();
 
   return (
@@ -150,7 +176,7 @@ export const IntegratedFeatures = () => {
   );
 };
 
-export const Branding = () => {
+const Branding = () => {
   return (
     <Container.Root w={"full"} px={SPACING_MD}>
       <Container.Body gap={4} p={4}>
@@ -168,7 +194,7 @@ export const Branding = () => {
   );
 };
 
-export const Typography = () => {
+const Typography = () => {
   const [tnum, setTnum] = useState<number>(10);
 
   return (
@@ -221,7 +247,7 @@ export const Typography = () => {
   );
 };
 
-export const Navigation = () => {
+const Navigation = () => {
   return (
     <Container.Root w={"full"} px={SPACING_MD}>
       <Container.Body gap={4} p={4}>
@@ -239,7 +265,7 @@ export const Navigation = () => {
   );
 };
 
-export const Buttons = () => {
+const Buttons = () => {
   return (
     <Container.Root w={"full"} px={SPACING_MD}>
       <Container.Body gap={4} p={4}>
@@ -335,7 +361,7 @@ const DemoFileInputReplace = (
     },
   ];
 
-  const { existingFiles, toggleMarkedForDelete } = useExistingFiles({
+  const { existingFiles } = useExistingFiles({
     initialExistingFiles: apiResponse.map((att) => ({
       id: att.attachment_id,
       name: att.file_name,
@@ -353,7 +379,6 @@ const DemoFileInputReplace = (
         accept={[".jpeg", ".jpg"]}
         maxFiles={2}
         existingFiles={existingFiles}
-        onToggleDeleteExisting={toggleMarkedForDelete}
       />
     </FieldTemplate>
   );

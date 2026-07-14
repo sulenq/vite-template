@@ -1,0 +1,312 @@
+import type {
+  DismissedReason,
+  ToastOptions,
+  ToastRecord,
+  ToastVariant,
+  UpdateToastOptions,
+} from "@/design-system/components/toast/types/toast.types";
+import { useVisibleToastStore } from "@/design-system/components/toast/stores/visible-toast.store";
+import { useHistoryStore } from "@/design-system/components/toast/stores/history.store";
+import { toastEventBus } from "@/design-system/components/toast/core/toast.event-bus";
+import { generateId } from "@/design-system/components/toast/utils/generate-id";
+import {
+  DEFAULT_TOAST_GROUP,
+  getToastConfig,
+} from "@/design-system/components/toast/core/toast.config";
+
+// ---------------------------------------------------------------------------
+// Timer scheduling. Kept as module-scoped state (not a store, not React) so
+// timers survive re-renders without ever triggering one themselves.
+// ---------------------------------------------------------------------------
+
+type TimerEntry = {
+  timeoutId: ReturnType<typeof setTimeout>;
+  remaining: number;
+  startedAt: number;
+  onExpire: () => void;
+};
+
+const timers = new Map<string, TimerEntry>();
+
+function startTimer(
+  id: string,
+  duration: number | null,
+  onExpire: () => void,
+): void {
+  clearTimer(id);
+  if (duration === null) return; // persistent toast, no timer needed
+
+  const timeoutId = setTimeout(() => {
+    timers.delete(id);
+    onExpire();
+  }, duration);
+
+  timers.set(id, {
+    timeoutId,
+    remaining: duration,
+    startedAt: Date.now(),
+    onExpire,
+  });
+}
+
+function clearTimer(id: string): void {
+  const entry = timers.get(id);
+  if (!entry) return;
+  clearTimeout(entry.timeoutId);
+  timers.delete(id);
+}
+
+function pauseTimer(id: string): void {
+  const entry = timers.get(id);
+  if (!entry) return;
+  clearTimeout(entry.timeoutId);
+  const remaining = Math.max(
+    entry.remaining - (Date.now() - entry.startedAt),
+    0,
+  );
+  timers.set(id, { ...entry, remaining });
+  useVisibleToastStore.getState().update(id, { paused: true });
+}
+
+function resumeTimer(id: string): void {
+  const entry = timers.get(id);
+  if (!entry) return;
+  const timeoutId = setTimeout(() => {
+    timers.delete(id);
+    entry.onExpire();
+  }, entry.remaining);
+  timers.set(id, { ...entry, timeoutId, startedAt: Date.now() });
+  useVisibleToastStore.getState().update(id, { paused: false });
+}
+
+/** Used by `use-page-visibility.ts` to freeze/unfreeze every timer when the tab is hidden. */
+export function pauseAllTimers(): void {
+  timers.forEach((_, id) => pauseTimer(id));
+}
+
+export function resumeAllTimers(): void {
+  timers.forEach((_, id) => resumeTimer(id));
+}
+
+/** Hover pause/resume — used by `toast-item.tsx`. Not part of the public `toast` API. */
+export const toastTimerControls = { pauseTimer, resumeTimer };
+
+// ---------------------------------------------------------------------------
+// History wiring. Direct calls, no event-bus indirection — history isn't a
+// pluggable extension, it's a first-class part of what "showing a toast" means.
+// ---------------------------------------------------------------------------
+
+function nextHistoryVersion(toastId: string): number {
+  const versions = useHistoryStore
+    .getState()
+    .getAll({ includeDeleted: true })
+    .filter((entry) => entry.toastId === toastId)
+    .map((entry) => entry.version);
+  return versions.length === 0 ? 1 : Math.max(...versions) + 1;
+}
+
+function recordHistorySnapshot(
+  record: ToastRecord,
+  source: "create" | "update",
+): void {
+  useHistoryStore.getState().add({
+    historyEntryId: generateId("hist"),
+    toastId: record.id,
+    version: nextHistoryVersion(record.id),
+    group: record.group,
+    variant: record.variant,
+    title: record.title,
+    description: record.description,
+    icon: record.icon,
+    actions: record.actions,
+    metadata: record.metadata,
+    source,
+    createdAt: Date.now(),
+    closedAt: null,
+    expiresAt: record.duration === null ? null : Date.now() + record.duration,
+    read: false,
+    dismissedReason: null,
+    isUpdate: source === "update",
+    deletedFromHistory: false,
+  });
+}
+
+function annotateHistoryOnClose(
+  toastId: string,
+  reason: DismissedReason,
+): void {
+  const entries = useHistoryStore.getState().getAll({ includeDeleted: true });
+  const latest = entries
+    .filter((entry) => entry.toastId === toastId)
+    .sort((a, b) => b.version - a.version)[0];
+  if (!latest) return;
+
+  // Closing annotates the latest snapshot rather than creating a new version.
+  useHistoryStore.setState((state) => ({
+    entries: state.entries.map((entry) =>
+      entry.historyEntryId === latest.historyEntryId
+        ? { ...entry, closedAt: Date.now(), dismissedReason: reason }
+        : entry,
+    ),
+  }));
+}
+
+// ---------------------------------------------------------------------------
+// Public API
+// ---------------------------------------------------------------------------
+
+function resolveDuration(duration: ToastOptions["duration"]): number | null {
+  if (duration === undefined) return getToastConfig().defaultDuration;
+  return duration; // explicit `null` (persistent) or explicit number both pass through
+}
+
+function buildRecord(options: ToastOptions, id: string): ToastRecord {
+  const duration = resolveDuration(options.duration);
+  return {
+    ...options,
+    id,
+    group: options.group ?? DEFAULT_TOAST_GROUP,
+    variant: options.variant ?? "info",
+    duration,
+    status: "entering",
+    createdAt: Date.now(),
+    remainingDuration: duration,
+    paused: false,
+    isDeletedFromHistory: false,
+  };
+}
+
+function handleExpire(id: string): void {
+  const record = useVisibleToastStore.getState().find(id);
+  if (!record) return;
+
+  toastEventBus.emit("expire", record);
+  toastEventBus.emit("close", { record, reason: "timeout" });
+  annotateHistoryOnClose(id, "timeout");
+  record.onExpire?.(record);
+  record.onClose?.(record, "timeout");
+  useVisibleToastStore.getState().remove(id);
+}
+
+function create(options: ToastOptions = {}): string {
+  const strategy =
+    options.duplicateStrategy ?? getToastConfig().duplicateStrategy;
+  const requestedId = options.id;
+
+  if (requestedId && useVisibleToastStore.getState().find(requestedId)) {
+    if (strategy === "ignore") return requestedId;
+    if (strategy === "throw") {
+      throw new Error(
+        `[toast] duplicate id "${requestedId}" with duplicateStrategy="throw"`,
+      );
+    }
+    close(requestedId, "replaced"); // "replace": close old, fall through to create fresh
+  }
+
+  const id = requestedId ?? generateId();
+  const record = buildRecord(options, id);
+
+  useVisibleToastStore.getState().add(record);
+  startTimer(id, record.duration, () => handleExpire(id));
+  recordHistorySnapshot(record, "create");
+
+  toastEventBus.emit("show", record);
+  record.onShow?.(record);
+
+  return id;
+}
+
+function update(id: string, patch: UpdateToastOptions): void {
+  const existing = useVisibleToastStore.getState().find(id);
+  if (!existing) return;
+
+  const duration =
+    patch.duration !== undefined ? patch.duration : existing.duration;
+  const nextRecord: ToastRecord = {
+    ...existing,
+    ...patch,
+    id: existing.id,
+    group: existing.group,
+    duration,
+    remainingDuration: duration,
+  };
+
+  useVisibleToastStore.getState().update(id, nextRecord);
+  startTimer(id, duration, () => handleExpire(id)); // restart timer with the (possibly new) duration
+  recordHistorySnapshot(nextRecord, "update");
+
+  toastEventBus.emit("update", nextRecord);
+  nextRecord.onUpdate?.(nextRecord);
+}
+
+function close(id: string, reason: DismissedReason = "manual"): void {
+  const record = useVisibleToastStore.getState().find(id);
+  if (!record) return;
+
+  clearTimer(id);
+  toastEventBus.emit("close", { record, reason });
+  annotateHistoryOnClose(id, reason);
+  record.onClose?.(record, reason);
+  useVisibleToastStore.getState().update(id, { status: "leaving" });
+}
+
+/** Detaches the toast from the store — call after the leave animation finishes. */
+function remove(id: string): void {
+  const record = useVisibleToastStore.getState().find(id);
+  clearTimer(id);
+  useVisibleToastStore.getState().remove(id);
+  if (record) {
+    toastEventBus.emit("remove", { id });
+    record.onRemove?.(record);
+  }
+}
+
+function closeAll(): void {
+  Object.values(useVisibleToastStore.getState().entries)
+    .flat()
+    .forEach((record) => close(record.id, "closeAll"));
+}
+
+function removeAll(): void {
+  const all = Object.values(useVisibleToastStore.getState().entries).flat();
+  all.forEach((record) => clearTimer(record.id));
+  all.forEach((record) => {
+    toastEventBus.emit("remove", { id: record.id });
+    record.onRemove?.(record);
+  });
+  useVisibleToastStore.getState().removeAll();
+}
+
+function exists(id: string): boolean {
+  return Boolean(useVisibleToastStore.getState().find(id));
+}
+
+function isVisible(id: string): boolean {
+  const record = useVisibleToastStore.getState().find(id);
+  return record?.status === "visible" || record?.status === "entering";
+}
+
+function withVariant(variant: ToastVariant) {
+  return (title: ToastOptions["title"], options: ToastOptions = {}) =>
+    create({ ...options, title, variant });
+}
+
+export const toast = {
+  create,
+  update,
+  close,
+  remove,
+  closeAll,
+  removeAll,
+  exists,
+  isVisible,
+  success: withVariant("success"),
+  error: withVariant("error"),
+  warning: withVariant("warning"),
+  info: withVariant("info"),
+  loading: withVariant("loading"),
+  custom: (
+    renderer: NonNullable<ToastOptions["renderer"]>,
+    options: ToastOptions = {},
+  ) => create({ ...options, variant: "custom", renderer }),
+};
