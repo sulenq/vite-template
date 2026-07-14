@@ -1,18 +1,16 @@
 // src/design-system/components/feedback/types/feedback-state.type.ts
 
 import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
-import type { ReactNode, TablerIcon } from "@tabler/icons-react";
+import type { ComponentType } from "react";
 
 export type FeedbackStateProps = StackProps & {
-  icon?: ReactNode;
-  tablerIcon?: TablerIcon;
+  icon?: ComponentType;
   title?: string;
   description?: string;
 };
 
 export type NoResultStateProps = FeedbackStateProps & {
-  icon?: ReactNode;
-  tablerIcon?: TablerIcon;
+  icon?: ComponentType;
   query?: string;
 };
 

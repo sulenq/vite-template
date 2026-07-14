@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { ImageProps } from "@/design-system/components/media/types/image.type";
 import { Image as ChakraImage } from "@chakra-ui/react";
 import { IconPhotoOff } from "@tabler/icons-react";
@@ -100,7 +100,7 @@ export const ImageFallback = (props: CenterProps) => {
       color={"fg.muted"}
       {...rest}
     >
-      <AppTablerIcon icon={IconPhotoOff} boxSize={resolvedIconBoxSize} />
+      <AppIcon icon={IconPhotoOff} boxSize={resolvedIconBoxSize} />
     </Center>
   );
 };

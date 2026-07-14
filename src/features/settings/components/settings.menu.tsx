@@ -4,7 +4,7 @@
 
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
 import { NavButton } from "@/design-system/components/layout/ui/nav";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
@@ -57,7 +57,7 @@ export const SettingsMenuHeader = () => {
       <HStack>
         {isSmallViewport && (
           <IconButton onClick={() => back()}>
-            <AppTablerIcon icon={IconChevronLeft} />
+            <AppIcon icon={IconChevronLeft} />
           </IconButton>
         )}
 
@@ -143,12 +143,12 @@ export const SettingsMenuBody = (props: StackProps) => {
                           });
                         }}
                       >
-                        <AppTablerIcon icon={nav.icon} />
+                        {nav.icon && <AppIcon icon={nav.icon} />}
 
                         {navTitle}
 
                         {isSmallViewport && (
-                          <AppTablerIcon
+                          <AppIcon
                             icon={IconChevronRight}
                             color={"fg.subtle"}
                             ml={"auto"}

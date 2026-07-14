@@ -9,6 +9,7 @@ import {
 } from "@/design-system/components/typography/ui/rich-text-editor";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { t } from "@/shared/libs/i18n/-typed";
+import Highlight from "@tiptap/extension-highlight";
 import Placeholder from "@tiptap/extension-placeholder";
 import Subscript from "@tiptap/extension-subscript";
 import Superscript from "@tiptap/extension-superscript";
@@ -28,13 +29,14 @@ export const RichTextEditorPresetEssential = (props: RichEditorPresetProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Subscript,
-      Superscript,
-      TextAlign.configure({ types: ["paragraph", "heading"] }),
       TextStyleKit,
+      Highlight,
+      TextAlign.configure({ types: ["paragraph", "heading"] }),
       Placeholder.configure({
         placeholder: t["rich_text_editor.default_placeholder"](),
       }),
+      Subscript,
+      Superscript,
     ],
     content: "",
     shouldRerenderOnTransaction: true,
@@ -57,9 +59,11 @@ export const RichTextEditorPresetEssential = (props: RichEditorPresetProps) => {
           <Control.Redo />
         </RichTextEditor.ControlGroup>
 
-        <RichTextEditor.ControlGroup>
-          <Control.FontSize />
-        </RichTextEditor.ControlGroup>
+        {/* <RichTextEditor.ControlGroup> */}
+        {/* <Control.FontSize /> */}
+        {/* <Control.TextColor /> */}
+        {/* <Control.Highlight /> */}
+        {/* </RichTextEditor.ControlGroup> */}
 
         <RichTextEditor.ControlGroup>
           <Control.Bold />

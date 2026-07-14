@@ -34,10 +34,7 @@ import { AccessDeniedState } from "@/design-system/components/feedback/ui/state.
 import { NoDataState } from "@/design-system/components/feedback/ui/state.no-data";
 import { NoResultState } from "@/design-system/components/feedback/ui/state.no-result";
 import { RetryState } from "@/design-system/components/feedback/ui/state.retry";
-import {
-  AppLucideIcon,
-  AppTablerIcon,
-} from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { useExistingFiles } from "@/design-system/components/input/hooks/use-existing-files";
 import type { FieldProps } from "@/design-system/components/input/types/field.type";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
@@ -133,11 +130,7 @@ export const IntegratedFeatures = () => {
         <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={2}>
           <SettingsTrigger modalKey={"settings"} w={"fit"}>
             <IconButton>
-              <AppLucideIcon
-                icon={CogIcon}
-                strokeWidth={1.3}
-                boxSize={"22px"}
-              />
+              <AppIcon icon={CogIcon} strokeWidth={1.3} boxSize={"22px"} />
             </IconButton>
           </SettingsTrigger>
 
@@ -148,7 +141,7 @@ export const IntegratedFeatures = () => {
               setLocale(getLocale() === "id" ? "en" : "id");
             }}
           >
-            <AppTablerIcon icon={IconLanguage} />
+            <AppIcon icon={IconLanguage} />
             {getLocaleLabel(getLocale())}
           </Button>
         </HStack>
@@ -309,7 +302,52 @@ const DemoFileInput = (
   });
 
   return (
-    <FieldTemplate w={"320px"} {...restProps}>
+    <FieldTemplate label={"Edit Mode"} w={"320px"} {...restProps}>
+      <FileInput
+        inputProps={inputProps}
+        accept={[".jpeg", ".jpg"]}
+        maxFiles={2}
+        existingFiles={existingFiles}
+        onToggleDeleteExisting={toggleMarkedForDelete}
+      />
+    </FieldTemplate>
+  );
+};
+
+const DemoFileInputReplace = (
+  props: FieldProps & { inputProps: UseFormRegisterReturn },
+) => {
+  const { inputProps, ...restProps } = props;
+  const apiResponse = [
+    {
+      attachment_id: "att_001",
+      file_name: "invoice-january.pdf",
+      file_size: 8000,
+      file_url: "https://cdn.example.com/files/invoice-january.pdf",
+      content_type: "application/pdf",
+    },
+    {
+      attachment_id: "att_002",
+      file_name: "product-photo.jpg",
+      file_size: 1420,
+      file_url: "https://cdn.example.com/files/product-photo.jpg",
+      content_type: "image/jpeg",
+    },
+  ];
+
+  const { existingFiles, toggleMarkedForDelete } = useExistingFiles({
+    initialExistingFiles: apiResponse.map((att) => ({
+      id: att.attachment_id,
+      name: att.file_name,
+      size: att.file_size,
+      url: att.file_url,
+      mimeType: att.content_type,
+      // markedForDelete: true,
+    })),
+  });
+
+  return (
+    <FieldTemplate label={"Replace Mode"} w={"320px"} {...restProps}>
       <FileInput
         inputProps={inputProps}
         accept={[".jpeg", ".jpg"]}
@@ -417,6 +455,11 @@ export const Inputs = () => {
               inputProps={register("attachments")}
             />
 
+            <DemoFileInputReplace
+              invalid={invalid}
+              inputProps={register("attachments2")}
+            />
+
             <FieldTemplate invalid={invalid}>
               <PinInput />
             </FieldTemplate>
@@ -440,7 +483,7 @@ export const Inputs = () => {
                   <RadioCardInput.Item value="option-1">
                     <RadioCardInput.ItemControl>
                       <VStack gap={1}>
-                        <AppTablerIcon
+                        <AppIcon
                           icon={IconArrowRight}
                           size={"xl"}
                           color={"fg.muted"}
@@ -463,7 +506,7 @@ export const Inputs = () => {
                   <RadioCardInput.Item value="option-2">
                     <RadioCardInput.ItemControl>
                       <VStack gap={1}>
-                        <AppTablerIcon
+                        <AppIcon
                           icon={IconForbid}
                           size={"xl"}
                           color={"fg.muted"}
@@ -900,7 +943,7 @@ export const Disclosure = () => {
                   transition={"200ms"}
                   _open={{ transform: "rotate(180deg)" }}
                 >
-                  <AppLucideIcon icon={ChevronDownIcon} />
+                  <AppIcon icon={ChevronDownIcon} />
                 </Collapsible.Indicator>
               </Button>
             </Collapsible.Trigger>
@@ -995,7 +1038,7 @@ export const Feedback = () => {
 
           <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={10}>
             <HStack gap={4}>
-              <ProgressCircle.Root value={16}>
+              <ProgressCircle.Root value={16} size={"xl"}>
                 <ProgressCircle.Circle>
                   <ProgressCircle.Track />
                   <ProgressCircle.Range />
@@ -1359,7 +1402,7 @@ export const DataDisplay = () => {
               console.log({ selectedItemIds, selectedItems });
             }}
           >
-            <AppTablerIcon icon={IconTrash} />
+            <AppIcon icon={IconTrash} />
             Delete
           </Button>
         );
@@ -1375,7 +1418,7 @@ export const DataDisplay = () => {
               console.log(item);
             }}
           >
-            <AppTablerIcon icon={IconEdit} size={"sm"} />
+            <AppIcon icon={IconEdit} size={"sm"} />
             Edit
           </Menu.Item>
         );
@@ -1413,17 +1456,17 @@ export const DataDisplay = () => {
               <SearchInput placeholder={"Search..."} />
 
               <Button variant={"outline"}>
-                <AppTablerIcon icon={IconFilter2} />
+                <AppIcon icon={IconFilter2} />
                 Filter
               </Button>
 
               <Button variant={"outline"}>
-                <AppTablerIcon icon={IconDownload} />
+                <AppIcon icon={IconDownload} />
                 Export
               </Button>
 
               <IconButton primary>
-                <AppTablerIcon icon={IconPlus} />
+                <AppIcon icon={IconPlus} />
               </IconButton>
             </HStack>
           </HStack>

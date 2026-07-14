@@ -3,7 +3,7 @@
 "use client";
 
 import { IconButton } from "@/design-system/components/button/ui/button";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { SearchInputProps } from "@/design-system/components/input/types/search-input.type";
 import { Input } from "@/design-system/components/input/ui/input";
 import { useFocusSearch } from "@/design-system/hooks/use-focus-search";
@@ -45,11 +45,11 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
 
     return (
       <InputGroup
-        startElement={<AppTablerIcon icon={IconSearch} />}
+        startElement={<AppIcon icon={IconSearch} />}
         endElement={
           value ? (
             <IconButton size="xs" onClick={handleClear} me="-2">
-              <AppTablerIcon icon={IconX} />
+              <AppIcon icon={IconX} />
             </IconButton>
           ) : undefined
         }

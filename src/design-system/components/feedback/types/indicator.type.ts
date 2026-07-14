@@ -1,13 +1,13 @@
 // src/design-system/components/feedback/types/indicator.type.ts
 
-import type { AppTablerIconProps } from "@/design-system/components/icon/types/app-icon.type";
+import type { AppIconProps } from "@/design-system/components/icon/types/app-icon.type";
 import type { CircleProps } from "@/design-system/components/layout/types/box.type";
 
 export type DotIndicatorProps = CircleProps & {
   checked?: boolean;
 };
 
-export type CheckIndicatorProps = AppTablerIconProps & {
+export type CheckIndicatorProps = AppIconProps & {
   checked?: boolean;
 };
 

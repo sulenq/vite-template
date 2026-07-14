@@ -8,13 +8,12 @@ import FeedbackState from "@/design-system/components/feedback/ui/feedback-state
 import { VStack } from "@/design-system/components/layout/ui/flex-box";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { t } from "@/shared/libs/i18n/-typed";
-import { IconAlertTriangle } from "@tabler/icons-react";
+import { AlertTriangleIcon } from "lucide-react";
 
 export const RetryState = (props: RetryStateProps) => {
   // Props
   const {
-    icon,
-    tablerIcon = IconAlertTriangle,
+    icon = AlertTriangleIcon,
     title = t["common.something_went_wrong"](),
     description = t["common.please_try_again"](),
     onRetry,
@@ -28,7 +27,6 @@ export const RetryState = (props: RetryStateProps) => {
   return (
     <FeedbackState
       icon={icon}
-      tablerIcon={tablerIcon}
       title={title}
       description={description}
       {...restProps}

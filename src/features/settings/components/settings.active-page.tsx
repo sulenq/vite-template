@@ -4,7 +4,7 @@
 
 import { IconButton } from "@/design-system/components/button/ui/button";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
@@ -108,7 +108,7 @@ export const SettingsActivePageHeader = (props: StackProps) => {
       <HStack w={MODAL_CONTROL_CONTAINER_W}>
         {isSmallViewport && (
           <IconButton onClick={() => back()}>
-            <AppTablerIcon icon={IconChevronLeft} />
+            <AppIcon icon={IconChevronLeft} />
           </IconButton>
         )}
       </HStack>

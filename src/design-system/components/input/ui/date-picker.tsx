@@ -14,7 +14,7 @@ import {
   Button,
   IconButton,
 } from "@/design-system/components/button/ui/button";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type {
   DatePickerProps,
   DayViewProps,
@@ -134,7 +134,7 @@ const NavHeader = memo(function NavHeader({
   return (
     <HStack justify={"space-between"} align={"center"} gap={1} py={1}>
       <IconButton variant={"ghost"} aria-label={"Previous"} onClick={onPrev}>
-        <AppTablerIcon icon={IconChevronLeft} />
+        <AppIcon icon={IconChevronLeft} />
       </IconButton>
 
       <Button
@@ -148,7 +148,7 @@ const NavHeader = memo(function NavHeader({
       </Button>
 
       <IconButton variant={"ghost"} aria-label={"Next"} onClick={onNext}>
-        <AppTablerIcon icon={IconChevronRight} />
+        <AppIcon icon={IconChevronRight} />
       </IconButton>
     </HStack>
   );
@@ -500,7 +500,7 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
 
         <HStack align={"center"} justify={"space-between"} p={1}>
           <HStack align={"center"} gap={2} color={"fg.muted"}>
-            <AppTablerIcon icon={IconWorld} size={"sm"} />
+            <AppIcon icon={IconWorld} size={"sm"} />
 
             <ClampedP fontSize={"sm"}>{timezoneLabel}</ClampedP>
           </HStack>

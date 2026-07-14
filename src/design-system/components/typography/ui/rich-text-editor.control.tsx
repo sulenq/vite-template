@@ -3,11 +3,7 @@
 "use client";
 
 import { IconButton } from "@/design-system/components/button/ui/button";
-import { CloseButton } from "@/design-system/components/button/ui/close-button";
-import {
-  AppLucideIcon,
-  AppTablerIcon,
-} from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { SelectProps } from "@/design-system/components/input/types/select.type";
 import SelectInput from "@/design-system/components/input/ui/select";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
@@ -31,7 +27,6 @@ import {
   IconH4,
   IconHighlight,
   IconItalic,
-  IconLetterA,
   IconLink,
   IconLinkOff,
   IconList,
@@ -51,7 +46,7 @@ import "@tiptap/extension-text-align";
 import "@tiptap/extension-text-style";
 import "@tiptap/extension-underline";
 import "@tiptap/starter-kit";
-import { UnderlineIcon } from "lucide-react";
+import { EraserIcon, TypeIcon, UnderlineIcon } from "lucide-react";
 import { forwardRef, useId, useState } from "react";
 import type {
   BooleanControlConfig,
@@ -64,14 +59,12 @@ import { useRichTextEditorContext } from "./rich-text-editor.context";
 export const ButtonControl = forwardRef<HTMLButtonElement, ButtonControlProps>(
   function ButtonControl(props, ref) {
     // Props
-    const { icon, tablerIcon, label, ...rest } = props;
+    const { icon, label, ...rest } = props;
 
     return (
       <Tooltip content={label}>
         <IconButton ref={ref} aria-label={label} {...rest}>
-          {icon}
-
-          {tablerIcon && <AppTablerIcon icon={tablerIcon} />}
+          {icon && <AppIcon icon={icon} />}
         </IconButton>
       </Tooltip>
     );
@@ -81,8 +74,7 @@ export const ButtonControl = forwardRef<HTMLButtonElement, ButtonControlProps>(
 ///////////////////// Boolean Control /////////////////////
 
 export function createBooleanControl(config: BooleanControlConfig) {
-  const { label, icon, tablerIcon, isDisabled, command, getVariant, getProps } =
-    config;
+  const { label, icon, isDisabled, command, getVariant, getProps } = config;
 
   const BooleanControl = forwardRef<HTMLButtonElement, IconButtonProps>(
     function BooleanControl(props, ref) {
@@ -97,7 +89,7 @@ export function createBooleanControl(config: BooleanControlConfig) {
         <ButtonControl
           ref={ref}
           label={label}
-          icon={icon || <AppTablerIcon icon={tablerIcon} />}
+          icon={icon}
           variant={variant}
           onClick={() => command(editor)}
           disabled={disabled}
@@ -171,7 +163,6 @@ export function createSwatchControl(config: SwatchControlConfig) {
     onRemove,
     isDisabled,
     icon,
-    tablerIcon,
     getProps,
   } = config;
 
@@ -203,9 +194,7 @@ export function createSwatchControl(config: SwatchControlConfig) {
                 {...props}
               >
                 <VStack align={"center"} gap={"1px"}>
-                  {icon}
-
-                  {tablerIcon && <AppTablerIcon icon={tablerIcon} />}
+                  {icon && <AppIcon icon={icon} size={"sm"} />}
 
                   <ColorSwatch value={currentValue} h={"4px"} w={"100%"} />
                 </VStack>
@@ -216,7 +205,7 @@ export function createSwatchControl(config: SwatchControlConfig) {
           <Portal>
             <Popover.Positioner>
               <Popover.Content width={"auto"}>
-                <Popover.Body>
+                <Popover.Body p={2}>
                   <HStack align={"center"} wrap={"wrap"} gap={1}>
                     {swatches.map((swatch) => (
                       <ColorSwatch
@@ -229,14 +218,18 @@ export function createSwatchControl(config: SwatchControlConfig) {
                         }}
                       />
                     ))}
+
                     {showRemove && onRemove && (
-                      <Popover.CloseTrigger asChild>
-                        <CloseButton
+                      <Popover.CloseTrigger asChild pos={"static"}>
+                        <IconButton
+                          size={"2xs"}
                           onClick={() => {
                             onRemove(editor);
                             setOpen(false);
                           }}
-                        />
+                        >
+                          <AppIcon icon={EraserIcon} />
+                        </IconButton>
                       </Popover.CloseTrigger>
                     )}
                   </HStack>
@@ -288,56 +281,56 @@ export const FontSize = createSelectControl({
 
 export const Bold = createBooleanControl({
   label: "Bold",
-  tablerIcon: IconBold,
+  icon: IconBold,
   command: (editor) => editor.chain().focus().toggleBold().run(),
   getVariant: (editor) => (editor.isActive("bold") ? "subtle" : "ghost"),
 });
 
 export const Italic = createBooleanControl({
   label: "Italic",
-  tablerIcon: IconItalic,
+  icon: IconItalic,
   command: (editor) => editor.chain().focus().toggleItalic().run(),
   getVariant: (editor) => (editor.isActive("italic") ? "subtle" : "ghost"),
 });
 
 export const Underline = createBooleanControl({
   label: "Underline",
-  icon: <AppLucideIcon icon={UnderlineIcon} />,
+  icon: UnderlineIcon,
   command: (editor) => editor.chain().focus().toggleUnderline().run(),
   getVariant: (editor) => (editor.isActive("underline") ? "subtle" : "ghost"),
 });
 
 export const Strikethrough = createBooleanControl({
   label: "Strikethrough",
-  tablerIcon: IconStrikethrough,
+  icon: IconStrikethrough,
   command: (editor) => editor.chain().focus().toggleStrike().run(),
   getVariant: (editor) => (editor.isActive("strike") ? "subtle" : "ghost"),
 });
 
 export const Code = createBooleanControl({
   label: "Code",
-  tablerIcon: IconCode,
+  icon: IconCode,
   command: (editor) => editor.chain().focus().toggleCode().run(),
   getVariant: (editor) => (editor.isActive("code") ? "subtle" : "ghost"),
 });
 
 export const Subscript = createBooleanControl({
   label: "Subscript",
-  tablerIcon: IconSubscript,
+  icon: IconSubscript,
   command: (editor) => editor.chain().focus().toggleSubscript().run(),
   getVariant: (editor) => (editor.isActive("subscript") ? "subtle" : "ghost"),
 });
 
 export const Superscript = createBooleanControl({
   label: "Superscript",
-  tablerIcon: IconSuperscript,
+  icon: IconSuperscript,
   command: (editor) => editor.chain().focus().toggleSuperscript().run(),
   getVariant: (editor) => (editor.isActive("superscript") ? "subtle" : "ghost"),
 });
 
 export const H1 = createBooleanControl({
   label: "H1",
-  tablerIcon: IconH1,
+  icon: IconH1,
   command: (editor) => editor.chain().focus().toggleHeading({ level: 1 }).run(),
   getVariant: (editor) =>
     editor.isActive("heading", { level: 1 }) ? "subtle" : "ghost",
@@ -345,7 +338,7 @@ export const H1 = createBooleanControl({
 
 export const H2 = createBooleanControl({
   label: "H2",
-  tablerIcon: IconH2,
+  icon: IconH2,
   command: (editor) => editor.chain().focus().toggleHeading({ level: 2 }).run(),
   getVariant: (editor) =>
     editor.isActive("heading", { level: 2 }) ? "subtle" : "ghost",
@@ -353,7 +346,7 @@ export const H2 = createBooleanControl({
 
 export const H3 = createBooleanControl({
   label: "H3",
-  tablerIcon: IconH3,
+  icon: IconH3,
   command: (editor) => editor.chain().focus().toggleHeading({ level: 3 }).run(),
   getVariant: (editor) =>
     editor.isActive("heading", { level: 3 }) ? "subtle" : "ghost",
@@ -361,7 +354,7 @@ export const H3 = createBooleanControl({
 
 export const H4 = createBooleanControl({
   label: "H4",
-  tablerIcon: IconH4,
+  icon: IconH4,
   command: (editor) => editor.chain().focus().toggleHeading({ level: 4 }).run(),
   getVariant: (editor) =>
     editor.isActive("heading", { level: 4 }) ? "subtle" : "ghost",
@@ -369,35 +362,35 @@ export const H4 = createBooleanControl({
 
 export const BulletList = createBooleanControl({
   label: "Bullet List",
-  tablerIcon: IconList,
+  icon: IconList,
   command: (editor) => editor.chain().focus().toggleBulletList().run(),
   getVariant: (editor) => (editor.isActive("bulletList") ? "subtle" : "ghost"),
 });
 
 export const OrderedList = createBooleanControl({
   label: "Ordered List",
-  tablerIcon: IconListNumbers,
+  icon: IconListNumbers,
   command: (editor) => editor.chain().focus().toggleOrderedList().run(),
   getVariant: (editor) => (editor.isActive("orderedList") ? "subtle" : "ghost"),
 });
 
 export const Blockquote = createBooleanControl({
   label: "Blockquote",
-  tablerIcon: IconQuote,
+  icon: IconQuote,
   command: (editor) => editor.chain().focus().toggleBlockquote().run(),
   getVariant: (editor) => (editor.isActive("blockquote") ? "subtle" : "ghost"),
 });
 
 export const Hr = createBooleanControl({
   label: "Horizontal Rule",
-  tablerIcon: IconMinus,
+  icon: IconMinus,
   command: (editor) => editor.chain().focus().setHorizontalRule().run(),
   getVariant: (editor) => (editor.isActive("blockquote") ? "subtle" : "ghost"),
 });
 
 export const Link = createBooleanControl({
   label: "Link",
-  tablerIcon: IconLink,
+  icon: IconLink,
   command: (editor) => {
     const url = window.prompt("Enter URL");
     if (url)
@@ -413,14 +406,14 @@ export const Link = createBooleanControl({
 
 export const Unlink = createBooleanControl({
   label: "Unlink",
-  tablerIcon: IconLinkOff,
+  icon: IconLinkOff,
   command: (editor) => editor.chain().focus().unsetLink().run(),
   getVariant: (editor) => (editor.isActive("link") ? "subtle" : "ghost"),
 });
 
 export const AlignLeft = createBooleanControl({
   label: "Align Left",
-  tablerIcon: IconAlignLeft,
+  icon: IconAlignLeft,
   command: (editor) => editor.chain().focus().setTextAlign("left").run(),
   getVariant: (editor) =>
     editor.isActive({ textAlign: "left" }) ? "subtle" : "ghost",
@@ -428,7 +421,7 @@ export const AlignLeft = createBooleanControl({
 
 export const AlignCenter = createBooleanControl({
   label: "Align Center",
-  tablerIcon: IconAlignCenter,
+  icon: IconAlignCenter,
   command: (editor) => editor.chain().focus().setTextAlign("center").run(),
   getVariant: (editor) =>
     editor.isActive({ textAlign: "center" }) ? "subtle" : "ghost",
@@ -436,7 +429,7 @@ export const AlignCenter = createBooleanControl({
 
 export const AlignJustify = createBooleanControl({
   label: "Align Justify",
-  tablerIcon: IconAlignJustified,
+  icon: IconAlignJustified,
   command: (editor) => editor.chain().focus().setTextAlign("justify").run(),
   getVariant: (editor) =>
     editor.isActive({ textAlign: "justify" }) ? "subtle" : "ghost",
@@ -444,7 +437,7 @@ export const AlignJustify = createBooleanControl({
 
 export const AlignRight = createBooleanControl({
   label: "Align Right",
-  tablerIcon: IconAlignRight,
+  icon: IconAlignRight,
   command: (editor) => editor.chain().focus().setTextAlign("right").run(),
   getVariant: (editor) =>
     editor.isActive({ textAlign: "right" }) ? "subtle" : "ghost",
@@ -452,7 +445,7 @@ export const AlignRight = createBooleanControl({
 
 export const Undo = createBooleanControl({
   label: "Undo",
-  tablerIcon: IconArrowBackUp,
+  icon: IconArrowBackUp,
   command: (editor) => editor.chain().focus().undo().run(),
   isDisabled: (editor) => !editor.can().undo(),
   getVariant: (editor) => (editor.isActive("link") ? "subtle" : "ghost"),
@@ -460,7 +453,7 @@ export const Undo = createBooleanControl({
 
 export const Redo = createBooleanControl({
   label: "Redo",
-  tablerIcon: IconArrowForwardUp,
+  icon: IconArrowForwardUp,
   command: (editor) => editor.chain().focus().redo().run(),
   isDisabled: (editor) => !editor.can().redo(),
   getVariant: (editor) => (editor.isActive("link") ? "subtle" : "ghost"),
@@ -468,8 +461,9 @@ export const Redo = createBooleanControl({
 
 export const TextColor = createSwatchControl({
   label: "Text Color",
-  icon: <AppTablerIcon icon={IconLetterA} size={"sm"} />,
+  icon: TypeIcon,
   swatches: [
+    { label: "White", value: "#FFFFFF", color: "#FFFFFF" },
     { label: "Black", value: "#000000", color: "#000000" },
     { label: "Red", value: "#FF0000", color: "#FF0000" },
     { label: "Green", value: "#00FF00", color: "#00FF00" },
@@ -487,12 +481,13 @@ export const TextColor = createSwatchControl({
   }),
   command: (editor, color) =>
     editor.chain().focus().setMark("textStyle", { color }).run(),
+  showRemove: true,
   onRemove: (editor) => editor.chain().focus().unsetMark("textStyle").run(),
 });
 
 export const Highlight = createSwatchControl({
   label: "Highlight",
-  tablerIcon: IconHighlight,
+  icon: IconHighlight,
   swatches: [
     { label: "Yellow", value: "#FFFF00", color: "#FFFF00" },
     { label: "Green", value: "#00FF00", color: "#00FF00" },

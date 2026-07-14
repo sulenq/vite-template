@@ -4,7 +4,7 @@
 
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { Box } from "@/design-system/components/layout/ui/box";
 import type {
   DrawerCloseButtonProps,
@@ -422,7 +422,7 @@ const DrawerCloseButton = (props: DrawerCloseButtonProps) => {
         rounded={"full"}
         {...restProps}
       >
-        <AppTablerIcon icon={IconX} boxSize={4} />
+        <AppIcon icon={IconX} boxSize={4} />
       </IconButton>
     </DrawerCloseTrigger>
   );
@@ -444,7 +444,7 @@ const DrawerFullscreenButton = (props: IconButtonProps) => {
       }}
       {...props}
     >
-      <AppTablerIcon
+      <AppIcon
         icon={fullscreen ? IconSquares : IconSquare}
         transform={"scaleX(-1)"}
         boxSize={3.5}

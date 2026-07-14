@@ -4,7 +4,7 @@
 
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { DialogRootProps } from "@/design-system/components/overlay/types/dialog.type";
 import type {
   ModalBackdropProps,
@@ -171,7 +171,7 @@ const ModalFullscreenButton = (props: IconButtonProps) => {
       }}
       {...props}
     >
-      <AppTablerIcon
+      <AppIcon
         icon={fullscreen ? IconSquares : IconSquare}
         transform={"scaleX(-1)"}
         boxSize={3.5}
@@ -216,7 +216,7 @@ const ModalCloseButton = (props: ModalCloseButtonProps) => {
         rounded={"full"}
         {...restProps}
       >
-        <AppTablerIcon icon={IconX} boxSize={4} />
+        <AppIcon icon={IconX} boxSize={4} />
       </IconButton>
     </Modal.CloseTrigger>
   );

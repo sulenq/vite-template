@@ -4,7 +4,7 @@ import {
   Button,
   IconButton,
 } from "@/design-system/components/button/ui/button";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type {
   ExistingFileItemProps,
   FileIconProps,
@@ -231,7 +231,7 @@ const FileInputInner = (props: FileinputInnerProps) => {
                 disabled={disabled}
                 borderColor={invalid ? "border.error" : undefined}
               >
-                <AppTablerIcon icon={IconUpload} />
+                <AppIcon icon={IconUpload} />
                 {label}
               </Button>
             </FileUpload.Trigger>
@@ -258,7 +258,7 @@ const FileInputInner = (props: FileinputInnerProps) => {
                   transform={dragging ? "translateY(25%)" : ""}
                   transition={"200ms"}
                 >
-                  <AppTablerIcon
+                  <AppIcon
                     icon={dragging ? IconArrowDownDashed : IconUpload}
                     size={"lg"}
                     color={"fg.muted"}
@@ -459,9 +459,7 @@ const FileItem = (props: FileItemProps) => {
         <Image
           src={previewUrl}
           alt={name}
-          fallback={
-            <AppTablerIcon icon={IconPhotoOff} opacity={contentOpacity} />
-          }
+          fallback={<AppIcon icon={IconPhotoOff} opacity={contentOpacity} />}
           w={"20px"}
           h={"20px"}
           objectFit={"cover"}
@@ -520,7 +518,7 @@ const FileItem = (props: FileItemProps) => {
               }
               onClick={onDelete}
             >
-              <AppTablerIcon icon={markedForDelete ? IconArrowBackUp : IconX} />
+              <AppIcon icon={markedForDelete ? IconArrowBackUp : IconX} />
             </IconButton>
           </Tooltip>
         )}
@@ -536,5 +534,5 @@ const FileIcon = (props: FileIconProps) => {
   // Resolved Values
   const icon = useMemo(() => getFileIcon(mimeType), [mimeType]);
 
-  return <AppTablerIcon icon={icon} {...restProps} />;
+  return <AppIcon icon={icon} {...restProps} />;
 };

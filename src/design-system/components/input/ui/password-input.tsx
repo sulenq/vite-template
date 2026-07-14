@@ -1,7 +1,7 @@
 // src/design-system/components/input/ui/password-input.tsx
 
 import { IconButton } from "@/design-system/components/button/ui/button";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type {
   PasswordInputProps,
   PasswordStrengthMeterProps,
@@ -32,8 +32,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       visible: visibleProp,
       onVisibleChange,
       visibilityIcon = {
-        on: <AppTablerIcon icon={IconEye} />,
-        off: <AppTablerIcon icon={IconEyeOff} />,
+        on: <AppIcon icon={IconEye} />,
+        off: <AppIcon icon={IconEyeOff} />,
       },
       withPasswordStrength = false,
       strengthOptions = DEFAULT_STRENGTH_OPTIONS,

@@ -2,7 +2,7 @@
 
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { useColorMode } from "@/design-system/hooks/use-color-mode";
 import { IconMoon2, IconSunHigh } from "@tabler/icons-react";
 
@@ -14,7 +14,7 @@ export const ColorModeToggleButton = (props: ColorModeToggleButtonProps) => {
 
   return (
     <IconButton {...props} onClick={toggleColorMode}>
-      <AppTablerIcon icon={colorMode === "light" ? IconSunHigh : IconMoon2} />
+      <AppIcon icon={colorMode === "light" ? IconSunHigh : IconMoon2} />
     </IconButton>
   );
 };

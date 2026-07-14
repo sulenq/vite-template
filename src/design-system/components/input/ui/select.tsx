@@ -1,6 +1,6 @@
 // src/design-system/components/input/ui/select.tsx
 
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { SelectProps } from "@/design-system/components/input/types/select.type";
 import { HStack } from "@/design-system/components/layout/ui/flex-box";
 import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
@@ -111,9 +111,7 @@ export default function SelectInput(props: SelectProps) {
                   bg: "bg.muted",
                 }}
               >
-                {item.icon}
-
-                {item.tablerIcon && <AppTablerIcon icon={item.tablerIcon} />}
+                {item.icon && <AppIcon icon={item.icon} />}
 
                 {item.label}
 

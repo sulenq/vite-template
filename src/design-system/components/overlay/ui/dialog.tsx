@@ -4,7 +4,7 @@
 
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import {
   DIALOG_OFFSET_X_VAR,
   DIALOG_OFFSET_Y_VAR,
@@ -359,7 +359,7 @@ const DialogCloseButton = (props: DialogCloseButtonProps) => {
         rounded={"full"}
         {...restProps}
       >
-        <AppTablerIcon icon={IconX} boxSize={4} />
+        <AppIcon icon={IconX} boxSize={4} />
       </IconButton>
     </DialogCloseTrigger>
   );
@@ -382,7 +382,7 @@ const DialogFullscreenButton = (props: IconButtonProps) => {
       }}
       {...props}
     >
-      <AppTablerIcon
+      <AppIcon
         icon={fullscreen ? IconSquares : IconSquare}
         transform={"scaleX(-1)"}
         boxSize={3.5}

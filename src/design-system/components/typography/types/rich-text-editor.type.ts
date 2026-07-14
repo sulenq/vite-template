@@ -2,9 +2,8 @@
 
 import type { SelectProps } from "@/design-system/components/input/types/select.type";
 import type { BoxProps, IconButtonProps, StackProps } from "@chakra-ui/react";
-import type { TablerIcon } from "@tabler/icons-react";
 import type { Editor, EditorContent, EditorOptions } from "@tiptap/react";
-import type { ComponentProps, ReactNode } from "react";
+import type { ComponentProps, ComponentType } from "react";
 
 export type RichEditorPresetProps = RichTextEditorRootProps & {
   editorOptions?: Partial<EditorOptions>;
@@ -37,29 +36,25 @@ export type RichTextEditorControlGroupProps = StackProps;
 
 export type BaseControlConfig = {
   label: string;
-  icon?: ReactNode;
-  tablerIcon?: TablerIcon;
+  icon?: ComponentType;
   isDisabled?: (editor: Editor) => boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getProps?: (editor: Editor) => Record<string, any>;
 };
 
 export type ButtonControlProps = Omit<IconButtonProps, "aria-label"> & {
-  icon?: ReactNode;
-  tablerIcon?: TablerIcon;
+  icon?: ComponentType;
   label: string;
 };
 
 export type BooleanControlConfig = BaseControlConfig & {
-  icon?: ReactNode;
-  tablerIcon?: TablerIcon;
+  icon?: ComponentType;
   command: (editor: Editor) => void;
   getVariant?: (editor: Editor) => IconButtonProps["variant"];
 };
 
 export type SelectOption = {
-  icon?: ReactNode;
-  tablerIcon?: TablerIcon;
+  icon?: ComponentType;
   value: string;
   label: string;
 };

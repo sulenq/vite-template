@@ -3,7 +3,7 @@
 import { useRef } from "react";
 
 import { IconButton } from "@/design-system/components/button/ui/button";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type {
   NumberInputProps,
   SteppedNumberInputProps,
@@ -123,7 +123,7 @@ export const SteppedNumberInput = (props: SteppedNumberInputProps) => {
       <Group attached align={"center"}>
         <ChakraNumberInput.DecrementTrigger asChild>
           <IconButton flex={0} variant={buttonVariant} size={size}>
-            <AppTablerIcon icon={IconMinus} />
+            <AppIcon icon={IconMinus} />
           </IconButton>
         </ChakraNumberInput.DecrementTrigger>
 
@@ -137,7 +137,7 @@ export const SteppedNumberInput = (props: SteppedNumberInputProps) => {
 
         <ChakraNumberInput.IncrementTrigger asChild>
           <IconButton flex={0} variant={buttonVariant} size={size}>
-            <AppTablerIcon icon={IconPlus} />
+            <AppIcon icon={IconPlus} />
           </IconButton>
         </ChakraNumberInput.IncrementTrigger>
       </Group>

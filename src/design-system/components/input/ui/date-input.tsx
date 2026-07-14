@@ -19,7 +19,7 @@ import {
 } from "react";
 
 import { IconButton } from "@/design-system/components/button/ui/button";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type {
   DateInputProps,
   FieldKey,
@@ -461,7 +461,7 @@ export const DateInput = memo(
                 my={"auto"}
                 aria-label={"Open date picker"}
               >
-                <AppTablerIcon icon={IconCalendarSearch} />
+                <AppIcon icon={IconCalendarSearch} />
               </IconButton>
             </DatePickerTrigger>
           )}

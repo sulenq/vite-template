@@ -1,7 +1,7 @@
 // src/design-system/components/input/ui/toggle-tip.tsx
 
 import { IconButton } from "@/design-system/components/button/ui/button";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type {
   InfoTipProps,
   ToggleTipProps,
@@ -62,7 +62,7 @@ export const InfoTip = React.forwardRef<HTMLDivElement, InfoTipProps>(
           size={"2xs"}
           {...buttonProps}
         >
-          <AppTablerIcon icon={IconInfoCircle} />
+          <AppIcon icon={IconInfoCircle} />
         </IconButton>
       </ToggleTip>
     );

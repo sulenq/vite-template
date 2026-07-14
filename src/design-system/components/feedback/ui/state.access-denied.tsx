@@ -5,13 +5,12 @@
 import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback-state.type";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { t } from "@/shared/libs/i18n/-typed";
-import { IconForbid } from "@tabler/icons-react";
+import { BanIcon } from "lucide-react";
 
 export const AccessDeniedState = (props: FeedbackStateProps) => {
   // Props
   const {
-    icon,
-    tablerIcon = IconForbid,
+    icon = BanIcon,
     title = t["common.forbidden"](),
     description = t["common.dont_have_access"](),
     children,
@@ -21,7 +20,6 @@ export const AccessDeniedState = (props: FeedbackStateProps) => {
   return (
     <FeedbackState
       icon={icon}
-      tablerIcon={tablerIcon}
       title={title}
       description={description}
       {...restProps}

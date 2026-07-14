@@ -59,7 +59,10 @@ const PopoverPositioner = forwardRef<HTMLDivElement, PopoverPositionerProps>(
 
 const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
   (props, ref) => {
+    // Props
     const { portalled = true, portalRef, ...restProps } = props;
+
+    // Stores
     const { theme } = useThemeStore();
 
     return (
@@ -71,7 +74,7 @@ const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
             bg={"bg.body"}
             border={"1px solid"}
             borderColor={"border.subtle"}
-            rounded={`calc(${theme.radii.component} - 4px)`}
+            rounded={theme.radii.container}
             shadow={"soft"}
             {...restProps}
           />

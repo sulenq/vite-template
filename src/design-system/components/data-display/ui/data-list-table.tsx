@@ -20,7 +20,7 @@ import {
   DataListBatchActionBar,
 } from "@/design-system/components/data-display/ui/data-list-batch-actions";
 import { DataListItemActionsTrigger } from "@/design-system/components/data-display/ui/data-list-item-actions";
-import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { Checkbox } from "@/design-system/components/input/ui/checkbox";
 import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
 import { Grid } from "@/design-system/components/layout/ui/grid";
@@ -267,7 +267,7 @@ const DataListTableHeader = (props: DataListTableHeaderProps) => {
             selectAllItems={selectAllItems}
           >
             <IconButton variant={"ghost"} size={"xs"}>
-              <AppTablerIcon icon={IconListCheck} />
+              <AppIcon icon={IconListCheck} />
             </IconButton>
           </DataListBatchActionsTrigger>
         </DataListTableCell>
@@ -401,7 +401,7 @@ const DataListTableBody = () => {
                   item={item}
                 >
                   <IconButton variant={"ghost"} size={"xs"}>
-                    <AppTablerIcon icon={IconDots} />
+                    <AppIcon icon={IconDots} />
                   </IconButton>
                 </DataListItemActionsTrigger>
               </Center>
@@ -427,13 +427,13 @@ const DataListTableSortIcon = ({
 
   return (
     <VStack align={"center"}>
-      <AppTablerIcon
+      <AppIcon
         icon={IconCaretUpFilled}
         boxSize={"11px"}
         color={isAscActive ? primaryFg : "fg.subtle"}
         mb={"-6px"}
       />
-      <AppTablerIcon
+      <AppIcon
         icon={IconCaretDownFilled}
         boxSize={"11px"}
         color={isDescActive ? primaryFg : "fg.subtle"}
