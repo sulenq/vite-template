@@ -29,6 +29,7 @@ import {
 import {
   Skeleton,
   SkeletonCircle,
+  SkeletonText,
 } from "@/design-system/components/feedback/ui/skeleton";
 import { AccessDeniedState } from "@/design-system/components/feedback/ui/state.access-denied";
 import { NoDataState } from "@/design-system/components/feedback/ui/state.no-data";
@@ -60,6 +61,7 @@ import { Box } from "@/design-system/components/layout/ui/box";
 import { AbsoluteCenter } from "@/design-system/components/layout/ui/center";
 import { Container } from "@/design-system/components/layout/ui/container";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
+import { SimpleGrid } from "@/design-system/components/layout/ui/grid";
 import { Group } from "@/design-system/components/layout/ui/group";
 import { Image } from "@/design-system/components/media/ui/image";
 import { Link } from "@/design-system/components/navigation/ui/link";
@@ -477,15 +479,17 @@ export const Inputs = () => {
               <SteppedNumberInput hiddenInputProps={register("number2")} />
             </FieldTemplate>
 
-            <DemoFileInput
-              invalid={invalid}
-              inputProps={register("attachments")}
-            />
+            <SimpleGrid columns={[1, null, 2]} gap={12}>
+              <DemoFileInput
+                invalid={invalid}
+                inputProps={register("attachments")}
+              />
 
-            <DemoFileInputReplace
-              invalid={invalid}
-              inputProps={register("attachments2")}
-            />
+              <DemoFileInputReplace
+                invalid={invalid}
+                inputProps={register("attachments2")}
+              />
+            </SimpleGrid>
 
             <FieldTemplate invalid={invalid}>
               <PinInput />
@@ -1114,9 +1118,7 @@ export const Feedback = () => {
               <SkeletonCircle w={"40px"} h={"40px"} />
 
               <VStack gap={2}>
-                <Skeleton w={"200px"} h={"20px"} />
-
-                <Skeleton w={"150px"} h={"20px"} />
+                <SkeletonText w={"200px"} noOfLines={2} />
               </VStack>
             </HStack>
 
