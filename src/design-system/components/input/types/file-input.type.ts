@@ -1,7 +1,7 @@
 // src/design-system/components/input/types/file-input.type.ts
 
 import type { AppTablerIconProps } from "@/design-system/components/icon/types/app-icon.type";
-import type { StackProps } from "@/design-system/components/layout/types/stack.type";
+import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
 import type { FileUpload } from "@chakra-ui/react";
 import type { RefObject } from "react";
 import type { UseFormRegisterReturn } from "react-hook-form";

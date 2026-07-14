@@ -14,11 +14,8 @@ import type {
   NewFileItemProps,
 } from "@/design-system/components/input/types/file-input.type";
 import { getFileIcon } from "@/design-system/components/input/utils/file-input.utils";
-import {
-  Center,
-  HStack,
-  VStack,
-} from "@/design-system/components/layout/ui/flex-box";
+import { Center } from "@/design-system/components/layout/ui/center";
+import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { Image } from "@/design-system/components/media/ui/image";
 import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
 import { ClampedP, P } from "@/design-system/components/typography/ui/p";

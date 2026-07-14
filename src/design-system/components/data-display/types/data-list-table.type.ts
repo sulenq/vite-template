@@ -4,7 +4,7 @@ import type {
   DataListBatchActionsGenerator,
   DataListItemActionsGenerator,
 } from "@/design-system/components/data-display/types/data-list.type";
-import type { StackProps } from "@/design-system/components/layout/types/stack.type";
+import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
 import type { ReactNode } from "react";
 
 export type DataListTableRootProps = Omit<StackProps, "page"> & {

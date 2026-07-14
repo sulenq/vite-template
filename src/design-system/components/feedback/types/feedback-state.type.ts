@@ -1,6 +1,6 @@
 // src/design-system/components/feedback/types/feedback-state.type.ts
 
-import type { StackProps } from "@/design-system/components/layout/types/stack.type";
+import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
 import type { ReactNode, TablerIcon } from "@tabler/icons-react";
 
 export type FeedbackStateProps = StackProps & {
@@ -10,12 +10,12 @@ export type FeedbackStateProps = StackProps & {
   description?: string;
 };
 
-export type FeedbackNoResultProps = FeedbackStateProps & {
+export type NoResultStateProps = FeedbackStateProps & {
   icon?: ReactNode;
   tablerIcon?: TablerIcon;
   query?: string;
 };
 
-export type FeedbackRetryProps = FeedbackStateProps & {
+export type RetryStateProps = FeedbackStateProps & {
   onRetry?: () => void;
 };

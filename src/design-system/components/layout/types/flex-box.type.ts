@@ -1,3 +1,5 @@
 // src/design-system/components/layout/types/flex-box.type.ts
 
-export type { StackProps, CenterProps } from "@/design-system/components/layout/types/stack.type";
+import type { StackProps as ChakraStackProps } from "@chakra-ui/react";
+
+export type StackProps = ChakraStackProps;

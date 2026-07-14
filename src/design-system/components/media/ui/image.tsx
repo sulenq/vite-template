@@ -3,11 +3,11 @@
 import { useState } from "react";
 
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import type { CenterProps } from "@/design-system/components/layout/types/stack.type";
-import { Center } from "@/design-system/components/layout/ui/flex-box";
 import type { ImageProps } from "@/design-system/components/media/types/image.type";
 import { Image as ChakraImage } from "@chakra-ui/react";
 import { IconPhotoOff } from "@tabler/icons-react";
+import type { CenterProps } from "@/design-system/components/layout/types/center.type";
+import { Center } from "@/design-system/components/layout/ui/center";
 
 export const Image = (props: ImageProps) => {
   return <ImageImpl key={props.src} {...props} />;

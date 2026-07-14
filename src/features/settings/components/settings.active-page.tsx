@@ -5,7 +5,7 @@
 import { IconButton } from "@/design-system/components/button/ui/button";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { AppTablerIcon } from "@/design-system/components/icon/ui/app-icon";
-import type { StackProps } from "@/design-system/components/layout/types/stack.type";
+import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { Dialog } from "@/design-system/components/overlay/ui/dialog";

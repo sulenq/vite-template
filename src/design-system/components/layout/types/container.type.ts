@@ -1,6 +1,6 @@
 // src/design-system/components/layout/types/container.type.ts
 
-import type { StackProps } from "@/design-system/components/layout/types/stack.type";
+import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
 
 export type ContainerRootProps = StackProps & {
   withContext?: boolean;

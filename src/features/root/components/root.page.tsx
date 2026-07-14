@@ -21,11 +21,19 @@ import { Carousel } from "@/design-system/components/disclosure/ui/carousel";
 import { Collapsible } from "@/design-system/components/disclosure/ui/collapsible";
 import { Steps } from "@/design-system/components/disclosure/ui/steps";
 import { Tabs } from "@/design-system/components/disclosure/ui/tabs";
+import { DotIndicator } from "@/design-system/components/feedback/ui/indicator";
+import {
+  Progress,
+  ProgressCircle,
+} from "@/design-system/components/feedback/ui/progress";
+import {
+  Skeleton,
+  SkeletonCircle,
+} from "@/design-system/components/feedback/ui/skeleton";
 import { AccessDeniedState } from "@/design-system/components/feedback/ui/state.access-denied";
 import { NoDataState } from "@/design-system/components/feedback/ui/state.no-data";
 import { NoResultState } from "@/design-system/components/feedback/ui/state.no-result";
 import { RetryState } from "@/design-system/components/feedback/ui/state.retry";
-import { DotIndicator } from "@/design-system/components/feedback/ui/indicator";
 import {
   AppLucideIcon,
   AppTablerIcon,
@@ -52,6 +60,7 @@ import { Slider } from "@/design-system/components/input/ui/slider";
 import { Switch } from "@/design-system/components/input/ui/switch";
 import { Textarea } from "@/design-system/components/input/ui/textarea";
 import { Box } from "@/design-system/components/layout/ui/box";
+import { AbsoluteCenter } from "@/design-system/components/layout/ui/center";
 import { Container } from "@/design-system/components/layout/ui/container";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { Group } from "@/design-system/components/layout/ui/group";
@@ -967,14 +976,82 @@ export const Feedback = () => {
           Feedback
         </P>
 
-        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <NoDataState />
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={10}>
+          <HStack
+            w={"full"}
+            wrap={"wrap"}
+            align={"center"}
+            justify={"center"}
+            gap={10}
+          >
+            <NoDataState />
 
-          <AccessDeniedState />
+            <AccessDeniedState />
 
-          <NoResultState />
+            <NoResultState />
 
-          <RetryState />
+            <RetryState />
+          </HStack>
+
+          <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={10}>
+            <HStack gap={4}>
+              <ProgressCircle.Root value={16}>
+                <ProgressCircle.Circle>
+                  <ProgressCircle.Track />
+                  <ProgressCircle.Range />
+                </ProgressCircle.Circle>
+
+                <AbsoluteCenter>
+                  <ProgressCircle.ValueText />
+                </AbsoluteCenter>
+              </ProgressCircle.Root>
+
+              <ProgressCircle.Root value={null}>
+                <ProgressCircle.Circle>
+                  <ProgressCircle.Track />
+                  <ProgressCircle.Range strokeLinecap={"round"} />
+                </ProgressCircle.Circle>
+
+                <AbsoluteCenter>
+                  <ProgressCircle.ValueText />
+                </AbsoluteCenter>
+              </ProgressCircle.Root>
+            </HStack>
+
+            <VStack gap={4} w={"200px"}>
+              <Progress.Root striped animated>
+                <Progress.Track>
+                  <Progress.Range />
+                </Progress.Track>
+              </Progress.Root>
+
+              <Progress.Root w={"200px"}>
+                <Progress.Track>
+                  <Progress.Range />
+                </Progress.Track>
+              </Progress.Root>
+
+              <Progress.Root w={"200px"} value={null}>
+                <Progress.Track>
+                  <Progress.Range />
+                </Progress.Track>
+              </Progress.Root>
+            </VStack>
+          </HStack>
+
+          <VStack gap={4}>
+            <HStack align={"center"} gap={4}>
+              <SkeletonCircle w={"40px"} h={"40px"} />
+
+              <VStack gap={2}>
+                <Skeleton w={"200px"} h={"20px"} />
+
+                <Skeleton w={"150px"} h={"20px"} />
+              </VStack>
+            </HStack>
+
+            <Skeleton w={"full"} h={"100px"} />
+          </VStack>
         </HStack>
       </Container.Body>
     </Container.Root>

@@ -1,16 +1,16 @@
-// src/design-system/components/feedback/ui/feedback-state.retry.tsx
+// src/design-system/components/feedback/ui/state.retry.tsx
 
 "use client";
 
 import { Button } from "@/design-system/components/button/ui/button";
-import type { FeedbackRetryProps } from "@/design-system/components/feedback/types/feedback-state.type";
+import type { RetryStateProps } from "@/design-system/components/feedback/types/feedback-state.type";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { VStack } from "@/design-system/components/layout/ui/flex-box";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { t } from "@/shared/libs/i18n/-typed";
 import { IconAlertTriangle } from "@tabler/icons-react";
 
-export const RetryState = (props: FeedbackRetryProps) => {
+export const RetryState = (props: RetryStateProps) => {
   // Props
   const {
     icon,
