@@ -48,6 +48,14 @@ const MenuContent = (props: MenuContentProps) => {
           border={"1px solid"}
           borderColor={"border.subtle"}
           shadow={"sm"}
+          _open={{
+            animation: "scale-up-overshoot",
+            animationDuration: "slow",
+          }}
+          _closed={{
+            animation: "scale-down",
+            animationDuration: "slow",
+          }}
           {...restProps}
         />
       </ChakraMenu.Positioner>

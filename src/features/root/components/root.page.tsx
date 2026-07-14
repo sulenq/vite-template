@@ -82,7 +82,6 @@ import { isEmptyArray } from "@/shared/utils/data/array";
 import {
   IconArrowRight,
   IconDownload,
-  IconEdit,
   IconFilter2,
   IconForbid,
   IconLanguage,
@@ -93,7 +92,10 @@ import {
   CheckCircleIcon,
   ChevronDownIcon,
   CogIcon,
+  EditIcon,
   FolderIcon,
+  TrashIcon,
+  Undo2Icon,
   UserIcon,
 } from "lucide-react";
 import { useState } from "react";
@@ -1443,8 +1445,34 @@ export const DataDisplay = () => {
               console.log(item);
             }}
           >
-            <AppIcon icon={IconEdit} size={"sm"} />
+            <AppIcon icon={EditIcon} size={"sm"} />
             Edit
+          </Menu.Item>
+        );
+      },
+      (item) => {
+        return (
+          <Menu.Item
+            value={"restore"}
+            onClick={() => {
+              console.log(item);
+            }}
+          >
+            <AppIcon icon={Undo2Icon} size={"sm"} />
+            Restore
+          </Menu.Item>
+        );
+      },
+      (item) => {
+        return (
+          <Menu.Item
+            value={"delete"}
+            onClick={() => {
+              console.log(item);
+            }}
+          >
+            <AppIcon icon={TrashIcon} size={"sm"} />
+            Delete
           </Menu.Item>
         );
       },
