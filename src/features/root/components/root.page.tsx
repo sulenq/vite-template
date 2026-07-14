@@ -2,6 +2,7 @@
 
 import { BrandWatermark } from "@/design-system/components/branding/brand-watermark";
 import { Logo } from "@/design-system/components/branding/logo";
+import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import {
   Button,
   IconButton,
@@ -13,6 +14,9 @@ import type {
 } from "@/design-system/components/data-display/types/data-list.type";
 import { DataListFooter } from "@/design-system/components/data-display/ui/data-list-footer";
 import { DataListTable } from "@/design-system/components/data-display/ui/data-list-table";
+import { Accordion } from "@/design-system/components/disclosure/ui/accordion";
+import { Breadcrumb } from "@/design-system/components/disclosure/ui/breadcrumb";
+import { Carousel } from "@/design-system/components/disclosure/ui/carousel";
 import { FeedbackAccessDenied } from "@/design-system/components/feedback/ui/feedback-state.access-denied";
 import { FeedbackNoData } from "@/design-system/components/feedback/ui/feedback-state.no-data";
 import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-state.no-result";
@@ -43,9 +47,11 @@ import Select from "@/design-system/components/input/ui/select";
 import { Slider } from "@/design-system/components/input/ui/slider";
 import { Switch } from "@/design-system/components/input/ui/switch";
 import { Textarea } from "@/design-system/components/input/ui/textarea";
+import { Box } from "@/design-system/components/layout/ui/box";
 import { Container } from "@/design-system/components/layout/ui/container";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { Group } from "@/design-system/components/layout/ui/group";
+import { Image } from "@/design-system/components/media/ui/image";
 import { Link } from "@/design-system/components/navigation/ui/link";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import { Dialog } from "@/design-system/components/overlay/ui/dialog";
@@ -54,6 +60,7 @@ import { Menu } from "@/design-system/components/overlay/ui/menu";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { P, TNum } from "@/design-system/components/typography/ui/p";
 import { RichTextEditorPresetEssential } from "@/design-system/components/typography/ui/rich-text-editor.preset";
+import { Span } from "@/design-system/components/typography/ui/span";
 import { DownloadTrigger } from "@/design-system/components/utilities/ui/download-trigger";
 import { SPACING_MD } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
@@ -74,20 +81,22 @@ import {
 import { CogIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
+import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 
 export const RootPage = () => {
   return (
     <VStack minH={"100dvh"} bg={"bg.canvas"} gap={4}>
       <IntegratedFeatures />
       {/* <Branding /> */}
-      <Buttons />
-      <Utilities />
-      <DataDisplay />
-      <Feedback />
-      <Inputs />
-      <Navigation />
-      <Overlay />
       <Typography />
+      <Navigation />
+      <Buttons />
+      <Inputs />
+      <Overlay />
+      <Disclosure />
+      <Feedback />
+      <DataDisplay />
+      <Utilities />
     </VStack>
   );
 };
@@ -147,6 +156,77 @@ export const Branding = () => {
   );
 };
 
+export const Typography = () => {
+  const [tnum, setTnum] = useState<number>(10);
+
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Typography
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={8}>
+          <VStack>
+            <P color={"fg.solid"}>{"Default"}</P>
+            <P color={"fg.emphasized"}>{"Emphasized"}</P>
+            <P color={"fg.muted"}>{"Muted"}</P>
+            <P color={"fg.subtle"}>{"Subtle"}</P>
+          </VStack>
+
+          <VStack gap={2}>
+            <HStack align={"center"} gap={4}>
+              <VStack>
+                <HStack align={"center"} justify={"space-between"} gap={2}>
+                  <P>Normal text</P>
+                  <P>{tnum}</P>
+                </HStack>
+
+                <HStack align={"center"} justify={"space-between"} gap={2}>
+                  <P>Tabular num</P>
+                  <P>
+                    <TNum>{tnum}</TNum>
+                  </P>
+                </HStack>
+              </VStack>
+
+              <Button
+                size={"xs"}
+                variant={"outline"}
+                onClick={() => setTnum((p) => p + 1)}
+              >
+                + 1
+              </Button>
+            </HStack>
+
+            <P fontSize={"xs"} color={"fg.subtle"} w={"120px"}>
+              *Tabular num has consistent width per char
+            </P>
+          </VStack>
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+export const Navigation = () => {
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Navigation
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <Link to={"https://youtube.com"} target={"_blank"}>
+            youtube.com
+          </Link>
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
 export const Buttons = () => {
   return (
     <Container.Root w={"full"} px={SPACING_MD}>
@@ -171,29 +251,608 @@ export const Buttons = () => {
   );
 };
 
-export const Utilities = () => {
-  const data = async () => {
-    const res = await fetch(
-      "https://fastly.picsum.photos/id/718/2880/1800.jpg?hmac=JZydaTGOvhjzXYg-o7Y5fytAXeTnAnCt_cadeQ3Mzjo",
-    );
-    return res.blob();
-  };
+// -------------------------------------------------------------------------------------
+
+const FieldTemplate = (props: FieldProps) => {
+  return <Field errorText={"Invalid input"} w={"fit"} {...props} />;
+};
+
+const DemoFileInput = (
+  props: FieldProps & { inputProps: UseFormRegisterReturn },
+) => {
+  const { inputProps, ...restProps } = props;
+  const apiResponse = [
+    {
+      attachment_id: "att_001",
+      file_name: "invoice-january.pdf",
+      file_size: 8000,
+      file_url: "https://cdn.example.com/files/invoice-january.pdf",
+      content_type: "application/pdf",
+    },
+    {
+      attachment_id: "att_002",
+      file_name: "product-photo.jpg",
+      file_size: 1420,
+      file_url: "https://cdn.example.com/files/product-photo.jpg",
+      content_type: "image/jpeg",
+    },
+  ];
+
+  const { existingFiles, toggleMarkedForDelete } = useExistingFiles({
+    initialExistingFiles: apiResponse.map((att) => ({
+      id: att.attachment_id,
+      name: att.file_name,
+      size: att.file_size,
+      url: att.file_url,
+      mimeType: att.content_type,
+      // markedForDelete: true,
+    })),
+  });
+
+  return (
+    <FieldTemplate w={"320px"} {...restProps}>
+      <FileInput
+        inputProps={inputProps}
+        accept={[".jpeg", ".jpg"]}
+        maxFiles={2}
+        existingFiles={existingFiles}
+        onToggleDeleteExisting={toggleMarkedForDelete}
+      />
+    </FieldTemplate>
+  );
+};
+
+const DemoRichTextEditor = (props: FieldProps) => {
+  return (
+    <FieldTemplate {...props}>
+      <RichTextEditorPresetEssential />
+    </FieldTemplate>
+  );
+};
+
+export const Inputs = () => {
+  const {
+    register,
+    getValues,
+    //  control
+  } = useForm();
+
+  const [invalid, setInvalid] = useState<boolean>(false);
+
+  // const number1 = useWatch({
+  //   control,
+  //   name: "number1",
+  // });
+
+  // console.log("number1", number1);
 
   return (
     <Container.Root w={"full"} px={SPACING_MD}>
       <Container.Body gap={4} p={4}>
         <P textAlign={"center"} fontWeight={"semibold"}>
-          Utilities
+          Inputs
+        </P>
+
+        <Fieldset>
+          <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={12}>
+            <FieldTemplate invalid={invalid}>
+              <Checkbox>Checkbox</Checkbox>
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <Input placeholder={"Text input..."} w={"200px"} />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <PasswordInput
+                placeholder={"Password input..."}
+                w={"200px"}
+                withPasswordStrength
+              />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <SearchInput placeholder={"Search..."} />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <DateInput
+                modalKey={"date-input"}
+                datePickerSubtitle={"Pick a day for your leaves"}
+                w={"250px"}
+              />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <Select
+                selectOptions={[
+                  { label: "Option 1", value: "option-1" },
+                  { label: "Option 2", value: "option-2" },
+                  { label: "Option 3", value: "option-3" },
+                  { label: "Option 4", value: "option-4" },
+                  { label: "Option 5", value: "option-5" },
+                ]}
+                w={"200px"}
+              />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <NumberInput
+                inputProps={register("number1")}
+                placeholder={"Number input..."}
+                formatOptions={{
+                  style: "unit",
+                  unit: "inch",
+                  unitDisplay: "long",
+                }}
+                w={"200px"}
+              />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <SteppedNumberInput hiddenInputProps={register("number2")} />
+            </FieldTemplate>
+
+            <DemoFileInput
+              invalid={invalid}
+              inputProps={register("attachments")}
+            />
+
+            <FieldTemplate invalid={invalid}>
+              <PinInput />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <Switch>Switch</Switch>
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <RadioInput
+                options={[
+                  { label: "Option 1", value: "option-1" },
+                  { label: "Option 2", value: "option-2" },
+                ]}
+              />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <RadioCardInput.Root defaultValue="option-1">
+                <HStack gap={4}>
+                  <RadioCardInput.Item value="option-1">
+                    <RadioCardInput.ItemControl>
+                      <VStack gap={1}>
+                        <AppTablerIcon
+                          icon={IconArrowRight}
+                          size={"xl"}
+                          color={"fg.muted"}
+                          mb={1}
+                        />
+
+                        <RadioCardInput.ItemText>
+                          Option 1
+                        </RadioCardInput.ItemText>
+
+                        <RadioCardInput.ItemDescription>
+                          Description 1
+                        </RadioCardInput.ItemDescription>
+                      </VStack>
+
+                      <RadioCardInput.ItemIndicator />
+                    </RadioCardInput.ItemControl>
+                  </RadioCardInput.Item>
+
+                  <RadioCardInput.Item value="option-2">
+                    <RadioCardInput.ItemControl>
+                      <VStack gap={1}>
+                        <AppTablerIcon
+                          icon={IconForbid}
+                          size={"xl"}
+                          color={"fg.muted"}
+                          mb={1}
+                        />
+
+                        <RadioCardInput.ItemText>
+                          Option 2
+                        </RadioCardInput.ItemText>
+
+                        <RadioCardInput.ItemDescription>
+                          Description 2
+                        </RadioCardInput.ItemDescription>
+                      </VStack>
+                      <RadioCardInput.ItemIndicator />
+                    </RadioCardInput.ItemControl>
+                  </RadioCardInput.Item>
+                </HStack>
+              </RadioCardInput.Root>
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <Textarea placeholder="textarea" />
+            </FieldTemplate>
+
+            <FieldTemplate invalid={invalid}>
+              <Slider defaultValue={[25]} w={"200px"} />
+            </FieldTemplate>
+
+            <DemoRichTextEditor />
+          </HStack>
+        </Fieldset>
+
+        <Group justify={"center"}>
+          <Button
+            onClick={() => {
+              console.log(getValues());
+            }}
+          >
+            Log input values
+          </Button>
+
+          <Button
+            onClick={() => {
+              setInvalid((ps) => !ps);
+            }}
+          >
+            Toggle invalid <DotIndicator checked={invalid} />
+          </Button>
+        </Group>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+// -------------------------------------------------------------------------------------
+
+const OModal = () => {
+  // Hooks
+  const { modalKey, isOpen, open, close } = usePopModal({
+    modalKey: "exampleModal",
+  });
+
+  return (
+    <Modal.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
+      <Modal.Trigger>
+        <Button variant={"outline"}>Open Modal</Button>
+      </Modal.Trigger>
+
+      <Modal.Content>
+        <Modal.Header>
+          <P
+            w={"full"}
+            fontSize={"xl"}
+            fontWeight={"semibold"}
+            textAlign={"center"}
+          >
+            Header
+          </P>
+        </Modal.Header>
+
+        <Modal.Body>
+          <P textAlign={"center"}>
+            Modal is dynamic component, it render dialog component on large
+            viewport, render drawer component on small to medium viewport and
+            has its own fullscreen feature on dialog component
+          </P>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button flex={1} onClick={close}>
+            Close
+          </Button>
+          <Button flex={1} primary>
+            CTA
+          </Button>
+        </Modal.Footer>
+      </Modal.Content>
+    </Modal.Root>
+  );
+};
+
+const ODialog = () => {
+  // Hooks
+  const { modalKey, isOpen, open, close } = usePopModal({
+    modalKey: "exampleDialog",
+  });
+
+  return (
+    <Dialog.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
+      <Dialog.Trigger>
+        <Button variant={"outline"}>Open Dialog</Button>
+      </Dialog.Trigger>
+
+      <Dialog.Content>
+        <Dialog.Header>
+          <P
+            w={"full"}
+            fontSize={"xl"}
+            fontWeight={"semibold"}
+            textAlign={"center"}
+          >
+            Header
+          </P>
+        </Dialog.Header>
+        <Dialog.Body>
+          <P textAlign={"center"}>
+            Dialog is component that need user focus and styled like floating
+            container
+          </P>
+        </Dialog.Body>
+        <Dialog.Footer>
+          <Button flex={1} onClick={close}>
+            Close
+          </Button>
+          <Button flex={1} primary>
+            CTA
+          </Button>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
+  );
+};
+
+const ODrawer = () => {
+  // Hooks
+  const { modalKey, isOpen, open, close } = usePopModal({
+    modalKey: "exampleDrawer",
+  });
+
+  return (
+    <Drawer.Root
+      modalKey={modalKey}
+      opened={isOpen}
+      open={open}
+      close={close}
+      size={"xl"}
+    >
+      <Drawer.Trigger>
+        <Button variant={"outline"}>Open Drawer</Button>
+      </Drawer.Trigger>
+
+      <Drawer.Content>
+        <Drawer.Header>
+          <P
+            w={"full"}
+            fontSize={"xl"}
+            fontWeight={"semibold"}
+            textAlign={"center"}
+          >
+            Header
+          </P>
+        </Drawer.Header>
+
+        <Drawer.Body>
+          <VStack align={"center"} gap={4}>
+            <P textAlign={"center"}>
+              Drawer is component that need user focus and styled like "drawer"
+              or sliding container
+            </P>
+          </VStack>
+        </Drawer.Body>
+
+        <Drawer.Footer>
+          <Button flex={1} onClick={close}>
+            Close
+          </Button>
+
+          <ONestedDrawer />
+        </Drawer.Footer>
+      </Drawer.Content>
+    </Drawer.Root>
+  );
+};
+
+const ONestedDrawer = () => {
+  // Hooks
+  const { modalKey, isOpen, open, close } = usePopModal({
+    modalKey: "exampleDrawer.nested",
+  });
+
+  return (
+    <Drawer.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
+      <Drawer.Trigger>
+        <Button primary flex={1}>
+          Open Nested
+        </Button>
+      </Drawer.Trigger>
+
+      <Drawer.Content>
+        <Drawer.Header>
+          <P
+            w={"full"}
+            fontSize={"xl"}
+            fontWeight={"semibold"}
+            textAlign={"center"}
+          >
+            Header
+          </P>
+        </Drawer.Header>
+        <Drawer.Body>
+          <P textAlign={"center"}>
+            Drawer is component that need user focus and styled like "drawer" or
+            sliding container
+          </P>
+        </Drawer.Body>
+        <Drawer.Footer>
+          <Button flex={1} onClick={close}>
+            Close
+          </Button>
+          <Button flex={1} primary>
+            CTA
+          </Button>
+        </Drawer.Footer>
+      </Drawer.Content>
+    </Drawer.Root>
+  );
+};
+
+export const Overlay = () => {
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Overlay
         </P>
 
         <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <DownloadTrigger
-            data={data}
-            fileName={"wolf-2k.jpg"}
-            mimeType={"image/jpeg"}
+          <OModal />
+
+          <ODialog />
+
+          <ODrawer />
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+// -------------------------------------------------------------------------------------
+
+const ActionButton = (props: IconButtonProps) => {
+  return (
+    <IconButton
+      {...props}
+      size="xs"
+      variant="outline"
+      rounded="full"
+      position="absolute"
+      zIndex="1"
+      bg="bg"
+    />
+  );
+};
+
+export const Disclosure = () => {
+  const items = [
+    { value: "a", title: "First Item", text: "Some value 1..." },
+    { value: "b", title: "Second Item", text: "Some value 2..." },
+    { value: "c", title: "Third Item", text: "Some value 3..." },
+  ];
+  const images = [
+    "https://images.unsplash.com/photo-1656433031375-5042f5afe894?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2371",
+    "https://images.unsplash.com/photo-1587466412525-87497b34fc88?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2673",
+    "https://images.unsplash.com/photo-1629581688635-5d88654e5bdd?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2831",
+    "https://images.unsplash.com/photo-1661030420948-862787de0056?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2370",
+    "https://images.unsplash.com/photo-1703505841379-2f863b201212?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2371",
+    "https://images.unsplash.com/photo-1607776905497-b4f788205f6a?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2370",
+  ];
+
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Disclosure
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={10}>
+          <Accordion.Root
+            collapsible
+            multiple
+            defaultValue={["b"]}
+            maxW={"300px"}
           >
-            <Button>Download trigger</Button>
-          </DownloadTrigger>
+            {items.map((item, index) => (
+              <Accordion.Item key={index} value={item.value}>
+                <Accordion.ItemTrigger
+                  _open={{
+                    color: "fg.muted",
+                  }}
+                >
+                  <Span flex="1">{item.title}</Span>
+                  <Accordion.ItemIndicator />
+                </Accordion.ItemTrigger>
+
+                <Accordion.ItemContent>
+                  <Accordion.ItemBody>{item.text}</Accordion.ItemBody>
+                </Accordion.ItemContent>
+              </Accordion.Item>
+            ))}
+          </Accordion.Root>
+
+          <Breadcrumb.Root>
+            <Breadcrumb.List>
+              <Breadcrumb.Item>
+                <Breadcrumb.Link href="#">Docs</Breadcrumb.Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Separator />
+              <Breadcrumb.Item>
+                <Breadcrumb.Link href="#">Components</Breadcrumb.Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Separator />
+              <Breadcrumb.Item>
+                <Breadcrumb.CurrentLink>Props</Breadcrumb.CurrentLink>
+              </Breadcrumb.Item>
+            </Breadcrumb.List>
+          </Breadcrumb.Root>
+
+          <Carousel.Root
+            slideCount={images.length}
+            maxW="350px"
+            gap="4"
+            position="relative"
+          >
+            <Carousel.Control>
+              <Carousel.PrevTrigger asChild>
+                <ActionButton left={4}>
+                  <LuArrowLeft />
+                </ActionButton>
+              </Carousel.PrevTrigger>
+
+              <Carousel.ItemGroup width="full">
+                {images.map((src, index) => (
+                  <Carousel.Item key={index} index={index}>
+                    <Image
+                      src={src}
+                      alt={`Product ${index + 1}`}
+                      objectFit="cover"
+                      aspectRatio={16 / 9}
+                      maxH="72vh"
+                      w="full"
+                    />
+                  </Carousel.Item>
+                ))}
+              </Carousel.ItemGroup>
+
+              <Carousel.NextTrigger asChild>
+                <ActionButton right={4}>
+                  <LuArrowRight />
+                </ActionButton>
+              </Carousel.NextTrigger>
+
+              <Box pos={"absolute"} bottom={4} w={"full"}>
+                <Carousel.Indicators
+                  bg={"bodyLight"}
+                  opacity={0.5}
+                  boxSize={1.5}
+                  transition={"200ms"}
+                  transformOrigin={"center"}
+                  _current={{
+                    width: 5,
+                    opacity: 1,
+                  }}
+                />
+              </Box>
+            </Carousel.Control>
+          </Carousel.Root>
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+export const Feedback = () => {
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Feedback
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <FeedbackNoData />
+
+          <FeedbackAccessDenied />
+
+          <FeedbackNoResult />
+
+          <FeedbackRetry />
         </HStack>
       </Container.Body>
     </Container.Root>
@@ -598,547 +1257,29 @@ export const DataDisplay = () => {
   );
 };
 
-export const Feedback = () => {
+export const Utilities = () => {
+  const data = async () => {
+    const res = await fetch(
+      "https://fastly.picsum.photos/id/718/2880/1800.jpg?hmac=JZydaTGOvhjzXYg-o7Y5fytAXeTnAnCt_cadeQ3Mzjo",
+    );
+    return res.blob();
+  };
+
   return (
     <Container.Root w={"full"} px={SPACING_MD}>
       <Container.Body gap={4} p={4}>
         <P textAlign={"center"} fontWeight={"semibold"}>
-          Feedback
+          Utilities
         </P>
 
         <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <FeedbackNoData />
-
-          <FeedbackAccessDenied />
-
-          <FeedbackNoResult />
-
-          <FeedbackRetry />
-        </HStack>
-      </Container.Body>
-    </Container.Root>
-  );
-};
-
-// -------------------------------------------------------------------------------------
-
-const FieldTemplate = (props: FieldProps) => {
-  return <Field errorText={"Invalid input"} w={"fit"} {...props} />;
-};
-
-const DemoFileInput = (
-  props: FieldProps & { inputProps: UseFormRegisterReturn },
-) => {
-  const { inputProps, ...restProps } = props;
-  const apiResponse = [
-    {
-      attachment_id: "att_001",
-      file_name: "invoice-january.pdf",
-      file_size: 8000,
-      file_url: "https://cdn.example.com/files/invoice-january.pdf",
-      content_type: "application/pdf",
-    },
-    {
-      attachment_id: "att_002",
-      file_name: "product-photo.jpg",
-      file_size: 1420,
-      file_url: "https://cdn.example.com/files/product-photo.jpg",
-      content_type: "image/jpeg",
-    },
-  ];
-
-  const { existingFiles, toggleMarkedForDelete } = useExistingFiles({
-    initialExistingFiles: apiResponse.map((att) => ({
-      id: att.attachment_id,
-      name: att.file_name,
-      size: att.file_size,
-      url: att.file_url,
-      mimeType: att.content_type,
-      // markedForDelete: true,
-    })),
-  });
-
-  return (
-    <FieldTemplate w={"320px"} {...restProps}>
-      <FileInput
-        inputProps={inputProps}
-        accept={[".jpeg", ".jpg"]}
-        maxFiles={2}
-        existingFiles={existingFiles}
-        onToggleDeleteExisting={toggleMarkedForDelete}
-      />
-    </FieldTemplate>
-  );
-};
-
-const DemoRichTextEditor = (props: FieldProps) => {
-  return (
-    <FieldTemplate {...props}>
-      <RichTextEditorPresetEssential />
-    </FieldTemplate>
-  );
-};
-
-export const Inputs = () => {
-  const {
-    register,
-    getValues,
-    //  control
-  } = useForm();
-
-  const [invalid, setInvalid] = useState<boolean>(false);
-
-  // const number1 = useWatch({
-  //   control,
-  //   name: "number1",
-  // });
-
-  // console.log("number1", number1);
-
-  return (
-    <Container.Root w={"full"} px={SPACING_MD}>
-      <Container.Body gap={4} p={4}>
-        <P textAlign={"center"} fontWeight={"semibold"}>
-          Inputs
-        </P>
-
-        <Fieldset>
-          <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={12}>
-            <FieldTemplate invalid={invalid}>
-              <Checkbox>Checkbox</Checkbox>
-            </FieldTemplate>
-
-            <FieldTemplate invalid={invalid}>
-              <Input placeholder={"Text input..."} w={"200px"} />
-            </FieldTemplate>
-
-            <FieldTemplate invalid={invalid}>
-              <PasswordInput
-                placeholder={"Password input..."}
-                w={"200px"}
-                withPasswordStrength
-              />
-            </FieldTemplate>
-
-            <FieldTemplate invalid={invalid}>
-              <SearchInput placeholder={"Search..."} />
-            </FieldTemplate>
-
-            <FieldTemplate invalid={invalid}>
-              <DateInput
-                modalKey={"date-input"}
-                datePickerSubtitle={"Pick a day for your leaves"}
-                w={"250px"}
-              />
-            </FieldTemplate>
-
-            <FieldTemplate invalid={invalid}>
-              <Select
-                selectOptions={[
-                  { label: "Option 1", value: "option-1" },
-                  { label: "Option 2", value: "option-2" },
-                  { label: "Option 3", value: "option-3" },
-                  { label: "Option 4", value: "option-4" },
-                  { label: "Option 5", value: "option-5" },
-                ]}
-                w={"200px"}
-              />
-            </FieldTemplate>
-
-            <FieldTemplate invalid={invalid}>
-              <NumberInput
-                inputProps={register("number1")}
-                placeholder={"Number input..."}
-                formatOptions={{
-                  style: "unit",
-                  unit: "inch",
-                  unitDisplay: "long",
-                }}
-                w={"200px"}
-              />
-            </FieldTemplate>
-
-            <FieldTemplate invalid={invalid}>
-              <SteppedNumberInput hiddenInputProps={register("number2")} />
-            </FieldTemplate>
-
-            <DemoFileInput
-              invalid={invalid}
-              inputProps={register("attachments")}
-            />
-
-            <FieldTemplate invalid={invalid}>
-              <PinInput />
-            </FieldTemplate>
-
-            <FieldTemplate invalid={invalid}>
-              <Switch>Switch</Switch>
-            </FieldTemplate>
-
-            <FieldTemplate invalid={invalid}>
-              <RadioInput
-                options={[
-                  { label: "Option 1", value: "option-1" },
-                  { label: "Option 2", value: "option-2" },
-                ]}
-              />
-            </FieldTemplate>
-
-            <FieldTemplate invalid={invalid}>
-              <RadioCardInput.Root defaultValue="option-1">
-                <HStack gap={4}>
-                  <RadioCardInput.Item value="option-1">
-                    <RadioCardInput.ItemControl>
-                      <VStack gap={1}>
-                        <AppTablerIcon
-                          icon={IconArrowRight}
-                          size={"xl"}
-                          color={"fg.muted"}
-                          mb={1}
-                        />
-
-                        <RadioCardInput.ItemText>
-                          Option 1
-                        </RadioCardInput.ItemText>
-
-                        <RadioCardInput.ItemDescription>
-                          Description 1
-                        </RadioCardInput.ItemDescription>
-                      </VStack>
-
-                      <RadioCardInput.ItemIndicator />
-                    </RadioCardInput.ItemControl>
-                  </RadioCardInput.Item>
-
-                  <RadioCardInput.Item value="option-2">
-                    <RadioCardInput.ItemControl>
-                      <VStack gap={1}>
-                        <AppTablerIcon
-                          icon={IconForbid}
-                          size={"xl"}
-                          color={"fg.muted"}
-                          mb={1}
-                        />
-
-                        <RadioCardInput.ItemText>
-                          Option 2
-                        </RadioCardInput.ItemText>
-
-                        <RadioCardInput.ItemDescription>
-                          Description 2
-                        </RadioCardInput.ItemDescription>
-                      </VStack>
-                      <RadioCardInput.ItemIndicator />
-                    </RadioCardInput.ItemControl>
-                  </RadioCardInput.Item>
-                </HStack>
-              </RadioCardInput.Root>
-            </FieldTemplate>
-
-            <FieldTemplate invalid={invalid}>
-              <Textarea placeholder="textarea" />
-            </FieldTemplate>
-
-            <FieldTemplate invalid={invalid}>
-              <Slider defaultValue={[25]} w={"200px"} />
-            </FieldTemplate>
-
-            <DemoRichTextEditor />
-          </HStack>
-        </Fieldset>
-
-        <Group justify={"center"}>
-          <Button
-            onClick={() => {
-              console.log(getValues());
-            }}
+          <DownloadTrigger
+            data={data}
+            fileName={"wolf-2k.jpg"}
+            mimeType={"image/jpeg"}
           >
-            Log input values
-          </Button>
-
-          <Button
-            onClick={() => {
-              setInvalid((ps) => !ps);
-            }}
-          >
-            Toggle invalid <DotIndicator checked={invalid} />
-          </Button>
-        </Group>
-      </Container.Body>
-    </Container.Root>
-  );
-};
-
-export const Navigation = () => {
-  return (
-    <Container.Root w={"full"} px={SPACING_MD}>
-      <Container.Body gap={4} p={4}>
-        <P textAlign={"center"} fontWeight={"semibold"}>
-          Navigation
-        </P>
-
-        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <Link to={"https://youtube.com"} target={"_blank"}>
-            youtube.com
-          </Link>
-        </HStack>
-      </Container.Body>
-    </Container.Root>
-  );
-};
-
-// -------------------------------------------------------------------------------------
-
-export const OModal = () => {
-  // Hooks
-  const { modalKey, isOpen, open, close } = usePopModal({
-    modalKey: "exampleModal",
-  });
-
-  return (
-    <Modal.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
-      <Modal.Trigger>
-        <Button variant={"outline"}>Open Modal</Button>
-      </Modal.Trigger>
-
-      <Modal.Content>
-        <Modal.Header>
-          <P
-            w={"full"}
-            fontSize={"xl"}
-            fontWeight={"semibold"}
-            textAlign={"center"}
-          >
-            Header
-          </P>
-        </Modal.Header>
-
-        <Modal.Body>
-          <P textAlign={"center"}>
-            Modal is dynamic component, it render dialog component on large
-            viewport, render drawer component on small to medium viewport and
-            has its own fullscreen feature on dialog component
-          </P>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button flex={1} onClick={close}>
-            Close
-          </Button>
-          <Button flex={1} primary>
-            CTA
-          </Button>
-        </Modal.Footer>
-      </Modal.Content>
-    </Modal.Root>
-  );
-};
-
-export const ODialog = () => {
-  // Hooks
-  const { modalKey, isOpen, open, close } = usePopModal({
-    modalKey: "exampleDialog",
-  });
-
-  return (
-    <Dialog.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
-      <Dialog.Trigger>
-        <Button variant={"outline"}>Open Dialog</Button>
-      </Dialog.Trigger>
-
-      <Dialog.Content>
-        <Dialog.Header>
-          <P
-            w={"full"}
-            fontSize={"xl"}
-            fontWeight={"semibold"}
-            textAlign={"center"}
-          >
-            Header
-          </P>
-        </Dialog.Header>
-        <Dialog.Body>
-          <P textAlign={"center"}>
-            Dialog is component that need user focus and styled like floating
-            container
-          </P>
-        </Dialog.Body>
-        <Dialog.Footer>
-          <Button flex={1} onClick={close}>
-            Close
-          </Button>
-          <Button flex={1} primary>
-            CTA
-          </Button>
-        </Dialog.Footer>
-      </Dialog.Content>
-    </Dialog.Root>
-  );
-};
-
-export const ODrawer = () => {
-  // Hooks
-  const { modalKey, isOpen, open, close } = usePopModal({
-    modalKey: "exampleDrawer",
-  });
-
-  return (
-    <Drawer.Root
-      modalKey={modalKey}
-      opened={isOpen}
-      open={open}
-      close={close}
-      size={"xl"}
-    >
-      <Drawer.Trigger>
-        <Button variant={"outline"}>Open Drawer</Button>
-      </Drawer.Trigger>
-
-      <Drawer.Content>
-        <Drawer.Header>
-          <P
-            w={"full"}
-            fontSize={"xl"}
-            fontWeight={"semibold"}
-            textAlign={"center"}
-          >
-            Header
-          </P>
-        </Drawer.Header>
-
-        <Drawer.Body>
-          <VStack align={"center"} gap={4}>
-            <P textAlign={"center"}>
-              Drawer is component that need user focus and styled like "drawer"
-              or sliding container
-            </P>
-          </VStack>
-        </Drawer.Body>
-
-        <Drawer.Footer>
-          <Button flex={1} onClick={close}>
-            Close
-          </Button>
-
-          <ONestedDrawer />
-        </Drawer.Footer>
-      </Drawer.Content>
-    </Drawer.Root>
-  );
-};
-
-export const ONestedDrawer = () => {
-  // Hooks
-  const { modalKey, isOpen, open, close } = usePopModal({
-    modalKey: "exampleDrawer.nested",
-  });
-
-  return (
-    <Drawer.Root modalKey={modalKey} opened={isOpen} open={open} close={close}>
-      <Drawer.Trigger>
-        <Button primary flex={1}>
-          Open Nested
-        </Button>
-      </Drawer.Trigger>
-
-      <Drawer.Content>
-        <Drawer.Header>
-          <P
-            w={"full"}
-            fontSize={"xl"}
-            fontWeight={"semibold"}
-            textAlign={"center"}
-          >
-            Header
-          </P>
-        </Drawer.Header>
-        <Drawer.Body>
-          <P textAlign={"center"}>
-            Drawer is component that need user focus and styled like "drawer" or
-            sliding container
-          </P>
-        </Drawer.Body>
-        <Drawer.Footer>
-          <Button flex={1} onClick={close}>
-            Close
-          </Button>
-          <Button flex={1} primary>
-            CTA
-          </Button>
-        </Drawer.Footer>
-      </Drawer.Content>
-    </Drawer.Root>
-  );
-};
-
-export const Overlay = () => {
-  return (
-    <Container.Root w={"full"} px={SPACING_MD}>
-      <Container.Body gap={4} p={4}>
-        <P textAlign={"center"} fontWeight={"semibold"}>
-          Overlay
-        </P>
-
-        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <OModal />
-
-          <ODialog />
-
-          <ODrawer />
-        </HStack>
-      </Container.Body>
-    </Container.Root>
-  );
-};
-
-// -------------------------------------------------------------------------------------
-
-export const Typography = () => {
-  const [tnum, setTnum] = useState<number>(10);
-
-  return (
-    <Container.Root w={"full"} px={SPACING_MD}>
-      <Container.Body gap={4} p={4}>
-        <P textAlign={"center"} fontWeight={"semibold"}>
-          Typography
-        </P>
-
-        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={8}>
-          <VStack>
-            <P color={"fg.solid"}>{"Default"}</P>
-            <P color={"fg.emphasized"}>{"Emphasized"}</P>
-            <P color={"fg.muted"}>{"Muted"}</P>
-            <P color={"fg.subtle"}>{"Subtle"}</P>
-          </VStack>
-
-          <VStack gap={2}>
-            <HStack align={"center"} gap={4}>
-              <VStack>
-                <HStack align={"center"} justify={"space-between"} gap={2}>
-                  <P>Normal text</P>
-                  <P>{tnum}</P>
-                </HStack>
-
-                <HStack align={"center"} justify={"space-between"} gap={2}>
-                  <P>Tabular num</P>
-                  <P>
-                    <TNum>{tnum}</TNum>
-                  </P>
-                </HStack>
-              </VStack>
-
-              <Button
-                size={"xs"}
-                variant={"outline"}
-                onClick={() => setTnum((p) => p + 1)}
-              >
-                + 1
-              </Button>
-            </HStack>
-
-            <P fontSize={"xs"} color={"fg.subtle"} w={"120px"}>
-              *Tabular num has consistent width per char
-            </P>
-          </VStack>
+            <Button>Download trigger</Button>
+          </DownloadTrigger>
         </HStack>
       </Container.Body>
     </Container.Root>

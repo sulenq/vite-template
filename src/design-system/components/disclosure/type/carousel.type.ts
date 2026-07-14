@@ -9,6 +9,7 @@ import type {
   CarouselItemProps as ChakraCarouselItemProps,
   CarouselIndicatorGroupProps as ChakraCarouselIndicatorGroupProps,
   CarouselIndicatorProps as ChakraCarouselIndicatorProps,
+  CarouselIndicatorsProps as ChakraCarouselIndicatorsProps,
 } from "@chakra-ui/react";
 
 export type CarouselRootProps = ChakraCarouselRootProps & {};
@@ -27,3 +28,5 @@ export type CarouselIndicatorGroupProps =
   ChakraCarouselIndicatorGroupProps & {};
 
 export type CarouselIndicatorProps = ChakraCarouselIndicatorProps & {};
+
+export type CarouselIndicatorsProps = ChakraCarouselIndicatorsProps & {};
