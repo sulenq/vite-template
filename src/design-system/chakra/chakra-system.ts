@@ -52,7 +52,7 @@ export const chakraConfig = defineConfig({
 
       "scale-up-overshoot": {
         "0%": {
-          transform: "scale(0.25)",
+          transform: "scale(0.85)",
           opacity: 0,
         },
         "50%": {
@@ -84,7 +84,7 @@ export const chakraConfig = defineConfig({
           opacity: 1,
         },
         "100%": {
-          transform: "scale(0.75)",
+          transform: "scale(0.85)",
           opacity: 0,
         },
       },
@@ -677,13 +677,13 @@ export const chakraConfig = defineConfig({
           value: "scale-up-overshoot-from-click-origin",
         },
         "scale-up": {
-          value: "scale-up cubic-bezier(0.16, 1, 0.3, 1)",
+          value: "scale-up cubic-bezier(0.4, 0, 0.2, 1)",
         },
         "scale-up-overshoot": {
-          value: "scale-up-overshoot cubic-bezier(0.16, 1, 0.3, 1)",
+          value: "scale-up-overshoot cubic-bezier(0.4, 0, 0.2, 1)",
         },
         "scale-down": {
-          value: "scale-down cubic-bezier(0.16, 1, 0.3, 1)",
+          value: "scale-down cubic-bezier(0.4, 0, 0.2, 1)",
         },
       },
 

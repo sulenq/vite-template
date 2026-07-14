@@ -54,7 +54,7 @@ const MenuContent = (props: MenuContentProps) => {
           }}
           _closed={{
             animation: "scale-down",
-            animationDuration: "slow",
+            animationDuration: "moderate",
           }}
           {...restProps}
         />
