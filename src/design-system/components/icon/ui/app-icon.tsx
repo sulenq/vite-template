@@ -2,10 +2,16 @@
 
 import type { AppIconProps } from "@/design-system/components/icon/types/app-icon.type";
 import { Icon } from "@/design-system/components/icon/ui/icon";
+import { CircleQuestionMarkIcon } from "lucide-react";
 
 export const AppIcon = (props: AppIconProps) => {
   // Props
-  const { icon: IconComponent, size = "md", boxSize, ...restProps } = props;
+  const {
+    icon = CircleQuestionMarkIcon,
+    size = "md",
+    boxSize,
+    ...restProps
+  } = props;
 
   // Constants
   const sizes = {
@@ -15,6 +21,9 @@ export const AppIcon = (props: AppIconProps) => {
     lg: 6,
     xl: 7,
   };
+
+  // Derived Values
+  const IconComponent = icon;
 
   return (
     <Icon boxSize={boxSize ?? sizes[size as keyof typeof sizes]} {...restProps}>
