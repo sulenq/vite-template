@@ -3,7 +3,7 @@
 "use client";
 
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
-import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-state.no-result";
+import { FeedbackNoResult } from "@/design-system/components/feedback/ui/state.no-result";
 import { SearchInput } from "@/design-system/components/input/ui/search-input";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";

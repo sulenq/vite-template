@@ -7,6 +7,7 @@ import {
   Button,
   IconButton,
 } from "@/design-system/components/button/ui/button";
+import { ButtonGroup } from "@/design-system/components/button/ui/button-group";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import type {
   DataListBatchActionsGenerator,
@@ -17,10 +18,13 @@ import { DataListTable } from "@/design-system/components/data-display/ui/data-l
 import { Accordion } from "@/design-system/components/disclosure/ui/accordion";
 import { Breadcrumb } from "@/design-system/components/disclosure/ui/breadcrumb";
 import { Carousel } from "@/design-system/components/disclosure/ui/carousel";
-import { FeedbackAccessDenied } from "@/design-system/components/feedback/ui/feedback-state.access-denied";
-import { FeedbackNoData } from "@/design-system/components/feedback/ui/feedback-state.no-data";
-import { FeedbackNoResult } from "@/design-system/components/feedback/ui/feedback-state.no-result";
-import { FeedbackRetry } from "@/design-system/components/feedback/ui/feedback-state.retry";
+import { Collapsible } from "@/design-system/components/disclosure/ui/collapsible";
+import { Steps } from "@/design-system/components/disclosure/ui/steps";
+import { Tabs } from "@/design-system/components/disclosure/ui/tabs";
+import { AccessDeniedState } from "@/design-system/components/feedback/ui/state.access-denied";
+import { NoDataState } from "@/design-system/components/feedback/ui/state.no-data";
+import { NoResultState } from "@/design-system/components/feedback/ui/state.no-result";
+import { RetryState } from "@/design-system/components/feedback/ui/state.retry";
 import { DotIndicator } from "@/design-system/components/feedback/ui/indicator";
 import {
   AppLucideIcon,
@@ -78,7 +82,13 @@ import {
   IconPlus,
   IconTrash,
 } from "@tabler/icons-react";
-import { CogIcon } from "lucide-react";
+import {
+  CheckCircleIcon,
+  ChevronDownIcon,
+  CogIcon,
+  FolderIcon,
+  UserIcon,
+} from "lucide-react";
 import { useState } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
@@ -734,6 +744,27 @@ export const Disclosure = () => {
     "https://images.unsplash.com/photo-1607776905497-b4f788205f6a?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2370",
   ];
 
+  const steps = [
+    {
+      title: "Step 1",
+      description: "Step 1 description",
+    },
+    {
+      title: "Step 2",
+      description: "Step 2 description",
+    },
+    {
+      title: "Step 3",
+      description: "Step 3 description",
+    },
+  ];
+
+  const tabs = [
+    { icon: UserIcon, triggerLabel: "Members" },
+    { icon: FolderIcon, triggerLabel: "Projects" },
+    { icon: CheckCircleIcon, triggerLabel: "Tasks" },
+  ];
+
   return (
     <Container.Root w={"full"} px={SPACING_MD}>
       <Container.Body gap={4} p={4}>
@@ -783,10 +814,11 @@ export const Disclosure = () => {
           </Breadcrumb.Root>
 
           <Carousel.Root
+            allowMouseDrag
             slideCount={images.length}
-            maxW="350px"
-            gap="4"
-            position="relative"
+            maxW={"350px"}
+            gap={4}
+            position={"relative"}
           >
             <Carousel.Control>
               <Carousel.PrevTrigger asChild>
@@ -831,6 +863,96 @@ export const Disclosure = () => {
               </Box>
             </Carousel.Control>
           </Carousel.Root>
+
+          <Collapsible.Root collapsedHeight={"100px"} w={"200px"}>
+            <Collapsible.Content
+            // _closed={{
+            //   shadow: "inset 0 -12px 12px -12px var(--shadow-color)",
+            //   shadowColor: "red",
+            // }}
+            >
+              <VStack padding={4}>
+                <P>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro
+                  consequatur saepe obcaecati facere ea, debitis neque odit nemo
+                  dicta nisi modi maxime ducimus, a vel in voluptate ratione
+                  reprehenderit odio?
+                </P>
+              </VStack>
+            </Collapsible.Content>
+
+            <Collapsible.Trigger asChild mt={4}>
+              <Button variant={"outline"} size={"sm"}>
+                <Collapsible.Context>
+                  {(api) => (api.open ? "Show Less" : "Show More")}
+                </Collapsible.Context>
+
+                <Collapsible.Indicator
+                  transition={"200ms"}
+                  _open={{ transform: "rotate(180deg)" }}
+                >
+                  <AppLucideIcon icon={ChevronDownIcon} />
+                </Collapsible.Indicator>
+              </Button>
+            </Collapsible.Trigger>
+          </Collapsible.Root>
+
+          <Steps.Root
+            defaultStep={1}
+            count={steps.length}
+            maxW={"400px"}
+            size={"sm"}
+          >
+            <Steps.List>
+              {steps.map((step, index) => (
+                <Steps.Item key={index} index={index} title={step.title}>
+                  <Steps.Indicator />
+                  <Steps.Title>{step.title}</Steps.Title>
+                  <Steps.Separator />
+                </Steps.Item>
+              ))}
+            </Steps.List>
+
+            {steps.map((step, index) => (
+              <Steps.Content key={index} index={index}>
+                <P textAlign={"center"}>{step.description}</P>
+              </Steps.Content>
+            ))}
+
+            <Steps.CompletedContent>
+              <P textAlign={"center"}>All steps are complete!</P>
+            </Steps.CompletedContent>
+
+            <ButtonGroup size={"sm"} variant={"outline"} justify={"center"}>
+              <Steps.PrevTrigger asChild>
+                <Button>Prev</Button>
+              </Steps.PrevTrigger>
+
+              <Steps.NextTrigger asChild>
+                <Button>Next</Button>
+              </Steps.NextTrigger>
+            </ButtonGroup>
+          </Steps.Root>
+
+          <Tabs.Root defaultValue="members">
+            <Tabs.List>
+              {tabs.map((tab, index) => (
+                <Tabs.Trigger
+                  key={index}
+                  value={tab.triggerLabel.toLowerCase()}
+                >
+                  <tab.icon />
+                  {tab.triggerLabel}
+                </Tabs.Trigger>
+              ))}
+            </Tabs.List>
+
+            {tabs.map((tab, index) => (
+              <Tabs.Content key={index} value={tab.triggerLabel.toLowerCase()}>
+                Manage your {tab.triggerLabel}
+              </Tabs.Content>
+            ))}
+          </Tabs.Root>
         </HStack>
       </Container.Body>
     </Container.Root>
@@ -846,13 +968,13 @@ export const Feedback = () => {
         </P>
 
         <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <FeedbackNoData />
+          <NoDataState />
 
-          <FeedbackAccessDenied />
+          <AccessDeniedState />
 
-          <FeedbackNoResult />
+          <NoResultState />
 
-          <FeedbackRetry />
+          <RetryState />
         </HStack>
       </Container.Body>
     </Container.Root>

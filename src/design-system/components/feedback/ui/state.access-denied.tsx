@@ -7,7 +7,7 @@ import FeedbackState from "@/design-system/components/feedback/ui/feedback-state
 import { t } from "@/shared/libs/i18n/-typed";
 import { IconForbid } from "@tabler/icons-react";
 
-export const FeedbackAccessDenied = (props: FeedbackStateProps) => {
+export const AccessDeniedState = (props: FeedbackStateProps) => {
   // Props
   const {
     icon,

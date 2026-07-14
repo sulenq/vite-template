@@ -7,7 +7,7 @@ import FeedbackState from "@/design-system/components/feedback/ui/feedback-state
 import { t } from "@/shared/libs/i18n/-typed";
 import { IconHourglassEmpty } from "@tabler/icons-react";
 
-export const FeedbackNoData = (props: FeedbackStateProps) => {
+export const NoDataState = (props: FeedbackStateProps) => {
   // Props
   const {
     icon,

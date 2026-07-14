@@ -1,32 +1,22 @@
 // src/design-system/components/disclosure/type/carousel.type.ts
 
-import type {
-  CarouselRootProps as ChakraCarouselRootProps,
-  CarouselControlProps as ChakraCarouselControlProps,
-  CarouselPrevTriggerProps as ChakraCarouselPrevTriggerProps,
-  CarouselNextTriggerProps as ChakraCarouselNextTriggerProps,
-  CarouselItemGroupProps as ChakraCarouselItemGroupProps,
-  CarouselItemProps as ChakraCarouselItemProps,
-  CarouselIndicatorGroupProps as ChakraCarouselIndicatorGroupProps,
-  CarouselIndicatorProps as ChakraCarouselIndicatorProps,
-  CarouselIndicatorsProps as ChakraCarouselIndicatorsProps,
-} from "@chakra-ui/react";
+import { Carousel as ChakraCarousel } from "@chakra-ui/react";
 
-export type CarouselRootProps = ChakraCarouselRootProps & {};
+export type CarouselRootProps = ChakraCarousel.RootProps & {};
 
-export type CarouselControlProps = ChakraCarouselControlProps & {};
+export type CarouselControlProps = ChakraCarousel.ControlProps & {};
 
-export type CarouselPrevTriggerProps = ChakraCarouselPrevTriggerProps & {};
+export type CarouselPrevTriggerProps = ChakraCarousel.PrevTriggerProps & {};
 
-export type CarouselNextTriggerProps = ChakraCarouselNextTriggerProps & {};
+export type CarouselNextTriggerProps = ChakraCarousel.NextTriggerProps & {};
 
-export type CarouselItemGroupProps = ChakraCarouselItemGroupProps & {};
+export type CarouselItemGroupProps = ChakraCarousel.ItemGroupProps & {};
 
-export type CarouselItemProps = ChakraCarouselItemProps & {};
+export type CarouselItemProps = ChakraCarousel.ItemProps & {};
 
 export type CarouselIndicatorGroupProps =
-  ChakraCarouselIndicatorGroupProps & {};
+  ChakraCarousel.IndicatorGroupProps & {};
 
-export type CarouselIndicatorProps = ChakraCarouselIndicatorProps & {};
+export type CarouselIndicatorProps = ChakraCarousel.IndicatorProps & {};
 
-export type CarouselIndicatorsProps = ChakraCarouselIndicatorsProps & {};
+export type CarouselIndicatorsProps = ChakraCarousel.IndicatorsProps & {};

@@ -10,7 +10,7 @@ import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { t } from "@/shared/libs/i18n/-typed";
 import { IconAlertTriangle } from "@tabler/icons-react";
 
-export const FeedbackRetry = (props: FeedbackRetryProps) => {
+export const RetryState = (props: FeedbackRetryProps) => {
   // Props
   const {
     icon,

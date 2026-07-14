@@ -8,7 +8,7 @@ import { P } from "@/design-system/components/typography/ui/p";
 import { t } from "@/shared/libs/i18n/-typed";
 import { IconMoodPuzzled } from "@tabler/icons-react";
 
-export const FeedbackNoResult = (props: FeedbackNoResultProps) => {
+export const NoResultState = (props: FeedbackNoResultProps) => {
   // Props
   const {
     icon,
