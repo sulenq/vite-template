@@ -189,10 +189,14 @@ const Toast = () => {
             onClick={() => {
               toast.create({
                 title: "Toast system 1",
+                inlineAction: {
+                  label: "Undo",
+                  onClick: () => {},
+                },
               });
             }}
           >
-            Toast system
+            Toast system with inline action
           </Button>
 
           <Button

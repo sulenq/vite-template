@@ -72,6 +72,7 @@ export type ToastOptions = ToastLifecycleHandlers & {
   description?: ReactNode;
   icon?: ReactNode;
   actions?: ToastAction[];
+  inlineAction?: ToastAction;
   metadata?: Record<string, unknown>;
   /** ms. `null` = persistent (never auto-dismiss). Defaults from config. */
   duration?: number | null;

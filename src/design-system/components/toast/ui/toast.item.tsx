@@ -1,3 +1,4 @@
+import { ButtonGroup } from "@/design-system/components/button/ui/button-group";
 import { CloseButton } from "@/design-system/components/button/ui/close-button";
 import { VStack } from "@/design-system/components/layout/ui/flex-box";
 import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
@@ -10,6 +11,7 @@ import { ToastIcon } from "@/design-system/components/toast/ui/toast.icon";
 import { ToastProgressBar } from "@/design-system/components/toast/ui/toast.progress-bar";
 import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
+import { isEmptyArray } from "@/shared/utils/data/array";
 import { Button, HStack } from "@chakra-ui/react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
@@ -90,7 +92,7 @@ export function ToastItem(props: ToastItemProps) {
       shadow={"md"}
       opacity={record.status === "visible" ? 1 : 0}
       tabIndex={0}
-      cursor={isDescriptionExpandable ? "pointer" : "auto"}
+      cursor={isDescriptionExpandable || !expanded ? "pointer" : "auto"}
       transition={`opacity ${leaveAnimationDuration}ms ease, transform ${leaveAnimationDuration}ms ease`}
       transform={
         record.status === "visible" ? "translateY(0)" : "translateY(-6px)"
@@ -110,12 +112,14 @@ export function ToastItem(props: ToastItemProps) {
       <HStack align={"center"} gap={2}>
         <ToastIcon record={record} />
 
+        {/* Title */}
         {record.title ? (
           <P fontWeight={"medium"} whiteSpace={"nowrap"}>
             {record.title}
           </P>
         ) : null}
 
+        {/* Description (collapsed) */}
         {record.description && !expanded && (
           <P color={"fg.subtle"} lineClamp={1}>
             {record.description}
@@ -123,31 +127,39 @@ export function ToastItem(props: ToastItemProps) {
         )}
 
         <HStack ml={"auto"}>
-          {/* {record.description && expanded && (
-            <IconButton
+          {/* Inline action */}
+          {record.inlineAction && (
+            <Button
               size={"2xs"}
-              variant={"subtle"}
-              rounded={"full"}
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowDescription((prev) => !prev);
+              fontSize={"sm"}
+              variant={"outline"}
+              onClick={(event) => {
+                event.stopPropagation();
+                record?.inlineAction?.onClick(record.id);
               }}
             >
-              <AppIcon
-                icon={ChevronDownIcon}
-                size={"sm"}
-                transition={"200ms"}
-                transform={showDescription ? "rotate(180deg)" : "rotate(0)"}
-              />
-            </IconButton>
-          )} */}
+              {record.inlineAction.label}
+            </Button>
+          )}
+          {record.inlineAction && (
+            <Button
+              size={"2xs"}
+              fontSize={"sm"}
+              variant={"outline"}
+              onClick={(event) => {
+                event.stopPropagation();
+                record?.inlineAction?.onClick(record.id);
+              }}
+            >
+              Other
+            </Button>
+          )}
 
           <CloseButton
             aria-label={"Close notification"}
             size={"2xs"}
             variant={"subtle"}
             rounded={"full"}
-            boxSize={4}
             onClick={(event: React.MouseEvent) => {
               event.stopPropagation();
               toast.close(record.id);
@@ -164,6 +176,7 @@ export function ToastItem(props: ToastItemProps) {
         pointerEvents={expanded || isFirstIndex ? "auto" : "none"}
         transition={"opacity 150ms ease"}
       >
+        {/* Description */}
         {record.description && expanded && (
           <P
             ref={descriptionRef}
@@ -178,21 +191,24 @@ export function ToastItem(props: ToastItemProps) {
           </P>
         )}
 
-        {record.actions && record.actions.length > 0 ? (
-          <HStack gap={2} mt={2}>
+        {/* Actions */}
+        {record.actions && !isEmptyArray(record.actions) && (
+          <ButtonGroup gap={2} mt={2}>
             {record.actions.map((action) => (
               <Button
                 key={action.label}
-                size={"xs"}
+                size={"2xs"}
+                fontSize={"xs"}
                 variant={"outline"}
                 onClick={() => action.onClick(record.id)}
               >
                 {action.label}
               </Button>
             ))}
-          </HStack>
-        ) : null}
+          </ButtonGroup>
+        )}
 
+        {/* Removed from history flag */}
         {showDeletedFromHistoryIndicator && record.isDeletedFromHistory ? (
           <P fontSize={"xs"} color={"fg.muted"} mt={1}>
             {"Removed from history"}
