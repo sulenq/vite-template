@@ -36,7 +36,8 @@ export type ToastEngineConfig = {
 };
 
 const DEFAULT_TOAST_CONFIG: ToastEngineConfig = {
-  defaultDuration: null,
+  defaultDuration: 5000,
+  // defaultDuration: null,
   maxVisiblePerGroup: 3,
   newestOnTop: true,
   duplicateStrategy: "replace",

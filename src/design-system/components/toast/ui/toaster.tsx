@@ -38,13 +38,6 @@ export function Toaster() {
 
   return (
     <Portal>
-      {/* Single global keyframes definition, shared by every ToastProgressBar instance. */}
-      <style>
-        {
-          "@keyframes toast-progress-shrink { from { transform: scaleX(1); } to { transform: scaleX(0); } }"
-        }
-      </style>
-
       <VStack
         flexDir={placementStyles.flexDirection}
         gap={2}

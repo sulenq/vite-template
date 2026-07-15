@@ -120,6 +120,8 @@ export function ToastStack<TItem>({
                 expanded ? undefined : isStackedVisible ? maxVisible - index : 0
               }
               mt={expanded ? 0 : index === 0 ? 0 : "-16%"}
+              bg={"bg.body"}
+              rounded={theme.radii.container}
               transition={"200ms"}
               transform={
                 expanded

@@ -99,6 +99,15 @@ export const chakraConfig = defineConfig({
           opacity: 0,
         },
       },
+
+      "shrink-x": {
+        "0%": {
+          transform: "scaleX(1)",
+        },
+        "100%": {
+          transform: `scaleX(0)`,
+        },
+      },
     },
 
     tokens: {
@@ -684,6 +693,9 @@ export const chakraConfig = defineConfig({
         },
         "scale-down": {
           value: "scale-down cubic-bezier(0.4, 0, 0.2, 1)",
+        },
+        "shrink-x": {
+          value: "shrink-x",
         },
       },
 

@@ -1,3 +1,4 @@
+import { Box } from "@/design-system/components/layout/ui/box";
 import type { ToastRecord } from "@/design-system/components/toast/types/toast.types";
 
 /**
@@ -8,29 +9,23 @@ import type { ToastRecord } from "@/design-system/components/toast/types/toast.t
  * instead of restarting from 100%.
  */
 export function ToastProgressBar({ record }: { record: ToastRecord }) {
-  if (record.duration === null) return null; // persistent toast, no progress to show
-
-  const remaining = record.remainingDuration ?? record.duration;
-  const elapsedMs = record.duration - remaining;
+  if (record.duration === null) return null;
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        height: 2,
-        width: "100%",
-        transformOrigin: "left",
-        background: "currentColor",
-        opacity: 0.4,
-        animationName: "toast-progress-shrink",
-        animationDuration: `${record.duration}ms`,
-        animationDelay: `-${elapsedMs}ms`,
-        animationTimingFunction: "linear",
-        animationFillMode: "forwards",
-        animationPlayState: record.paused ? "paused" : "running",
-      }}
+    <Box
+      pos={"absolute"}
+      bottom={0}
+      left={0}
+      h={"2px"}
+      w={"full"}
+      bg={"currentColor"}
+      opacity={0.4}
+      transformOrigin={"left"}
+      animationName={"shrink-x"}
+      animationDuration={`${record.duration}ms`}
+      animationTimingFunction={"linear"}
+      animationFillMode={"forwards"}
+      animationPlayState={record.paused ? "paused" : "running"}
     />
   );
 }
