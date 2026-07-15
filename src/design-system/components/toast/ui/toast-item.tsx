@@ -10,7 +10,7 @@ import { ToastIcon } from "@/design-system/components/toast/ui/toast-icon";
 import { ToastProgressBar } from "@/design-system/components/toast/ui/toast-progress-bar";
 import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import { Box, Button, HStack } from "@chakra-ui/react";
+import { Button, HStack } from "@chakra-ui/react";
 import { useEffect } from "react";
 
 export function ToastItem(props: ToastItemProps) {
@@ -29,6 +29,9 @@ export function ToastItem(props: ToastItemProps) {
 
   // Constants
   const stackBg = ["bg.body", "bg.subtle", "bg.muted"];
+
+  // Derived Values
+  const isFirstIndex = index === 0;
 
   // Safety net: if this node unmounts while paused (e.g. a parent stack
   // toggles expand/collapse mid-hover), the browser never fires
@@ -50,6 +53,7 @@ export function ToastItem(props: ToastItemProps) {
       aria-live={record.variant === "error" ? "assertive" : "polite"}
       position={"relative"}
       overflow={"clip"}
+      gap={1}
       p={3}
       // bg={"bg.body"}
       bg={expanded ? "bg.body" : stackBg[index % maxVisiblePerGroup]}
@@ -74,39 +78,13 @@ export function ToastItem(props: ToastItemProps) {
       <HStack align={"center"} gap={2}>
         <ToastIcon record={record} />
 
-        <Box flex={"1"}>
-          {record.title ? <P fontWeight={"medium"}>{record.title}</P> : null}
-
-          {record.description ? (
-            <P fontSize={"sm"}>{record.description}</P>
-          ) : null}
-
-          {record.actions && record.actions.length > 0 ? (
-            <HStack gap={2} mt={2}>
-              {record.actions.map((action) => (
-                <Button
-                  key={action.label}
-                  size={"xs"}
-                  variant={"outline"}
-                  onClick={() => action.onClick(record.id)}
-                >
-                  {action.label}
-                </Button>
-              ))}
-            </HStack>
-          ) : null}
-
-          {showDeletedFromHistoryIndicator && record.isDeletedFromHistory ? (
-            <P fontSize={"xs"} color={"fg.muted"} mt={1}>
-              {"Removed from history"}
-            </P>
-          ) : null}
-        </Box>
+        {record.title ? <P fontWeight={"medium"}>{record.title}</P> : null}
 
         <CloseButton
           aria-label={"Close notification"}
           size={"2xs"}
           variant={"subtle"}
+          ml={"auto"}
           bg={"an1"}
           rounded={"full"}
           boxSize={4}
@@ -116,6 +94,38 @@ export function ToastItem(props: ToastItemProps) {
           }}
         />
       </HStack>
+
+      <VStack
+        pl={7}
+        h={expanded || isFirstIndex ? "auto" : 0}
+        opacity={expanded || isFirstIndex ? 1 : 0}
+        transition={"200ms"}
+      >
+        {record.description ? (
+          <P color={"fg.muted"}>{record.description}</P>
+        ) : null}
+
+        {record.actions && record.actions.length > 0 ? (
+          <HStack gap={2} mt={2}>
+            {record.actions.map((action) => (
+              <Button
+                key={action.label}
+                size={"xs"}
+                variant={"outline"}
+                onClick={() => action.onClick(record.id)}
+              >
+                {action.label}
+              </Button>
+            ))}
+          </HStack>
+        ) : null}
+
+        {showDeletedFromHistoryIndicator && record.isDeletedFromHistory ? (
+          <P fontSize={"xs"} color={"fg.muted"} mt={1}>
+            {"Removed from history"}
+          </P>
+        ) : null}
+      </VStack>
 
       <ToastProgressBar record={record} />
     </VStack>

@@ -188,11 +188,22 @@ const Toast = () => {
           <Button
             onClick={() => {
               toast.create({
-                title: "Toast title",
+                title: "Toast system 1",
               });
             }}
           >
-            Toast
+            Toast system 1
+          </Button>
+
+          <Button
+            onClick={() => {
+              toast.create({
+                title: "Toast system 2",
+                description: "Desc toast system 2",
+              });
+            }}
+          >
+            Toast system 2
           </Button>
 
           <Button
