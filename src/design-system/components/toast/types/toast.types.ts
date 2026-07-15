@@ -156,7 +156,7 @@ export type ToastPlacement =
 
 export type ToastEngineConfig = {
   /** Default auto-dismiss duration in ms. */
-  defaultDuration: number;
+  defaultDuration: number | null;
   /** Max toasts rendered "on top" per group before the rest collapse into the stack. */
   maxVisiblePerGroup: number;
   /** Newest toast rendered above or below older ones within a group. */

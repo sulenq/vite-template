@@ -1,4 +1,6 @@
+import { IconButton } from "@/design-system/components/button/ui/button";
 import { CloseButton } from "@/design-system/components/button/ui/close-button";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { VStack } from "@/design-system/components/layout/ui/flex-box";
 import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
 import {
@@ -11,7 +13,8 @@ import { ToastProgressBar } from "@/design-system/components/toast/ui/toast.prog
 import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Button, HStack } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { ChevronDownIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export function ToastItem(props: ToastItemProps) {
   // Props
@@ -33,6 +36,9 @@ export function ToastItem(props: ToastItemProps) {
 
   // Derived Values
   const isFirstIndex = index === 0;
+
+  // States
+  const [showDescription, setShowDescription] = useState<boolean>(false);
 
   // Safety net: if this node unmounts while paused (e.g. a parent stack
   // toggles expand/collapse mid-hover), the browser never fires
@@ -81,28 +87,48 @@ export function ToastItem(props: ToastItemProps) {
 
         {record.title ? <P fontWeight={"medium"}>{record.title}</P> : null}
 
-        <CloseButton
-          aria-label={"Close notification"}
-          size={"2xs"}
-          variant={"subtle"}
-          ml={"auto"}
-          bg={"an1"}
-          rounded={"full"}
-          boxSize={4}
-          onClick={(event: React.MouseEvent) => {
-            event.stopPropagation();
-            toast.close(record.id);
-          }}
-        />
+        <HStack ml={"auto"}>
+          {record.description && (
+            <IconButton
+              size={"2xs"}
+              variant={"subtle"}
+              rounded={"full"}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowDescription((prev) => !prev);
+              }}
+            >
+              <AppIcon
+                icon={ChevronDownIcon}
+                size={"sm"}
+                transition={"200ms"}
+                transform={showDescription ? "rotate(180deg)" : "rotate(0)"}
+              />
+            </IconButton>
+          )}
+
+          <CloseButton
+            aria-label={"Close notification"}
+            size={"2xs"}
+            variant={"subtle"}
+            rounded={"full"}
+            boxSize={4}
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              toast.close(record.id);
+            }}
+          />
+        </HStack>
       </HStack>
 
       <VStack
         pl={7}
-        h={expanded || isFirstIndex ? "auto" : 0}
+        display={expanded || isFirstIndex ? "flex" : "none"}
         opacity={expanded || isFirstIndex ? 1 : 0}
-        transition={"200ms"}
+        pointerEvents={expanded || isFirstIndex ? "auto" : "none"}
+        transition={"opacity 150ms ease"}
       >
-        {record.description ? (
+        {record.description && showDescription ? (
           <P color={"fg.muted"}>{record.description}</P>
         ) : null}
 
