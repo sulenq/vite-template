@@ -1,11 +1,14 @@
-import { Box, Button, Text } from "@chakra-ui/react";
 import { X } from "lucide-react";
 import { useToastHistory } from "@/design-system/components/toast/hooks/use-toast-history";
 import type { HistoryEntry } from "@/design-system/components/toast/types/toast.types";
-import { ToastStack } from "@/design-system/components/toast/ui/toast-stack";
-import { getToastConfig } from "@/design-system/components/toast/core/toast-config";
+import { ToastStack } from "@/design-system/components/toast/ui/toast.stack";
+import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
+import { P } from "@/design-system/components/typography/ui/p";
+import { Box } from "@/design-system/components/layout/ui/box";
+import { Button } from "@/design-system/components/button/ui/button";
+import { VStack } from "@/design-system/components/layout/ui/flex-box";
 
-function HistoryEntryItem({
+function ToastHistoryItem({
   entry,
   onDelete,
 }: {
@@ -21,23 +24,23 @@ function HistoryEntryItem({
       position={"relative"}
     >
       <Box display={"flex"} justifyContent={"space-between"} gap={2}>
-        <Box flex={"1"}>
+        <VStack flex={"1"}>
           {entry.title ? (
-            <Text fontSize={"sm"} fontWeight={"medium"}>
+            <P fontSize={"sm"} fontWeight={"medium"}>
               {entry.title}
-            </Text>
+            </P>
           ) : null}
           {entry.description ? (
-            <Text fontSize={"sm"} color={"fg.muted"}>
+            <P fontSize={"sm"} color={"fg.muted"}>
               {entry.description}
-            </Text>
+            </P>
           ) : null}
-          <Text fontSize={"xs"} color={"fg.muted"} mt={1}>
+          <P fontSize={"xs"} color={"fg.muted"} mt={1}>
             {`v${entry.version}${entry.isUpdate ? " · updated" : ""}${
               entry.dismissedReason ? ` · ${entry.dismissedReason}` : ""
             }`}
-          </Text>
-        </Box>
+          </P>
+        </VStack>
 
         <Box
           as={"button"}
@@ -60,9 +63,9 @@ export function NotificationCenter() {
 
   if (groups.length === 0) {
     return (
-      <Text fontSize={"sm"} color={"fg.muted"}>
+      <P fontSize={"sm"} color={"fg.muted"}>
         {"No notifications yet"}
-      </Text>
+      </P>
     );
   }
 
@@ -82,7 +85,7 @@ export function NotificationCenter() {
           getId={(entry) => entry.historyEntryId}
           maxVisible={maxVisiblePerGroup}
           renderItem={(entry) => (
-            <HistoryEntryItem entry={entry} onDelete={deleteOne} />
+            <ToastHistoryItem entry={entry.item} onDelete={deleteOne} />
           )}
           onCloseAll={() =>
             deleteMany(entries.map((entry) => entry.historyEntryId))

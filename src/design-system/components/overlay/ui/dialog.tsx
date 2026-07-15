@@ -12,7 +12,7 @@ import {
   getDialogOffset,
   updateClickOrigin,
   updateDialogOffset,
-} from "@/design-system/components/overlay/stores/use-dialog-animation-store";
+} from "@/design-system/components/overlay/stores/dialog-animation-store";
 import type {
   DialogCloseButtonProps,
   DialogContentProps,

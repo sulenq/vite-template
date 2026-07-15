@@ -7,7 +7,7 @@ import { drawerRecipe } from "@/design-system/chakra/slot-recipes/drawer.recipe"
 import {
   DIALOG_OFFSET_X_VAR,
   DIALOG_OFFSET_Y_VAR,
-} from "@/design-system/components/overlay/stores/use-dialog-animation-store";
+} from "@/design-system/components/overlay/stores/dialog-animation-store";
 import { checkboxRecipe } from "@/design-system/chakra/slot-recipes/checkbox.recipe";
 import { selectRecipe } from "@/design-system/chakra/slot-recipes/select.recipe";
 

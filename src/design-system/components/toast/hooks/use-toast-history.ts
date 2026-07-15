@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useHistoryStore } from "@/design-system/components/toast/stores/history.store";
+import { useToastHistoryStore } from "@/design-system/components/toast/stores/toast-history.store";
 import type { HistoryEntry } from "@/design-system/components/toast/types/toast.types";
 
 export type HistoryGroupStack = {
@@ -10,8 +10,8 @@ export type HistoryGroupStack = {
 export function useToastHistory() {
   // Subscribing to `entries` keeps this reactive; `getAll()` (not the raw
   // field) is applied below to respect TTL + soft-delete filtering.
-  useHistoryStore((state) => state.entries);
-  const all = useHistoryStore.getState().getAll();
+  useToastHistoryStore((state) => state.entries);
+  const all = useToastHistoryStore.getState().getAll();
 
   const groups: HistoryGroupStack[] = useMemo(() => {
     const byGroup = new Map<string, HistoryEntry[]>();
@@ -27,7 +27,8 @@ export function useToastHistory() {
     // eslint-disable-next-line react-hooks/exhaustive-deps -- `all` is a fresh array each render by design (lazy TTL prune)
   }, [all]);
 
-  const { deleteOne, deleteMany, clear, markRead, markAllRead } = useHistoryStore.getState();
+  const { deleteOne, deleteMany, clear, markRead, markAllRead } =
+    useToastHistoryStore.getState();
 
   return { groups, all, deleteOne, deleteMany, clear, markRead, markAllRead };
 }

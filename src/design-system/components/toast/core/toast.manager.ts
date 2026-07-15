@@ -5,11 +5,14 @@ import type {
   ToastVariant,
   UpdateToastOptions,
 } from "@/design-system/components/toast/types/toast.types";
-import { useVisibleToastStore } from "@/design-system/components/toast/stores/visible-toast.store";
-import { useHistoryStore } from "@/design-system/components/toast/stores/history.store";
-import { toastEventBus } from "@/design-system/components/toast/core/event-bus";
+import { useToastVisibleStore } from "@/design-system/components/toast/stores/toast-visible.store";
+import { useToastHistoryStore } from "@/design-system/components/toast/stores/toast-history.store";
+import { toastEventBus } from "@/design-system/components/toast/core/toast.event-bus";
 import { generateId } from "@/design-system/components/toast/utils/generate-id";
-import { DEFAULT_TOAST_GROUP, getToastConfig } from "@/design-system/components/toast/core/toast-config";
+import {
+  DEFAULT_TOAST_GROUP,
+  getToastConfig,
+} from "@/design-system/components/toast/core/toast.config";
 
 // ---------------------------------------------------------------------------
 // Timer scheduling. Kept as module-scoped state (not a store, not React) so
@@ -31,7 +34,11 @@ type TimerEntry = {
 const timers = new Map<string, TimerEntry>();
 const leaveTimeouts = new Map<string, ReturnType<typeof setTimeout>>();
 
-function startTimer(id: string, duration: number | null, onExpire: () => void): void {
+function startTimer(
+  id: string,
+  duration: number | null,
+  onExpire: () => void,
+): void {
   clearTimer(id);
   if (duration === null) return; // persistent toast, no timer needed
 
@@ -40,7 +47,13 @@ function startTimer(id: string, duration: number | null, onExpire: () => void): 
     onExpire();
   }, duration);
 
-  timers.set(id, { timeoutId, remaining: duration, startedAt: Date.now(), paused: false, onExpire });
+  timers.set(id, {
+    timeoutId,
+    remaining: duration,
+    startedAt: Date.now(),
+    paused: false,
+    onExpire,
+  });
 }
 
 function clearTimer(id: string): void {
@@ -55,9 +68,14 @@ function pauseTimer(id: string): void {
   if (!entry || entry.paused) return; // no active timer, or already paused — no-op
 
   clearTimeout(entry.timeoutId);
-  const remaining = Math.max(entry.remaining - (Date.now() - entry.startedAt), 0);
+  const remaining = Math.max(
+    entry.remaining - (Date.now() - entry.startedAt),
+    0,
+  );
   timers.set(id, { ...entry, remaining, paused: true });
-  useVisibleToastStore.getState().update(id, { paused: true, remainingDuration: remaining });
+  useToastVisibleStore
+    .getState()
+    .update(id, { paused: true, remainingDuration: remaining });
 }
 
 function resumeTimer(id: string): void {
@@ -69,7 +87,7 @@ function resumeTimer(id: string): void {
     entry.onExpire();
   }, entry.remaining);
   timers.set(id, { ...entry, timeoutId, startedAt: Date.now(), paused: false });
-  useVisibleToastStore.getState().update(id, { paused: false });
+  useToastVisibleStore.getState().update(id, { paused: false });
 }
 
 /** Used by `use-page-visibility.ts` to freeze/unfreeze every timer when the tab is hidden. */
@@ -114,7 +132,7 @@ function nextFrame(callback: () => void): void {
 // ---------------------------------------------------------------------------
 
 function nextHistoryVersion(toastId: string): number {
-  const versions = useHistoryStore
+  const versions = useToastHistoryStore
     .getState()
     .getAll({ includeDeleted: true })
     .filter((entry) => entry.toastId === toastId)
@@ -122,8 +140,11 @@ function nextHistoryVersion(toastId: string): number {
   return versions.length === 0 ? 1 : Math.max(...versions) + 1;
 }
 
-function recordHistorySnapshot(record: ToastRecord, source: "create" | "update"): void {
-  useHistoryStore.getState().add({
+function recordHistorySnapshot(
+  record: ToastRecord,
+  source: "create" | "update",
+): void {
+  useToastHistoryStore.getState().add({
     historyEntryId: generateId("hist"),
     toastId: record.id,
     version: nextHistoryVersion(record.id),
@@ -145,12 +166,19 @@ function recordHistorySnapshot(record: ToastRecord, source: "create" | "update")
   });
 }
 
-function annotateHistoryOnClose(toastId: string, reason: DismissedReason): void {
-  const entries = useHistoryStore.getState().getAll({ includeDeleted: true });
-  const latest = entries.filter((entry) => entry.toastId === toastId).sort((a, b) => b.version - a.version)[0];
+function annotateHistoryOnClose(
+  toastId: string,
+  reason: DismissedReason,
+): void {
+  const entries = useToastHistoryStore
+    .getState()
+    .getAll({ includeDeleted: true });
+  const latest = entries
+    .filter((entry) => entry.toastId === toastId)
+    .sort((a, b) => b.version - a.version)[0];
   if (!latest) return;
 
-  useHistoryStore.setState((state) => ({
+  useToastHistoryStore.setState((state) => ({
     entries: state.entries.map((entry) =>
       entry.historyEntryId === latest.historyEntryId
         ? { ...entry, closedAt: Date.now(), dismissedReason: reason }
@@ -189,7 +217,7 @@ function beginClose(record: ToastRecord, reason: DismissedReason): void {
   toastEventBus.emit("close", { record, reason });
   annotateHistoryOnClose(record.id, reason);
   record.onClose?.(record, reason);
-  useVisibleToastStore.getState().update(record.id, { status: "leaving" });
+  useToastVisibleStore.getState().update(record.id, { status: "leaving" });
 
   const { leaveAnimationDuration } = getToastConfig();
   const timeoutId = setTimeout(() => {
@@ -200,7 +228,7 @@ function beginClose(record: ToastRecord, reason: DismissedReason): void {
 }
 
 function handleExpire(id: string): void {
-  const record = useVisibleToastStore.getState().find(id);
+  const record = useToastVisibleStore.getState().find(id);
   if (!record) return;
 
   toastEventBus.emit("expire", record);
@@ -209,13 +237,16 @@ function handleExpire(id: string): void {
 }
 
 function create(options: ToastOptions = {}): string {
-  const strategy = options.duplicateStrategy ?? getToastConfig().duplicateStrategy;
+  const strategy =
+    options.duplicateStrategy ?? getToastConfig().duplicateStrategy;
   const requestedId = options.id;
 
-  if (requestedId && useVisibleToastStore.getState().find(requestedId)) {
+  if (requestedId && useToastVisibleStore.getState().find(requestedId)) {
     if (strategy === "ignore") return requestedId;
     if (strategy === "throw") {
-      throw new Error(`[toast] duplicate id "${requestedId}" with duplicateStrategy="throw"`);
+      throw new Error(
+        `[toast] duplicate id "${requestedId}" with duplicateStrategy="throw"`,
+      );
     }
     // "replace": this is an instant swap in the same tick, not a user-initiated
     // dismiss — hard-remove immediately rather than going through the animated
@@ -227,7 +258,7 @@ function create(options: ToastOptions = {}): string {
   const id = requestedId ?? generateId();
   const record = buildRecord(options, id);
 
-  useVisibleToastStore.getState().add(record);
+  useToastVisibleStore.getState().add(record);
   startTimer(id, record.duration, () => handleExpire(id));
   recordHistorySnapshot(record, "create");
 
@@ -236,8 +267,8 @@ function create(options: ToastOptions = {}): string {
 
   nextFrame(() => {
     // Only flip if still present — it may have already been closed/removed synchronously.
-    if (useVisibleToastStore.getState().find(id)) {
-      useVisibleToastStore.getState().update(id, { status: "visible" });
+    if (useToastVisibleStore.getState().find(id)) {
+      useToastVisibleStore.getState().update(id, { status: "visible" });
     }
   });
 
@@ -245,10 +276,11 @@ function create(options: ToastOptions = {}): string {
 }
 
 function update(id: string, patch: UpdateToastOptions): void {
-  const existing = useVisibleToastStore.getState().find(id);
+  const existing = useToastVisibleStore.getState().find(id);
   if (!existing) return;
 
-  const duration = patch.duration !== undefined ? patch.duration : existing.duration;
+  const duration =
+    patch.duration !== undefined ? patch.duration : existing.duration;
   const nextRecord: ToastRecord = {
     ...existing,
     ...patch,
@@ -258,7 +290,7 @@ function update(id: string, patch: UpdateToastOptions): void {
     remainingDuration: duration,
   };
 
-  useVisibleToastStore.getState().update(id, nextRecord);
+  useToastVisibleStore.getState().update(id, nextRecord);
   startTimer(id, duration, () => handleExpire(id)); // restart timer with the (possibly new) duration
   recordHistorySnapshot(nextRecord, "update");
 
@@ -267,7 +299,7 @@ function update(id: string, patch: UpdateToastOptions): void {
 }
 
 function close(id: string, reason: DismissedReason = "manual"): void {
-  const record = useVisibleToastStore.getState().find(id);
+  const record = useToastVisibleStore.getState().find(id);
   if (!record || record.status === "leaving") return; // already closing — avoid double-scheduling removal
 
   clearTimer(id);
@@ -282,9 +314,9 @@ function remove(id: string): void {
     leaveTimeouts.delete(id);
   }
 
-  const record = useVisibleToastStore.getState().find(id);
+  const record = useToastVisibleStore.getState().find(id);
   clearTimer(id);
-  useVisibleToastStore.getState().remove(id);
+  useToastVisibleStore.getState().remove(id);
   if (record) {
     toastEventBus.emit("remove", { id });
     record.onRemove?.(record);
@@ -292,27 +324,28 @@ function remove(id: string): void {
 }
 
 function closeAll(): void {
-  Object.values(useVisibleToastStore.getState().entries)
+  Object.values(useToastVisibleStore.getState().entries)
     .flat()
     .forEach((record) => close(record.id, "closeAll"));
 }
 
 function removeAll(): void {
-  const all = Object.values(useVisibleToastStore.getState().entries).flat();
+  const all = Object.values(useToastVisibleStore.getState().entries).flat();
   all.forEach((record) => remove(record.id));
 }
 
 function exists(id: string): boolean {
-  return Boolean(useVisibleToastStore.getState().find(id));
+  return Boolean(useToastVisibleStore.getState().find(id));
 }
 
 function isVisible(id: string): boolean {
-  const record = useVisibleToastStore.getState().find(id);
+  const record = useToastVisibleStore.getState().find(id);
   return record?.status === "visible" || record?.status === "entering";
 }
 
 function withVariant(variant: ToastVariant) {
-  return (title: ToastOptions["title"], options: ToastOptions = {}) => create({ ...options, title, variant });
+  return (title: ToastOptions["title"], options: ToastOptions = {}) =>
+    create({ ...options, title, variant });
 }
 
 export const toast = {
@@ -329,6 +362,8 @@ export const toast = {
   warning: withVariant("warning"),
   info: withVariant("info"),
   loading: withVariant("loading"),
-  custom: (renderer: NonNullable<ToastOptions["renderer"]>, options: ToastOptions = {}) =>
-    create({ ...options, variant: "custom", renderer }),
+  custom: (
+    renderer: NonNullable<ToastOptions["renderer"]>,
+    options: ToastOptions = {},
+  ) => create({ ...options, variant: "custom", renderer }),
 };

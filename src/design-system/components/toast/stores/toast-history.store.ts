@@ -1,8 +1,8 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { HistoryEntry } from "@/design-system/components/toast/types/toast.types";
-import { getToastConfig } from "@/design-system/components/toast/core/toast-config";
-import { useVisibleToastStore } from "@/design-system/components/toast/stores/visible-toast.store";
+import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
+import { useToastVisibleStore } from "@/design-system/components/toast/stores/toast-visible.store";
 
 type HistoryState = {
   entries: HistoryEntry[];
@@ -37,12 +37,12 @@ function isExpired(entry: HistoryEntry, ttl: number | null): boolean {
  * to each other, kept local to this file rather than a separate module.
  */
 function syncDeletedFlagToVisibleToast(toastId: string): void {
-  if (useVisibleToastStore.getState().find(toastId)) {
-    useVisibleToastStore.getState().markDeletedFromHistory(toastId);
+  if (useToastVisibleStore.getState().find(toastId)) {
+    useToastVisibleStore.getState().markDeletedFromHistory(toastId);
   }
 }
 
-export const useHistoryStore = create<HistoryStore>()(
+export const useToastHistoryStore = create<HistoryStore>()(
   persist(
     (set, get) => ({
       entries: [],
@@ -51,24 +51,37 @@ export const useHistoryStore = create<HistoryStore>()(
         set((state) => {
           const { historyLimit } = getToastConfig();
           const next = [...state.entries, entry];
-          return { entries: next.length > historyLimit ? next.slice(next.length - historyLimit) : next };
+          return {
+            entries:
+              next.length > historyLimit
+                ? next.slice(next.length - historyLimit)
+                : next,
+          };
         }),
 
       markRead: (historyEntryId) =>
         set((state) => ({
           entries: state.entries.map((entry) =>
-            entry.historyEntryId === historyEntryId ? { ...entry, read: true } : entry,
+            entry.historyEntryId === historyEntryId
+              ? { ...entry, read: true }
+              : entry,
           ),
         })),
 
       markAllRead: () =>
-        set((state) => ({ entries: state.entries.map((entry) => ({ ...entry, read: true })) })),
+        set((state) => ({
+          entries: state.entries.map((entry) => ({ ...entry, read: true })),
+        })),
 
       deleteOne: (historyEntryId) => {
-        const entry = get().entries.find((item) => item.historyEntryId === historyEntryId);
+        const entry = get().entries.find(
+          (item) => item.historyEntryId === historyEntryId,
+        );
         set((state) => ({
           entries: state.entries.map((item) =>
-            item.historyEntryId === historyEntryId ? { ...item, deletedFromHistory: true } : item,
+            item.historyEntryId === historyEntryId
+              ? { ...item, deletedFromHistory: true }
+              : item,
           ),
         }));
         if (entry) syncDeletedFlagToVisibleToast(entry.toastId);
@@ -83,7 +96,9 @@ export const useHistoryStore = create<HistoryStore>()(
         );
         set((state) => ({
           entries: state.entries.map((entry) =>
-            idSet.has(entry.historyEntryId) ? { ...entry, deletedFromHistory: true } : entry,
+            idSet.has(entry.historyEntryId)
+              ? { ...entry, deletedFromHistory: true }
+              : entry,
           ),
         }));
         toastIds.forEach(syncDeletedFlagToVisibleToast);
@@ -98,11 +113,16 @@ export const useHistoryStore = create<HistoryStore>()(
       getAll: (options) => {
         const { historyTTL } = getToastConfig();
         const state = get();
-        const notExpired = state.entries.filter((entry) => !isExpired(entry, historyTTL));
+        const notExpired = state.entries.filter(
+          (entry) => !isExpired(entry, historyTTL),
+        );
 
-        if (notExpired.length !== state.entries.length) set({ entries: notExpired });
+        if (notExpired.length !== state.entries.length)
+          set({ entries: notExpired });
 
-        return options?.includeDeleted ? notExpired : notExpired.filter((entry) => !entry.deletedFromHistory);
+        return options?.includeDeleted
+          ? notExpired
+          : notExpired.filter((entry) => !entry.deletedFromHistory);
       },
     }),
     {

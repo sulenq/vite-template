@@ -1,5 +1,5 @@
-import { useVisibleToastStore } from "@/design-system/components/toast/stores/visible-toast.store";
-import { getToastConfig } from "@/design-system/components/toast/core/toast-config";
+import { useToastVisibleStore } from "@/design-system/components/toast/stores/toast-visible.store";
+import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
 import type { ToastRecord } from "@/design-system/components/toast/types/toast.types";
 
 export type ToastGroupStack = {
@@ -8,14 +8,17 @@ export type ToastGroupStack = {
   ordered: ToastRecord[];
 };
 
-function orderRecords(records: ToastRecord[], newestOnTop: boolean): ToastRecord[] {
+function orderRecords(
+  records: ToastRecord[],
+  newestOnTop: boolean,
+): ToastRecord[] {
   const sorted = [...records].sort((a, b) => a.createdAt - b.createdAt);
   return newestOnTop ? sorted.reverse() : sorted;
 }
 
 /** Returns every group as a ready-to-render stack. */
 export function useVisibleToastGroups(): ToastGroupStack[] {
-  const entries = useVisibleToastStore((state) => state.entries);
+  const entries = useToastVisibleStore((state) => state.entries);
   const { newestOnTop } = getToastConfig();
 
   return Object.entries(entries).map(([group, records]) => ({
@@ -26,7 +29,7 @@ export function useVisibleToastGroups(): ToastGroupStack[] {
 
 /** Single-group variant, useful when a consumer only renders one known group. */
 export function useVisibleToastGroup(group: string): ToastGroupStack {
-  const records = useVisibleToastStore((state) => state.entries[group] ?? []);
+  const records = useToastVisibleStore((state) => state.entries[group] ?? []);
   const { newestOnTop } = getToastConfig();
   return { group, ordered: orderRecords(records, newestOnTop) };
 }

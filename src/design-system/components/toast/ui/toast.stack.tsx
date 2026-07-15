@@ -2,7 +2,7 @@ import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
-import { DEFAULT_TOAST_GROUP } from "@/design-system/components/toast/core/toast-config";
+import { DEFAULT_TOAST_GROUP } from "@/design-system/components/toast/core/toast.config";
 import type { ToastStackProps } from "@/design-system/components/toast/types/toast.types";
 import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
