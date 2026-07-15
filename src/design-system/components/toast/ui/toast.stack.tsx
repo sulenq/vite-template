@@ -50,9 +50,10 @@ export function ToastStack<TItem>({
 
   return (
     <VStack
+      data-state={expanded ? "expanded" : "collapsed"}
       flexShrink={0}
       gap={2}
-      data-state={expanded ? "expanded" : "collapsed"}
+      minH={"80px"}
     >
       {/* Stack expanded header */}
       <HStack
@@ -99,20 +100,6 @@ export function ToastStack<TItem>({
       </HStack>
 
       {/* Stack items */}
-      {/*
-       * WHY absolute positioning for items 1+:
-       * The previous approach (negative margin-top in a flexbox) kept all items
-       * in the layout flow. When item heights changed — e.g. item 0 becoming
-       * item 1 and its description collapsing, or item 0 being dismissed and
-       * item 1 expanding its description — the entire flexbox recomputed,
-       * causing every item to "jump". Removing items 1+ from the flow entirely
-       * (position: absolute, inset: 0) means ONLY item 0 drives the container
-       * height. Items 1+ can change their content freely without ever causing
-       * a layout shift.
-       *
-       * pb reserves visual space for peeking stacked cards below item 0.
-       * translateY on items 1+ makes them peek; scale gives visual depth.
-       */}
       <Box
         position={"relative"}
         onClick={!expanded ? () => setExpanded(true) : undefined}
@@ -122,7 +109,7 @@ export function ToastStack<TItem>({
       >
         {items.map((item, index) => {
           const isStackedVisible = index < maxVisible;
-          const isFirst = index === 0;
+          const isFirstIndex = index === 0;
           const isCollapsed = !expanded;
 
           return (
@@ -132,29 +119,26 @@ export function ToastStack<TItem>({
                 expanded ? "expanded" : isStackedVisible ? "stacked" : "hidden"
               }
               display={!expanded && !isStackedVisible ? "none" : "block"}
-              // Items 1+ in collapsed mode: absolutely positioned (inset: 0).
-              // They match container bounds (= item 0 size) so they always
-              // peek below when translateY shifts them down.
-              position={isCollapsed && !isFirst ? "absolute" : "relative"}
-              top={isCollapsed && !isFirst ? 0 : undefined}
-              right={isCollapsed && !isFirst ? 0 : undefined}
-              bottom={isCollapsed && !isFirst ? 0 : undefined}
-              left={isCollapsed && !isFirst ? 0 : undefined}
-              overflow={isCollapsed && !isFirst ? "hidden" : undefined}
+              position={isCollapsed && !isFirstIndex ? "absolute" : "relative"}
+              top={isCollapsed && !isFirstIndex ? 0 : undefined}
+              right={isCollapsed && !isFirstIndex ? 0 : undefined}
+              bottom={isCollapsed && !isFirstIndex ? 0 : undefined}
+              left={isCollapsed && !isFirstIndex ? 0 : undefined}
+              overflow={isCollapsed && !isFirstIndex ? "clip" : undefined}
               rounded={theme.radii.container}
               zIndex={
                 expanded ? undefined : isStackedVisible ? maxVisible - index : 0
               }
-              // translateY creates the "peek below" effect; scale gives depth.
+              transformOrigin={"top"}
               transform={
-                isCollapsed && !isFirst
-                  ? `scale(${Math.max(1 - index * 0.04, 0.9)}) translateY(${index * 8}px)`
+                isCollapsed && !isFirstIndex
+                  ? `scale(${1 - index * 0.05}) translateY(${index * 22 - index * 8}px)`
                   : "scale(1)"
               }
               // mt only matters in expanded mode (spacing between items).
               mt={expanded && index > 0 ? 2 : 0}
               transition={"transform 200ms ease, margin-top 200ms ease"}
-              pointerEvents={expanded || isFirst ? "auto" : "none"}
+              pointerEvents={expanded || isFirstIndex ? "auto" : "none"}
             >
               {renderItem({
                 item,

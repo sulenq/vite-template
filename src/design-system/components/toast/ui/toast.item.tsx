@@ -1,6 +1,4 @@
-import { IconButton } from "@/design-system/components/button/ui/button";
 import { CloseButton } from "@/design-system/components/button/ui/close-button";
-import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { VStack } from "@/design-system/components/layout/ui/flex-box";
 import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
 import {
@@ -13,8 +11,7 @@ import { ToastProgressBar } from "@/design-system/components/toast/ui/toast.prog
 import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { Button, HStack } from "@chakra-ui/react";
-import { ChevronDownIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export function ToastItem(props: ToastItemProps) {
   // Props
@@ -22,6 +19,9 @@ export function ToastItem(props: ToastItemProps) {
 
   // Stores
   const { theme } = useThemeStore();
+
+  // Refs
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
 
   // Hooks
   const {
@@ -39,6 +39,7 @@ export function ToastItem(props: ToastItemProps) {
 
   // States
   const [showDescription, setShowDescription] = useState<boolean>(false);
+  const [isDescriptionExpandable, setIsDescriptionExpandable] = useState(false);
 
   // Safety net: if this node unmounts while paused (e.g. a parent stack
   // toggles expand/collapse mid-hover), the browser never fires
@@ -50,17 +51,36 @@ export function ToastItem(props: ToastItemProps) {
     };
   }, [record.id]);
 
+  useLayoutEffect(() => {
+    const el = descriptionRef.current;
+    if (!el) return;
+
+    const checkExpandable = () => {
+      setIsDescriptionExpandable(el.scrollHeight > el.clientHeight);
+    };
+
+    checkExpandable();
+
+    // handle resize (misal window resize, font load, dsb)
+    const resizeObserver = new ResizeObserver(checkExpandable);
+    resizeObserver.observe(el);
+
+    return () => resizeObserver.disconnect();
+  }, [record.description]);
+
   if (record.variant === "custom" && record.renderer) {
     return <>{record.renderer(record)}</>;
   }
 
   return (
     <VStack
-      role={record.variant === "error" ? "alert" : "status"}
+      data-state={record.status}
       aria-live={record.variant === "error" ? "assertive" : "polite"}
+      role={record.variant === "error" ? "alert" : "status"}
       position={"relative"}
       overflow={"clip"}
       gap={1}
+      // minH={"76px"}
       p={3}
       // bg={"bg.body"}
       bg={expanded ? "bg.body" : stackBg[index % maxVisiblePerGroup]}
@@ -68,27 +88,42 @@ export function ToastItem(props: ToastItemProps) {
       borderColor={"border"}
       rounded={theme.radii.container}
       shadow={"md"}
+      opacity={record.status === "visible" ? 1 : 0}
+      tabIndex={0}
+      cursor={isDescriptionExpandable ? "pointer" : "auto"}
+      transition={`opacity ${leaveAnimationDuration}ms ease, transform ${leaveAnimationDuration}ms ease`}
+      transform={
+        record.status === "visible" ? "translateY(0)" : "translateY(-6px)"
+      }
       onPointerEnter={() => toastTimerControls.pauseTimer(record.id)}
       onPointerLeave={() => toastTimerControls.resumeTimer(record.id)}
       onKeyDown={(event) => {
         if (event.key === "Escape") toast.close(record.id);
       }}
-      tabIndex={0}
-      data-state={record.status}
-      transition={`opacity ${leaveAnimationDuration}ms ease, transform ${leaveAnimationDuration}ms ease`}
-      opacity={record.status === "visible" ? 1 : 0}
-      transform={
-        record.status === "visible" ? "translateY(0)" : "translateY(-6px)"
-      }
+      onClick={() => {
+        if (!expanded) return;
+        setShowDescription((prev) => !prev);
+      }}
       {...restProps}
     >
+      {/* Header */}
       <HStack align={"center"} gap={2}>
         <ToastIcon record={record} />
 
-        {record.title ? <P fontWeight={"medium"}>{record.title}</P> : null}
+        {record.title ? (
+          <P fontWeight={"medium"} whiteSpace={"nowrap"}>
+            {record.title}
+          </P>
+        ) : null}
+
+        {record.description && !expanded && (
+          <P color={"fg.subtle"} lineClamp={1}>
+            {record.description}
+          </P>
+        )}
 
         <HStack ml={"auto"}>
-          {record.description && (
+          {/* {record.description && expanded && (
             <IconButton
               size={"2xs"}
               variant={"subtle"}
@@ -105,7 +140,7 @@ export function ToastItem(props: ToastItemProps) {
                 transform={showDescription ? "rotate(180deg)" : "rotate(0)"}
               />
             </IconButton>
-          )}
+          )} */}
 
           <CloseButton
             aria-label={"Close notification"}
@@ -121,6 +156,7 @@ export function ToastItem(props: ToastItemProps) {
         </HStack>
       </HStack>
 
+      {/* Content */}
       <VStack
         pl={7}
         display={expanded || isFirstIndex ? "flex" : "none"}
@@ -128,9 +164,19 @@ export function ToastItem(props: ToastItemProps) {
         pointerEvents={expanded || isFirstIndex ? "auto" : "none"}
         transition={"opacity 150ms ease"}
       >
-        {record.description && showDescription ? (
-          <P color={"fg.muted"}>{record.description}</P>
-        ) : null}
+        {record.description && expanded && (
+          <P
+            ref={descriptionRef}
+            color={"fg.muted"}
+            lineClamp={showDescription ? undefined : 1}
+          >
+            {/* {record.description} */}
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores,
+            aperiam velit. Eum temporibus porro aliquam sint, aspernatur
+            consequuntur, nostrum voluptatem non distinctio sunt vel
+            voluptatibus, maxime amet sapiente suscipit eveniet?
+          </P>
+        )}
 
         {record.actions && record.actions.length > 0 ? (
           <HStack gap={2} mt={2}>

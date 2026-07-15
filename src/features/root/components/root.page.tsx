@@ -192,7 +192,7 @@ const Toast = () => {
               });
             }}
           >
-            Toast system 1
+            Toast system
           </Button>
 
           <Button
@@ -203,18 +203,18 @@ const Toast = () => {
               });
             }}
           >
-            Toast system 2
+            Toast system with desc
           </Button>
 
           <Button
             onClick={() => {
               toast.create({
-                group: "Update Layer WFS",
+                group: "Other Group",
                 title: "Toast title",
               });
             }}
           >
-            Toast 2
+            Toast Other Group
           </Button>
         </HStack>
       </Container.Body>
