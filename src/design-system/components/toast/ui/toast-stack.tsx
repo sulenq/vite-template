@@ -119,7 +119,7 @@ export function ToastStack<TItem>({
               zIndex={
                 expanded ? undefined : isStackedVisible ? maxVisible - index : 0
               }
-              mt={expanded ? 0 : index === 0 ? 0 : "-15%"}
+              mt={expanded ? 0 : index === 0 ? 0 : "-16%"}
               transition={"200ms"}
               transform={
                 expanded
