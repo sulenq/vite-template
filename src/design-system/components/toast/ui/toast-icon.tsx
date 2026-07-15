@@ -1,10 +1,4 @@
-import {
-  CheckCircle2,
-  XCircle,
-  AlertTriangle,
-  Info,
-  Loader2,
-} from "lucide-react";
+import { CheckCircle2, XCircle, AlertTriangle, Info, Loader2 } from "lucide-react";
 import type { ToastRecord } from "@/design-system/components/toast/types/toast.types";
 
 const VARIANT_ICON_MAP: Record<ToastRecord["variant"], React.ReactNode> = {

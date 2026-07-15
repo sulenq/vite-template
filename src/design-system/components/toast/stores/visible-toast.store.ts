@@ -23,18 +23,14 @@ export const useVisibleToastStore = create<VisibleToastStore>((set, get) => ({
   add: (record) =>
     set((state) => {
       const group = state.entries[record.group] ?? [];
-      return {
-        entries: { ...state.entries, [record.group]: [...group, record] },
-      };
+      return { entries: { ...state.entries, [record.group]: [...group, record] } };
     }),
 
   update: (id, patch) =>
     set((state) => {
       const next: Record<string, ToastRecord[]> = {};
       for (const [group, records] of Object.entries(state.entries)) {
-        next[group] = records.map((record) =>
-          record.id === id ? { ...record, ...patch } : record,
-        );
+        next[group] = records.map((record) => (record.id === id ? { ...record, ...patch } : record));
       }
       return { entries: next };
     }),
@@ -56,9 +52,7 @@ export const useVisibleToastStore = create<VisibleToastStore>((set, get) => ({
       const next: Record<string, ToastRecord[]> = {};
       for (const [group, records] of Object.entries(state.entries)) {
         next[group] = records.map((record) =>
-          record.id === toastId
-            ? { ...record, isDeletedFromHistory: true }
-            : record,
+          record.id === toastId ? { ...record, isDeletedFromHistory: true } : record,
         );
       }
       return { entries: next };

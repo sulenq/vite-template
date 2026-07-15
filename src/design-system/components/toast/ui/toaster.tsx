@@ -1,15 +1,40 @@
-import { Box, Portal } from "@chakra-ui/react";
-import { useVisibleToastGroups } from "@/design-system/components/toast/hooks/use-visible-toasts";
+import { VStack } from "@/design-system/components/layout/ui/flex-box";
+import {
+  getToastConfig,
+  type ToastPlacement,
+} from "@/design-system/components/toast/core/toast-config";
+import { toast } from "@/design-system/components/toast/core/toast-manager";
 import { usePageVisibility } from "@/design-system/components/toast/hooks/use-page-visibility";
-import { toast } from "@/design-system/components/toast/core/toast.manager";
-import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
-import { ToastStack } from "@/design-system/components/toast/ui/toast.stack";
-import { ToastItem } from "@/design-system/components/toast/ui/toast.item";
+import { useVisibleToastGroups } from "@/design-system/components/toast/hooks/use-visible-toasts";
+import { ToastItem } from "@/design-system/components/toast/ui/toast-item";
+import { ToastStack } from "@/design-system/components/toast/ui/toast-stack";
+import { Portal } from "@chakra-ui/react";
+
+const EDGE_OFFSET = 0;
+
+function getPlacementStyles(placement: ToastPlacement) {
+  const isTop = placement.startsWith("top");
+  const isCentered = placement === "top" || placement === "bottom";
+  const isEnd = placement.endsWith("end");
+
+  return {
+    top: isTop ? EDGE_OFFSET : undefined,
+    bottom: isTop ? undefined : EDGE_OFFSET,
+    left: isCentered ? "50%" : isEnd ? undefined : EDGE_OFFSET,
+    right: isCentered ? undefined : isEnd ? EDGE_OFFSET : undefined,
+    transform: isCentered ? "translateX(-50%)" : undefined,
+    // Newest group closest to the screen edge it's anchored to.
+    flexDirection: (isTop ? "column" : "column-reverse") as
+      | "column"
+      | "column-reverse",
+  };
+}
 
 export function Toaster() {
   usePageVisibility();
   const groups = useVisibleToastGroups();
-  const { maxVisiblePerGroup } = getToastConfig();
+  const { maxVisiblePerGroup, placement } = getToastConfig();
+  const placementStyles = getPlacementStyles(placement);
 
   return (
     <Portal>
@@ -20,16 +45,22 @@ export function Toaster() {
         }
       </style>
 
-      <Box
-        position="fixed"
-        bottom={4}
-        right={4}
-        display="flex"
-        flexDirection="column"
-        gap={3}
-        zIndex="toast"
-        width="360px"
-        maxWidth="calc(100vw - 32px)"
+      <VStack
+        flexDir={placementStyles.flexDirection}
+        gap={2}
+        position={"fixed"}
+        top={placementStyles.top}
+        bottom={placementStyles.bottom}
+        left={placementStyles.left}
+        right={placementStyles.right}
+        zIndex={"toast"}
+        overflowY={"auto"}
+        w={"360px"}
+        maxW={"calc(100vw - 32px)"}
+        h={"fit"}
+        maxH={"100dvh"}
+        p={4}
+        transform={placementStyles.transform}
       >
         {groups.map(({ group, ordered }) => (
           <ToastStack
@@ -38,13 +69,15 @@ export function Toaster() {
             items={ordered}
             getId={(record) => record.id}
             maxVisible={maxVisiblePerGroup}
-            renderItem={(record) => <ToastItem record={record} />}
+            renderItem={({ item, index, expanded }) => (
+              <ToastItem record={item} index={index} expanded={expanded} />
+            )}
             onCloseAll={() =>
               ordered.forEach((record) => toast.close(record.id))
             }
           />
         ))}
-      </Box>
+      </VStack>
     </Portal>
   );
 }

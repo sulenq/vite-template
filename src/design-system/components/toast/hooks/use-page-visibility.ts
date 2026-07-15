@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import {
   pauseAllTimers,
   resumeAllTimers,
-} from "@/design-system/components/toast/core/toast.manager";
+} from "@/design-system/components/toast/core/toast-manager";
 
 /**
  * Subscribes to `visibilitychange` once per mount and delegates directly to
@@ -21,7 +21,6 @@ export function usePageVisibility(): void {
     }
 
     document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () =>
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
   }, []);
 }

@@ -1,5 +1,5 @@
 import { useVisibleToastStore } from "@/design-system/components/toast/stores/visible-toast.store";
-import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
+import { getToastConfig } from "@/design-system/components/toast/core/toast-config";
 import type { ToastRecord } from "@/design-system/components/toast/types/toast.types";
 
 export type ToastGroupStack = {
@@ -8,10 +8,7 @@ export type ToastGroupStack = {
   ordered: ToastRecord[];
 };
 
-function orderRecords(
-  records: ToastRecord[],
-  newestOnTop: boolean,
-): ToastRecord[] {
+function orderRecords(records: ToastRecord[], newestOnTop: boolean): ToastRecord[] {
   const sorted = [...records].sort((a, b) => a.createdAt - b.createdAt);
   return newestOnTop ? sorted.reverse() : sorted;
 }

@@ -735,6 +735,12 @@ export const chakraConfig = defineConfig({
               _dark: "rgba(40, 40, 40, 0.5)",
             },
           },
+          backdrop: {
+            value: {
+              base: "{colors.blackAlpha.500}",
+              _dark: "{colors.blackAlpha.500}",
+            },
+          },
         },
 
         border: {

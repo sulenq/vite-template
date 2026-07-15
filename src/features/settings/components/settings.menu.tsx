@@ -65,7 +65,7 @@ export const SettingsMenuHeader = () => {
       </HStack>
 
       <P fontWeight={"semibold"} textAlign={"center"}>
-        Settings
+        {t["common.settings"]()}
       </P>
 
       <HStack>

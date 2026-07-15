@@ -1,3 +1,4 @@
+import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
 import type { ReactNode } from "react";
 
 export type ToastVariant =
@@ -22,6 +23,29 @@ export type DismissedReason =
 export type ToastAction = {
   label: string;
   onClick: (id: string) => void;
+};
+
+export type ToastStackProps<TItem> = {
+  groupLabel: string;
+  items: TItem[];
+  getId: (item: TItem) => string;
+  maxVisible: number;
+  renderItem: ({
+    item,
+    index,
+    expanded,
+  }: {
+    item: TItem;
+    index: number;
+    expanded?: boolean;
+  }) => ReactNode;
+  onCloseAll?: () => void;
+};
+
+export type ToastItemProps = StackProps & {
+  record: ToastRecord;
+  index: number;
+  expanded?: boolean;
 };
 
 /** Custom renderer receives the fully resolved record, fully replacing the default UI. */

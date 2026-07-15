@@ -1,4 +1,13 @@
-export const DEFAULT_TOAST_GROUP = "__default__";
+export const DEFAULT_TOAST_GROUP = "System";
+
+/** Mirrors Chakra's placement naming so it feels familiar. */
+export type ToastPlacement =
+  | "top-start"
+  | "top"
+  | "top-end"
+  | "bottom-start"
+  | "bottom"
+  | "bottom-end";
 
 export type ToastEngineConfig = {
   /** Default auto-dismiss duration in ms. */
@@ -15,17 +24,28 @@ export type ToastEngineConfig = {
   historyTTL: number | null;
   /** Whether toast-item renders a "removed from history" indicator by default. */
   showDeletedFromHistoryIndicator: boolean;
+  /**
+   * How long (ms) a toast stays in `status: "leaving"` before it's actually
+   * removed from the store. Match this to your own CSS exit-transition
+   * duration — if your transition is longer than this, the toast will pop
+   * out abruptly instead of finishing the animation.
+   */
+  leaveAnimationDuration: number;
+  /** Where the `<Toaster />` renders on screen. */
+  placement: ToastPlacement;
 };
 
 const DEFAULT_TOAST_CONFIG: ToastEngineConfig = {
-  defaultDuration: 20000, // TODO: change default duration to 5000
+  defaultDuration: null,
   maxVisiblePerGroup: 3,
   newestOnTop: true,
   duplicateStrategy: "replace",
   historyStorageKey: "design-system:toast-history",
   historyLimit: 200,
-  historyTTL: 1000 * 60 * 60 * 24, // 1 day
+  historyTTL: 1000 * 60 * 60 * 24 * 30, // 30 days
   showDeletedFromHistoryIndicator: false,
+  leaveAnimationDuration: 300,
+  placement: "top",
 };
 
 let currentConfig: ToastEngineConfig = { ...DEFAULT_TOAST_CONFIG };

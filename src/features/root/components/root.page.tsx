@@ -119,31 +119,9 @@ export const RootPage = () => {
       <Feedback />
       <DataDisplay />
       <Utilities />
+
+      <ColorModeToggleButton position={"fixed"} bottom={0} right={0} />
     </VStack>
-  );
-};
-
-const Toast = () => {
-  return (
-    <Container.Root w={"full"} px={SPACING_MD}>
-      <Container.Body gap={4} p={4}>
-        <P textAlign={"center"} fontWeight={"semibold"}>
-          Toast
-        </P>
-
-        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <Button
-            onClick={() => {
-              toast.create({
-                title: "Toast title",
-              });
-            }}
-          >
-            Toast
-          </Button>
-        </HStack>
-      </Container.Body>
-    </Container.Root>
   );
 };
 
@@ -192,6 +170,41 @@ const Branding = () => {
           <Logo />
 
           <BrandWatermark />
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+const Toast = () => {
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Toast
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <Button
+            onClick={() => {
+              toast.create({
+                title: "Toast title",
+              });
+            }}
+          >
+            Toast
+          </Button>
+
+          <Button
+            onClick={() => {
+              toast.create({
+                group: "Update Layer WFS",
+                title: "Toast title",
+              });
+            }}
+          >
+            Toast 2
+          </Button>
         </HStack>
       </Container.Body>
     </Container.Root>

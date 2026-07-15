@@ -22,7 +22,7 @@ import { Drawer } from "@/design-system/components/overlay/ui/drawer";
 import { triggerFullscreenAnimation } from "@/design-system/components/overlay/utils/fullscreen-animation-registry";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { type DrawerRootProps } from "@chakra-ui/react";
-import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
+import { IconSquare, IconSquares } from "@tabler/icons-react";
 import {
   createContext,
   useContext,
@@ -204,22 +204,13 @@ const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {
 };
 
 const ModalCloseButton = (props: ModalCloseButtonProps) => {
-  // Props
-  const { closeTriggerProps, ...restProps } = props;
+  // Contexts
+  const { isSmallViewport } = useModalContext();
 
-  return (
-    <Modal.CloseTrigger {...closeTriggerProps}>
-      <IconButton
-        size={"2xs"}
-        variant={"subtle"}
-        bg={"an1"}
-        rounded={"full"}
-        {...restProps}
-      >
-        <AppIcon icon={IconX} boxSize={4} />
-      </IconButton>
-    </Modal.CloseTrigger>
-  );
+  if (isSmallViewport) {
+    return <Drawer.CloseButton {...props} />;
+  }
+  return <Dialog.CloseButton {...props} />;
 };
 
 const ModalHeader = (props: ModalHeaderProps) => {

@@ -4,6 +4,7 @@
 
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
+import { CloseButton } from "@/design-system/components/button/ui/close-button";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { Box } from "@/design-system/components/layout/ui/box";
 import type {
@@ -17,7 +18,7 @@ import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { useFirstMountEffect } from "@/shared/hooks/use-first-mount-effect";
 import { back } from "@/shared/utils/client/navigation";
 import { Drawer as ChakraDrawer } from "@chakra-ui/react";
-import { IconSquare, IconSquares, IconX } from "@tabler/icons-react";
+import { IconSquare, IconSquares } from "@tabler/icons-react";
 import {
   createContext,
   useContext,
@@ -415,15 +416,13 @@ const DrawerCloseButton = (props: DrawerCloseButtonProps) => {
 
   return (
     <DrawerCloseTrigger {...closeTriggerProps}>
-      <IconButton
+      <CloseButton
         size={"2xs"}
         variant={"subtle"}
         bg={"an1"}
         rounded={"full"}
         {...restProps}
-      >
-        <AppIcon icon={IconX} boxSize={4} />
-      </IconButton>
+      />
     </DrawerCloseTrigger>
   );
 };

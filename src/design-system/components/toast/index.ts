@@ -1,10 +1,6 @@
-export { toast } from "@/design-system/components/toast/core/toast.manager";
-export { toastEventBus } from "@/design-system/components/toast/core/toast.event-bus";
-export {
-  configureToast,
-  getToastConfig,
-  DEFAULT_TOAST_GROUP,
-} from "@/design-system/components/toast/core/toast.config";
+export { toast } from "@/design-system/components/toast/core/toast-manager";
+export { toastEventBus } from "@/design-system/components/toast/core/event-bus";
+export { configureToast, getToastConfig, DEFAULT_TOAST_GROUP } from "@/design-system/components/toast/core/toast-config";
 
 export { useToast } from "@/design-system/components/toast/hooks/use-toast";
 export { useToastHistory } from "@/design-system/components/toast/hooks/use-toast-history";
@@ -27,4 +23,4 @@ export type {
   HistoryEntry,
   ToastEventMap,
 } from "@/design-system/components/toast/types/toast.types";
-export type { ToastEngineConfig } from "@/design-system/components/toast/core/toast.config";
+export type { ToastEngineConfig, ToastPlacement } from "@/design-system/components/toast/core/toast-config";
