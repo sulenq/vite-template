@@ -22,7 +22,7 @@ import type {
   SearchIndex,
   SearchIndexItem,
 } from "@/design-system/types/search.type";
-import { t } from "@/shared/libs/i18n/-typed";
+import { t } from "@/shared/libs/i18n";
 import { back } from "@/shared/utils/client/navigation";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import {

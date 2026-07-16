@@ -21,7 +21,7 @@ import { SettingsSearchButton } from "@/features/settings/components/settings.se
 import { SETTINGS_PAGES } from "@/features/settings/constants/settings.pages";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
 import { RootRoute } from "@/routes/-typed";
-import { t } from "@/shared/libs/i18n/-typed";
+import { t } from "@/shared/libs/i18n";
 import { back } from "@/shared/utils/client/navigation";
 import { IconChevronLeft } from "@tabler/icons-react";
 import {

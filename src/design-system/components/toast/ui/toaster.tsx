@@ -1,3 +1,5 @@
+// src/design-system/components/toast/ui/toaster.tsx
+
 import { VStack } from "@/design-system/components/layout/ui/flex-box";
 import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
 import { toast } from "@/design-system/components/toast/core/toast.manager";
@@ -6,7 +8,7 @@ import { useToastVisibleStore } from "@/design-system/components/toast/stores/to
 import type { ToastPlacement } from "@/design-system/components/toast/types/toast.types";
 import { ToastItem } from "@/design-system/components/toast/ui/toast.item";
 import { ToastStack } from "@/design-system/components/toast/ui/toast.stack";
-import { t } from "@/shared/libs/i18n/-typed";
+import { t } from "@/shared/libs/i18n";
 import { Portal } from "@chakra-ui/react";
 
 const EDGE_OFFSET = 0;

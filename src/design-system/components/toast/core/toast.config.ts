@@ -1,3 +1,5 @@
+// src/design-system/components/toast/core/toast.config.ts
+
 import type { ToastEngineConfig } from "@/design-system/components/toast/types/toast.types";
 
 export const DEFAULT_TOAST_GROUP = "Default";

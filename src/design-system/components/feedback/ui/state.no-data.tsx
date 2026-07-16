@@ -4,7 +4,7 @@
 
 import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback-state.type";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
-import { t } from "@/shared/libs/i18n/-typed";
+import { t } from "@/shared/libs/i18n";
 import { MehIcon } from "lucide-react";
 
 export const NoDataState = (props: FeedbackStateProps) => {

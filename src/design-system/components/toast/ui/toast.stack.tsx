@@ -1,3 +1,5 @@
+// src/design-system/components/toast/ui/toast.stack.tsx
+
 import {
   Button,
   IconButton,
@@ -10,7 +12,7 @@ import type { ToastStackProps } from "@/design-system/components/toast/types/toa
 import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { useFirstMountEffect } from "@/shared/hooks/use-first-mount-effect";
-import { t } from "@/shared/libs/i18n/-typed";
+import { t } from "@/shared/libs/i18n";
 import { Box } from "@chakra-ui/react";
 import { Minimize2Icon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";

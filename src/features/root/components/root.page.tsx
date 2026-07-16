@@ -58,11 +58,15 @@ import { Slider } from "@/design-system/components/input/ui/slider";
 import { Switch } from "@/design-system/components/input/ui/switch";
 import { Textarea } from "@/design-system/components/input/ui/textarea";
 import { Box } from "@/design-system/components/layout/ui/box";
-import { AbsoluteCenter } from "@/design-system/components/layout/ui/center";
+import {
+  AbsoluteCenter,
+  Center,
+} from "@/design-system/components/layout/ui/center";
 import { Container } from "@/design-system/components/layout/ui/container";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { SimpleGrid } from "@/design-system/components/layout/ui/grid";
 import { Group } from "@/design-system/components/layout/ui/group";
+import { Splitter } from "@/design-system/components/layout/ui/splitter";
 import { Image } from "@/design-system/components/media/ui/image";
 import { Link } from "@/design-system/components/navigation/ui/link";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
@@ -78,7 +82,7 @@ import { DownloadTrigger } from "@/design-system/components/utilities/ui/downloa
 import { SPACING_MD } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { SettingsTrigger } from "@/features/settings/components/settings";
-import { getLocale, getLocaleLabel } from "@/shared/libs/i18n/-typed";
+import { getLocale, getLocaleLabel } from "@/shared/libs/i18n";
 import { useLocale } from "@/shared/libs/i18n/locale-provider";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import {
@@ -104,6 +108,7 @@ import {
 import { useState } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
+import { useBreakpointValue } from "@/design-system/hooks";
 
 export const RootPage = () => {
   return (
@@ -111,6 +116,7 @@ export const RootPage = () => {
       <IntegratedFeatures />
       <Branding />
       <Toast />
+      <Layout />
       <Typography />
       <Navigation />
       <Buttons />
@@ -262,6 +268,50 @@ const Toast = () => {
           >
             Toast Other group with actions
           </Button>
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+const Layout = () => {
+  const orientation = useBreakpointValue<"horizontal" | "vertical">({
+    base: "vertical",
+    md: "horizontal",
+  });
+
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Layout
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <Splitter.Root
+            panels={[
+              { id: "a", minSize: 30 },
+              { id: "b", minSize: 30 },
+            ]}
+            defaultSize={[50, 50]}
+            orientation={orientation}
+            borderWidth={"1px"}
+            minH={"60"}
+          >
+            <Splitter.Panel id={"a"}>
+              <Center boxSize={"full"} textStyle={"2xl"}>
+                A
+              </Center>
+            </Splitter.Panel>
+
+            <Splitter.ResizeTrigger id={"a:b"} />
+
+            <Splitter.Panel id={"b"}>
+              <Center boxSize={"full"} textStyle={"2xl"}>
+                B
+              </Center>
+            </Splitter.Panel>
+          </Splitter.Root>
         </HStack>
       </Container.Body>
     </Container.Root>

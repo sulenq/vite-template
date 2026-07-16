@@ -1,5 +1,8 @@
+// src/design-system/components/layout/ui/splitter.tsx
+
 import type {
   SplitterPanelProps,
+  SplitterResizeTriggerIndicatorProps,
   SplitterResizeTriggerProps,
   SplitterRootProps,
 } from "@/design-system/components/layout/types/splitter.type";
@@ -9,16 +12,7 @@ import { forwardRef } from "react";
 
 const SplitterRoot = forwardRef<HTMLDivElement, SplitterRootProps>(
   (props, ref) => {
-    // Stores
-    const { theme } = useThemeStore();
-
-    return (
-      <ChakraSplitter.Root
-        ref={ref}
-        colorPalette={theme.colorPalette}
-        {...props}
-      />
-    );
+    return <ChakraSplitter.Root ref={ref} {...props} />;
   },
 );
 
@@ -32,11 +26,51 @@ const SplitterResizeTrigger = forwardRef<
   HTMLButtonElement,
   SplitterResizeTriggerProps
 >((props, ref) => {
-  return <ChakraSplitter.ResizeTrigger ref={ref} {...props} />;
+  // Stores
+  const { theme } = useThemeStore();
+
+  return (
+    <ChakraSplitter.Context>
+      {(context) => (
+        <ChakraSplitter.ResizeTrigger
+          ref={ref}
+          onDoubleClick={() => {
+            context.resetSizes();
+          }}
+          {...props}
+        >
+          <Splitter.ResizeTriggerIndicator
+            bg={"bg.body"}
+            _hover={{
+              bg: "bg.subtle",
+            }}
+            _active={{
+              bg: `${theme.colorPalette}.fg`,
+            }}
+          />
+          <Splitter.ResizeTriggerSeparator />
+        </ChakraSplitter.ResizeTrigger>
+      )}
+    </ChakraSplitter.Context>
+  );
 });
+
+const SplitterResizeTriggerIndicator = (
+  props: SplitterResizeTriggerIndicatorProps,
+) => {
+  return <ChakraSplitter.ResizeTriggerIndicator {...props} />;
+};
+
+const SplitterResizeTriggerSeparator = (
+  props: SplitterResizeTriggerIndicatorProps,
+) => {
+  return <ChakraSplitter.ResizeTriggerSeparator {...props} />;
+};
 
 export const Splitter = {
   Root: SplitterRoot,
   Panel: SplitterPanel,
   ResizeTrigger: SplitterResizeTrigger,
+  ResizeTriggerIndicator: SplitterResizeTriggerIndicator,
+  ResizeTriggerSeparator: SplitterResizeTriggerSeparator,
 };

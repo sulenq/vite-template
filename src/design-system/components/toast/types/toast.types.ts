@@ -1,3 +1,5 @@
+// src/design-system/components/toast/types/toast.types.ts
+
 import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
 import type { ReactNode } from "react";
 

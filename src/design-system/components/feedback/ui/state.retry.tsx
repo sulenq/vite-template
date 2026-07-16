@@ -7,7 +7,7 @@ import type { RetryStateProps } from "@/design-system/components/feedback/types/
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { VStack } from "@/design-system/components/layout/ui/flex-box";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import { t } from "@/shared/libs/i18n/-typed";
+import { t } from "@/shared/libs/i18n";
 import { AlertTriangleIcon } from "lucide-react";
 
 export const RetryState = (props: RetryStateProps) => {

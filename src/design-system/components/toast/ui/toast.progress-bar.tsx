@@ -1,3 +1,5 @@
+// src/design-system/components/toast/ui/toast.progress-bar.tsx
+
 import { Box } from "@/design-system/components/layout/ui/box";
 import type { ToastRecord } from "@/design-system/components/toast/types/toast.types";
 

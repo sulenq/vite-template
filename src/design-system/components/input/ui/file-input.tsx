@@ -22,7 +22,7 @@ import { ClampedP, P } from "@/design-system/components/typography/ui/p";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { useObjectUrl } from "@/shared/hooks/use-object-url";
-import { t } from "@/shared/libs/i18n/-typed";
+import { t } from "@/shared/libs/i18n";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import { formatFileSize, isImageFile } from "@/shared/utils/data/file";
 import { cssCalc } from "@/shared/utils/style/css-calc";

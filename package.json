@@ -17,7 +17,7 @@
     "i18n:compile": "npx @inlang/paraglide-js compile --project ./project.inlang"
   },
   "dependencies": {
-    "@chakra-ui/react": "^3.35.0",
+    "@chakra-ui/react": "^3.36.0",
     "@emotion/react": "^11.14.0",
     "@fontsource-variable/plus-jakarta-sans": "^5.2.8",
     "@fontsource-variable/wix-madefor-text": "^5.2.8",
