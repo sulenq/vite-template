@@ -7,6 +7,7 @@ import {
 import { ButtonGroup } from "@/design-system/components/button/ui/button-group";
 import { CloseButton } from "@/design-system/components/button/ui/close-button";
 import { Collapsible } from "@/design-system/components/disclosure/ui/collapsible";
+import { Loader } from "@/design-system/components/feedback/ui/loader";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
@@ -14,17 +15,58 @@ import {
   toast,
   toastTimerControls,
 } from "@/design-system/components/toast/core/toast.manager";
-import type { ToastItemProps } from "@/design-system/components/toast/types/toast.types";
+import type {
+  ToastItemProps,
+  ToastVariantMap,
+} from "@/design-system/components/toast/types/toast.types";
 import { ToastIcon } from "@/design-system/components/toast/ui/toast.icon";
 import { ToastProgressBar } from "@/design-system/components/toast/ui/toast.progress-bar";
 import { P } from "@/design-system/components/typography/ui/p";
-import { useColorModeValue } from "@/design-system/hooks/use-color-mode";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { useFirstMountEffect } from "@/shared/hooks/use-first-mount-effect";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import { tintDark } from "@/shared/utils/style/color";
-import { ChevronDownIcon } from "lucide-react";
+import {
+  AlertCircleIcon,
+  CheckCircle2Icon,
+  ChevronDownIcon,
+  InfoIcon,
+  XCircleIcon,
+} from "lucide-react";
 import { useState } from "react";
+
+export const TOAST_VARIANT_MAP: ToastVariantMap = {
+  success: {
+    icon: <AppIcon icon={CheckCircle2Icon} />,
+    bg: "bg.success",
+    color: "fg.success",
+  },
+  error: {
+    icon: <AppIcon icon={XCircleIcon} />,
+    bg: "bg.error",
+    color: "fg.error",
+  },
+  warning: {
+    icon: <AppIcon icon={AlertCircleIcon} />,
+    bg: "bg.warning",
+    color: "fg.warning",
+  },
+  info: {
+    icon: <AppIcon icon={InfoIcon} />,
+    bg: "bg.subtle",
+    color: "fg",
+  },
+  loading: {
+    icon: <Loader />,
+    bg: "bg.subtle",
+    color: "fg",
+  },
+  custom: {
+    icon: null,
+    bg: "transparent",
+    color: "transparent",
+  },
+};
 
 export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
   // Props
@@ -34,17 +76,7 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
   const { theme } = useThemeStore();
 
   // Hooks
-  const {
-    showDeletedFromHistoryIndicator,
-    maxVisiblePerGroup,
-    showProgressBar,
-  } = getToastConfig();
-
-  // Constants
-  const stackBg = useColorModeValue(
-    [tintDark("bg.body", 0), tintDark("bg.body", 2), tintDark("bg.body", 3)],
-    [tintDark("bg.body", 0), tintDark("bg.body", 8), tintDark("bg.body", 9)],
-  );
+  const { showDeletedFromHistoryIndicator, showProgressBar } = getToastConfig();
 
   // Derived Values
   const isFirstIndex = index === 0;
@@ -65,16 +97,6 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
     [stackExpanded],
   );
 
-  // useEffect(() => {
-  //   // Safety net: if this node unmounts while paused (e.g. a parent stack
-  //   // toggles expand/collapse mid-hover), the browser never fires
-  //   // `pointerleave`. Without this, the toast's timer would stay paused
-  //   // forever since nothing else would ever call resume.
-  //   return () => {
-  //     toastTimerControls.resumeIfOrphaned(record.id);
-  //   };
-  // }, [record.id]);
-
   if (record.variant === "custom" && record.renderer) {
     return <>{record.renderer(record)}</>;
   }
@@ -87,7 +109,7 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
       pos={"relative"}
       overflow={"clip"}
       p={3}
-      bg={stackExpanded ? "bg.body" : `${stackBg[index % maxVisiblePerGroup]}`}
+      bg={stackExpanded ? "bg.body" : tintDark("bg.body", index * 2)}
       border={"1px solid"}
       borderColor={"border.subtle"}
       rounded={theme.radii.container}
@@ -112,18 +134,28 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
     >
       {/* Header */}
       <HStack align={"center"} gap={2}>
-        <ToastIcon record={record} />
+        <ToastIcon
+          record={record}
+          icon={TOAST_VARIANT_MAP[record.variant].icon}
+          bg={TOAST_VARIANT_MAP[record.variant].bg}
+          color={TOAST_VARIANT_MAP[record.variant].color}
+        />
 
         {/* Title */}
-        {record.title ? (
-          <P fontWeight={"medium"} whiteSpace={"nowrap"}>
+        {record.title && (
+          <P
+            fontWeight={"medium"}
+            color={TOAST_VARIANT_MAP[record.variant].color}
+            whiteSpace={"nowrap"}
+          >
             {record.title}
           </P>
-        ) : null}
+        )}
 
         {/* Description (collapsed) */}
         {record.description && (
           <P
+            ml={1}
             fontSize={"sm"}
             color={"fg.subtle"}
             lineClamp={1}
@@ -189,8 +221,8 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
 
       {/* Content */}
       <VStack
-        pl={7}
-        mt={toastItemExpanded ? 2 : 0}
+        pl={8}
+        mt={toastItemExpanded ? 1 : 0}
         display={stackExpanded || isFirstIndex ? "flex" : "none"}
         opacity={stackExpanded || isFirstIndex ? 1 : 0}
         pointerEvents={stackExpanded || isFirstIndex ? "auto" : "none"}
@@ -211,7 +243,7 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
 
             {/* Actions */}
             {record.actions && !isEmptyArray(record.actions) && (
-              <ButtonGroup gap={2} mt={record.description ? 4 : 0}>
+              <ButtonGroup gap={2} mt={record.description ? 3 : 0}>
                 {record.actions.map((action, index) => (
                   <Button
                     key={index}

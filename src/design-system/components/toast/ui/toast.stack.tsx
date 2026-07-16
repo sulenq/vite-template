@@ -87,7 +87,7 @@ export function ToastStack<TItem>({
       gap={expanded ? 2 : 0}
       pointerEvents={"auto"}
     >
-      {/* Header [expanded] */}
+      {/* Header (expanded) */}
       <HStack
         justifyContent={"space-between"}
         align={"center"}
@@ -131,7 +131,7 @@ export function ToastStack<TItem>({
                 setExpanded(false);
               }}
             >
-              <AppIcon icon={Minimize2Icon} size={"sm"} />
+              <AppIcon icon={Minimize2Icon} size={"xs"} />
             </IconButton>
           </Tooltip>
         </Box>
@@ -178,8 +178,7 @@ export function ToastStack<TItem>({
                 pos={isCollapsed && !isRelative ? "absolute" : "relative"}
                 top={isCollapsed && !isRelative ? 0 : undefined}
                 right={isCollapsed && !isRelative ? 0 : undefined}
-                // bottom={isCollapsed && !isRelative ? 0 : undefined}
-                bottom={0}
+                bottom={isCollapsed && !isRelative ? 0 : undefined}
                 left={isCollapsed && !isRelative ? 0 : undefined}
                 overflow={
                   isCollapsed && !isRelative && !isLeaving ? "clip" : "visible"

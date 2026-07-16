@@ -8,7 +8,6 @@ export {
   DEFAULT_TOAST_GROUP,
 } from "@/design-system/components/toast/core/toast.config";
 
-export { useToast } from "@/design-system/components/toast/hooks/use-toast";
 export { useToastHistory } from "@/design-system/components/toast/hooks/use-toast-history";
 export {
   useVisibleToastGroups,

@@ -100,6 +100,7 @@ import {
   CogIcon,
   EditIcon,
   FolderIcon,
+  MessageSquareIcon,
   TrashIcon,
   Undo2Icon,
   UndoIcon,
@@ -195,6 +196,42 @@ const Toast = () => {
           <Button
             onClick={() => {
               toast.create({
+                variant: "success",
+                title: "All set — changes saved!",
+              });
+            }}
+          >
+            Toast success
+          </Button>
+
+          <Button
+            onClick={() => {
+              toast.create({
+                variant: "warning",
+                group: "Warning",
+                title: "Password strength: weak",
+              });
+            }}
+          >
+            Toast warning
+          </Button>
+
+          <Button
+            onClick={() => {
+              toast.create({
+                variant: "error",
+                title: "File to large",
+                description: "Max file size is 5MB",
+              });
+            }}
+          >
+            Toast error
+          </Button>
+
+          <Button
+            onClick={() => {
+              toast.create({
+                variant: "loading",
                 title: "Toast system 1",
                 quickAction: {
                   content: (
@@ -216,33 +253,11 @@ const Toast = () => {
           <Button
             onClick={() => {
               toast.create({
-                title: "Toast system 2",
+                icon: <AppIcon icon={MessageSquareIcon} size={"sm"} />,
+                group: "Message",
+                title: "Johan sent you a message",
                 description:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-              });
-            }}
-          >
-            Toast system with desc
-          </Button>
-
-          <Button
-            onClick={() => {
-              toast.create({
-                group: "Other group",
-                title: "Toast title",
-              });
-            }}
-          >
-            Toast Other group
-          </Button>
-
-          <Button
-            onClick={() => {
-              toast.create({
-                group: "Other group",
-                title: "Toast title",
-                description:
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                  "Lorem ipsum dolor sit amet, adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                 actions: [
                   {
                     content: "Mark as read",
@@ -266,7 +281,7 @@ const Toast = () => {
               });
             }}
           >
-            Toast Other group with actions
+            Toast with custom icon + actions
           </Button>
         </HStack>
       </Container.Body>

@@ -32,7 +32,7 @@ function getPlacementStyles(placement: ToastPlacement) {
 export function Toaster() {
   usePageVisibility();
 
-  const entries = useToastVisibleStore((state) => state.entries);
+  const entries = useToastVisibleStore((s) => s.entries);
   const { maxVisiblePerGroup, placement, newestOnTop } = getToastConfig();
   const placementStyles = getPlacementStyles(placement);
 
@@ -61,6 +61,7 @@ export function Toaster() {
         transform={placementStyles.transform}
         transition={"200ms"}
         pointerEvents={"none"}
+        userSelect={"none"}
         css={{
           "&:has([data-state='expanded'])": {
             bg: "bg.backdrop",

@@ -1,5 +1,6 @@
 // src/design-system/components/toast/types/toast.types.ts
 
+import type { CenterProps } from "@/design-system/components/layout/types/center.type";
 import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
 import type { ReactNode } from "react";
 
@@ -21,6 +22,20 @@ export type DismissedReason =
   | "closeAll"
   | "replaced"
   | "unknown";
+
+export type ToastIconProps = CenterProps & {
+  record: ToastRecord;
+  icon?: ReactNode;
+};
+
+export type ToastVariantMap = Record<
+  ToastRecord["variant"],
+  {
+    icon: React.ReactNode;
+    bg: string;
+    color: string;
+  }
+>;
 
 export type ToastAction = {
   content: ReactNode;
