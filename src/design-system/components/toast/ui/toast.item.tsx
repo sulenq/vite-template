@@ -68,12 +68,11 @@ export function ToastItem(props: ToastItemProps) {
 
     checkExpandable();
 
-    // handle resize (misal window resize, font load, dsb)
-    const resizeObserver = new ResizeObserver(checkExpandable);
-    resizeObserver.observe(el);
+    // const resizeObserver = new ResizeObserver(checkExpandable);
+    // resizeObserver.observe(el);
 
-    return () => resizeObserver.disconnect();
-  }, [record.description]);
+    // return () => resizeObserver.disconnect();
+  }, [expanded]);
 
   if (record.variant === "custom" && record.renderer) {
     return <>{record.renderer(record)}</>;

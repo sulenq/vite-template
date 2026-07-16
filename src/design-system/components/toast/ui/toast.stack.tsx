@@ -145,7 +145,6 @@ export function ToastStack<TItem>({
               data-stack-state={
                 expanded ? "expanded" : isStackedVisible ? "stacked" : "hidden"
               }
-              display={!expanded && !isStackedVisible ? "none" : "block"}
               pos={isCollapsed && !isFirstIndex ? "absolute" : "relative"}
               top={isCollapsed && !isFirstIndex ? 0 : undefined}
               right={isCollapsed && !isFirstIndex ? 0 : undefined}
@@ -156,14 +155,15 @@ export function ToastStack<TItem>({
               zIndex={
                 expanded ? undefined : isStackedVisible ? maxVisible - index : 0
               }
+              mt={expanded && index > 0 ? 2 : 0}
+              opacity={!expanded && !isStackedVisible ? 0 : 1}
               transformOrigin={"bottom"}
               transform={
                 isCollapsed && !isFirstIndex
                   ? `scale(${1 - index * 0.05}) translateY(${index * 34 - index * (20 + index * 2)}px)`
                   : "scale(1)"
               }
-              mt={expanded && index > 0 ? 2 : 0}
-              transition={"transform 200ms ease, margin-top 200ms ease"}
+              transition={"transform 300ms ease, margin-top 300ms ease"}
               pointerEvents={expanded || isFirstIndex ? "auto" : "none"}
             >
               {renderItem({
