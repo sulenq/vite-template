@@ -23,6 +23,7 @@ export function ToastStack<TItem>({
   renderItem,
   onCloseAll,
   onClickOutside,
+  isItemLeaving,
 }: ToastStackProps<TItem>) {
   // Stores
   const { theme } = useThemeStore();
@@ -138,10 +139,13 @@ export function ToastStack<TItem>({
           const isStackedVisible = index < maxVisible;
           const isFirstIndex = index === 0;
           const isCollapsed = !expanded;
+          const isLeaving = isItemLeaving?.(item) ?? false;
 
           return (
             <Box
               key={getId(item)}
+              display={"grid"}
+              gridTemplateRows={isLeaving ? "0fr" : "1fr"}
               data-stack-state={
                 expanded ? "expanded" : isStackedVisible ? "stacked" : "hidden"
               }
@@ -150,12 +154,12 @@ export function ToastStack<TItem>({
               right={isCollapsed && !isFirstIndex ? 0 : undefined}
               bottom={isCollapsed && !isFirstIndex ? 0 : undefined}
               left={isCollapsed && !isFirstIndex ? 0 : undefined}
-              overflow={isCollapsed && !isFirstIndex ? "clip" : undefined}
+              overflow={isCollapsed && !isFirstIndex ? "clip" : "visible"}
               rounded={theme.radii.container}
               zIndex={
                 expanded ? undefined : isStackedVisible ? maxVisible - index : 0
               }
-              mt={expanded && index > 0 ? 2 : 0}
+              mt={expanded && index > 0 && !isLeaving ? 2 : 0}
               opacity={!expanded && !isStackedVisible ? 0 : 1}
               transformOrigin={"bottom"}
               transform={
@@ -163,14 +167,18 @@ export function ToastStack<TItem>({
                   ? `scale(${1 - index * 0.05}) translateY(${index * 34 - index * (20 + index * 2)}px)`
                   : "scale(1)"
               }
-              transition={"transform 300ms ease, margin-top 300ms ease"}
+              transition={
+                "transform 300ms ease, margin-top 300ms ease, opacity 300ms ease, grid-template-rows 300ms ease"
+              }
               pointerEvents={expanded || isFirstIndex ? "auto" : "none"}
             >
-              {renderItem({
-                item,
-                index,
-                expanded,
-              })}
+              <Box minH={"0px"} overflow={"visible"}>
+                {renderItem({
+                  item,
+                  index,
+                  expanded,
+                })}
+              </Box>
             </Box>
           );
         })}

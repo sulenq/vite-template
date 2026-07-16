@@ -85,6 +85,7 @@ export function Toaster() {
           onCloseAll={() =>
             visibleToasts.forEach((record) => toast.close(record.id))
           }
+          isItemLeaving={(record) => record.status === "leaving"}
         />
       </VStack>
     </Portal>

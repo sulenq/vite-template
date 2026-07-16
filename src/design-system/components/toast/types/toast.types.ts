@@ -39,6 +39,7 @@ export type ToastStackProps<TItem> = {
   renderItem: (params: ToastRenderItemParams<TItem>) => ReactNode;
   onCloseAll?: () => void;
   onClickOutside?: (event: MouseEvent | TouchEvent) => void;
+  isItemLeaving?: (item: TItem) => boolean;
 };
 
 export type ToastItemProps = StackProps & {
