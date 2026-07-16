@@ -79,8 +79,8 @@ export function Toaster() {
           items={visibleToasts}
           getId={(record) => record.id}
           maxVisible={maxVisiblePerGroup}
-          renderItem={({ item, index, expanded }) => (
-            <ToastItem record={item} index={index} expanded={expanded} />
+          renderItem={({ item, index, stackExpanded }) => (
+            <ToastItem record={item} index={index} stackExpanded={stackExpanded} />
           )}
           onCloseAll={() =>
             visibleToasts.forEach((record) => toast.close(record.id))

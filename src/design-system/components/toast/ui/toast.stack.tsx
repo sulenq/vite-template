@@ -176,7 +176,7 @@ export function ToastStack<TItem>({
                 {renderItem({
                   item,
                   index,
-                  expanded,
+                  stackExpanded: expanded,
                 })}
               </Box>
             </Box>

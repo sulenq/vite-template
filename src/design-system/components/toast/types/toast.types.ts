@@ -28,7 +28,7 @@ export type ToastAction = {
 export type ToastRenderItemParams<TItem> = {
   item: TItem;
   index: number;
-  expanded?: boolean;
+  stackExpanded?: boolean;
 };
 
 export type ToastStackProps<TItem> = {

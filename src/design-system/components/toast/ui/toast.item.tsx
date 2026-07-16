@@ -14,21 +14,16 @@ import { ToastProgressBar } from "@/design-system/components/toast/ui/toast.prog
 import { P } from "@/design-system/components/typography/ui/p";
 import { useColorModeValue } from "@/design-system/hooks/use-color-mode";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import { useFirstMountEffect } from "@/shared/hooks/use-first-mount-effect";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import { tintDark } from "@/shared/utils/style/color";
-import { cssCalc } from "@/shared/utils/style/css-calc";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
-export function ToastItem(props: ToastItemProps) {
+export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
   // Props
-  const { record, index, expanded, ...restProps } = props;
+  const { record, index, stackExpanded, ...restProps } = props;
 
   // Stores
   const { theme } = useThemeStore();
-
-  // Refs
-  const descriptionRef = useRef<HTMLParagraphElement>(null);
 
   // Hooks
   const {
@@ -47,15 +42,8 @@ export function ToastItem(props: ToastItemProps) {
   const isFirstIndex = index === 0;
 
   // States
-  const [description, setDescription] = useState<{
-    expanded: boolean;
-    scrollHeight: number;
-    clientHeight: number;
-  }>({
-    expanded: false,
-    scrollHeight: 0,
-    clientHeight: 0,
-  });
+  const [isDescriptionExpanded, setIsDescriptionExpanded] =
+    useState<boolean>(false);
 
   useEffect(() => {
     // Safety net: if this node unmounts while paused (e.g. a parent stack
@@ -67,43 +55,9 @@ export function ToastItem(props: ToastItemProps) {
     };
   }, [record.id]);
 
-  useLayoutEffect(() => {
-    const el = descriptionRef.current;
-    if (!el) return;
-
-    const checkExpandable = () => {
-      console.log(el.scrollHeight, el.clientHeight);
-      setDescription((prev) => ({
-        ...prev,
-        scrollHeight: el.scrollHeight,
-        clientHeight: el.clientHeight,
-      }));
-    };
-
-    checkExpandable();
-
-    const resizeObserver = new ResizeObserver(checkExpandable);
-    resizeObserver.observe(el);
-
-    return () => resizeObserver.disconnect();
-  }, [expanded, record.description]);
-
-  useFirstMountEffect(
-    {
-      onUpdate: () => {
-        if (!expanded) {
-          setDescription((prev) => ({ ...prev, expanded: false }));
-        }
-      },
-    },
-    [expanded],
-  );
-
   if (record.variant === "custom" && record.renderer) {
     return <>{record.renderer(record)}</>;
   }
-
-  // console.log(description);
 
   return (
     <VStack
@@ -112,16 +66,15 @@ export function ToastItem(props: ToastItemProps) {
       role={record.variant === "error" ? "alert" : "status"}
       pos={"relative"}
       overflow={"clip"}
-      gap={1}
       p={3}
-      bg={expanded ? "bg.body" : stackBg[index % maxVisiblePerGroup]}
+      bg={stackExpanded ? "bg.body" : stackBg[index % maxVisiblePerGroup]}
       border={"1px solid"}
       borderColor={"border.subtle"}
       rounded={theme.radii.container}
       shadow={"md"}
       opacity={record.status === "visible" ? 1 : 0}
       tabIndex={0}
-      cursor={!expanded || record.description ? "pointer" : "auto"}
+      cursor={!stackExpanded || record.description ? "pointer" : "auto"}
       transition={"200ms"}
       transform={
         record.status === "visible" ? "translateY(0)" : "translateY(-6px)"
@@ -132,8 +85,8 @@ export function ToastItem(props: ToastItemProps) {
         if (event.key === "Escape") toast.close(record.id);
       }}
       onClick={() => {
-        if (!expanded || !record.description) return;
-        setDescription((prev) => ({ ...prev, expanded: !prev.expanded }));
+        if (!stackExpanded || !record.description) return;
+        setIsDescriptionExpanded((prev) => !prev);
       }}
       {...restProps}
     >
@@ -152,25 +105,11 @@ export function ToastItem(props: ToastItemProps) {
         {record.description && (
           <P
             fontSize={"sm"}
-            pos={description.expanded ? "absolute" : undefined}
-            // pos={"absolute"}
-            left={"152px"}
-            top={"14px"}
-            w={
-              description.expanded
-                ? cssCalc(`100% - 28px - 16px - 16px`)
-                : "full"
-            }
-            // w={cssCalc(`100% - 28px - 16px - 16px`)}
+            color={"fg.subtle"}
+            lineClamp={1}
             mt={"1px"}
-            color={description.expanded ? "fg.muted" : "fg.subtle"}
-            // color={"red"}
-            // lineClamp={1}
-            lineClamp={description.expanded ? undefined : 1}
-            // opacity={description.expanded ? 0 : 1}
-            transformOrigin={"top"}
-            transform={description.expanded ? "translate(-112px, 25px)" : ""}
-            transition={"transform 200ms, color 200ms"}
+            opacity={isDescriptionExpanded ? 0 : 1}
+            transition={"200ms"}
           >
             {record.description}
           </P>
@@ -209,40 +148,25 @@ export function ToastItem(props: ToastItemProps) {
       {/* Content */}
       <VStack
         pl={7}
-        display={expanded || isFirstIndex ? "flex" : "none"}
-        opacity={expanded || isFirstIndex ? 1 : 0}
-        pointerEvents={expanded || isFirstIndex ? "auto" : "none"}
+        mt={isDescriptionExpanded ? 2 : 0}
+        display={stackExpanded || isFirstIndex ? "flex" : "none"}
+        opacity={stackExpanded || isFirstIndex ? 1 : 0}
+        pointerEvents={stackExpanded || isFirstIndex ? "auto" : "none"}
         transition={"opacity 200ms"}
       >
         {/* Description */}
-        {record.description && expanded && (
-          <Collapsible.Root open={description.expanded}>
+        {record.description && stackExpanded && (
+          <Collapsible.Root open={isDescriptionExpanded}>
             <Collapsible.Content>
               <P
-                color={"transparent"}
-                // color={"red"}
+                color={"fg.muted"}
                 fontSize={"sm"}
-                lineClamp={description.expanded ? undefined : 1}
+                lineClamp={isDescriptionExpanded ? undefined : 1}
               >
                 {record.description}
               </P>
             </Collapsible.Content>
           </Collapsible.Root>
-          // <Box
-          //   w={"full"}
-          //   maxH={description.expanded ? "500px" : "20px"}
-          //   transition={"max-height 300ms ease"}
-          //   overflow={"hidden"}
-          // >
-          //   <P
-          //     ref={descriptionRef}
-          //     color={"fg.muted"}
-          //     fontSize={"sm"}
-          //     lineClamp={description.expanded ? undefined : 1}
-          //   >
-          //     {record.description}
-          //   </P>
-          // </Box>
         )}
 
         {/* Actions */}
