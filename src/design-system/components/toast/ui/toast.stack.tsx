@@ -142,11 +142,15 @@ export function ToastStack<TItem>({
             return nonLeavingCount++;
           });
 
+          const hasVisibleItems = nonLeavingCount > 0;
+
           return items.map((item, index) => {
             const visualIndex = visualIndexes[index];
             const isLeaving = visualIndex === -1;
             const isStackedVisible =
               visualIndex > -1 && visualIndex < maxVisible;
+            const isRelative =
+              (!hasVisibleItems && index === 0) || visualIndex === 0;
             const isFirstVisual = visualIndex === 0;
             const isCollapsed = !expanded;
 
@@ -162,22 +166,18 @@ export function ToastStack<TItem>({
                       ? "stacked"
                       : "hidden"
                 }
-                pos={isCollapsed && !isFirstVisual ? "absolute" : "relative"}
-                top={isCollapsed && !isFirstVisual ? 0 : undefined}
-                right={isCollapsed && !isFirstVisual ? 0 : undefined}
-                bottom={isCollapsed && !isFirstVisual ? 0 : undefined}
-                left={isCollapsed && !isFirstVisual ? 0 : undefined}
-                overflow={isCollapsed && !isFirstVisual ? "clip" : "visible"}
-                rounded={theme.radii.container}
-                zIndex={
-                  expanded
-                    ? undefined
-                    : isStackedVisible
-                      ? maxVisible - visualIndex
-                      : 0
+                pos={isCollapsed && !isRelative ? "absolute" : "relative"}
+                top={isCollapsed && !isRelative ? 0 : undefined}
+                right={isCollapsed && !isRelative ? 0 : undefined}
+                bottom={isCollapsed && !isRelative ? 0 : undefined}
+                left={isCollapsed && !isRelative ? 0 : undefined}
+                overflow={
+                  isCollapsed && !isRelative && !isLeaving ? "clip" : "visible"
                 }
+                rounded={theme.radii.container}
+                zIndex={items.length - index}
                 mt={expanded && index > 0 && !isLeaving ? 2 : 0}
-                opacity={!expanded && !isStackedVisible ? 0 : 1}
+                opacity={!expanded && !isStackedVisible && !isLeaving ? 0 : 1}
                 transformOrigin={"bottom"}
                 transform={
                   isCollapsed && !isFirstVisual && !isLeaving
