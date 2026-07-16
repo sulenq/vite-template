@@ -98,6 +98,7 @@ import {
   FolderIcon,
   TrashIcon,
   Undo2Icon,
+  UndoIcon,
   UserIcon,
 } from "lucide-react";
 import { useState } from "react";
@@ -189,21 +190,29 @@ const Toast = () => {
             onClick={() => {
               toast.create({
                 title: "Toast system 1",
-                inlineAction: {
-                  label: "Undo",
-                  onClick: () => {},
+                quickAction: {
+                  content: (
+                    <>
+                      <AppIcon icon={UndoIcon} size={"xs"} />
+                      Undo
+                    </>
+                  ),
+                  onClick: () => {
+                    console.log("Undo");
+                  },
                 },
               });
             }}
           >
-            Toast system with inline action
+            Toast system with quick action
           </Button>
 
           <Button
             onClick={() => {
               toast.create({
                 title: "Toast system 2",
-                description: "Desc toast system 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                description:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
               });
             }}
           >
@@ -213,12 +222,45 @@ const Toast = () => {
           <Button
             onClick={() => {
               toast.create({
-                group: "Other Group",
+                group: "Other group",
                 title: "Toast title",
               });
             }}
           >
-            Toast Other Group
+            Toast Other group
+          </Button>
+
+          <Button
+            onClick={() => {
+              toast.create({
+                group: "Other group",
+                title: "Toast title",
+                description:
+                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                actions: [
+                  {
+                    content: "Mark as read",
+                    onClick: () => {
+                      console.log("Mark as read");
+                    },
+                  },
+                  {
+                    content: "Reply",
+                    onClick: () => {
+                      console.log("Reply");
+                    },
+                  },
+                  {
+                    content: "Mute",
+                    onClick: () => {
+                      console.log("Mute");
+                    },
+                  },
+                ],
+              });
+            }}
+          >
+            Toast Other group with actions
           </Button>
         </HStack>
       </Container.Body>

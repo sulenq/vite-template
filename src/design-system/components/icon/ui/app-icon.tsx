@@ -15,7 +15,7 @@ export const AppIcon = (props: AppIconProps) => {
 
   // Constants
   const sizes = {
-    xs: 3,
+    xs: 3.5,
     sm: 4,
     md: 5,
     lg: 6,

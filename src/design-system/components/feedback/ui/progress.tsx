@@ -14,9 +14,13 @@ import type {
   ProgressCircleValueTextProps,
   ProgressCircleLabelProps,
 } from "@/design-system/components/feedback/types/progress.type";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 
 export const ProgressRoot = (props: ProgressRootProps) => {
-  return <ChakraProgress.Root {...props} />;
+  // Stores
+  const { theme } = useThemeStore();
+
+  return <ChakraProgress.Root colorPalette={theme.colorPalette} {...props} />;
 };
 
 export const ProgressTrack = (props: ProgressTrackProps) => {
@@ -41,7 +45,12 @@ export const Progress = {
 // -------------------------------------------------------------------------------------
 
 export const ProgressCircleRoot = (props: ProgressCircleRootProps) => {
-  return <ChakraProgressCircle.Root {...props} />;
+  // Stores
+  const { theme } = useThemeStore();
+
+  return (
+    <ChakraProgressCircle.Root colorPalette={theme.colorPalette} {...props} />
+  );
 };
 
 export const ProgressCircleCircle = (props: ProgressCircleCircleProps) => {

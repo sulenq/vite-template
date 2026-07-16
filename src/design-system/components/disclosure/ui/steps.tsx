@@ -20,83 +20,82 @@ import type {
   StepsNumberProps,
   StepsStatusProps,
 } from "@/design-system/components/disclosure/type/steps.type";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 
-const StepsRoot = forwardRef<HTMLDivElement, StepsRootProps>(
-  (props, ref) => {
-    return <ChakraSteps.Root ref={ref} {...props} />;
-  }
-);
+const StepsRoot = forwardRef<HTMLDivElement, StepsRootProps>((props, ref) => {
+  // Stores
+  const { theme } = useThemeStore();
 
-const StepsList = forwardRef<HTMLDivElement, StepsListProps>(
-  (props, ref) => {
-    return <ChakraSteps.List ref={ref} {...props} />;
-  }
-);
+  return (
+    <ChakraSteps.Root ref={ref} colorPalette={theme.colorPalette} {...props} />
+  );
+});
 
-const StepsItem = forwardRef<HTMLDivElement, StepsItemProps>(
-  (props, ref) => {
-    return <ChakraSteps.Item ref={ref} {...props} />;
-  }
-);
+const StepsList = forwardRef<HTMLDivElement, StepsListProps>((props, ref) => {
+  return <ChakraSteps.List ref={ref} {...props} />;
+});
+
+const StepsItem = forwardRef<HTMLDivElement, StepsItemProps>((props, ref) => {
+  return <ChakraSteps.Item ref={ref} {...props} />;
+});
 
 const StepsTrigger = forwardRef<HTMLButtonElement, StepsTriggerProps>(
   (props, ref) => {
     return <ChakraSteps.Trigger ref={ref} {...props} />;
-  }
+  },
 );
 
 const StepsIndicator = forwardRef<HTMLDivElement, StepsIndicatorProps>(
   (props, ref) => {
     return <ChakraSteps.Indicator ref={ref} {...props} />;
-  }
+  },
 );
 
 const StepsSeparator = forwardRef<HTMLDivElement, StepsSeparatorProps>(
   (props, ref) => {
     return <ChakraSteps.Separator ref={ref} {...props} />;
-  }
+  },
 );
 
 const StepsContent = forwardRef<HTMLDivElement, StepsContentProps>(
   (props, ref) => {
     return <ChakraSteps.Content ref={ref} {...props} />;
-  }
+  },
 );
 
-const StepsCompletedContent = forwardRef<HTMLDivElement, StepsCompletedContentProps>(
-  (props, ref) => {
-    return <ChakraSteps.CompletedContent ref={ref} {...props} />;
-  }
-);
+const StepsCompletedContent = forwardRef<
+  HTMLDivElement,
+  StepsCompletedContentProps
+>((props, ref) => {
+  return <ChakraSteps.CompletedContent ref={ref} {...props} />;
+});
 
 const StepsNextTrigger = forwardRef<HTMLButtonElement, StepsNextTriggerProps>(
   (props, ref) => {
     return <ChakraSteps.NextTrigger ref={ref} {...props} />;
-  }
+  },
 );
 
 const StepsPrevTrigger = forwardRef<HTMLButtonElement, StepsPrevTriggerProps>(
   (props, ref) => {
     return <ChakraSteps.PrevTrigger ref={ref} {...props} />;
-  }
+  },
 );
 
-const StepsTitle = forwardRef<HTMLDivElement, StepsTitleProps>(
-  (props, ref) => {
-    return <ChakraSteps.Title ref={ref} {...props} />;
-  }
-);
+const StepsTitle = forwardRef<HTMLDivElement, StepsTitleProps>((props, ref) => {
+  return <ChakraSteps.Title ref={ref} {...props} />;
+});
 
 const StepsDescription = forwardRef<HTMLDivElement, StepsDescriptionProps>(
   (props, ref) => {
     return <ChakraSteps.Description ref={ref} {...props} />;
-  }
+  },
 );
 
 const StepsNumber = forwardRef<HTMLDivElement, StepsNumberProps>(
   (props, ref) => {
     return <ChakraSteps.Number ref={ref} {...props} />;
-  }
+  },
 );
 
 const StepsStatus = (props: StepsStatusProps) => {

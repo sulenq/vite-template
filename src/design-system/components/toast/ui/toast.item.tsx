@@ -1,7 +1,11 @@
-import { Button } from "@/design-system/components/button/ui/button";
+import {
+  Button,
+  IconButton,
+} from "@/design-system/components/button/ui/button";
 import { ButtonGroup } from "@/design-system/components/button/ui/button-group";
 import { CloseButton } from "@/design-system/components/button/ui/close-button";
 import { Collapsible } from "@/design-system/components/disclosure/ui/collapsible";
+import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
 import {
@@ -14,9 +18,11 @@ import { ToastProgressBar } from "@/design-system/components/toast/ui/toast.prog
 import { P } from "@/design-system/components/typography/ui/p";
 import { useColorModeValue } from "@/design-system/hooks/use-color-mode";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
+import { useFirstMountEffect } from "@/shared/hooks/use-first-mount-effect";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import { tintDark } from "@/shared/utils/style/color";
-import { useEffect, useState } from "react";
+import { ChevronDownIcon } from "lucide-react";
+import { useState } from "react";
 
 export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
   // Props
@@ -40,20 +46,32 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
 
   // Derived Values
   const isFirstIndex = index === 0;
+  const hasExpandableContent = Boolean(
+    record.description || (record.actions && !isEmptyArray(record.actions)),
+  );
 
   // States
-  const [isDescriptionExpanded, setIsDescriptionExpanded] =
-    useState<boolean>(false);
+  const [toastItemExpanded, setToastItemExpanded] = useState<boolean>(false);
 
-  useEffect(() => {
-    // Safety net: if this node unmounts while paused (e.g. a parent stack
-    // toggles expand/collapse mid-hover), the browser never fires
-    // `pointerleave`. Without this, the toast's timer would stay paused
-    // forever since nothing else would ever call resume.
-    return () => {
-      toastTimerControls.resumeIfOrphaned(record.id);
-    };
-  }, [record.id]);
+  // Collapse item when stack is collapsed
+  useFirstMountEffect(
+    {
+      onUpdate: () => {
+        if (stackExpanded === false) setToastItemExpanded(false);
+      },
+    },
+    [stackExpanded],
+  );
+
+  // useEffect(() => {
+  //   // Safety net: if this node unmounts while paused (e.g. a parent stack
+  //   // toggles expand/collapse mid-hover), the browser never fires
+  //   // `pointerleave`. Without this, the toast's timer would stay paused
+  //   // forever since nothing else would ever call resume.
+  //   return () => {
+  //     toastTimerControls.resumeIfOrphaned(record.id);
+  //   };
+  // }, [record.id]);
 
   if (record.variant === "custom" && record.renderer) {
     return <>{record.renderer(record)}</>;
@@ -67,14 +85,14 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
       pos={"relative"}
       overflow={"clip"}
       p={3}
-      bg={stackExpanded ? "bg.body" : stackBg[index % maxVisiblePerGroup]}
+      bg={stackExpanded ? "bg.body" : `${stackBg[index % maxVisiblePerGroup]}`}
       border={"1px solid"}
       borderColor={"border.subtle"}
       rounded={theme.radii.container}
       shadow={"md"}
       opacity={record.status === "visible" ? 1 : 0}
       tabIndex={0}
-      cursor={!stackExpanded || record.description ? "pointer" : "auto"}
+      cursor={!stackExpanded || hasExpandableContent ? "pointer" : "auto"}
       transform={
         record.status === "visible" ? "translateY(0)" : "translateY(-20px)"
       }
@@ -85,8 +103,8 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
         if (event.key === "Escape") toast.close(record.id);
       }}
       onClick={() => {
-        if (!stackExpanded || !record.description) return;
-        setIsDescriptionExpanded((prev) => !prev);
+        if (!stackExpanded || !hasExpandableContent) return;
+        setToastItemExpanded((prev) => !prev);
       }}
       {...restProps}
     >
@@ -108,7 +126,7 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
             color={"fg.subtle"}
             lineClamp={1}
             mt={"1px"}
-            opacity={isDescriptionExpanded ? 0 : 1}
+            opacity={toastItemExpanded ? 0 : 1}
             transition={"200ms"}
           >
             {record.description}
@@ -116,25 +134,47 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
         )}
 
         {/* Actions */}
-        <HStack align={"center"} gap={2} ml={"auto"}>
-          {record.inlineAction && (
+        <HStack align={"center"} gap={1} ml={"auto"}>
+          {record.quickAction && (
             <Button
+              variant={"subtle"}
               size={"2xs"}
+              rounded={"full"}
               fontSize={"sm"}
-              variant={"outline"}
               onClick={(event) => {
                 event.stopPropagation();
-                record?.inlineAction?.onClick(record.id);
+                record?.quickAction?.onClick(record.id);
               }}
             >
-              {record.inlineAction.label}
+              {record.quickAction.content}
             </Button>
+          )}
+
+          {hasExpandableContent && (
+            <IconButton
+              variant={"subtle"}
+              size={"2xs"}
+              rounded={"full"}
+              onClick={(event) => {
+                if (stackExpanded) event.stopPropagation();
+                setToastItemExpanded((prev) => !prev);
+              }}
+            >
+              <AppIcon
+                icon={ChevronDownIcon}
+                size={"sm"}
+                transform={
+                  toastItemExpanded ? "rotate(180deg)" : "rotate(0deg)"
+                }
+                transition={"transform 200ms"}
+              />
+            </IconButton>
           )}
 
           <CloseButton
             aria-label={"Close notification"}
-            size={"2xs"}
             variant={"subtle"}
+            size={"2xs"}
             rounded={"full"}
             boxSize={3.5}
             onClick={(event: React.MouseEvent) => {
@@ -148,50 +188,54 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
       {/* Content */}
       <VStack
         pl={7}
-        mt={isDescriptionExpanded ? 2 : 0}
+        mt={toastItemExpanded ? 2 : 0}
         display={stackExpanded || isFirstIndex ? "flex" : "none"}
         opacity={stackExpanded || isFirstIndex ? 1 : 0}
         pointerEvents={stackExpanded || isFirstIndex ? "auto" : "none"}
         transition={"opacity 200ms"}
       >
-        {/* Description */}
-        {record.description && stackExpanded && (
-          <Collapsible.Root open={isDescriptionExpanded}>
-            <Collapsible.Content>
+        <Collapsible.Root open={toastItemExpanded}>
+          <Collapsible.Content>
+            {/* Description */}
+            {record.description && stackExpanded && (
               <P
                 color={"fg.muted"}
                 fontSize={"sm"}
-                lineClamp={isDescriptionExpanded ? undefined : 1}
+                lineClamp={toastItemExpanded ? undefined : 1}
               >
                 {record.description}
               </P>
-            </Collapsible.Content>
-          </Collapsible.Root>
-        )}
+            )}
 
-        {/* Actions */}
-        {record.actions && !isEmptyArray(record.actions) && (
-          <ButtonGroup gap={2} mt={2}>
-            {record.actions.map((action) => (
-              <Button
-                key={action.label}
-                size={"2xs"}
-                fontSize={"xs"}
-                variant={"outline"}
-                onClick={() => action.onClick(record.id)}
-              >
-                {action.label}
-              </Button>
-            ))}
-          </ButtonGroup>
-        )}
+            {/* Actions */}
+            {record.actions && !isEmptyArray(record.actions) && (
+              <ButtonGroup gap={2} mt={record.description ? 4 : 0}>
+                {record.actions.map((action, index) => (
+                  <Button
+                    key={index}
+                    variant={"subtle"}
+                    size={"2xs"}
+                    rounded={"full"}
+                    fontSize={"sm"}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      action.onClick(record.id);
+                    }}
+                  >
+                    {action.content}
+                  </Button>
+                ))}
+              </ButtonGroup>
+            )}
+          </Collapsible.Content>
+        </Collapsible.Root>
 
         {/* Removed from history flag */}
-        {showDeletedFromHistoryIndicator && record.isDeletedFromHistory ? (
+        {showDeletedFromHistoryIndicator && record.isDeletedFromHistory && (
           <P fontSize={"xs"} color={"fg.muted"} mt={1}>
             {"Removed from history"}
           </P>
-        ) : null}
+        )}
       </VStack>
 
       {showProgressBar && <ToastProgressBar record={record} />}

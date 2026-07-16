@@ -12,7 +12,7 @@ import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { useFirstMountEffect } from "@/shared/hooks/use-first-mount-effect";
 import { t } from "@/shared/libs/i18n/-typed";
 import { Box } from "@chakra-ui/react";
-import { ChevronUpIcon } from "lucide-react";
+import { Minimize2Icon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 export function ToastStack<TItem>({
@@ -122,7 +122,7 @@ export function ToastStack<TItem>({
               rounded={"full"}
               onClick={() => setExpanded(false)}
             >
-              <AppIcon icon={ChevronUpIcon} size={"sm"} />
+              <AppIcon icon={Minimize2Icon} size={"sm"} />
             </IconButton>
           </Tooltip>
         </Box>
@@ -169,7 +169,8 @@ export function ToastStack<TItem>({
                 pos={isCollapsed && !isRelative ? "absolute" : "relative"}
                 top={isCollapsed && !isRelative ? 0 : undefined}
                 right={isCollapsed && !isRelative ? 0 : undefined}
-                bottom={isCollapsed && !isRelative ? 0 : undefined}
+                // bottom={isCollapsed && !isRelative ? 0 : undefined}
+                bottom={0}
                 left={isCollapsed && !isRelative ? 0 : undefined}
                 overflow={
                   isCollapsed && !isRelative && !isLeaving ? "clip" : "visible"

@@ -21,7 +21,7 @@ export type DismissedReason =
   | "unknown";
 
 export type ToastAction = {
-  label: string;
+  content: ReactNode;
   onClick: (id: string) => void;
 };
 
@@ -66,7 +66,7 @@ export type ToastOptions = ToastLifecycleHandlers & {
   description?: ReactNode;
   icon?: ReactNode;
   actions?: ToastAction[];
-  inlineAction?: ToastAction;
+  quickAction?: ToastAction;
   metadata?: Record<string, unknown>;
   /** ms. `null` = persistent (never auto-dismiss). Defaults from config. */
   duration?: number | null;
