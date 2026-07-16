@@ -75,10 +75,10 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
       opacity={record.status === "visible" ? 1 : 0}
       tabIndex={0}
       cursor={!stackExpanded || record.description ? "pointer" : "auto"}
-      transition={"200ms"}
       transform={
-        record.status === "visible" ? "translateY(0)" : "translateY(-6px)"
+        record.status === "visible" ? "translateY(0)" : "translateY(-20px)"
       }
+      transition={"transform 300ms, opacity 300ms"}
       onPointerEnter={() => toastTimerControls.pauseTimer(record.id)}
       onPointerLeave={() => toastTimerControls.resumeTimer(record.id)}
       onKeyDown={(event) => {

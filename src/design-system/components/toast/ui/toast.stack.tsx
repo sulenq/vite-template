@@ -111,11 +111,11 @@ export function ToastStack<TItem>({
                 onCloseAll();
               }}
             >
-              {t["common.dismiss_all"]()}
+              {t["action.clear"]()}
             </Button>
           )}
 
-          <Tooltip content={t["common.show_less"]()}>
+          <Tooltip content={t["action.show_less"]()}>
             <IconButton
               size={"2xs"}
               variant={"subtle"}
@@ -135,53 +135,71 @@ export function ToastStack<TItem>({
         cursor={!expanded ? "pointer" : undefined}
         rounded={theme.radii.container}
       >
-        {items.map((item, index) => {
-          const isStackedVisible = index < maxVisible;
-          const isFirstIndex = index === 0;
-          const isCollapsed = !expanded;
-          const isLeaving = isItemLeaving?.(item) ?? false;
+        {(() => {
+          let nonLeavingCount = 0;
+          const visualIndexes = items.map((item) => {
+            if (isItemLeaving?.(item)) return -1;
+            return nonLeavingCount++;
+          });
 
-          return (
-            <Box
-              key={getId(item)}
-              display={"grid"}
-              gridTemplateRows={isLeaving ? "0fr" : "1fr"}
-              data-stack-state={
-                expanded ? "expanded" : isStackedVisible ? "stacked" : "hidden"
-              }
-              pos={isCollapsed && !isFirstIndex ? "absolute" : "relative"}
-              top={isCollapsed && !isFirstIndex ? 0 : undefined}
-              right={isCollapsed && !isFirstIndex ? 0 : undefined}
-              bottom={isCollapsed && !isFirstIndex ? 0 : undefined}
-              left={isCollapsed && !isFirstIndex ? 0 : undefined}
-              overflow={isCollapsed && !isFirstIndex ? "clip" : "visible"}
-              rounded={theme.radii.container}
-              zIndex={
-                expanded ? undefined : isStackedVisible ? maxVisible - index : 0
-              }
-              mt={expanded && index > 0 && !isLeaving ? 2 : 0}
-              opacity={!expanded && !isStackedVisible ? 0 : 1}
-              transformOrigin={"bottom"}
-              transform={
-                isCollapsed && !isFirstIndex
-                  ? `scale(${1 - index * 0.05}) translateY(${index * 34 - index * (20 + index * 2)}px)`
-                  : "scale(1)"
-              }
-              transition={
-                "transform 300ms ease, margin-top 300ms ease, opacity 300ms ease, grid-template-rows 300ms ease"
-              }
-              pointerEvents={expanded || isFirstIndex ? "auto" : "none"}
-            >
-              <Box minH={"0px"} overflow={"visible"}>
-                {renderItem({
-                  item,
-                  index,
-                  stackExpanded: expanded,
-                })}
+          return items.map((item, index) => {
+            const visualIndex = visualIndexes[index];
+            const isLeaving = visualIndex === -1;
+            const isStackedVisible =
+              visualIndex > -1 && visualIndex < maxVisible;
+            const isFirstVisual = visualIndex === 0;
+            const isCollapsed = !expanded;
+
+            return (
+              <Box
+                key={getId(item)}
+                display={"grid"}
+                gridTemplateRows={isLeaving ? "0fr" : "1fr"}
+                data-stack-state={
+                  expanded
+                    ? "expanded"
+                    : isStackedVisible
+                      ? "stacked"
+                      : "hidden"
+                }
+                pos={isCollapsed && !isFirstVisual ? "absolute" : "relative"}
+                top={isCollapsed && !isFirstVisual ? 0 : undefined}
+                right={isCollapsed && !isFirstVisual ? 0 : undefined}
+                bottom={isCollapsed && !isFirstVisual ? 0 : undefined}
+                left={isCollapsed && !isFirstVisual ? 0 : undefined}
+                overflow={isCollapsed && !isFirstVisual ? "clip" : "visible"}
+                rounded={theme.radii.container}
+                zIndex={
+                  expanded
+                    ? undefined
+                    : isStackedVisible
+                      ? maxVisible - visualIndex
+                      : 0
+                }
+                mt={expanded && index > 0 && !isLeaving ? 2 : 0}
+                opacity={!expanded && !isStackedVisible ? 0 : 1}
+                transformOrigin={"bottom"}
+                transform={
+                  isCollapsed && !isFirstVisual && !isLeaving
+                    ? `scale(${1 - visualIndex * 0.05}) translateY(${visualIndex * 8}px)`
+                    : "scale(1)"
+                }
+                transition={
+                  "transform 300ms ease, margin-top 300ms ease, opacity 300ms ease, grid-template-rows 300ms ease"
+                }
+                pointerEvents={expanded || isFirstVisual ? "auto" : "none"}
+              >
+                <Box minH={"0px"} overflow={"visible"}>
+                  {renderItem({
+                    item,
+                    index,
+                    stackExpanded: expanded,
+                  })}
+                </Box>
               </Box>
-            </Box>
-          );
-        })}
+            );
+          });
+        })()}
       </VStack>
 
       {/* Stack additional item count */}
