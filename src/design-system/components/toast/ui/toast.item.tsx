@@ -18,7 +18,7 @@ import { useFirstMountEffect } from "@/shared/hooks/use-first-mount-effect";
 import { isEmptyArray } from "@/shared/utils/data/array";
 import { tintDark } from "@/shared/utils/style/color";
 import { cssCalc } from "@/shared/utils/style/css-calc";
-import { useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export function ToastItem(props: ToastItemProps) {
   // Props
@@ -28,7 +28,7 @@ export function ToastItem(props: ToastItemProps) {
   const { theme } = useThemeStore();
 
   // Refs
-  const timeoutRef = useRef<number | null>(null);
+  const descriptionRef = useRef<HTMLParagraphElement>(null);
 
   // Hooks
   const {
@@ -47,66 +47,63 @@ export function ToastItem(props: ToastItemProps) {
   const isFirstIndex = index === 0;
 
   // States
-  const [toastItem, setToastItem] = useState<{
+  const [description, setDescription] = useState<{
     expanded: boolean;
-    descriptionExpanded: boolean;
-    lineClamp: number;
+    scrollHeight: number;
+    clientHeight: number;
   }>({
     expanded: false,
-    descriptionExpanded: false,
-    lineClamp: 0,
+    scrollHeight: 0,
+    clientHeight: 0,
   });
 
-  // Collapse toast item when stack collapsed
+  useEffect(() => {
+    // Safety net: if this node unmounts while paused (e.g. a parent stack
+    // toggles expand/collapse mid-hover), the browser never fires
+    // `pointerleave`. Without this, the toast's timer would stay paused
+    // forever since nothing else would ever call resume.
+    return () => {
+      toastTimerControls.resumeIfOrphaned(record.id);
+    };
+  }, [record.id]);
+
+  useLayoutEffect(() => {
+    const el = descriptionRef.current;
+    if (!el) return;
+
+    const checkExpandable = () => {
+      console.log(el.scrollHeight, el.clientHeight);
+      setDescription((prev) => ({
+        ...prev,
+        scrollHeight: el.scrollHeight,
+        clientHeight: el.clientHeight,
+      }));
+    };
+
+    checkExpandable();
+
+    const resizeObserver = new ResizeObserver(checkExpandable);
+    resizeObserver.observe(el);
+
+    return () => resizeObserver.disconnect();
+  }, [expanded, record.description]);
+
   useFirstMountEffect(
     {
       onUpdate: () => {
         if (!expanded) {
-          setToastItem((prev) => ({ ...prev, expanded: false }));
+          setDescription((prev) => ({ ...prev, expanded: false }));
         }
       },
     },
     [expanded],
   );
 
-  useFirstMountEffect(
-    {
-      onUpdate: () => {
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-          timeoutRef.current = null;
-        }
-
-        if (toastItem.expanded) {
-          timeoutRef.current = setTimeout(() => {
-            setToastItem((current) => ({
-              ...current,
-              descriptionExpanded: true,
-            }));
-            timeoutRef.current = null;
-          }, 100);
-        } else {
-          setToastItem((current) => ({
-            ...current,
-            descriptionExpanded: false,
-          }));
-        }
-
-        return () => {
-          if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-          }
-        };
-      },
-    },
-    [toastItem.expanded],
-  );
-
   if (record.variant === "custom" && record.renderer) {
     return <>{record.renderer(record)}</>;
   }
 
-  console.log(toastItem);
+  // console.log(description);
 
   return (
     <VStack
@@ -136,7 +133,7 @@ export function ToastItem(props: ToastItemProps) {
       }}
       onClick={() => {
         if (!expanded || !record.description) return;
-        setToastItem((prev) => ({ ...prev, expanded: !prev.expanded }));
+        setDescription((prev) => ({ ...prev, expanded: !prev.expanded }));
       }}
       {...restProps}
     >
@@ -146,41 +143,37 @@ export function ToastItem(props: ToastItemProps) {
 
         {/* Title */}
         {record.title ? (
-          <P fontWeight={"medium"} whiteSpace={"nowrap"} lineClamp={1}>
-            {/* {record.title} */}
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo, error
-            libero? Non, modi dolor.
+          <P fontWeight={"medium"} whiteSpace={"nowrap"}>
+            {record.title}
           </P>
         ) : null}
 
         {/* Description (collapsed) */}
         {record.description && (
-          <Collapsible.Root
-            open={toastItem.expanded}
-            collapsedHeight={"20px"}
-            pos={toastItem.expanded ? "absolute" : undefined}
+          <P
+            fontSize={"sm"}
+            pos={description.expanded ? "absolute" : undefined}
             // pos={"absolute"}
             left={"152px"}
             top={"14px"}
             w={
-              toastItem.expanded ? cssCalc(`100% - 28px - 16px - 16px`) : "full"
+              description.expanded
+                ? cssCalc(`100% - 28px - 16px - 16px`)
+                : "full"
             }
             // w={cssCalc(`100% - 28px - 16px - 16px`)}
             mt={"1px"}
-            color={toastItem.expanded ? "fg.muted" : "fg.subtle"}
+            color={description.expanded ? "fg.muted" : "fg.subtle"}
             // color={"red"}
             // lineClamp={1}
-            lineClamp={toastItem.expanded ? undefined : 1}
-            // opacity={toastItem.expanded ? 0 : 1}
+            lineClamp={description.expanded ? undefined : 1}
+            // opacity={description.expanded ? 0 : 1}
             transformOrigin={"top"}
-            transform={toastItem.expanded ? "translate(-112px, 25px)" : ""}
+            transform={description.expanded ? "translate(-112px, 25px)" : ""}
             transition={"transform 200ms, color 200ms"}
-            transitionDelay={"line-clamp 100ms"}
           >
-            <Collapsible.Content>
-              <P fontSize={"sm"}>{record.description}</P>
-            </Collapsible.Content>
-          </Collapsible.Root>
+            {record.description}
+          </P>
         )}
 
         {/* Actions */}
@@ -223,18 +216,33 @@ export function ToastItem(props: ToastItemProps) {
       >
         {/* Description */}
         {record.description && expanded && (
-          <Collapsible.Root open={toastItem.expanded}>
+          <Collapsible.Root open={description.expanded}>
             <Collapsible.Content>
               <P
                 color={"transparent"}
                 // color={"red"}
                 fontSize={"sm"}
-                lineClamp={toastItem.expanded ? undefined : 1}
+                lineClamp={description.expanded ? undefined : 1}
               >
                 {record.description}
               </P>
             </Collapsible.Content>
           </Collapsible.Root>
+          // <Box
+          //   w={"full"}
+          //   maxH={description.expanded ? "500px" : "20px"}
+          //   transition={"max-height 300ms ease"}
+          //   overflow={"hidden"}
+          // >
+          //   <P
+          //     ref={descriptionRef}
+          //     color={"fg.muted"}
+          //     fontSize={"sm"}
+          //     lineClamp={description.expanded ? undefined : 1}
+          //   >
+          //     {record.description}
+          //   </P>
+          // </Box>
         )}
 
         {/* Actions */}
