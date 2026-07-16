@@ -8,7 +8,6 @@ import { useToastVisibleStore } from "@/design-system/components/toast/stores/to
 import type { ToastPlacement } from "@/design-system/components/toast/types/toast.types";
 import { ToastItem } from "@/design-system/components/toast/ui/toast.item";
 import { ToastStack } from "@/design-system/components/toast/ui/toast.stack";
-import { t } from "@/shared/libs/i18n";
 import { Portal } from "@chakra-ui/react";
 
 const EDGE_OFFSET = 0;
@@ -24,7 +23,6 @@ function getPlacementStyles(placement: ToastPlacement) {
     left: isCentered ? "50%" : isEnd ? undefined : EDGE_OFFSET,
     right: isCentered ? undefined : isEnd ? EDGE_OFFSET : undefined,
     transform: isCentered ? "translateX(-50%)" : undefined,
-    // Newest group closest to the screen edge it's anchored to.
     flexDirection: (isTop ? "column" : "column-reverse") as
       | "column"
       | "column-reverse",
@@ -48,6 +46,7 @@ export function Toaster() {
     <Portal>
       <VStack
         flexDir={placementStyles.flexDirection}
+        align={"center"}
         gap={2}
         pos={"fixed"}
         top={placementStyles.top}
@@ -56,14 +55,22 @@ export function Toaster() {
         right={placementStyles.right}
         zIndex={"toast"}
         overflow={"clip"}
-        w={"360px"}
-        maxW={"calc(100vw - 32px)"}
-        h={"calc(fit + 10px)"}
-        maxH={"100dvh"}
+        w={"100vw"}
+        h={"100dvh"}
         p={4}
         transform={placementStyles.transform}
+        transition={"200ms"}
+        pointerEvents={"none"}
+        css={{
+          "&:has([data-state='expanded'])": {
+            bg: "bg.backdrop",
+            // backdropFilter: "blur(5px)",
+            pointerEvents: "auto",
+          },
+        }}
       >
-        {/* {groups.map(({ group, items }) => (
+        <VStack w={"360px"}>
+          {/* {groups.map(({ group, items }) => (
           <ToastStack
             key={group}
             groupLabel={group}
@@ -76,23 +83,25 @@ export function Toaster() {
             onCloseAll={() => items.forEach((record) => toast.close(record.id))}
           />
         ))} */}
-        <ToastStack
-          groupLabel={t["common.notifications"]()}
-          items={visibleToasts}
-          getId={(record) => record.id}
-          maxVisible={maxVisiblePerGroup}
-          renderItem={({ item, index, stackExpanded }) => (
-            <ToastItem
-              record={item}
-              index={index}
-              stackExpanded={stackExpanded}
-            />
-          )}
-          onCloseAll={() =>
-            visibleToasts.forEach((record) => toast.close(record.id))
-          }
-          isItemLeaving={(record) => record.status === "leaving"}
-        />
+
+          <ToastStack
+            groupLabel={""}
+            items={visibleToasts}
+            getId={(record) => record.id}
+            maxVisible={maxVisiblePerGroup}
+            renderItem={({ item, index, stackExpanded }) => (
+              <ToastItem
+                record={item}
+                index={index}
+                stackExpanded={stackExpanded}
+              />
+            )}
+            isItemLeaving={(record) => record.status === "leaving"}
+            onCloseAll={() =>
+              visibleToasts.forEach((record) => toast.close(record.id))
+            }
+          />
+        </VStack>
       </VStack>
     </Portal>
   );

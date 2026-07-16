@@ -23,9 +23,9 @@ export function ToastStack<TItem>({
   getId,
   maxVisible,
   renderItem,
+  isItemLeaving,
   onCloseAll,
   onClickOutside,
-  isItemLeaving,
 }: ToastStackProps<TItem>) {
   // Stores
   const { theme } = useThemeStore();
@@ -39,6 +39,7 @@ export function ToastStack<TItem>({
   // Refs
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Collapse stack if no items
   useFirstMountEffect(
     {
       onUpdate: () => {
@@ -50,6 +51,7 @@ export function ToastStack<TItem>({
     [items],
   );
 
+  // Click outside to collapse
   useEffect(() => {
     if (!expanded) return;
 
@@ -83,6 +85,7 @@ export function ToastStack<TItem>({
       data-state={expanded ? "expanded" : "collapsed"}
       flexShrink={0}
       gap={expanded ? 2 : 0}
+      pointerEvents={"auto"}
     >
       {/* Header [expanded] */}
       <HStack
@@ -108,7 +111,8 @@ export function ToastStack<TItem>({
               fontSize={"sm"}
               variant={"subtle"}
               rounded={"full"}
-              onClick={() => {
+              onClick={(event) => {
+                event.stopPropagation();
                 setExpanded(false);
                 onCloseAll();
               }}
@@ -122,7 +126,10 @@ export function ToastStack<TItem>({
               size={"2xs"}
               variant={"subtle"}
               rounded={"full"}
-              onClick={() => setExpanded(false)}
+              onClick={(event) => {
+                event.stopPropagation();
+                setExpanded(false);
+              }}
             >
               <AppIcon icon={Minimize2Icon} size={"sm"} />
             </IconButton>
