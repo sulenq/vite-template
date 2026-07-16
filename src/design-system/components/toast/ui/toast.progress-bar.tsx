@@ -18,8 +18,7 @@ export function ToastProgressBar({ record }: { record: ToastRecord }) {
       left={0}
       h={"2px"}
       w={"full"}
-      bg={"currentColor"}
-      opacity={0.4}
+      bg={"bg.emphasized"}
       transformOrigin={"left"}
       animationName={"shrink-x"}
       animationDuration={`${record.duration}ms`}
