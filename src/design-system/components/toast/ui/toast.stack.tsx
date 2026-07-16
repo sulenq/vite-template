@@ -53,7 +53,7 @@ export function ToastStack<TItem>({
       data-state={expanded ? "expanded" : "collapsed"}
       flexShrink={0}
       gap={2}
-      minH={"80px"}
+      // minH={"80px"}
     >
       {/* Stack expanded header */}
       <HStack
@@ -101,7 +101,7 @@ export function ToastStack<TItem>({
 
       {/* Stack items */}
       <Box
-        position={"relative"}
+        pos={"relative"}
         onClick={!expanded ? () => setExpanded(true) : undefined}
         cursor={!expanded ? "pointer" : undefined}
         rounded={theme.radii.container}
@@ -119,7 +119,7 @@ export function ToastStack<TItem>({
                 expanded ? "expanded" : isStackedVisible ? "stacked" : "hidden"
               }
               display={!expanded && !isStackedVisible ? "none" : "block"}
-              position={isCollapsed && !isFirstIndex ? "absolute" : "relative"}
+              pos={isCollapsed && !isFirstIndex ? "absolute" : "relative"}
               top={isCollapsed && !isFirstIndex ? 0 : undefined}
               right={isCollapsed && !isFirstIndex ? 0 : undefined}
               bottom={isCollapsed && !isFirstIndex ? 0 : undefined}
@@ -129,10 +129,10 @@ export function ToastStack<TItem>({
               zIndex={
                 expanded ? undefined : isStackedVisible ? maxVisible - index : 0
               }
-              transformOrigin={"top"}
+              transformOrigin={"bottom"}
               transform={
                 isCollapsed && !isFirstIndex
-                  ? `scale(${1 - index * 0.05}) translateY(${index * 22 - index * 8}px)`
+                  ? `scale(${1 - index * 0.05}) translateY(${index * 35 - index * (20 + index * 2)}px)`
                   : "scale(1)"
               }
               // mt only matters in expanded mode (spacing between items).

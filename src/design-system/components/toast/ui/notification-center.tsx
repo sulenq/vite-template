@@ -21,7 +21,7 @@ function ToastHistoryItem({
       borderRadius={"md"}
       p={2}
       bg={entry.read ? "bg.subtle" : "bg.panel"}
-      position={"relative"}
+      pos={"relative"}
     >
       <Box display={"flex"} justifyContent={"space-between"} gap={2}>
         <VStack flex={"1"}>

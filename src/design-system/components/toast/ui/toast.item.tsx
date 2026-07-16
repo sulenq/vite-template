@@ -1,6 +1,7 @@
+import { Button } from "@/design-system/components/button/ui/button";
 import { ButtonGroup } from "@/design-system/components/button/ui/button-group";
 import { CloseButton } from "@/design-system/components/button/ui/close-button";
-import { VStack } from "@/design-system/components/layout/ui/flex-box";
+import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
 import {
   toast,
@@ -10,9 +11,10 @@ import type { ToastItemProps } from "@/design-system/components/toast/types/toas
 import { ToastIcon } from "@/design-system/components/toast/ui/toast.icon";
 import { ToastProgressBar } from "@/design-system/components/toast/ui/toast.progress-bar";
 import { P } from "@/design-system/components/typography/ui/p";
+import { useColorModeValue } from "@/design-system/hooks/use-color-mode";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { isEmptyArray } from "@/shared/utils/data/array";
-import { Button, HStack } from "@chakra-ui/react";
+import { tintDark } from "@/shared/utils/style/color";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 export function ToastItem(props: ToastItemProps) {
@@ -34,7 +36,10 @@ export function ToastItem(props: ToastItemProps) {
   } = getToastConfig();
 
   // Constants
-  const stackBg = ["bg.body", "bg.subtle", "bg.muted"];
+  const stackBg = useColorModeValue(
+    [tintDark("bg.body", 0), tintDark("bg.body", 3), tintDark("bg.body", 6)],
+    [tintDark("bg.body", 0), tintDark("bg.body", 8), tintDark("bg.body", 12)],
+  );
 
   // Derived Values
   const isFirstIndex = index === 0;
@@ -58,6 +63,8 @@ export function ToastItem(props: ToastItemProps) {
     if (!el) return;
 
     const checkExpandable = () => {
+      console.log(el.scrollHeight);
+      console.log(el.clientHeight);
       setIsDescriptionExpandable(el.scrollHeight > el.clientHeight);
     };
 
@@ -74,12 +81,14 @@ export function ToastItem(props: ToastItemProps) {
     return <>{record.renderer(record)}</>;
   }
 
+  // console.log(isDescriptionExpandable);
+
   return (
     <VStack
       data-state={record.status}
       aria-live={record.variant === "error" ? "assertive" : "polite"}
       role={record.variant === "error" ? "alert" : "status"}
-      position={"relative"}
+      pos={"relative"}
       overflow={"clip"}
       gap={1}
       // minH={"76px"}
@@ -126,7 +135,7 @@ export function ToastItem(props: ToastItemProps) {
           </P>
         )}
 
-        <HStack ml={"auto"}>
+        <HStack align={"center"} gap={2} ml={"auto"}>
           {/* Inline action */}
           {record.inlineAction && (
             <Button
@@ -141,25 +150,13 @@ export function ToastItem(props: ToastItemProps) {
               {record.inlineAction.label}
             </Button>
           )}
-          {record.inlineAction && (
-            <Button
-              size={"2xs"}
-              fontSize={"sm"}
-              variant={"outline"}
-              onClick={(event) => {
-                event.stopPropagation();
-                record?.inlineAction?.onClick(record.id);
-              }}
-            >
-              Other
-            </Button>
-          )}
 
           <CloseButton
             aria-label={"Close notification"}
             size={"2xs"}
             variant={"subtle"}
             rounded={"full"}
+            boxSize={3.5}
             onClick={(event: React.MouseEvent) => {
               event.stopPropagation();
               toast.close(record.id);

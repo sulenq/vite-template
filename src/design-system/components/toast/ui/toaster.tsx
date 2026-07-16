@@ -39,16 +39,16 @@ export function Toaster() {
       <VStack
         flexDir={placementStyles.flexDirection}
         gap={2}
-        position={"fixed"}
+        pos={"fixed"}
         top={placementStyles.top}
         bottom={placementStyles.bottom}
         left={placementStyles.left}
         right={placementStyles.right}
         zIndex={"toast"}
-        overflowY={"auto"}
+        overflowY={"clip"}
         w={"360px"}
         maxW={"calc(100vw - 32px)"}
-        h={"fit"}
+        h={"calc(fit + 10px)"}
         maxH={"100dvh"}
         p={4}
         transform={placementStyles.transform}

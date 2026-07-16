@@ -120,7 +120,7 @@ export const RootPage = () => {
       <DataDisplay />
       <Utilities />
 
-      <ColorModeToggleButton position={"fixed"} bottom={0} right={0} />
+      <ColorModeToggleButton pos={"fixed"} bottom={0} right={0} />
     </VStack>
   );
 };
@@ -833,7 +833,7 @@ const ActionButton = (props: IconButtonProps) => {
       size="xs"
       variant="outline"
       rounded="full"
-      position="absolute"
+      pos="absolute"
       zIndex="1"
       bg="bg"
     />
@@ -929,7 +929,7 @@ export const Disclosure = () => {
             slideCount={images.length}
             maxW={"350px"}
             gap={4}
-            position={"relative"}
+            pos={"relative"}
           >
             <Carousel.Control>
               <Carousel.PrevTrigger asChild>

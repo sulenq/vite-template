@@ -189,17 +189,12 @@ const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {
 
   if (isSmallViewport) {
     return (
-      <Drawer.CloseTrigger
-        asChild
-        pos={pos}
-        position={position}
-        {...restProps}
-      />
+      <Drawer.CloseTrigger asChild pos={pos} pos={position} {...restProps} />
     );
   }
 
   return (
-    <Dialog.CloseTrigger asChild pos={pos} position={position} {...restProps} />
+    <Dialog.CloseTrigger asChild pos={pos} pos={position} {...restProps} />
   );
 };
 
