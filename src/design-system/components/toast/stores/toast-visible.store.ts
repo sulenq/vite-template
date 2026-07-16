@@ -2,7 +2,7 @@ import { create } from "zustand";
 import type { ToastRecord } from "@/design-system/components/toast/types/toast.types";
 
 type VisibleToastState = {
-  /** group -> toasts belonging to that group, ordered by `createdAt` ascending. */
+  /** group -> toasts belonging to that group, items by `createdAt` ascending. */
   entries: Record<string, ToastRecord[]>;
 };
 

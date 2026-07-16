@@ -1,4 +1,7 @@
-import { IconButton } from "@/design-system/components/button/ui/button";
+import {
+  Button,
+  IconButton,
+} from "@/design-system/components/button/ui/button";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
@@ -8,7 +11,7 @@ import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { t } from "@/shared/libs/i18n/-typed";
 import { Box } from "@chakra-ui/react";
-import { ChevronUpIcon, TrashIcon } from "lucide-react";
+import { ChevronUpIcon } from "lucide-react";
 import { useState } from "react";
 
 /**
@@ -55,7 +58,7 @@ export function ToastStack<TItem>({
       gap={2}
       // minH={"80px"}
     >
-      {/* Stack expanded header */}
+      {/* Header [expanded] */}
       <HStack
         justifyContent={"space-between"}
         align={"center"}
@@ -73,18 +76,17 @@ export function ToastStack<TItem>({
         </P>
 
         <Box display={"flex"} gap={2}>
-          {onCloseAll ? (
-            <Tooltip content={t["common.clear_all"]()}>
-              <IconButton
-                size={"2xs"}
-                variant={"subtle"}
-                rounded={"full"}
-                onClick={onCloseAll}
-              >
-                <AppIcon icon={TrashIcon} size={"sm"} />
-              </IconButton>
-            </Tooltip>
-          ) : null}
+          {onCloseAll && (
+            <Button
+              size={"2xs"}
+              fontSize={"sm"}
+              variant={"subtle"}
+              rounded={"full"}
+              onClick={onCloseAll}
+            >
+              {t["common.dismiss_all"]()}
+            </Button>
+          )}
 
           <Tooltip content={t["common.show_less"]()}>
             <IconButton
@@ -99,13 +101,12 @@ export function ToastStack<TItem>({
         </Box>
       </HStack>
 
-      {/* Stack items */}
-      <Box
+      {/* Items */}
+      <VStack
         pos={"relative"}
         onClick={!expanded ? () => setExpanded(true) : undefined}
         cursor={!expanded ? "pointer" : undefined}
         rounded={theme.radii.container}
-        pb={!expanded && items.length > 1 ? "16px" : "0px"}
       >
         {items.map((item, index) => {
           const isStackedVisible = index < maxVisible;
@@ -148,7 +149,7 @@ export function ToastStack<TItem>({
             </Box>
           );
         })}
-      </Box>
+      </VStack>
 
       {/* Stack additional item count */}
       {/* {!expanded && overflowCount > 0 ? (

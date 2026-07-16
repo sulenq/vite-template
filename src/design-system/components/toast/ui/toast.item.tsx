@@ -37,7 +37,7 @@ export function ToastItem(props: ToastItemProps) {
 
   // Constants
   const stackBg = useColorModeValue(
-    [tintDark("bg.body", 0), tintDark("bg.body", 3), tintDark("bg.body", 6)],
+    [tintDark("bg.body", 0), tintDark("bg.body", 2), tintDark("bg.body", 3)],
     [tintDark("bg.body", 0), tintDark("bg.body", 8), tintDark("bg.body", 12)],
   );
 
@@ -135,8 +135,8 @@ export function ToastItem(props: ToastItemProps) {
           </P>
         )}
 
+        {/* Actions */}
         <HStack align={"center"} gap={2} ml={"auto"}>
-          {/* Inline action */}
           {record.inlineAction && (
             <Button
               size={"2xs"}

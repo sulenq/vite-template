@@ -1,11 +1,13 @@
+// [ARCHIVED] – previously used for grouped toast rendering (per-group stacks).
+// Kept as reference if grouped view is ever reintroduced.
+
 import { useToastVisibleStore } from "@/design-system/components/toast/stores/toast-visible.store";
 import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
 import type { ToastRecord } from "@/design-system/components/toast/types/toast.types";
 
 export type ToastGroupStack = {
   group: string;
-  /** Records ordered per `newestOnTop` config. */
-  ordered: ToastRecord[];
+  items: ToastRecord[];
 };
 
 function orderRecords(
@@ -23,7 +25,7 @@ export function useVisibleToastGroups(): ToastGroupStack[] {
 
   return Object.entries(entries).map(([group, records]) => ({
     group,
-    ordered: orderRecords(records, newestOnTop),
+    items: orderRecords(records, newestOnTop),
   }));
 }
 
@@ -31,5 +33,5 @@ export function useVisibleToastGroups(): ToastGroupStack[] {
 export function useVisibleToastGroup(group: string): ToastGroupStack {
   const records = useToastVisibleStore((state) => state.entries[group] ?? []);
   const { newestOnTop } = getToastConfig();
-  return { group, ordered: orderRecords(records, newestOnTop) };
+  return { group, items: orderRecords(records, newestOnTop) };
 }

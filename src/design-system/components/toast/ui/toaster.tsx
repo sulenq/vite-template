@@ -2,10 +2,11 @@ import { VStack } from "@/design-system/components/layout/ui/flex-box";
 import { getToastConfig } from "@/design-system/components/toast/core/toast.config";
 import { toast } from "@/design-system/components/toast/core/toast.manager";
 import { usePageVisibility } from "@/design-system/components/toast/hooks/use-page-visibility";
-import { useVisibleToastGroups } from "@/design-system/components/toast/hooks/use-visible-toasts";
+import { useToastVisibleStore } from "@/design-system/components/toast/stores/toast-visible.store";
 import type { ToastPlacement } from "@/design-system/components/toast/types/toast.types";
 import { ToastItem } from "@/design-system/components/toast/ui/toast.item";
 import { ToastStack } from "@/design-system/components/toast/ui/toast.stack";
+import { t } from "@/shared/libs/i18n/-typed";
 import { Portal } from "@chakra-ui/react";
 
 const EDGE_OFFSET = 0;
@@ -30,9 +31,16 @@ function getPlacementStyles(placement: ToastPlacement) {
 
 export function Toaster() {
   usePageVisibility();
-  const groups = useVisibleToastGroups();
-  const { maxVisiblePerGroup, placement } = getToastConfig();
+
+  const entries = useToastVisibleStore((state) => state.entries);
+  const { maxVisiblePerGroup, placement, newestOnTop } = getToastConfig();
   const placementStyles = getPlacementStyles(placement);
+
+  // Flatten all groups into a single ordered array.
+  const allRecords = Object.values(entries).flat();
+  const visibleToasts = [...allRecords].sort((a, b) =>
+    newestOnTop ? b.createdAt - a.createdAt : a.createdAt - b.createdAt,
+  );
 
   return (
     <Portal>
@@ -53,21 +61,31 @@ export function Toaster() {
         p={4}
         transform={placementStyles.transform}
       >
-        {groups.map(({ group, ordered }) => (
+        {/* {groups.map(({ group, items }) => (
           <ToastStack
             key={group}
             groupLabel={group}
-            items={ordered}
+            items={items}
             getId={(record) => record.id}
             maxVisible={maxVisiblePerGroup}
             renderItem={({ item, index, expanded }) => (
               <ToastItem record={item} index={index} expanded={expanded} />
             )}
-            onCloseAll={() =>
-              ordered.forEach((record) => toast.close(record.id))
-            }
+            onCloseAll={() => items.forEach((record) => toast.close(record.id))}
           />
-        ))}
+        ))} */}
+        <ToastStack
+          groupLabel={t["common.notifications"]()}
+          items={visibleToasts}
+          getId={(record) => record.id}
+          maxVisible={maxVisiblePerGroup}
+          renderItem={({ item, index, expanded }) => (
+            <ToastItem record={item} index={index} expanded={expanded} />
+          )}
+          onCloseAll={() =>
+            visibleToasts.forEach((record) => toast.close(record.id))
+          }
+        />
       </VStack>
     </Portal>
   );
