@@ -63,8 +63,6 @@ export function ToastItem(props: ToastItemProps) {
     if (!el) return;
 
     const checkExpandable = () => {
-      console.log(el.scrollHeight);
-      console.log(el.clientHeight);
       setIsDescriptionExpandable(el.scrollHeight > el.clientHeight);
     };
 
@@ -80,8 +78,6 @@ export function ToastItem(props: ToastItemProps) {
   if (record.variant === "custom" && record.renderer) {
     return <>{record.renderer(record)}</>;
   }
-
-  // console.log(isDescriptionExpandable);
 
   return (
     <VStack
@@ -180,11 +176,7 @@ export function ToastItem(props: ToastItemProps) {
             color={"fg.muted"}
             lineClamp={showDescription ? undefined : 1}
           >
-            {/* {record.description} */}
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolores,
-            aperiam velit. Eum temporibus porro aliquam sint, aspernatur
-            consequuntur, nostrum voluptatem non distinctio sunt vel
-            voluptatibus, maxime amet sapiente suscipit eveniet?
+            {record.description}
           </P>
         )}
 

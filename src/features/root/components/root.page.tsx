@@ -203,7 +203,7 @@ const Toast = () => {
             onClick={() => {
               toast.create({
                 title: "Toast system 2",
-                description: "Desc toast system 2",
+                description: "Desc toast system 2. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
               });
             }}
           >
