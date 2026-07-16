@@ -38,7 +38,7 @@ export function ToastItem(props: ToastItemProps) {
   // Constants
   const stackBg = useColorModeValue(
     [tintDark("bg.body", 0), tintDark("bg.body", 2), tintDark("bg.body", 3)],
-    [tintDark("bg.body", 0), tintDark("bg.body", 8), tintDark("bg.body", 12)],
+    [tintDark("bg.body", 0), tintDark("bg.body", 8), tintDark("bg.body", 9)],
   );
 
   // Derived Values
@@ -87,12 +87,11 @@ export function ToastItem(props: ToastItemProps) {
       pos={"relative"}
       overflow={"clip"}
       gap={1}
-      // minH={"76px"}
       p={3}
       // bg={"bg.body"}
       bg={expanded ? "bg.body" : stackBg[index % maxVisiblePerGroup]}
       border={"1px solid"}
-      borderColor={"border"}
+      borderColor={"border.subtle"}
       rounded={theme.radii.container}
       shadow={"md"}
       opacity={record.status === "visible" ? 1 : 0}

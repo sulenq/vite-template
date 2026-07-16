@@ -79,7 +79,7 @@ export function ToastStack<TItem>({
       ref={containerRef}
       data-state={expanded ? "expanded" : "collapsed"}
       flexShrink={0}
-      gap={2}
+      gap={expanded ? 2 : 0}
     >
       {/* Header [expanded] */}
       <HStack
@@ -159,10 +159,9 @@ export function ToastStack<TItem>({
               transformOrigin={"bottom"}
               transform={
                 isCollapsed && !isFirstIndex
-                  ? `scale(${1 - index * 0.05}) translateY(${index * 35 - index * (20 + index * 2)}px)`
+                  ? `scale(${1 - index * 0.05}) translateY(${index * 34 - index * (20 + index * 2)}px)`
                   : "scale(1)"
               }
-              // mt only matters in expanded mode (spacing between items).
               mt={expanded && index > 0 ? 2 : 0}
               transition={"transform 200ms ease, margin-top 200ms ease"}
               pointerEvents={expanded || isFirstIndex ? "auto" : "none"}

@@ -53,7 +53,7 @@ export function Toaster() {
         left={placementStyles.left}
         right={placementStyles.right}
         zIndex={"toast"}
-        overflowY={"clip"}
+        overflow={"clip"}
         w={"360px"}
         maxW={"calc(100vw - 32px)"}
         h={"calc(fit + 10px)"}
