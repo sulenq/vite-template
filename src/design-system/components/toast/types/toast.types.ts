@@ -25,21 +25,20 @@ export type ToastAction = {
   onClick: (id: string) => void;
 };
 
+export type ToastRenderItemParams<TItem> = {
+  item: TItem;
+  index: number;
+  expanded?: boolean;
+};
+
 export type ToastStackProps<TItem> = {
   groupLabel: string;
   items: TItem[];
   getId: (item: TItem) => string;
   maxVisible: number;
-  renderItem: ({
-    item,
-    index,
-    expanded,
-  }: {
-    item: TItem;
-    index: number;
-    expanded?: boolean;
-  }) => ReactNode;
+  renderItem: (params: ToastRenderItemParams<TItem>) => ReactNode;
   onCloseAll?: () => void;
+  onClickOutside?: (event: MouseEvent | TouchEvent) => void;
 };
 
 export type ToastItemProps = StackProps & {
@@ -48,7 +47,6 @@ export type ToastItemProps = StackProps & {
   expanded?: boolean;
 };
 
-/** Custom renderer receives the fully resolved record, fully replacing the default UI. */
 export type ToastRenderer = (record: ToastRecord) => ReactNode;
 
 export type ToastLifecycleHandlers = {
@@ -59,11 +57,6 @@ export type ToastLifecycleHandlers = {
   onExpire?: (record: ToastRecord) => void;
 };
 
-/**
- * Public-facing options accepted by `toast.create()` / helper methods.
- * `group` is optional here — the manager resolves it to `DEFAULT_TOAST_GROUP`
- * before it ever reaches the store.
- */
 export type ToastOptions = ToastLifecycleHandlers & {
   id?: string;
   group?: string;
@@ -80,10 +73,6 @@ export type ToastOptions = ToastLifecycleHandlers & {
   renderer?: ToastRenderer;
 };
 
-/**
- * Internal, fully-resolved record living inside `visible-toast.store`.
- * Every optional field from `ToastOptions` is resolved here.
- */
 export type ToastRecord = Omit<ToastOptions, "group" | "duration"> & {
   id: string;
   group: string;
@@ -98,10 +87,6 @@ export type ToastRecord = Omit<ToastOptions, "group" | "duration"> & {
 
 export type UpdateToastOptions = Omit<ToastOptions, "id" | "group">;
 
-/**
- * Append-only snapshot. Every `create()` and `update()` call produces a new
- * entry — history is a versioned log, not a mutable mirror of the toast.
- */
 export type HistoryEntry = {
   /** Unique per snapshot. Never reused, never mutated after creation. */
   historyEntryId: string;
@@ -132,7 +117,6 @@ export type StoredHistoryShape = {
   entries: HistoryEntry[];
 };
 
-/** Internal event map — used by `core/event-bus.ts` for both built-in wiring and external listeners. */
 export type ToastEventMap = {
   show: ToastRecord;
   update: ToastRecord;

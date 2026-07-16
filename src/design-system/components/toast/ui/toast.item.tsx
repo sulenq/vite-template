@@ -167,7 +167,7 @@ export function ToastItem(props: ToastItemProps) {
         display={expanded || isFirstIndex ? "flex" : "none"}
         opacity={expanded || isFirstIndex ? 1 : 0}
         pointerEvents={expanded || isFirstIndex ? "auto" : "none"}
-        transition={"opacity 150ms ease"}
+        transition={"opacity 200ms"}
       >
         {/* Description */}
         {record.description && expanded && (

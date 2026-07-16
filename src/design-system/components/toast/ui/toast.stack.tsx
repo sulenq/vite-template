@@ -9,26 +9,12 @@ import { DEFAULT_TOAST_GROUP } from "@/design-system/components/toast/core/toast
 import type { ToastStackProps } from "@/design-system/components/toast/types/toast.types";
 import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
+import { useFirstMountEffect } from "@/shared/hooks/use-first-mount-effect";
 import { t } from "@/shared/libs/i18n/-typed";
 import { Box } from "@chakra-ui/react";
 import { ChevronUpIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-/**
- * Purely presentational stacking behavior — expand/collapse is local state
- * because no other part of the app needs to know a given stack's UI state.
- * Reused for both `toaster.tsx` (live toasts) and `notification-center.tsx`
- * (history).
- *
- * IMPORTANT: every item is always mounted, in both collapsed and expanded
- * states — only its position/opacity/transform change. This is deliberate:
- * a previous version rendered two entirely different JSX trees depending on
- * `expanded`, which made React unmount+remount every toast item on toggle.
- * That broke hover-pause (no `pointerleave` fires on an unmounted node,
- * leaving timers stuck forever) and reset the progress bar's CSS animation.
- * Keeping one continuous tree fixes both, and as a side benefit makes the
- * expand/collapse transition itself animatable via `data-state`.
- */
 export function ToastStack<TItem>({
   groupLabel,
   items,
@@ -36,6 +22,7 @@ export function ToastStack<TItem>({
   maxVisible,
   renderItem,
   onCloseAll,
+  onClickOutside,
 }: ToastStackProps<TItem>) {
   // Stores
   const { theme } = useThemeStore();
@@ -46,17 +33,53 @@ export function ToastStack<TItem>({
   // States
   const [expanded, setExpanded] = useState(false);
 
-  if (items.length === 0) return null;
+  // Refs
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useFirstMountEffect(
+    {
+      onUpdate: () => {
+        if (items.length === 0) {
+          setExpanded(false);
+        }
+      },
+    },
+    [items],
+  );
+
+  useEffect(() => {
+    if (!expanded) return;
+
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setExpanded(false);
+        if (onClickOutside) {
+          onClickOutside(event);
+        }
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [expanded, onClickOutside]);
 
   // Resolved Values
   // const overflowCount = Math.max(items.length - maxVisible, 0);
 
   return (
     <VStack
+      ref={containerRef}
       data-state={expanded ? "expanded" : "collapsed"}
       flexShrink={0}
       gap={2}
-      // minH={"80px"}
     >
       {/* Header [expanded] */}
       <HStack
@@ -82,7 +105,10 @@ export function ToastStack<TItem>({
               fontSize={"sm"}
               variant={"subtle"}
               rounded={"full"}
-              onClick={onCloseAll}
+              onClick={() => {
+                setExpanded(false);
+                onCloseAll();
+              }}
             >
               {t["common.dismiss_all"]()}
             </Button>
