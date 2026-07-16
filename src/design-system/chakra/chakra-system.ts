@@ -1,5 +1,6 @@
 // src/design-system/chakra/chakra-system.ts
 
+import { carouselRecipe } from "@/design-system/chakra/slot-recipes/carousel.recipe";
 import { checkboxRecipe } from "@/design-system/chakra/slot-recipes/checkbox.recipe";
 import { dialogRecipe } from "@/design-system/chakra/slot-recipes/dialog.recipe";
 import { drawerRecipe } from "@/design-system/chakra/slot-recipes/drawer.recipe";
@@ -2414,6 +2415,7 @@ export const chakraConfig = defineConfig({
       checkbox: checkboxRecipe,
       dialog: dialogRecipe,
       drawer: drawerRecipe,
+      carousel: carouselRecipe,
     },
   },
 });

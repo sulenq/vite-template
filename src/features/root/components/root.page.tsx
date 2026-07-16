@@ -1069,7 +1069,6 @@ export const Disclosure = () => {
               <Box pos={"absolute"} bottom={4} w={"full"}>
                 <Carousel.Indicators
                   bg={"bodyLight"}
-                  opacity={0.5}
                   boxSize={1.5}
                   transition={"200ms"}
                   transformOrigin={"center"}

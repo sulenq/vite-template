@@ -15,6 +15,7 @@ import type {
   CarouselIndicatorProps,
   CarouselIndicatorsProps,
 } from "@/design-system/components/disclosure/type/carousel.type";
+import { BACKDROP_FILTER_BLUR } from "@/design-system/constants/styles";
 
 const CarouselRoot = forwardRef<HTMLDivElement, CarouselRootProps>(
   (props, ref) => {
@@ -32,14 +33,32 @@ const CarouselPrevTrigger = forwardRef<
   HTMLButtonElement,
   CarouselPrevTriggerProps
 >((props, ref) => {
-  return <ChakraCarousel.PrevTrigger ref={ref} {...props} />;
+  return (
+    <ChakraCarousel.PrevTrigger
+      ref={ref}
+      bg={"an2"}
+      color={"white"}
+      borderColor={"border.subtle"}
+      backdropFilter={BACKDROP_FILTER_BLUR}
+      {...props}
+    />
+  );
 });
 
 const CarouselNextTrigger = forwardRef<
   HTMLButtonElement,
   CarouselNextTriggerProps
 >((props, ref) => {
-  return <ChakraCarousel.NextTrigger ref={ref} {...props} />;
+  return (
+    <ChakraCarousel.NextTrigger
+      ref={ref}
+      bg={"an2"}
+      color={"white"}
+      borderColor={"border.subtle"}
+      backdropFilter={BACKDROP_FILTER_BLUR}
+      {...props}
+    />
+  );
 });
 
 const CarouselItemGroup = forwardRef<HTMLDivElement, CarouselItemGroupProps>(
@@ -68,7 +87,7 @@ const CarouselIndicator = forwardRef<HTMLButtonElement, CarouselIndicatorProps>(
 );
 
 const CarouselIndicators = (props: CarouselIndicatorsProps) => {
-  return <ChakraCarousel.Indicators {...props} />;
+  return <ChakraCarousel.Indicators opacity={0.5} {...props} />;
 };
 
 export const Carousel = {
