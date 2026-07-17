@@ -1,7 +1,5 @@
 // src/design-system/components/disclosure/ui/carousel.tsx
 
-"use client";
-
 import { forwardRef } from "react";
 import { Carousel as ChakraCarousel } from "@chakra-ui/react";
 import type {

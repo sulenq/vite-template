@@ -1,7 +1,5 @@
 // src/design-system/components/utilities/ui/offline-alert.tsx
 
-"use client";
-
 import { Button } from "@/design-system/components/button/ui/button";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { VStack } from "@/design-system/components/layout/ui/flex-box";

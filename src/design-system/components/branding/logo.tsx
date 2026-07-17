@@ -1,7 +1,5 @@
 // src/design-system/components/branding/logo.tsx
 
-"use client";
-
 import { resolveSemanticColor } from "@/design-system/chakra/utils/chakra-system-resolver";
 import { useColorMode } from "@/design-system/hooks/use-color-mode";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";

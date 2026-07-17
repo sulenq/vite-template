@@ -1,7 +1,5 @@
 // src/design-system/components/disclosure/ui/tabs.tsx
 
-"use client";
-
 import { forwardRef } from "react";
 import { Tabs as ChakraTabs } from "@chakra-ui/react";
 import type {

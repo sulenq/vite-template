@@ -1,7 +1,5 @@
 // src/design-system/components/typography/ui/rich-text-editor.tsx
 
-"use client";
-
 import type { StackProps, SystemStyleObject } from "@chakra-ui/react";
 import { Box, HStack, StackSeparator, defineStyle } from "@chakra-ui/react";
 import { EditorContent } from "@tiptap/react";

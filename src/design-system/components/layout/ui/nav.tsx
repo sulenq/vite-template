@@ -1,7 +1,5 @@
 // src/design-system/components/layout/ui/nav.tsx
 
-"use client";
-
 import type { ButtonProps } from "@/design-system/components/button/types/button.type";
 import { Button } from "@/design-system/components/button/ui/button";
 

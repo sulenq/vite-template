@@ -1,7 +1,5 @@
 // src/design-system/components/overlay/ui/focus-search.tsx
 
-"use client";
-
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { NoResultState } from "@/design-system/components/feedback/ui/state.no-result";
 import { SearchInput } from "@/design-system/components/input/ui/search-input";

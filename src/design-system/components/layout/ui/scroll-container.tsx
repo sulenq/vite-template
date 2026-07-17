@@ -1,7 +1,5 @@
 // src/design-system/components/layout/ui/scroll-container.tsx
 
-"use client";
-
 import type { VScrollContainerProps } from "@/design-system/components/layout/types/scroll-container.type";
 import { VStack } from "@/design-system/components/layout/ui/flex-box";
 import { useEffect, useRef, useState } from "react";

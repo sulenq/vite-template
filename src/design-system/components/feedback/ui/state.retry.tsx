@@ -1,7 +1,5 @@
 // src/design-system/components/feedback/ui/state.retry.tsx
 
-"use client";
-
 import { Button } from "@/design-system/components/button/ui/button";
 import type { RetryStateProps } from "@/design-system/components/feedback/types/feedback-state.type";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";

@@ -1,7 +1,5 @@
 // src/design-system/components/button/ui/button.tsx
 
-"use client";
-
 import { forwardRef } from "react";
 import {
   Button as ChakraButton,

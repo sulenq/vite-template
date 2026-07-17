@@ -1,7 +1,5 @@
 // src/design-system/components/icon/ui/icon.tsx
 
-"use client";
-
 import {
   Icon as ChakraIcon,
   type IconProps as ChakraIconProps,

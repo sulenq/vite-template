@@ -1,7 +1,5 @@
 // src/design-system/components/utilities/ui/modal-purger.tsx
 
-"use client";
-
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useEffect, useRef } from "react";
 

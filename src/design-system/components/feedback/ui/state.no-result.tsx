@@ -1,7 +1,5 @@
 // src/design-system/components/feedback/ui/state.no-result.tsx
 
-"use client";
-
 import type { NoResultStateProps } from "@/design-system/components/feedback/types/feedback-state.type";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { P } from "@/design-system/components/typography/ui/p";

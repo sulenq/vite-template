@@ -1,7 +1,5 @@
 // src/features/settings/components/settings.menu.tsx
 
-"use client";
-
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";

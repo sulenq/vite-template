@@ -1,7 +1,5 @@
 // src/design-system/components/disclosure/ui/collapsible.tsx
 
-"use client";
-
 import type {
   CollapsibleContentProps,
   CollapsibleIndicatorProps,

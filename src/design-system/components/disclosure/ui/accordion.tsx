@@ -1,7 +1,5 @@
 // src/design-system/components/disclosure/ui/accordion.tsx
 
-"use client";
-
 import { forwardRef } from "react";
 import { Accordion as ChakraAccordion } from "@chakra-ui/react";
 import type {

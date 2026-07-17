@@ -1,7 +1,5 @@
 // src/design-system/components/typography/ui/rich-text-editor.context.tsx
 
-"use client";
-
 import * as React from "react";
 
 import type { RichTextEditorContextValue } from "../types/rich-text-editor.type";

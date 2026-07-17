@@ -1,7 +1,5 @@
 // src/design-system/components/feedback/ui/state.no-data.tsx
 
-"use client";
-
 import type { FeedbackStateProps } from "@/design-system/components/feedback/types/feedback-state.type";
 import FeedbackState from "@/design-system/components/feedback/ui/feedback-state";
 import { t } from "@/shared/libs/i18n";

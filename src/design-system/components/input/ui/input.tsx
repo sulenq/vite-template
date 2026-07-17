@@ -1,7 +1,5 @@
 // src/design-system/components/input/ui/input.tsx
 
-"use client";
-
 import type { InputProps } from "@/design-system/components/input/types/input.type";
 import { MAIN_INPUT_SIZE } from "@/design-system/constants/styles";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
