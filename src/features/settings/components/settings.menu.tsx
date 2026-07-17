@@ -90,9 +90,7 @@ export const SettingsMenuBody = (props: StackProps) => {
     <VScrollContainer gap={isSmallViewport ? 4 : 2} {...restProps}>
       {SETTINGS_NAV_GROUPS.map((group, index) => {
         const isFirstIndex = index === 0;
-        const groupTitle = group?.titleKey
-          ? t[group.titleKey]()
-          : group.titleKey;
+        const groupTitle = group?.titleKey ? t[group.titleKey]() : null;
 
         return (
           <Fragment key={index}>
