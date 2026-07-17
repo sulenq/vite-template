@@ -16,6 +16,7 @@ const CollapsibleRoot = (props: CollapsibleRootProps) => (
 );
 
 const CollapsibleContext = (props: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   children: (context: any) => ReactNode;
 }) => <ChakraCollapsible.Context {...props} />;
 
