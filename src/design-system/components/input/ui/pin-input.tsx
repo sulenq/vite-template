@@ -35,6 +35,7 @@ export const PinInput = React.forwardRef<HTMLInputElement, PinInputProps>(
               index={index}
               rounded={attached ? undefined : theme.radii.component}
               pb={"2px"}
+              fontSize={"md"}
               _first={
                 attached
                   ? { borderStartRadius: theme.radii.component }
