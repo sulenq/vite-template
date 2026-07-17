@@ -1158,7 +1158,8 @@ export const Disclosure = () => {
                   key={index}
                   value={tab.triggerLabel.toLowerCase()}
                 >
-                  <tab.icon />
+                  <AppIcon icon={tab.icon} />
+
                   {tab.triggerLabel}
                 </Tabs.Trigger>
               ))}
