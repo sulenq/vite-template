@@ -395,7 +395,9 @@ const DialogHeader = (props: ChakraDialog.TitleProps) => {
 };
 
 const DialogBody = (props: ChakraDialog.BodyProps) => {
-  return <ChakraDialog.Body p={4} {...props} />;
+  return (
+    <ChakraDialog.Body display={"flex"} flexDir={"column"} p={4} {...props} />
+  );
 };
 
 const DialogFooter = (props: ChakraDialog.FooterProps) => {

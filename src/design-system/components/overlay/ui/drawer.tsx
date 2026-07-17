@@ -457,7 +457,9 @@ const DrawerHeader = (props: ChakraDrawer.HeaderProps) => {
 };
 
 const DrawerBody = (props: ChakraDrawer.BodyProps) => {
-  return <ChakraDrawer.Body p={4} {...props} />;
+  return (
+    <ChakraDrawer.Body display={"flex"} flexDir={"column"} p={4} {...props} />
+  );
 };
 
 const DrawerFooter = (props: ChakraDrawer.FooterProps) => {
