@@ -4,10 +4,10 @@ import { IconButton } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
+import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { NavButton } from "@/design-system/components/layout/ui/nav";
 import { VScrollContainer } from "@/design-system/components/layout/ui/scroll-container";
 import { Separator } from "@/design-system/components/layout/ui/separator";
-import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { P } from "@/design-system/components/typography/ui/p";
 import { HEADER_H } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
@@ -15,12 +15,11 @@ import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { SettingsSearchButton } from "@/features/settings/components/settings.search";
 import { SETTINGS_NAV_GROUPS } from "@/features/settings/constants/settings.nav-groups";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings.navs";
-import type { SettingNav } from "@/features/settings/types/settings-navs.type";
 import { RootRoute } from "@/routes/-typed";
 import { t } from "@/shared/libs/i18n";
 import { back } from "@/shared/utils/client/navigation";
-import { Fragment } from "react/jsx-runtime";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { Fragment } from "react/jsx-runtime";
 
 export const SettingsMenu = () => {
   // Hooks
@@ -115,10 +114,8 @@ export const SettingsMenuBody = (props: StackProps) => {
                 {group.list.map((navKey, itemIndex) => {
                   const isNavActive = activeSettingNavKey === navKey;
                   const isItemFirstIndex = itemIndex === 0;
-                  const nav = SETTINGS_NAVS[navKey] as SettingNav;
-                  const navTitle = nav?.titleKey
-                    ? t[nav.titleKey]()
-                    : nav.titleKey;
+                  const nav = SETTINGS_NAVS[navKey];
+                  const navTitle = t[nav.titleKey]();
 
                   return (
                     <Fragment key={navKey}>
