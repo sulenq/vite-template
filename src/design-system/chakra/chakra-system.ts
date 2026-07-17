@@ -1,5 +1,6 @@
 // src/design-system/chakra/chakra-system.ts
 
+import { buttonRecipe } from "@/design-system/chakra/recipes/button.recipe";
 import { carouselRecipe } from "@/design-system/chakra/slot-recipes/carousel.recipe";
 import { checkboxRecipe } from "@/design-system/chakra/slot-recipes/checkbox.recipe";
 import { dialogRecipe } from "@/design-system/chakra/slot-recipes/dialog.recipe";
@@ -466,17 +467,17 @@ export const chakraConfig = defineConfig({
         },
 
         blue: {
-          50: { value: "#dce8f7ff" },
-          100: { value: "#c9daf1ff" },
-          200: { value: "#bfdbfe" },
-          300: { value: "#a3cfff" },
-          400: { value: "#60a5fa" },
-          500: { value: "#3b82f6" },
-          600: { value: "#2563eb" },
-          700: { value: "#173da6" },
-          800: { value: "#263a5b" },
-          900: { value: "#24344d" },
-          950: { value: "#1c283b" },
+          50: { value: "#e3f4ff" },
+          100: { value: "#c9e5ff" },
+          200: { value: "#a8cff7" },
+          300: { value: "#7cacdf" },
+          400: { value: "#4587c8" },
+          500: { value: "#1860a9" },
+          600: { value: "#004b8d" },
+          700: { value: "#00386e" },
+          800: { value: "#002750" },
+          900: { value: "#001837" },
+          950: { value: "#000e21" },
         },
 
         sapphire: {
@@ -1896,7 +1897,6 @@ export const chakraConfig = defineConfig({
             },
           },
         },
-
         blue: {
           contrast: {
             value: {
@@ -1930,14 +1930,14 @@ export const chakraConfig = defineConfig({
           },
           solid: {
             value: {
-              base: "{colors.blue.500}",
-              _dark: "{colors.blue.600}",
+              base: "{colors.blue.500} !important",
+              _dark: "{colors.blue.600} !important",
             },
           },
           focusRing: {
             value: {
-              base: "{colors.blue.500}",
-              _dark: "{colors.blue.500}",
+              base: "{colors.blue.500} !important",
+              _dark: "{colors.blue.500} !important",
             },
           },
           border: {
@@ -2408,7 +2408,9 @@ export const chakraConfig = defineConfig({
 
     animationStyles: {},
 
-    recipes: {},
+    recipes: {
+      button: buttonRecipe,
+    },
 
     slotRecipes: {
       select: selectRecipe,
