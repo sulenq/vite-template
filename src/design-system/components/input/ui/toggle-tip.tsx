@@ -26,14 +26,15 @@ export const ToggleTip = React.forwardRef<HTMLDivElement, ToggleTipProps>(
     return (
       <Popover.Root {...rest} positioning={{ ...rest.positioning, gutter: 4 }}>
         <Popover.Trigger asChild>{children}</Popover.Trigger>
+
         <Portal disabled={!portalled} container={portalRef}>
           <Popover.Positioner>
             <Popover.Content
-              width="auto"
-              px="2"
-              py="1"
-              textStyle="xs"
-              rounded="sm"
+              width={"auto"}
+              px={"2"}
+              py={"1"}
+              textStyle={"xs"}
+              rounded={"sm"}
               ref={ref}
               {...contentProps}
             >

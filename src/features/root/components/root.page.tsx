@@ -126,8 +126,6 @@ export const RootPage = () => {
       <Feedback />
       <DataDisplay />
       <Utilities />
-
-      <ColorModeToggleButton pos={"fixed"} bottom={0} right={0} />
     </VStack>
   );
 };

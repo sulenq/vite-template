@@ -36,7 +36,7 @@ const PopoverTrigger = forwardRef<HTMLButtonElement, PopoverTriggerProps>(
     const { children, ...restProps } = props;
 
     return (
-      <ChakraPopover.Trigger ref={ref} as={"span"} {...restProps}>
+      <ChakraPopover.Trigger ref={ref} as={"span"} asChild {...restProps}>
         {children}
       </ChakraPopover.Trigger>
     );
