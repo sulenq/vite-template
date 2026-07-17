@@ -116,11 +116,11 @@ export const RootPage = () => {
     <VStack minH={"100dvh"} bg={"bg.canvas"} gap={4}>
       <IntegratedFeatures />
       <Branding />
-      <Toast />
-      <Layout />
       <Typography />
       <Navigation />
       <Buttons />
+      <Toast />
+      <Layout />
       <Inputs />
       <Overlay />
       <Disclosure />
@@ -178,155 +178,6 @@ const Branding = () => {
           <Logo />
 
           <BrandWatermark />
-        </HStack>
-      </Container.Body>
-    </Container.Root>
-  );
-};
-
-const Toast = () => {
-  return (
-    <Container.Root w={"full"} px={SPACING_MD}>
-      <Container.Body gap={4} p={4}>
-        <P textAlign={"center"} fontWeight={"semibold"}>
-          Toast
-        </P>
-
-        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <Button
-            onClick={() => {
-              toast.create({
-                variant: "success",
-                title: "All set — changes saved!",
-              });
-            }}
-          >
-            Toast success
-          </Button>
-
-          <Button
-            onClick={() => {
-              toast.create({
-                variant: "warning",
-                group: "Warning",
-                title: "Password strength: weak",
-              });
-            }}
-          >
-            Toast warning
-          </Button>
-
-          <Button
-            onClick={() => {
-              toast.create({
-                variant: "error",
-                title: "File to large",
-                description: "Max file size is 5MB",
-              });
-            }}
-          >
-            Toast error
-          </Button>
-
-          <Button
-            onClick={() => {
-              toast.create({
-                variant: "loading",
-                title: "Toast system 1",
-                quickAction: {
-                  content: (
-                    <>
-                      <AppIcon icon={UndoIcon} size={"xs"} />
-                      Undo
-                    </>
-                  ),
-                  onClick: () => {
-                    console.log("Undo");
-                  },
-                },
-              });
-            }}
-          >
-            Toast system with quick action
-          </Button>
-
-          <Button
-            onClick={() => {
-              toast.create({
-                icon: <AppIcon icon={MessageSquareIcon} size={"sm"} />,
-                group: "Message",
-                title: "Johan sent you a message",
-                description:
-                  "Lorem ipsum dolor sit amet, adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                actions: [
-                  {
-                    content: "Mark as read",
-                    onClick: () => {
-                      console.log("Mark as read");
-                    },
-                  },
-                  {
-                    content: "Reply",
-                    onClick: () => {
-                      console.log("Reply");
-                    },
-                  },
-                  {
-                    content: "Mute",
-                    onClick: () => {
-                      console.log("Mute");
-                    },
-                  },
-                ],
-              });
-            }}
-          >
-            Toast with custom icon + actions
-          </Button>
-        </HStack>
-      </Container.Body>
-    </Container.Root>
-  );
-};
-
-const Layout = () => {
-  const orientation = useBreakpointValue<"horizontal" | "vertical">({
-    base: "vertical",
-    md: "horizontal",
-  });
-
-  return (
-    <Container.Root w={"full"} px={SPACING_MD}>
-      <Container.Body gap={4} p={4}>
-        <P textAlign={"center"} fontWeight={"semibold"}>
-          Layout
-        </P>
-
-        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <Splitter.Root
-            panels={[
-              { id: "a", minSize: 30 },
-              { id: "b", minSize: 30 },
-            ]}
-            defaultSize={[50, 50]}
-            orientation={orientation}
-            borderWidth={"1px"}
-            minH={"60"}
-          >
-            <Splitter.Panel id={"a"}>
-              <Center boxSize={"full"} textStyle={"2xl"}>
-                A
-              </Center>
-            </Splitter.Panel>
-
-            <Splitter.ResizeTrigger id={"a:b"} />
-
-            <Splitter.Panel id={"b"}>
-              <Center boxSize={"full"} textStyle={"2xl"}>
-                B
-              </Center>
-            </Splitter.Panel>
-          </Splitter.Root>
         </HStack>
       </Container.Body>
     </Container.Root>
@@ -422,6 +273,166 @@ const Buttons = () => {
           <Button variant={"outline"}>Outline</Button>
 
           <Button>Default/Ghost</Button>
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+const Toast = () => {
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Toast
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <Button
+            onClick={() => {
+              toast.create({
+                variant: "success",
+                title: "All set — changes saved!",
+              });
+            }}
+          >
+            Toast success
+          </Button>
+
+          <Button
+            onClick={() => {
+              toast.create({
+                variant: "warning",
+                group: "Warning",
+                title: "Password strength: weak",
+              });
+            }}
+          >
+            Toast warning
+          </Button>
+
+          <Button
+            onClick={() => {
+              toast.create({
+                variant: "error",
+                title: "File to large",
+                description: "Max file size is 5MB",
+              });
+            }}
+          >
+            Toast error
+          </Button>
+
+          <Button
+            onClick={() => {
+              toast.create({
+                id: "Email compose",
+                variant: "loading",
+                title: "Sending email to Jolitos",
+                quickAction: {
+                  content: (
+                    <>
+                      <AppIcon icon={UndoIcon} size={"xs"} />
+                      Undo
+                    </>
+                  ),
+                  onClick: () => {
+                    console.log("Undo");
+                  },
+                },
+              });
+
+              setTimeout(() => {
+                toast.update("Email compose", {
+                  variant: "success",
+                  title: "Email sent successfully",
+                  quickAction: undefined,
+                  duration: 5000,
+                });
+              }, 2000);
+            }}
+          >
+            Toast loading with quick action
+          </Button>
+
+          <Button
+            onClick={() => {
+              toast.create({
+                icon: <AppIcon icon={MessageSquareIcon} size={"sm"} />,
+                group: "Message",
+                title: "Johan sent you a message",
+                description:
+                  "Lorem ipsum dolor sit amet, adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                actions: [
+                  {
+                    content: "Mark as read",
+                    onClick: () => {
+                      console.log("Mark as read");
+                    },
+                  },
+                  {
+                    content: "Reply",
+                    onClick: () => {
+                      console.log("Reply");
+                    },
+                  },
+                  {
+                    content: "Mute",
+                    onClick: () => {
+                      console.log("Mute");
+                    },
+                  },
+                ],
+                duration: 1000 * 10,
+              });
+            }}
+          >
+            Toast with custom icon + actions
+          </Button>
+        </HStack>
+      </Container.Body>
+    </Container.Root>
+  );
+};
+
+const Layout = () => {
+  const orientation = useBreakpointValue<"horizontal" | "vertical">({
+    base: "vertical",
+    md: "horizontal",
+  });
+
+  return (
+    <Container.Root w={"full"} px={SPACING_MD}>
+      <Container.Body gap={4} p={4}>
+        <P textAlign={"center"} fontWeight={"semibold"}>
+          Layout
+        </P>
+
+        <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
+          <Splitter.Root
+            panels={[
+              { id: "a", minSize: 30 },
+              { id: "b", minSize: 30 },
+            ]}
+            defaultSize={[50, 50]}
+            orientation={orientation}
+            borderWidth={"1px"}
+            minH={"60"}
+          >
+            <Splitter.Panel id={"a"}>
+              <Center boxSize={"full"} textStyle={"2xl"}>
+                A
+              </Center>
+            </Splitter.Panel>
+
+            <Splitter.ResizeTrigger id={"a:b"} />
+
+            <Splitter.Panel id={"b"}>
+              <Center boxSize={"full"} textStyle={"2xl"}>
+                B
+              </Center>
+            </Splitter.Panel>
+          </Splitter.Root>
         </HStack>
       </Container.Body>
     </Container.Root>

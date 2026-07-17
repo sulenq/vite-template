@@ -85,8 +85,7 @@ export type ToastOptions = ToastLifecycleHandlers & {
   actions?: ToastAction[];
   quickAction?: ToastAction;
   metadata?: Record<string, unknown>;
-  /** ms. `null` = persistent (never auto-dismiss). Defaults from config. */
-  duration?: number | null;
+  duration?: number | null; // ms. `null` = persistent (never auto-dismiss). Defaults from config.
   duplicateStrategy?: DuplicateStrategy;
   renderer?: ToastRenderer;
 };

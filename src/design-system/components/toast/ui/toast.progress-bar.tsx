@@ -9,8 +9,8 @@ export function ToastProgressBar({ record }: { record: ToastRecord }) {
   return (
     <Box
       pos={"absolute"}
-      bottom={0}
       left={0}
+      top={0}
       h={"2px"}
       w={"full"}
       bg={"bg.emphasized"}
