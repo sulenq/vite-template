@@ -8,6 +8,7 @@ import type {
   PProps,
   TNumProps,
 } from "@/design-system/components/typography/types/p.type";
+import { useThemeStore } from "@/design-system/stores/use-theme-store";
 
 export const P = forwardRef<HTMLParagraphElement, PProps>(
   function P(props, ref) {
@@ -52,6 +53,30 @@ export const PSerif = forwardRef<HTMLParagraphElement, PProps>(
 
     return (
       <P ref={ref} as={"p"} fontFamily={"Times New Roman"} {...restProps}>
+        {children}
+      </P>
+    );
+  },
+);
+
+export const PLink = forwardRef<HTMLParagraphElement, PProps>(
+  function PLink(props, ref) {
+    // Props
+    const { children = "", ...restProps } = props;
+
+    // Stores
+    const { theme } = useThemeStore();
+
+    return (
+      <P
+        ref={ref}
+        color={`${theme.colorPalette}.fg`}
+        cursor={"pointer"}
+        borderBottom={"1px solid"}
+        borderColor={"transparent"}
+        _hover={{ borderColor: `${theme.colorPalette}.fg` }}
+        {...restProps}
+      >
         {children}
       </P>
     );
