@@ -3,11 +3,11 @@
 import { useState } from "react";
 
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
-import type { ImageProps } from "@/design-system/components/media/types/image.type";
-import { Image as ChakraImage } from "@chakra-ui/react";
-import { IconPhotoOff } from "@tabler/icons-react";
 import type { CenterProps } from "@/design-system/components/layout/types/center.type";
 import { Center } from "@/design-system/components/layout/ui/center";
+import type { ImageProps } from "@/design-system/components/media/types/image.type";
+import { Image as ChakraImage } from "@chakra-ui/react";
+import { ImageOffIcon } from "lucide-react";
 
 export const Image = (props: ImageProps) => {
   return <ImageImpl key={props.src} {...props} />;
@@ -100,7 +100,7 @@ export const ImageFallback = (props: CenterProps) => {
       color={"fg.muted"}
       {...rest}
     >
-      <AppIcon icon={IconPhotoOff} boxSize={resolvedIconBoxSize} />
+      <AppIcon icon={ImageOffIcon} boxSize={resolvedIconBoxSize} />
     </Center>
   );
 };

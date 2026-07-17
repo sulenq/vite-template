@@ -23,7 +23,6 @@ import type { SettingNavKey } from "@/features/settings/types/settings-navs.type
 import { RootRoute } from "@/routes/-typed";
 import { t } from "@/shared/libs/i18n";
 import { back } from "@/shared/utils/client/navigation";
-import { IconChevronLeft } from "@tabler/icons-react";
 import {
   createContext,
   useContext,
@@ -32,6 +31,7 @@ import {
   type Dispatch,
   type SetStateAction,
 } from "react";
+import { ChevronLeftIcon } from "lucide-react";
 
 export type SettingsActivePageContextValue = {
   activeSettingNavKey: SettingNavKey | undefined;
@@ -108,7 +108,7 @@ export const SettingsActivePageHeader = (props: StackProps) => {
       <HStack w={MODAL_CONTROL_CONTAINER_W}>
         {isSmallViewport && (
           <IconButton onClick={() => back()}>
-            <AppIcon icon={IconChevronLeft} />
+            <AppIcon icon={ChevronLeftIcon} />
           </IconButton>
         )}
       </HStack>

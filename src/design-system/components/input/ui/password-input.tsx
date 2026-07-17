@@ -12,8 +12,8 @@ import { Box } from "@/design-system/components/layout/ui/box";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { mergeRefs } from "@/shared/utils/react/merge-refs";
 import { useControllableState, type ButtonProps } from "@chakra-ui/react";
-import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import { passwordStrength, type Options } from "check-password-strength";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { forwardRef, useRef, useState, type ChangeEvent } from "react";
 
 const DEFAULT_STRENGTH_OPTIONS: Options<string> = [
@@ -32,8 +32,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
       visible: visibleProp,
       onVisibleChange,
       visibilityIcon = {
-        on: <AppIcon icon={IconEye} />,
-        off: <AppIcon icon={IconEyeOff} />,
+        on: <AppIcon icon={EyeIcon} />,
+        off: <AppIcon icon={EyeOffIcon} />,
       },
       withPasswordStrength = false,
       strengthOptions = DEFAULT_STRENGTH_OPTIONS,

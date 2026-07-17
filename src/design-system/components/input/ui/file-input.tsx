@@ -33,12 +33,13 @@ import {
   useFileUploadContext,
 } from "@chakra-ui/react";
 import {
-  IconArrowBackUp,
-  IconArrowDownDashed,
-  IconPhotoOff,
-  IconUpload,
-  IconX,
-} from "@tabler/icons-react";
+  ArrowDownIcon,
+  DotIcon,
+  ImageOffIcon,
+  UndoIcon,
+  UploadIcon,
+  XIcon,
+} from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 export const FileInput = (props: FileInputProps) => {
@@ -231,7 +232,7 @@ const FileInputInner = (props: FileinputInnerProps) => {
                 disabled={disabled}
                 borderColor={invalid ? "border.error" : undefined}
               >
-                <AppIcon icon={IconUpload} />
+                <AppIcon icon={UploadIcon} />
                 {label}
               </Button>
             </FileUpload.Trigger>
@@ -258,12 +259,23 @@ const FileInputInner = (props: FileinputInnerProps) => {
                   transform={dragging ? "translateY(25%)" : ""}
                   transition={"200ms"}
                 >
-                  <AppIcon
-                    icon={dragging ? IconArrowDownDashed : IconUpload}
-                    size={"lg"}
-                    color={"fg.muted"}
-                    animation={dragging ? "bounce" : ""}
-                  />
+                  <VStack>
+                    <AppIcon
+                      icon={dragging ? ArrowDownIcon : UploadIcon}
+                      size={"lg"}
+                      color={"fg.muted"}
+                      mb={-2}
+                      animation={dragging ? "bounce" : ""}
+                    />
+                    {dragging && (
+                      <AppIcon
+                        icon={DotIcon}
+                        size={"lg"}
+                        color={"fg.muted"}
+                        mb={-4}
+                      />
+                    )}
+                  </VStack>
 
                   <VStack gap={1}>
                     <FileUpload.Label>
@@ -459,7 +471,7 @@ const FileItem = (props: FileItemProps) => {
         <Image
           src={previewUrl}
           alt={name}
-          fallback={<AppIcon icon={IconPhotoOff} opacity={contentOpacity} />}
+          fallback={<AppIcon icon={ImageOffIcon} opacity={contentOpacity} />}
           w={"20px"}
           h={"20px"}
           objectFit={"cover"}
@@ -518,7 +530,7 @@ const FileItem = (props: FileItemProps) => {
               }
               onClick={onDelete}
             >
-              <AppIcon icon={markedForDelete ? IconArrowBackUp : IconX} />
+              <AppIcon icon={markedForDelete ? UndoIcon : XIcon} />
             </IconButton>
           </Tooltip>
         )}

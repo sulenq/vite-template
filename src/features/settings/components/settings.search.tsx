@@ -10,7 +10,8 @@ import { useModalContext } from "@/design-system/components/overlay/ui/modal";
 import { useSettingSearchIndex } from "@/features/settings/hooks/use-settings-search-index";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
 import { RootRoute } from "@/routes/-typed";
-import { IconSearch, type ReactNode } from "@tabler/icons-react";
+import { SearchIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 interface SettingsSearchTriggerProps {
   children: ReactNode;
@@ -60,7 +61,7 @@ export const SettingsSearchButton = (props: IconButtonProps) => {
       queryKey={"settingsSearch"}
     >
       <IconButton {...props}>
-        <AppIcon icon={IconSearch} />
+        <AppIcon icon={SearchIcon} />
       </IconButton>
     </SettingsSearchTrigger>
   );

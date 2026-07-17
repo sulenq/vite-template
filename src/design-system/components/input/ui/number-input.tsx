@@ -15,7 +15,7 @@ import { dispatchNativeInputEvent } from "@/shared/utils/dom/dispatch-native-inp
 import { mergeRefs } from "@/shared/utils/react/merge-refs";
 import { cssCalc } from "@/shared/utils/style/css-calc";
 import { NumberInput as ChakraNumberInput } from "@chakra-ui/react";
-import { IconMinus, IconPlus } from "@tabler/icons-react";
+import { MinusIcon, PlusIcon } from "lucide-react";
 
 // `valueAsNumber` is NaN while the input is empty (Number("") === NaN).
 function toSyncValue(valueAsNumber: number): string {
@@ -123,7 +123,7 @@ export const SteppedNumberInput = (props: SteppedNumberInputProps) => {
       <Group attached align={"center"}>
         <ChakraNumberInput.DecrementTrigger asChild>
           <IconButton flex={0} variant={buttonVariant} size={size}>
-            <AppIcon icon={IconMinus} />
+            <AppIcon icon={MinusIcon} />
           </IconButton>
         </ChakraNumberInput.DecrementTrigger>
 
@@ -137,7 +137,7 @@ export const SteppedNumberInput = (props: SteppedNumberInputProps) => {
 
         <ChakraNumberInput.IncrementTrigger asChild>
           <IconButton flex={0} variant={buttonVariant} size={size}>
-            <AppIcon icon={IconPlus} />
+            <AppIcon icon={PlusIcon} />
           </IconButton>
         </ChakraNumberInput.IncrementTrigger>
       </Group>

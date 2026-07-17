@@ -8,7 +8,7 @@ import type {
 } from "@/design-system/components/input/types/toggle-tip";
 import { Popover } from "@/design-system/components/overlay/ui/popover";
 import { Portal } from "@/design-system/components/utilities/ui/portal";
-import { IconInfoCircle } from "@tabler/icons-react";
+import { InfoIcon } from "lucide-react";
 import * as React from "react";
 
 export const ToggleTip = React.forwardRef<HTMLDivElement, ToggleTipProps>(
@@ -62,7 +62,7 @@ export const InfoTip = React.forwardRef<HTMLDivElement, InfoTipProps>(
           size={"2xs"}
           {...buttonProps}
         >
-          <AppIcon icon={IconInfoCircle} />
+          <AppIcon icon={InfoIcon} />
         </IconButton>
       </ToggleTip>
     );

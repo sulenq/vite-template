@@ -5,7 +5,7 @@
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
-import { IconX } from "@tabler/icons-react";
+import { XIcon } from "lucide-react";
 import { forwardRef } from "react";
 
 export const CloseButton = forwardRef<HTMLButtonElement, IconButtonProps>(
@@ -15,7 +15,7 @@ export const CloseButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 
     return (
       <IconButton ref={ref} {...restProps}>
-        <AppIcon icon={IconX} boxSize={boxSize} />
+        <AppIcon icon={XIcon} boxSize={boxSize} />
       </IconButton>
     );
   },

@@ -3,8 +3,6 @@
 "use client";
 
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
-import { IconButton } from "@/design-system/components/button/ui/button";
-import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { DialogRootProps } from "@/design-system/components/overlay/types/dialog.type";
 import type {
   ModalBackdropProps,
@@ -19,10 +17,8 @@ import type {
 } from "@/design-system/components/overlay/types/modal.type";
 import { Dialog } from "@/design-system/components/overlay/ui/dialog";
 import { Drawer } from "@/design-system/components/overlay/ui/drawer";
-import { triggerFullscreenAnimation } from "@/design-system/components/overlay/utils/fullscreen-animation-registry";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { type DrawerRootProps } from "@chakra-ui/react";
-import { IconSquare, IconSquares } from "@tabler/icons-react";
 import {
   createContext,
   useContext,
@@ -156,28 +152,13 @@ const ModalContent = (props: ModalContentProps) => {
 
 const ModalFullscreenButton = (props: IconButtonProps) => {
   // Contexts
-  const { modalKey, fullscreen, setFullscreen } = useModalContext();
+  const { isSmallViewport } = useModalContext();
 
-  return (
-    <IconButton
-      size={"2xs"}
-      variant={"subtle"}
-      bg={"an1"}
-      rounded={"full"}
-      onClick={() => {
-        const next = !fullscreen;
-        triggerFullscreenAnimation(modalKey, next);
-        setFullscreen(next);
-      }}
-      {...props}
-    >
-      <AppIcon
-        icon={fullscreen ? IconSquares : IconSquare}
-        transform={"scaleX(-1)"}
-        boxSize={3.5}
-      />
-    </IconButton>
-  );
+  if (isSmallViewport) {
+    return <Drawer.FullscreenButton {...props} />;
+  }
+
+  return <Dialog.FullscreenButton {...props} />;
 };
 
 const ModalCloseTrigger = (props: ModalCloseTriggerProps) => {

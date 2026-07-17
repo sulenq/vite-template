@@ -146,7 +146,7 @@ const IntegratedFeatures = () => {
         <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={2}>
           <SettingsTrigger modalKey={"settings"} w={"fit"}>
             <IconButton>
-              <AppIcon icon={CogIcon} strokeWidth={1.3} boxSize={"22px"} />
+              <AppIcon icon={CogIcon} strokeWidth={1.3} size={"lg"} />
             </IconButton>
           </SettingsTrigger>
 

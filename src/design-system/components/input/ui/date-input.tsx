@@ -4,18 +4,18 @@
 
 import { CalendarDate } from "@internationalized/date";
 import {
+  forwardRef,
   Fragment,
   memo,
   useCallback,
   useMemo,
   useRef,
   useState,
-  forwardRef,
   type ChangeEvent,
   type FocusEvent,
   type KeyboardEvent,
-  type RefObject,
   type MouseEvent,
+  type RefObject,
 } from "react";
 
 import { IconButton } from "@/design-system/components/button/ui/button";
@@ -41,7 +41,7 @@ import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-mo
 import { P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { useFieldContext } from "@chakra-ui/react";
-import { IconCalendarSearch } from "@tabler/icons-react";
+import { CalendarIcon } from "lucide-react";
 
 // -------------------------------------------------------------------------------------
 // Helpers
@@ -461,7 +461,7 @@ export const DateInput = memo(
                 my={"auto"}
                 aria-label={"Open date picker"}
               >
-                <AppIcon icon={IconCalendarSearch} />
+                <AppIcon icon={CalendarIcon} />
               </IconButton>
             </DatePickerTrigger>
           )}

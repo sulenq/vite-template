@@ -8,7 +8,7 @@ import type {
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { Circle } from "@/design-system/components/layout/ui/box";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import { IconCheck } from "@tabler/icons-react";
+import { CheckIcon } from "lucide-react";
 
 export const DotIndicator = (props: DotIndicatorProps) => {
   // Props
@@ -38,7 +38,7 @@ export const CheckIndicator = (props: CheckIndicatorProps) => {
 
   return (
     <AppIcon
-      icon={IconCheck}
+      icon={CheckIcon}
       boxSize={4}
       color={`${theme.colorPalette}.solid`}
       {...restProps}

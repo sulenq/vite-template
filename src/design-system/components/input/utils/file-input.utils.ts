@@ -19,10 +19,10 @@ import {
   IconFileWord,
   IconMarkdown,
   IconMusic,
-  IconPhoto,
   IconPresentation,
   IconVideo,
 } from "@tabler/icons-react";
+import { ImageIcon } from "lucide-react";
 
 export function getFileIcon(mimeType?: string) {
   switch (mimeType) {
@@ -38,7 +38,7 @@ export function getFileIcon(mimeType?: string) {
     case "image/heic":
     case "image/heif":
     case "image/x-icon":
-      return IconPhoto;
+      return ImageIcon;
 
     case "image/svg+xml":
       return IconFileTypeSvg;

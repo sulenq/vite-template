@@ -16,11 +16,11 @@ import {
 } from "@/design-system/components/button/ui/button";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type {
+  DatePickerMode,
   DatePickerProps,
   DayViewProps,
   MonthViewProps,
   NavHeaderProps,
-  DatePickerMode,
   YearViewProps,
 } from "@/design-system/components/input/types/date-picker.type";
 import {
@@ -38,17 +38,13 @@ import {
   WEEKDAYS_HEADER,
   YEAR_PAGE_SIZE,
 } from "@/design-system/components/input/utils/date.utils";
-import { Grid } from "@/design-system/components/layout/ui/grid";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
+import { Grid } from "@/design-system/components/layout/ui/grid";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import { Modal } from "@/design-system/components/overlay/ui/modal";
 import { ClampedP, P } from "@/design-system/components/typography/ui/p";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import {
-  IconChevronLeft,
-  IconChevronRight,
-  IconWorld,
-} from "@tabler/icons-react";
+import { ChevronLeftIcon, ChevronRightIcon, GlobeIcon } from "lucide-react";
 
 // -------------------------------------------------------------------------------------
 // Hook: useDatePickerState
@@ -134,7 +130,7 @@ const NavHeader = memo(function NavHeader({
   return (
     <HStack justify={"space-between"} align={"center"} gap={1} py={1}>
       <IconButton variant={"ghost"} aria-label={"Previous"} onClick={onPrev}>
-        <AppIcon icon={IconChevronLeft} />
+        <AppIcon icon={ChevronLeftIcon} />
       </IconButton>
 
       <Button
@@ -148,7 +144,7 @@ const NavHeader = memo(function NavHeader({
       </Button>
 
       <IconButton variant={"ghost"} aria-label={"Next"} onClick={onNext}>
-        <AppIcon icon={IconChevronRight} />
+        <AppIcon icon={ChevronRightIcon} />
       </IconButton>
     </HStack>
   );
@@ -500,7 +496,7 @@ export const DatePicker = memo(function DatePicker(props: DatePickerProps) {
 
         <HStack align={"center"} justify={"space-between"} p={1}>
           <HStack align={"center"} gap={2} color={"fg.muted"}>
-            <AppIcon icon={IconWorld} size={"sm"} />
+            <AppIcon icon={GlobeIcon} size={"sm"} />
 
             <ClampedP fontSize={"sm"}>{timezoneLabel}</ClampedP>
           </HStack>

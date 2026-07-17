@@ -21,8 +21,8 @@ import type { SettingNav } from "@/features/settings/types/settings-navs.type";
 import { RootRoute } from "@/routes/-typed";
 import { t } from "@/shared/libs/i18n";
 import { back } from "@/shared/utils/client/navigation";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 import { Fragment } from "react/jsx-runtime";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 export const SettingsMenu = () => {
   // Hooks
@@ -57,7 +57,7 @@ export const SettingsMenuHeader = () => {
       <HStack>
         {isSmallViewport && (
           <IconButton onClick={() => back()}>
-            <AppIcon icon={IconChevronLeft} />
+            <AppIcon icon={ChevronLeftIcon} />
           </IconButton>
         )}
 
@@ -149,7 +149,7 @@ export const SettingsMenuBody = (props: StackProps) => {
 
                         {isSmallViewport && (
                           <AppIcon
-                            icon={IconChevronRight}
+                            icon={ChevronRightIcon}
                             color={"fg.subtle"}
                             ml={"auto"}
                           />

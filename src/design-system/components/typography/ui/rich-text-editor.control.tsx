@@ -12,31 +12,6 @@ import { Tooltip } from "@/design-system/components/overlay/ui/tooltip";
 import { Portal } from "@/design-system/components/utilities/ui/portal";
 import type { IconButtonProps } from "@chakra-ui/react";
 import { ColorSwatch } from "@chakra-ui/react";
-import {
-  IconAlignCenter,
-  IconAlignJustified,
-  IconAlignLeft,
-  IconAlignRight,
-  IconArrowBackUp,
-  IconArrowForwardUp,
-  IconBold,
-  IconCode,
-  IconH1,
-  IconH2,
-  IconH3,
-  IconH4,
-  IconHighlight,
-  IconItalic,
-  IconLink,
-  IconLinkOff,
-  IconList,
-  IconListNumbers,
-  IconMinus,
-  IconQuote,
-  IconStrikethrough,
-  IconSubscript,
-  IconSuperscript,
-} from "@tabler/icons-react";
 import "@tiptap/extension-font-family";
 import "@tiptap/extension-highlight";
 import "@tiptap/extension-link";
@@ -46,7 +21,34 @@ import "@tiptap/extension-text-align";
 import "@tiptap/extension-text-style";
 import "@tiptap/extension-underline";
 import "@tiptap/starter-kit";
-import { EraserIcon, TypeIcon, UnderlineIcon } from "lucide-react";
+import {
+  BoldIcon,
+  CodeIcon,
+  EraserIcon,
+  Heading1Icon,
+  Heading2Icon,
+  Heading3Icon,
+  Heading4Icon,
+  HighlighterIcon,
+  ItalicIcon,
+  Link2Icon,
+  Link2OffIcon,
+  ListIcon,
+  ListOrderedIcon,
+  MinusIcon,
+  QuoteIcon,
+  RedoIcon,
+  StrikethroughIcon,
+  SubscriptIcon,
+  SuperscriptIcon,
+  TextAlignCenterIcon,
+  TextAlignEndIcon,
+  TextAlignJustifyIcon,
+  TextAlignStartIcon,
+  TypeIcon,
+  UnderlineIcon,
+  UndoIcon,
+} from "lucide-react";
 import { forwardRef, useId, useState } from "react";
 import type {
   BooleanControlConfig,
@@ -281,14 +283,14 @@ export const FontSize = createSelectControl({
 
 export const Bold = createBooleanControl({
   label: "Bold",
-  icon: IconBold,
+  icon: BoldIcon,
   command: (editor) => editor.chain().focus().toggleBold().run(),
   getVariant: (editor) => (editor.isActive("bold") ? "subtle" : "ghost"),
 });
 
 export const Italic = createBooleanControl({
   label: "Italic",
-  icon: IconItalic,
+  icon: ItalicIcon,
   command: (editor) => editor.chain().focus().toggleItalic().run(),
   getVariant: (editor) => (editor.isActive("italic") ? "subtle" : "ghost"),
 });
@@ -302,35 +304,35 @@ export const Underline = createBooleanControl({
 
 export const Strikethrough = createBooleanControl({
   label: "Strikethrough",
-  icon: IconStrikethrough,
+  icon: StrikethroughIcon,
   command: (editor) => editor.chain().focus().toggleStrike().run(),
   getVariant: (editor) => (editor.isActive("strike") ? "subtle" : "ghost"),
 });
 
 export const Code = createBooleanControl({
   label: "Code",
-  icon: IconCode,
+  icon: CodeIcon,
   command: (editor) => editor.chain().focus().toggleCode().run(),
   getVariant: (editor) => (editor.isActive("code") ? "subtle" : "ghost"),
 });
 
 export const Subscript = createBooleanControl({
   label: "Subscript",
-  icon: IconSubscript,
+  icon: SubscriptIcon,
   command: (editor) => editor.chain().focus().toggleSubscript().run(),
   getVariant: (editor) => (editor.isActive("subscript") ? "subtle" : "ghost"),
 });
 
 export const Superscript = createBooleanControl({
   label: "Superscript",
-  icon: IconSuperscript,
+  icon: SuperscriptIcon,
   command: (editor) => editor.chain().focus().toggleSuperscript().run(),
   getVariant: (editor) => (editor.isActive("superscript") ? "subtle" : "ghost"),
 });
 
 export const H1 = createBooleanControl({
   label: "H1",
-  icon: IconH1,
+  icon: Heading1Icon,
   command: (editor) => editor.chain().focus().toggleHeading({ level: 1 }).run(),
   getVariant: (editor) =>
     editor.isActive("heading", { level: 1 }) ? "subtle" : "ghost",
@@ -338,7 +340,7 @@ export const H1 = createBooleanControl({
 
 export const H2 = createBooleanControl({
   label: "H2",
-  icon: IconH2,
+  icon: Heading2Icon,
   command: (editor) => editor.chain().focus().toggleHeading({ level: 2 }).run(),
   getVariant: (editor) =>
     editor.isActive("heading", { level: 2 }) ? "subtle" : "ghost",
@@ -346,7 +348,7 @@ export const H2 = createBooleanControl({
 
 export const H3 = createBooleanControl({
   label: "H3",
-  icon: IconH3,
+  icon: Heading3Icon,
   command: (editor) => editor.chain().focus().toggleHeading({ level: 3 }).run(),
   getVariant: (editor) =>
     editor.isActive("heading", { level: 3 }) ? "subtle" : "ghost",
@@ -354,7 +356,7 @@ export const H3 = createBooleanControl({
 
 export const H4 = createBooleanControl({
   label: "H4",
-  icon: IconH4,
+  icon: Heading4Icon,
   command: (editor) => editor.chain().focus().toggleHeading({ level: 4 }).run(),
   getVariant: (editor) =>
     editor.isActive("heading", { level: 4 }) ? "subtle" : "ghost",
@@ -362,35 +364,35 @@ export const H4 = createBooleanControl({
 
 export const BulletList = createBooleanControl({
   label: "Bullet List",
-  icon: IconList,
+  icon: ListIcon,
   command: (editor) => editor.chain().focus().toggleBulletList().run(),
   getVariant: (editor) => (editor.isActive("bulletList") ? "subtle" : "ghost"),
 });
 
 export const OrderedList = createBooleanControl({
   label: "Ordered List",
-  icon: IconListNumbers,
+  icon: ListOrderedIcon,
   command: (editor) => editor.chain().focus().toggleOrderedList().run(),
   getVariant: (editor) => (editor.isActive("orderedList") ? "subtle" : "ghost"),
 });
 
 export const Blockquote = createBooleanControl({
   label: "Blockquote",
-  icon: IconQuote,
+  icon: QuoteIcon,
   command: (editor) => editor.chain().focus().toggleBlockquote().run(),
   getVariant: (editor) => (editor.isActive("blockquote") ? "subtle" : "ghost"),
 });
 
 export const Hr = createBooleanControl({
   label: "Horizontal Rule",
-  icon: IconMinus,
+  icon: MinusIcon,
   command: (editor) => editor.chain().focus().setHorizontalRule().run(),
   getVariant: (editor) => (editor.isActive("blockquote") ? "subtle" : "ghost"),
 });
 
 export const Link = createBooleanControl({
   label: "Link",
-  icon: IconLink,
+  icon: Link2Icon,
   command: (editor) => {
     const url = window.prompt("Enter URL");
     if (url)
@@ -406,14 +408,14 @@ export const Link = createBooleanControl({
 
 export const Unlink = createBooleanControl({
   label: "Unlink",
-  icon: IconLinkOff,
+  icon: Link2OffIcon,
   command: (editor) => editor.chain().focus().unsetLink().run(),
   getVariant: (editor) => (editor.isActive("link") ? "subtle" : "ghost"),
 });
 
 export const AlignLeft = createBooleanControl({
   label: "Align Left",
-  icon: IconAlignLeft,
+  icon: TextAlignStartIcon,
   command: (editor) => editor.chain().focus().setTextAlign("left").run(),
   getVariant: (editor) =>
     editor.isActive({ textAlign: "left" }) ? "subtle" : "ghost",
@@ -421,7 +423,7 @@ export const AlignLeft = createBooleanControl({
 
 export const AlignCenter = createBooleanControl({
   label: "Align Center",
-  icon: IconAlignCenter,
+  icon: TextAlignCenterIcon,
   command: (editor) => editor.chain().focus().setTextAlign("center").run(),
   getVariant: (editor) =>
     editor.isActive({ textAlign: "center" }) ? "subtle" : "ghost",
@@ -429,7 +431,7 @@ export const AlignCenter = createBooleanControl({
 
 export const AlignJustify = createBooleanControl({
   label: "Align Justify",
-  icon: IconAlignJustified,
+  icon: TextAlignJustifyIcon,
   command: (editor) => editor.chain().focus().setTextAlign("justify").run(),
   getVariant: (editor) =>
     editor.isActive({ textAlign: "justify" }) ? "subtle" : "ghost",
@@ -437,7 +439,7 @@ export const AlignJustify = createBooleanControl({
 
 export const AlignRight = createBooleanControl({
   label: "Align Right",
-  icon: IconAlignRight,
+  icon: TextAlignEndIcon,
   command: (editor) => editor.chain().focus().setTextAlign("right").run(),
   getVariant: (editor) =>
     editor.isActive({ textAlign: "right" }) ? "subtle" : "ghost",
@@ -445,7 +447,7 @@ export const AlignRight = createBooleanControl({
 
 export const Undo = createBooleanControl({
   label: "Undo",
-  icon: IconArrowBackUp,
+  icon: UndoIcon,
   command: (editor) => editor.chain().focus().undo().run(),
   isDisabled: (editor) => !editor.can().undo(),
   getVariant: (editor) => (editor.isActive("link") ? "subtle" : "ghost"),
@@ -453,7 +455,7 @@ export const Undo = createBooleanControl({
 
 export const Redo = createBooleanControl({
   label: "Redo",
-  icon: IconArrowForwardUp,
+  icon: RedoIcon,
   command: (editor) => editor.chain().focus().redo().run(),
   isDisabled: (editor) => !editor.can().redo(),
   getVariant: (editor) => (editor.isActive("link") ? "subtle" : "ghost"),
@@ -487,7 +489,7 @@ export const TextColor = createSwatchControl({
 
 export const Highlight = createSwatchControl({
   label: "Highlight",
-  icon: IconHighlight,
+  icon: HighlighterIcon,
   swatches: [
     { label: "Yellow", value: "#FFFF00", color: "#FFFF00" },
     { label: "Green", value: "#00FF00", color: "#00FF00" },

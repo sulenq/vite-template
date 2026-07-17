@@ -8,7 +8,7 @@ import type { SearchInputProps } from "@/design-system/components/input/types/se
 import { Input } from "@/design-system/components/input/ui/input";
 import { useFocusSearch } from "@/design-system/hooks/use-focus-search";
 import { InputGroup } from "@chakra-ui/react";
-import { IconSearch, IconX } from "@tabler/icons-react";
+import { SearchIcon, XIcon } from "lucide-react";
 import { forwardRef, useRef, useState, type ChangeEvent } from "react";
 
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
@@ -45,11 +45,11 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
 
     return (
       <InputGroup
-        startElement={<AppIcon icon={IconSearch} />}
+        startElement={<AppIcon icon={SearchIcon} />}
         endElement={
           value ? (
             <IconButton size="xs" onClick={handleClear} me="-2">
-              <AppIcon icon={IconX} />
+              <AppIcon icon={XIcon} />
             </IconButton>
           ) : undefined
         }
