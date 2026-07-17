@@ -325,6 +325,8 @@ const Toast = () => {
 
           <Button
             onClick={() => {
+              const duration = 5000;
+
               toast.create({
                 id: "Email compose",
                 variant: "loading",
@@ -340,6 +342,7 @@ const Toast = () => {
                     console.log("Undo");
                   },
                 },
+                duration: duration + 100,
               });
 
               setTimeout(() => {
@@ -347,9 +350,9 @@ const Toast = () => {
                   variant: "success",
                   title: "Email sent successfully",
                   quickAction: undefined,
-                  duration: 5000,
+                  duration: duration,
                 });
-              }, 2000);
+              }, duration);
             }}
           >
             Toast loading with quick action

@@ -97,6 +97,7 @@ export type ToastRecord = Omit<ToastOptions, "group" | "duration"> & {
   duration: number | null;
   status: ToastStatus;
   createdAt: number;
+  updatedAt: number;
   remainingDuration: number | null;
   paused: boolean;
   isDeletedFromHistory: boolean;

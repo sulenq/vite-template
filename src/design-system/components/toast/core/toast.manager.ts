@@ -200,6 +200,7 @@ function resolveDuration(duration: ToastOptions["duration"]): number | null {
 
 function buildRecord(options: ToastOptions, id: string): ToastRecord {
   const duration = resolveDuration(options.duration);
+  const now = Date.now();
   return {
     ...options,
     id,
@@ -207,7 +208,8 @@ function buildRecord(options: ToastOptions, id: string): ToastRecord {
     variant: options.variant ?? "info",
     duration,
     status: "entering",
-    createdAt: Date.now(),
+    createdAt: now,
+    updatedAt: now,
     remainingDuration: duration,
     paused: false,
     isDeletedFromHistory: false,
@@ -290,6 +292,7 @@ function update(id: string, patch: UpdateToastOptions): void {
     group: existing.group,
     duration,
     remainingDuration: duration,
+    updatedAt: Date.now(),
   };
 
   useToastVisibleStore.getState().update(id, nextRecord);

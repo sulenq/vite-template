@@ -2,18 +2,22 @@
 
 import { Box } from "@/design-system/components/layout/ui/box";
 import type { ToastRecord } from "@/design-system/components/toast/types/toast.types";
+import { useColorModeValue } from "@/design-system/hooks/use-color-mode";
 
 export function ToastProgressBar({ record }: { record: ToastRecord }) {
+  const bg = useColorModeValue("bg.emphasized", "bg.muted");
+
   if (record.duration === null) return null;
 
   return (
     <Box
+      key={record.updatedAt}
       pos={"absolute"}
-      left={0}
+      left={"16px"}
       top={0}
       h={"2px"}
-      w={"full"}
-      bg={"bg.emphasized"}
+      w={"calc(100% - 32px)"}
+      bg={bg}
       transformOrigin={"left"}
       animationName={"shrink-x"}
       animationDuration={`${record.duration}ms`}
