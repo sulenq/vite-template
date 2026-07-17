@@ -108,7 +108,7 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
       role={record.variant === "error" ? "alert" : "status"}
       pos={"relative"}
       overflow={"clip"}
-      p={3}
+      py={3}
       bg={stackExpanded ? "bg.body" : tintDark("bg.body", index * 2)}
       border={"1px solid"}
       borderColor={"border.subtle"}
@@ -132,8 +132,7 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
       }}
       {...restProps}
     >
-      {/* Header */}
-      <HStack align={"center"} gap={2}>
+      <HStack gap={3} px={3}>
         <ToastIcon
           record={record}
           icon={TOAST_VARIANT_MAP[record.variant].icon}
@@ -141,136 +140,140 @@ export function ToastItem(props: ToastItemProps & { stackExpanded?: boolean }) {
           color={TOAST_VARIANT_MAP[record.variant].color}
         />
 
-        {/* Title */}
-        {record.title && (
-          <P
-            fontWeight={"medium"}
-            color={TOAST_VARIANT_MAP[record.variant].color}
-            whiteSpace={"nowrap"}
-          >
-            {record.title}
-          </P>
-        )}
-
-        {/* Description (collapsed) */}
-        {record.description && (
-          <P
-            ml={1}
-            fontSize={"sm"}
-            color={"fg.subtle"}
-            lineClamp={1}
-            mt={"1px"}
-            opacity={toastItemExpanded ? 0 : 1}
-            transition={"200ms"}
-          >
-            {record.description}
-          </P>
-        )}
-
-        {/* Actions */}
-        <HStack align={"center"} gap={1} ml={"auto"}>
-          {record.quickAction && (
-            <Button
-              variant={"subtle"}
-              size={"2xs"}
-              rounded={"full"}
-              fontSize={"sm"}
-              onClick={(event) => {
-                event.stopPropagation();
-                record?.quickAction?.onClick(record.id);
-              }}
-            >
-              {record.quickAction.content}
-            </Button>
-          )}
-
-          {hasExpandableContent && (
-            <IconButton
-              variant={"subtle"}
-              size={"2xs"}
-              rounded={"full"}
-              onClick={(event) => {
-                if (stackExpanded) event.stopPropagation();
-                setToastItemExpanded((prev) => !prev);
-              }}
-            >
-              <AppIcon
-                icon={ChevronDownIcon}
-                size={"sm"}
-                transform={
-                  toastItemExpanded ? "rotate(180deg)" : "rotate(0deg)"
-                }
-                transition={"transform 200ms"}
-              />
-            </IconButton>
-          )}
-
-          <CloseButton
-            aria-label={"Close notification"}
-            variant={"subtle"}
-            size={"2xs"}
-            rounded={"full"}
-            boxSize={3.5}
-            onClick={(event: React.MouseEvent) => {
-              event.stopPropagation();
-              toast.close(record.id);
-            }}
-          />
-        </HStack>
-      </HStack>
-
-      {/* Content */}
-      <VStack
-        pl={8}
-        mt={toastItemExpanded ? 1 : 0}
-        display={stackExpanded || isFirstIndex ? "flex" : "none"}
-        opacity={stackExpanded || isFirstIndex ? 1 : 0}
-        pointerEvents={stackExpanded || isFirstIndex ? "auto" : "none"}
-        transition={"opacity 200ms"}
-      >
-        <Collapsible.Root open={toastItemExpanded}>
-          <Collapsible.Content>
-            {/* Description */}
-            {record.description && stackExpanded && (
+        <VStack flex={1}>
+          {/* Header */}
+          <HStack align={"center"} gap={2}>
+            {/* Title */}
+            {record.title && (
               <P
-                color={"fg.muted"}
+                fontWeight={"medium"}
+                color={TOAST_VARIANT_MAP[record.variant].color}
+                whiteSpace={"nowrap"}
+              >
+                {record.title}
+              </P>
+            )}
+
+            {/* Description (collapsed) */}
+            {record.description && (
+              <P
+                ml={1}
                 fontSize={"sm"}
-                lineClamp={toastItemExpanded ? undefined : 1}
+                color={"fg.subtle"}
+                lineClamp={1}
+                mt={"1px"}
+                opacity={toastItemExpanded ? 0 : 1}
+                transition={"200ms"}
               >
                 {record.description}
               </P>
             )}
 
             {/* Actions */}
-            {record.actions && !isEmptyArray(record.actions) && (
-              <ButtonGroup gap={2} mt={record.description ? 3 : 0}>
-                {record.actions.map((action, index) => (
-                  <Button
-                    key={index}
-                    variant={"subtle"}
-                    size={"2xs"}
-                    rounded={"full"}
-                    fontSize={"sm"}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      action.onClick(record.id);
-                    }}
-                  >
-                    {action.content}
-                  </Button>
-                ))}
-              </ButtonGroup>
-            )}
-          </Collapsible.Content>
-        </Collapsible.Root>
+            <HStack align={"center"} gap={1} ml={"auto"}>
+              {record.quickAction && (
+                <Button
+                  variant={"subtle"}
+                  size={"2xs"}
+                  rounded={"full"}
+                  fontSize={"sm"}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    record?.quickAction?.onClick(record.id);
+                  }}
+                >
+                  {record.quickAction.content}
+                </Button>
+              )}
 
-        {/* Removed from history flag */}
-        {showDeletedFromHistoryIndicator && record.isDeletedFromHistory && (
-          <P fontSize={"xs"} color={"fg.muted"} mt={1}>
-            {"Removed from history"}
-          </P>
-        )}
-      </VStack>
+              {hasExpandableContent && (
+                <IconButton
+                  variant={"subtle"}
+                  size={"2xs"}
+                  rounded={"full"}
+                  onClick={(event) => {
+                    if (stackExpanded) event.stopPropagation();
+                    setToastItemExpanded((prev) => !prev);
+                  }}
+                >
+                  <AppIcon
+                    icon={ChevronDownIcon}
+                    size={"sm"}
+                    transform={
+                      toastItemExpanded ? "rotate(180deg)" : "rotate(0deg)"
+                    }
+                    transition={"transform 200ms"}
+                  />
+                </IconButton>
+              )}
+
+              <CloseButton
+                aria-label={"Close notification"}
+                variant={"subtle"}
+                size={"2xs"}
+                rounded={"full"}
+                boxSize={3.5}
+                onClick={(event: React.MouseEvent) => {
+                  event.stopPropagation();
+                  toast.close(record.id);
+                }}
+              />
+            </HStack>
+          </HStack>
+
+          {/* Content */}
+          <VStack
+            mt={toastItemExpanded ? 1 : 0}
+            display={stackExpanded || isFirstIndex ? "flex" : "none"}
+            opacity={stackExpanded || isFirstIndex ? 1 : 0}
+            pointerEvents={stackExpanded || isFirstIndex ? "auto" : "none"}
+            transition={"opacity 200ms"}
+          >
+            <Collapsible.Root open={toastItemExpanded}>
+              <Collapsible.Content>
+                {/* Description */}
+                {record.description && stackExpanded && (
+                  <P
+                    color={"fg.muted"}
+                    fontSize={"sm"}
+                    lineClamp={toastItemExpanded ? undefined : 1}
+                  >
+                    {record.description}
+                  </P>
+                )}
+
+                {/* Actions */}
+                {record.actions && !isEmptyArray(record.actions) && (
+                  <ButtonGroup gap={2} mt={record.description ? 3 : 0}>
+                    {record.actions.map((action, index) => (
+                      <Button
+                        key={index}
+                        variant={"subtle"}
+                        size={"2xs"}
+                        rounded={"full"}
+                        fontSize={"sm"}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          action.onClick(record.id);
+                        }}
+                      >
+                        {action.content}
+                      </Button>
+                    ))}
+                  </ButtonGroup>
+                )}
+              </Collapsible.Content>
+            </Collapsible.Root>
+
+            {/* Removed from history flag */}
+            {showDeletedFromHistoryIndicator && record.isDeletedFromHistory && (
+              <P fontSize={"xs"} color={"fg.muted"} mt={1}>
+                {"Removed from history"}
+              </P>
+            )}
+          </VStack>
+        </VStack>
+      </HStack>
 
       {showProgressBar && <ToastProgressBar record={record} />}
     </VStack>
