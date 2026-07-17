@@ -1,5 +1,7 @@
 // src/features/settings/components/settings.menu.tsx
 
+"use client";
+
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
@@ -11,13 +13,14 @@ import { Separator } from "@/design-system/components/layout/ui/separator";
 import { P } from "@/design-system/components/typography/ui/p";
 import { HEADER_H } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
+import { useSearchParam } from "@/design-system/hooks/use-search-param";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { SettingsSearchButton } from "@/features/settings/components/settings.search";
 import { SETTINGS_NAV_GROUPS } from "@/features/settings/constants/settings.nav-groups";
 import { SETTINGS_NAVS } from "@/features/settings/constants/settings.navs";
-import { RootRoute } from "@/routes/-typed";
 import { t } from "@/shared/libs/i18n";
 import { back } from "@/shared/utils/client/navigation";
+import { useNavigate } from "@tanstack/react-router";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Fragment } from "react/jsx-runtime";
 
@@ -82,15 +85,17 @@ export const SettingsMenuBody = (props: StackProps) => {
   const { theme } = useThemeStore();
 
   // Hooks
-  const { activeSettingNavKey } = RootRoute.useSearch();
-  const navigate = RootRoute.useNavigate();
+  const { queryValue: activeSettingNavKey } = useSearchParam(
+    "activeSettingNavKey",
+  );
+  const navigate = useNavigate();
   const isSmallViewport = useIsSmallViewport();
 
   return (
     <VScrollContainer gap={isSmallViewport ? 4 : 2} {...restProps}>
       {SETTINGS_NAV_GROUPS.map((group, index) => {
         const isFirstIndex = index === 0;
-        const groupTitle = group?.titleKey ? t[group.titleKey]() : null;
+        const groupTitle = group.titleKey ? t[group.titleKey]() : null;
 
         return (
           <Fragment key={index}>
@@ -128,11 +133,12 @@ export const SettingsMenuBody = (props: StackProps) => {
                         rounded={isSmallViewport ? "none" : "inherit"}
                         onClick={() => {
                           navigate({
-                            search: (prev) => ({
-                              ...prev,
+                            to: ".",
+                            resetScroll: false,
+                            search: (old) => ({
+                              ...old,
                               activeSettingNavKey: navKey,
                             }),
-                            replace: !!activeSettingNavKey,
                           });
                         }}
                       >

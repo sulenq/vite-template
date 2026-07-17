@@ -2,7 +2,6 @@
 
 import { BrandWatermark } from "@/design-system/components/branding/brand-watermark";
 import { Logo } from "@/design-system/components/branding/logo";
-import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import {
   Button,
   IconButton,
@@ -80,6 +79,7 @@ import { RichTextEditorPresetEssential } from "@/design-system/components/typogr
 import { Span } from "@/design-system/components/typography/ui/span";
 import { DownloadTrigger } from "@/design-system/components/utilities/ui/download-trigger";
 import { SPACING_MD } from "@/design-system/constants/styles";
+import { useBreakpointValue } from "@/design-system/hooks";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { SettingsTrigger } from "@/features/settings/components/settings";
 import { getLocale, getLocaleLabel } from "@/shared/libs/i18n";
@@ -109,7 +109,6 @@ import {
 import { useState } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
-import { useBreakpointValue } from "@/design-system/hooks";
 
 export const RootPage = () => {
   return (
@@ -946,20 +945,6 @@ export const Overlay = () => {
 
 // -------------------------------------------------------------------------------------
 
-const ActionButton = (props: IconButtonProps) => {
-  return (
-    <IconButton
-      {...props}
-      size="xs"
-      variant="outline"
-      rounded="full"
-      pos="absolute"
-      zIndex="1"
-      bg="bg"
-    />
-  );
-};
-
 export const Disclosure = () => {
   const items = [
     { value: "a", title: "First Item", text: "Some value 1..." },
@@ -974,7 +959,6 @@ export const Disclosure = () => {
     "https://images.unsplash.com/photo-1703505841379-2f863b201212?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2371",
     "https://images.unsplash.com/photo-1607776905497-b4f788205f6a?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=2370",
   ];
-
   const steps = [
     {
       title: "Step 1",
@@ -989,7 +973,6 @@ export const Disclosure = () => {
       description: "Step 3 description",
     },
   ];
-
   const tabs = [
     { icon: UserIcon, triggerLabel: "Members" },
     { icon: FolderIcon, triggerLabel: "Projects" },
@@ -1045,19 +1028,13 @@ export const Disclosure = () => {
           </Breadcrumb.Root>
 
           <Carousel.Root
-            allowMouseDrag
+            loop
             slideCount={images.length}
             maxW={"350px"}
             gap={4}
             pos={"relative"}
           >
             <Carousel.Control>
-              <Carousel.PrevTrigger asChild>
-                <ActionButton left={4}>
-                  <LuArrowLeft />
-                </ActionButton>
-              </Carousel.PrevTrigger>
-
               <Carousel.ItemGroup width="full">
                 {images.map((src, index) => (
                   <Carousel.Item key={index} index={index}>
@@ -1073,11 +1050,39 @@ export const Disclosure = () => {
                 ))}
               </Carousel.ItemGroup>
 
-              <Carousel.NextTrigger asChild>
-                <ActionButton right={4}>
-                  <LuArrowRight />
-                </ActionButton>
-              </Carousel.NextTrigger>
+              <HStack
+                align={"center"}
+                justify={"space-between"}
+                w={"full"}
+                px={2}
+                pos={"absolute"}
+                top={"50%"}
+                transform={"translateY(-50%)"}
+              >
+                <Carousel.PrevTrigger asChild>
+                  <Carousel.ActionButton
+                    color={"white"}
+                    borderColor={"border.subtle"}
+                    _hover={{
+                      bg: "an1",
+                    }}
+                  >
+                    <LuArrowLeft />
+                  </Carousel.ActionButton>
+                </Carousel.PrevTrigger>
+
+                <Carousel.NextTrigger asChild>
+                  <Carousel.ActionButton
+                    color={"white"}
+                    borderColor={"border.subtle"}
+                    _hover={{
+                      bg: "an1",
+                    }}
+                  >
+                    <LuArrowRight />
+                  </Carousel.ActionButton>
+                </Carousel.NextTrigger>
+              </HStack>
 
               <Box pos={"absolute"} bottom={4} w={"full"}>
                 <Carousel.Indicators

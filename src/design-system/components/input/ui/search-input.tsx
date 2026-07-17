@@ -4,7 +4,7 @@ import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type { SearchInputProps } from "@/design-system/components/input/types/search-input.type";
 import { Input } from "@/design-system/components/input/ui/input";
-import { useFocusSearch } from "@/design-system/hooks/use-focus-search";
+import { useSearchParam } from "@/design-system/hooks/use-search-param";
 import { InputGroup } from "@chakra-ui/react";
 import { SearchIcon, XIcon } from "lucide-react";
 import { forwardRef, useRef, useState, type ChangeEvent } from "react";
@@ -19,7 +19,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
 
     // Hooks
     const { isUrlMode, queryValue, setQueryValue, clearQueryValue } =
-      useFocusSearch(queryKey);
+      useSearchParam(queryKey);
 
     // States
     const [value, setValue] = useState<string>(
