@@ -13,7 +13,7 @@ export const CloseButton = forwardRef<HTMLButtonElement, IconButtonProps>(
 
     return (
       <IconButton ref={ref} {...restProps}>
-        <AppIcon icon={XIcon} boxSize={boxSize} />
+        <AppIcon icon={XIcon} boxSize={boxSize} strokeWidth={2.25} />
       </IconButton>
     );
   },

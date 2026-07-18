@@ -383,6 +383,7 @@ const DialogFullscreenButton = (props: IconButtonProps) => {
         icon={fullscreen ? IconSquares : IconSquare}
         transform={"scaleX(-1)"}
         boxSize={3.5}
+        strokeWidth={2.25}
       />
     </IconButton>
   );
