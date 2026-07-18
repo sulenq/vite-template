@@ -1897,11 +1897,12 @@ export const chakraConfig = defineConfig({
             },
           },
         },
+
         blue: {
           contrast: {
             value: {
               base: "{colors.blue.50} !important",
-              _dark: "{colors.blue.950} !important",
+              _dark: "{colors.blue.50} !important",
             },
           },
           fg: {
