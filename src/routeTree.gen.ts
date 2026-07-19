@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as DemoRouteImport } from './routes/demo'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppAppDashboardRouteImport } from './routes/app/app/dashboard'
 import { Route as AppAdminDashboardRouteImport } from './routes/app/admin/dashboard'
 
+const DemoRoute = DemoRouteImport.update({
+  id: '/demo',
+  path: '/demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AppRouteRoute = AppRouteRouteImport.update({
   id: '/app',
   path: '/app',
@@ -38,12 +44,14 @@ const AppAdminDashboardRoute = AppAdminDashboardRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/demo': typeof DemoRoute
   '/app/admin/dashboard': typeof AppAdminDashboardRoute
   '/app/app/dashboard': typeof AppAppDashboardRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/demo': typeof DemoRoute
   '/app/admin/dashboard': typeof AppAdminDashboardRoute
   '/app/app/dashboard': typeof AppAppDashboardRoute
 }
@@ -51,24 +59,44 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
+  '/demo': typeof DemoRoute
   '/app/admin/dashboard': typeof AppAdminDashboardRoute
   '/app/app/dashboard': typeof AppAppDashboardRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/app' | '/app/admin/dashboard' | '/app/app/dashboard'
+  fullPaths:
+    | '/'
+    | '/app'
+    | '/demo'
+    | '/app/admin/dashboard'
+    | '/app/app/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/app/admin/dashboard' | '/app/app/dashboard'
-  id: '__root__' | '/' | '/app' | '/app/admin/dashboard' | '/app/app/dashboard'
+  to: '/' | '/app' | '/demo' | '/app/admin/dashboard' | '/app/app/dashboard'
+  id:
+    | '__root__'
+    | '/'
+    | '/app'
+    | '/demo'
+    | '/app/admin/dashboard'
+    | '/app/app/dashboard'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRouteRoute: typeof AppRouteRouteWithChildren
+  DemoRoute: typeof DemoRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/demo': {
+      id: '/demo'
+      path: '/demo'
+      fullPath: '/demo'
+      preLoaderRoute: typeof DemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/app': {
       id: '/app'
       path: '/app'
@@ -117,6 +145,7 @@ const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRouteRoute: AppRouteRouteWithChildren,
+  DemoRoute: DemoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

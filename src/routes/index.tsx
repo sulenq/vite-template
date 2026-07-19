@@ -1,6 +1,8 @@
 // src/routes/index.lazy.tsx
 
-import { RootPage } from "@/features/root/components/root.page";
+import { Button } from "@/design-system/components/button/ui/button";
+import { Center } from "@/design-system/components/layout/ui/center";
+import { NavLink } from "@/design-system/components/navigation/ui/link";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -8,5 +10,11 @@ export const Route = createFileRoute("/")({
 });
 
 function RouteComponent() {
-  return <RootPage />;
+  return (
+    <Center minH={"100dvh"}>
+      <NavLink to={"/demo"}>
+        <Button primary>Demo Page</Button>
+      </NavLink>
+    </Center>
+  );
 }

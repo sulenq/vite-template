@@ -1,7 +1,7 @@
 // src/features/root/components/root.page.tsx
 
-import { BrandWatermark } from "@/design-system/components/branding/brand-watermark";
-import { Logo } from "@/design-system/components/branding/logo";
+import { BrandWatermark } from "@/design-system/components/branding/ui/brand-watermark";
+import { Logo } from "@/design-system/components/branding/ui/logo";
 import {
   Button,
   IconButton,
@@ -67,7 +67,7 @@ import { SimpleGrid } from "@/design-system/components/layout/ui/grid";
 import { Group } from "@/design-system/components/layout/ui/group";
 import { Splitter } from "@/design-system/components/layout/ui/splitter";
 import { Image } from "@/design-system/components/media/ui/image";
-import { Link } from "@/design-system/components/navigation/ui/link";
+import { ExternalLink } from "@/design-system/components/navigation/ui/link";
 import { usePopModal } from "@/design-system/components/overlay/hooks/use-pop-modal";
 import { Dialog } from "@/design-system/components/overlay/ui/dialog";
 import { Drawer } from "@/design-system/components/overlay/ui/drawer";
@@ -110,7 +110,7 @@ import { useState } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { LuArrowLeft, LuArrowRight } from "react-icons/lu";
 
-export const RootPage = () => {
+export const DemoPage = () => {
   return (
     <VStack minH={"100dvh"} bg={"bg.canvas"} gap={4}>
       <IntegratedFeatures />
@@ -243,9 +243,7 @@ const Navigation = () => {
         </P>
 
         <HStack wrap={"wrap"} align={"center"} justify={"center"} gap={4}>
-          <Link to={"https://youtube.com"} target={"_blank"}>
-            youtube.com
-          </Link>
+          <ExternalLink href={"https://youtube.com"}>youtube.com</ExternalLink>
         </HStack>
       </Container.Body>
     </Container.Root>

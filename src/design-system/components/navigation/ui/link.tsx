@@ -1,16 +1,16 @@
 // src/design-system/components/navigation/ui/link.tsx
 
-import type { LinkProps } from "@/design-system/components/navigation/types/link.type";
-import { Link as ChakraLink } from "@chakra-ui/react";
-import { Link as TanstakLink } from "@tanstack/react-router";
+import {
+  Link as ChakraLink,
+  type LinkProps as ChakraLinkProps,
+} from "@chakra-ui/react";
+import type { LinkProps as TanstackLinkProps } from "@tanstack/react-router";
+import { Link as TanstackLink } from "@tanstack/react-router";
 
-export const Link = (props: LinkProps) => {
-  // Props
-  const { children, to, ...restProps } = props;
+export const NavLink = (props: TanstackLinkProps) => {
+  return <TanstackLink {...props} />;
+};
 
-  return (
-    <ChakraLink asChild {...restProps}>
-      <TanstakLink to={to}>{children}</TanstakLink>
-    </ChakraLink>
-  );
+export const ExternalLink = (props: ChakraLinkProps) => {
+  return <ChakraLink target={"_blank"} {...props} />;
 };
