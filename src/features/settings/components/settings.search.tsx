@@ -7,7 +7,7 @@ import { FocusSearchTrigger } from "@/design-system/components/overlay/ui/focus-
 import { useModalContext } from "@/design-system/components/overlay/ui/modal";
 import { useSettingSearchIndex } from "@/features/settings/hooks/use-settings-search-index";
 import type { SettingNavKey } from "@/features/settings/types/settings-navs.type";
-import { RootRoute } from "@/routes/-typed";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { SearchIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
@@ -22,8 +22,8 @@ export const SettingsSearchTrigger = (props: SettingsSearchTriggerProps) => {
   const { children, modalKey, queryKey } = props;
 
   // Hooks
-  const { activeSettingNavKey } = RootRoute.useSearch();
-  const navigate = RootRoute.useNavigate();
+  const { activeSettingNavKey } = useSearch({ strict: false });
+  const navigate = useNavigate();
   const searchIndex = useSettingSearchIndex();
 
   return (
