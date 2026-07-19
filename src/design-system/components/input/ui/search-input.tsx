@@ -10,16 +10,18 @@ import { SearchIcon, XIcon } from "lucide-react";
 import { forwardRef, useRef, useState, type ChangeEvent } from "react";
 
 export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
-  (
+  function SeachInput(
     { queryKey, value: controlledValue, onValueChange, w, ...restProps },
     ref,
-  ) => {
+  ) {
     // Refs
     const internalRef = useRef<HTMLInputElement | null>(null);
 
     // Hooks
-    const { isUrlMode, queryValue, setQueryValue, clearQueryValue } =
-      useSearchParam(queryKey);
+    const { queryValue, setQueryValue, clearQueryValue } = useSearchParam(
+      queryKey ?? "",
+    );
+    const isUrlMode = !queryKey;
 
     // States
     const [value, setValue] = useState<string>(
@@ -67,5 +69,3 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
     );
   },
 );
-
-SearchInput.displayName = "SearchInput";
