@@ -17,7 +17,7 @@ type ThemeStore = {
     container: string;
   };
   ambienceColor: boolean;
-  // currency: string
+  backdropBlur: boolean;
 };
 
 export const DEFAULT: ThemeStore = {
@@ -26,6 +26,7 @@ export const DEFAULT: ThemeStore = {
   primaryColorHex: COLOR_PALETTES[0].primaryHex,
   radii: ROUNDED_PRESETS[4],
   ambienceColor: false,
+  backdropBlur: false,
 };
 
 type ThemeConfigStore = {
