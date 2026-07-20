@@ -1,8 +1,8 @@
-// src/routes/app/portal/dashboard.tsx
+// src/routes/_app/portal/dashboard.tsx
 
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/app/portal/dashboard")({
+export const Route = createFileRoute("/_app/portal/dashboard")({
   component: RouteComponent,
 });
 

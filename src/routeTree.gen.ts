@@ -10,10 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DemoRouteImport } from './routes/demo'
-import { Route as AppRouteRouteImport } from './routes/app/route'
+import { Route as AppRouteRouteImport } from './routes/_app/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppPortalDashboardRouteImport } from './routes/app/portal/dashboard'
-import { Route as AppAdminDashboardRouteImport } from './routes/app/admin/dashboard'
+import { Route as AppPortalDashboardRouteImport } from './routes/_app/portal/dashboard'
+import { Route as AppAdminDashboardRouteImport } from './routes/_app/admin/dashboard'
 
 const DemoRoute = DemoRouteImport.update({
   id: '/demo',
@@ -21,8 +21,7 @@ const DemoRoute = DemoRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppRouteRoute = AppRouteRouteImport.update({
-  id: '/app',
-  path: '/app',
+  id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -43,43 +42,36 @@ const AppAdminDashboardRoute = AppAdminDashboardRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/app': typeof AppRouteRouteWithChildren
   '/demo': typeof DemoRoute
-  '/app/admin/dashboard': typeof AppAdminDashboardRoute
-  '/app/portal/dashboard': typeof AppPortalDashboardRoute
+  '/admin/dashboard': typeof AppAdminDashboardRoute
+  '/portal/dashboard': typeof AppPortalDashboardRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app': typeof AppRouteRouteWithChildren
   '/demo': typeof DemoRoute
-  '/app/admin/dashboard': typeof AppAdminDashboardRoute
-  '/app/portal/dashboard': typeof AppPortalDashboardRoute
+  '/admin/dashboard': typeof AppAdminDashboardRoute
+  '/portal/dashboard': typeof AppPortalDashboardRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/app': typeof AppRouteRouteWithChildren
+  '/_app': typeof AppRouteRouteWithChildren
   '/demo': typeof DemoRoute
-  '/app/admin/dashboard': typeof AppAdminDashboardRoute
-  '/app/portal/dashboard': typeof AppPortalDashboardRoute
+  '/_app/admin/dashboard': typeof AppAdminDashboardRoute
+  '/_app/portal/dashboard': typeof AppPortalDashboardRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/app'
-    | '/demo'
-    | '/app/admin/dashboard'
-    | '/app/portal/dashboard'
+  fullPaths: '/' | '/demo' | '/admin/dashboard' | '/portal/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/demo' | '/app/admin/dashboard' | '/app/portal/dashboard'
+  to: '/' | '/demo' | '/admin/dashboard' | '/portal/dashboard'
   id:
     | '__root__'
     | '/'
-    | '/app'
+    | '/_app'
     | '/demo'
-    | '/app/admin/dashboard'
-    | '/app/portal/dashboard'
+    | '/_app/admin/dashboard'
+    | '/_app/portal/dashboard'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -97,10 +89,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
       preLoaderRoute: typeof AppRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
@@ -111,17 +103,17 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app/portal/dashboard': {
-      id: '/app/portal/dashboard'
+    '/_app/portal/dashboard': {
+      id: '/_app/portal/dashboard'
       path: '/portal/dashboard'
-      fullPath: '/app/portal/dashboard'
+      fullPath: '/portal/dashboard'
       preLoaderRoute: typeof AppPortalDashboardRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/app/admin/dashboard': {
-      id: '/app/admin/dashboard'
+    '/_app/admin/dashboard': {
+      id: '/_app/admin/dashboard'
       path: '/admin/dashboard'
-      fullPath: '/app/admin/dashboard'
+      fullPath: '/admin/dashboard'
       preLoaderRoute: typeof AppAdminDashboardRouteImport
       parentRoute: typeof AppRouteRoute
     }
