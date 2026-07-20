@@ -12,8 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as DemoRouteImport } from './routes/demo'
 import { Route as AppRouteRouteImport } from './routes/_app/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppPortalDashboardRouteImport } from './routes/_app/portal/dashboard'
-import { Route as AppAdminDashboardRouteImport } from './routes/_app/admin/dashboard'
+import { Route as AppPortalWelcomeRouteImport } from './routes/_app/portal/welcome'
+import { Route as AppAdminWelcomeRouteImport } from './routes/_app/admin/welcome'
 
 const DemoRoute = DemoRouteImport.update({
   id: '/demo',
@@ -29,49 +29,49 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppPortalDashboardRoute = AppPortalDashboardRouteImport.update({
-  id: '/portal/dashboard',
-  path: '/portal/dashboard',
+const AppPortalWelcomeRoute = AppPortalWelcomeRouteImport.update({
+  id: '/portal/welcome',
+  path: '/portal/welcome',
   getParentRoute: () => AppRouteRoute,
 } as any)
-const AppAdminDashboardRoute = AppAdminDashboardRouteImport.update({
-  id: '/admin/dashboard',
-  path: '/admin/dashboard',
+const AppAdminWelcomeRoute = AppAdminWelcomeRouteImport.update({
+  id: '/admin/welcome',
+  path: '/admin/welcome',
   getParentRoute: () => AppRouteRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/demo': typeof DemoRoute
-  '/admin/dashboard': typeof AppAdminDashboardRoute
-  '/portal/dashboard': typeof AppPortalDashboardRoute
+  '/admin/welcome': typeof AppAdminWelcomeRoute
+  '/portal/welcome': typeof AppPortalWelcomeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/demo': typeof DemoRoute
-  '/admin/dashboard': typeof AppAdminDashboardRoute
-  '/portal/dashboard': typeof AppPortalDashboardRoute
+  '/admin/welcome': typeof AppAdminWelcomeRoute
+  '/portal/welcome': typeof AppPortalWelcomeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteRouteWithChildren
   '/demo': typeof DemoRoute
-  '/_app/admin/dashboard': typeof AppAdminDashboardRoute
-  '/_app/portal/dashboard': typeof AppPortalDashboardRoute
+  '/_app/admin/welcome': typeof AppAdminWelcomeRoute
+  '/_app/portal/welcome': typeof AppPortalWelcomeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/demo' | '/admin/dashboard' | '/portal/dashboard'
+  fullPaths: '/' | '/demo' | '/admin/welcome' | '/portal/welcome'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/demo' | '/admin/dashboard' | '/portal/dashboard'
+  to: '/' | '/demo' | '/admin/welcome' | '/portal/welcome'
   id:
     | '__root__'
     | '/'
     | '/_app'
     | '/demo'
-    | '/_app/admin/dashboard'
-    | '/_app/portal/dashboard'
+    | '/_app/admin/welcome'
+    | '/_app/portal/welcome'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -103,31 +103,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_app/portal/dashboard': {
-      id: '/_app/portal/dashboard'
-      path: '/portal/dashboard'
-      fullPath: '/portal/dashboard'
-      preLoaderRoute: typeof AppPortalDashboardRouteImport
+    '/_app/portal/welcome': {
+      id: '/_app/portal/welcome'
+      path: '/portal/welcome'
+      fullPath: '/portal/welcome'
+      preLoaderRoute: typeof AppPortalWelcomeRouteImport
       parentRoute: typeof AppRouteRoute
     }
-    '/_app/admin/dashboard': {
-      id: '/_app/admin/dashboard'
-      path: '/admin/dashboard'
-      fullPath: '/admin/dashboard'
-      preLoaderRoute: typeof AppAdminDashboardRouteImport
+    '/_app/admin/welcome': {
+      id: '/_app/admin/welcome'
+      path: '/admin/welcome'
+      fullPath: '/admin/welcome'
+      preLoaderRoute: typeof AppAdminWelcomeRouteImport
       parentRoute: typeof AppRouteRoute
     }
   }
 }
 
 interface AppRouteRouteChildren {
-  AppAdminDashboardRoute: typeof AppAdminDashboardRoute
-  AppPortalDashboardRoute: typeof AppPortalDashboardRoute
+  AppAdminWelcomeRoute: typeof AppAdminWelcomeRoute
+  AppPortalWelcomeRoute: typeof AppPortalWelcomeRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
-  AppAdminDashboardRoute: AppAdminDashboardRoute,
-  AppPortalDashboardRoute: AppPortalDashboardRoute,
+  AppAdminWelcomeRoute: AppAdminWelcomeRoute,
+  AppPortalWelcomeRoute: AppPortalWelcomeRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(
