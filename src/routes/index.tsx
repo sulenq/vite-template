@@ -1,4 +1,4 @@
-// src/routes/index.lazy.tsx
+// src/routes/index.tsx
 
 import { Button } from "@/design-system/components/button/ui/button";
 import { Center } from "@/design-system/components/layout/ui/center";
