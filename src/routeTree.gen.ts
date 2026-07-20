@@ -12,7 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as DemoRouteImport } from './routes/demo'
 import { Route as AppRouteRouteImport } from './routes/app/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppAppDashboardRouteImport } from './routes/app/app/dashboard'
+import { Route as AppPortalDashboardRouteImport } from './routes/app/portal/dashboard'
 import { Route as AppAdminDashboardRouteImport } from './routes/app/admin/dashboard'
 
 const DemoRoute = DemoRouteImport.update({
@@ -30,9 +30,9 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppAppDashboardRoute = AppAppDashboardRouteImport.update({
-  id: '/app/dashboard',
-  path: '/app/dashboard',
+const AppPortalDashboardRoute = AppPortalDashboardRouteImport.update({
+  id: '/portal/dashboard',
+  path: '/portal/dashboard',
   getParentRoute: () => AppRouteRoute,
 } as any)
 const AppAdminDashboardRoute = AppAdminDashboardRouteImport.update({
@@ -46,14 +46,14 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteRouteWithChildren
   '/demo': typeof DemoRoute
   '/app/admin/dashboard': typeof AppAdminDashboardRoute
-  '/app/app/dashboard': typeof AppAppDashboardRoute
+  '/app/portal/dashboard': typeof AppPortalDashboardRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppRouteRouteWithChildren
   '/demo': typeof DemoRoute
   '/app/admin/dashboard': typeof AppAdminDashboardRoute
-  '/app/app/dashboard': typeof AppAppDashboardRoute
+  '/app/portal/dashboard': typeof AppPortalDashboardRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -61,7 +61,7 @@ export interface FileRoutesById {
   '/app': typeof AppRouteRouteWithChildren
   '/demo': typeof DemoRoute
   '/app/admin/dashboard': typeof AppAdminDashboardRoute
-  '/app/app/dashboard': typeof AppAppDashboardRoute
+  '/app/portal/dashboard': typeof AppPortalDashboardRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -70,16 +70,16 @@ export interface FileRouteTypes {
     | '/app'
     | '/demo'
     | '/app/admin/dashboard'
-    | '/app/app/dashboard'
+    | '/app/portal/dashboard'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/app' | '/demo' | '/app/admin/dashboard' | '/app/app/dashboard'
+  to: '/' | '/app' | '/demo' | '/app/admin/dashboard' | '/app/portal/dashboard'
   id:
     | '__root__'
     | '/'
     | '/app'
     | '/demo'
     | '/app/admin/dashboard'
-    | '/app/app/dashboard'
+    | '/app/portal/dashboard'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -111,11 +111,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app/app/dashboard': {
-      id: '/app/app/dashboard'
-      path: '/app/dashboard'
-      fullPath: '/app/app/dashboard'
-      preLoaderRoute: typeof AppAppDashboardRouteImport
+    '/app/portal/dashboard': {
+      id: '/app/portal/dashboard'
+      path: '/portal/dashboard'
+      fullPath: '/app/portal/dashboard'
+      preLoaderRoute: typeof AppPortalDashboardRouteImport
       parentRoute: typeof AppRouteRoute
     }
     '/app/admin/dashboard': {
@@ -130,12 +130,12 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteRouteChildren {
   AppAdminDashboardRoute: typeof AppAdminDashboardRoute
-  AppAppDashboardRoute: typeof AppAppDashboardRoute
+  AppPortalDashboardRoute: typeof AppPortalDashboardRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppAdminDashboardRoute: AppAdminDashboardRoute,
-  AppAppDashboardRoute: AppAppDashboardRoute,
+  AppPortalDashboardRoute: AppPortalDashboardRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(

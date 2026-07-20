@@ -1,3 +1,5 @@
+// src/design-system/components/shell/ui/basic-app-shell.tsx
+
 "use client";
 
 import type { StackProps } from "@/design-system/components/layout/types/flex-box.type";
