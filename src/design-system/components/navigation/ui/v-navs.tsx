@@ -60,7 +60,7 @@ export const VNavs = <TNavKey extends string>(props: VNavsProps<TNavKey>) => {
   }
 
   return (
-    <VScrollContainer {...restProps}>
+    <VScrollContainer className={"noScroll"} {...restProps}>
       {groups.map((group, groupIndex) => {
         const isFirstGroup = groupIndex === 0;
         const groupTitle = group.titleKey ? t[group.titleKey]() : null;

@@ -22,6 +22,7 @@ import { APP_NAVS_MAP } from "@/shared/constants/app.navs";
 import type { AppNavKey } from "@/shared/types/app-navs.type";
 import { Outlet, useNavigate } from "@tanstack/react-router";
 import { ChevronRightIcon } from "lucide-react";
+import { Box } from "@chakra-ui/react";
 
 const DEFAULT_SIDEBAR_EXPANDED = true;
 
@@ -59,45 +60,53 @@ const SideBar = () => {
   const navigate = useNavigate();
 
   return (
-    <VStack
+    <Box
       className={"group"}
-      overflowY={"auto"}
       pos={"relative"}
       w={expanded ? "240px" : `calc(40px + 24px)`}
-      bg={"bg.body"}
       transition={"width 200ms"}
+      h={"full"}
+      zIndex={10}
     >
-      <ExpandToggleButton />
-
-      {/* Header */}
-      <HStack align={"center"} justify={"center"} h={HEADER_H} p={4}>
-        <Logo />
-
-        <ClampedP
-          w={expanded ? "" : 0}
-          ml={expanded ? 1 : 0}
-          mr={1}
-          fontSize={"lg"}
-          fontWeight={"semibold"}
+      <VStack h={"full"} overflowY={"auto"} bg={"bg.body"} overflowX={"hidden"}>
+        {/* Header */}
+        <HStack
+          align={"center"}
+          justify={"center"}
+          h={HEADER_H}
+          p={4}
+          w={"full"}
         >
-          {APP.title}
-        </ClampedP>
-      </HStack>
+          <Logo />
 
-      {/* Nav items */}
-      <VNavs<AppNavKey>
-        groups={APP_NAV_GROUPS}
-        navs={APP_NAVS_MAP}
-        expanded={expanded}
-        onNavClick={(key) => {
-          navigate({
-            to: APP_NAVS_MAP[key].href,
-            resetScroll: false,
-          });
-        }}
-        p={3}
-      />
-    </VStack>
+          <ClampedP
+            w={expanded ? "" : 0}
+            ml={expanded ? 1 : 0}
+            mr={1}
+            fontSize={"lg"}
+            fontWeight={"semibold"}
+          >
+            {APP.title}
+          </ClampedP>
+        </HStack>
+
+        {/* Nav items */}
+        <VNavs<AppNavKey>
+          groups={APP_NAV_GROUPS}
+          navs={APP_NAVS_MAP}
+          expanded={expanded}
+          onNavClick={(key) => {
+            navigate({
+              to: APP_NAVS_MAP[key].href,
+              resetScroll: false,
+            });
+          }}
+          p={3}
+        />
+      </VStack>
+
+      <ExpandToggleButton />
+    </Box>
   );
 };
 
