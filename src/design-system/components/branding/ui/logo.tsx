@@ -9,13 +9,15 @@ import { useMemo } from "react";
 
 export const Logo = (props: LogoProps) => {
   // Props
-  const { color, size = 16, ...restProps } = props;
+  const { color, boxSize = 16, ...restProps } = props;
 
   // Hooks
   const { colorMode } = useColorMode();
   const { theme } = useThemeStore();
 
   // Resolved Values
+  const resolvedBoxSize =
+    typeof boxSize === "number" ? `${boxSize}px` : boxSize;
   const resolvedColor = useMemo(() => {
     if (color) return color;
     if (theme.colorPalette === "gray") {
@@ -29,13 +31,13 @@ export const Logo = (props: LogoProps) => {
   return (
     <Center
       flexShrink={0}
-      w={`${size + 8}px`}
-      h={`${size + 8}px`}
+      w={`${resolvedBoxSize + 8}px`}
+      h={`${resolvedBoxSize + 8}px`}
       {...restProps}
     >
       <svg
-        width={size}
-        height={size}
+        width={boxSize}
+        height={boxSize}
         viewBox={"0 0 1322.37 1322.38"}
         fill={resolvedColor}
         xmlns={"http://www.w3.org/2000/svg"}

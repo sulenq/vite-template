@@ -6,7 +6,7 @@ export const APP = {
   link: "https://exium.id",
   defaultTitle: "Exium.id",
   titleTemplate: "%s | Exium.id",
-  description: "",
+  description: "This is app description",
   version: "1.0.0",
   lastUpdated: "2025-09-13",
 };
