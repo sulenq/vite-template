@@ -1,6 +1,7 @@
 // src/design-system/chakra/chakra-system.ts
 
 import { buttonRecipe } from "@/design-system/chakra/recipes/button.recipe";
+import { inputRecipe } from "@/design-system/chakra/recipes/input.recipe";
 import { carouselRecipe } from "@/design-system/chakra/slot-recipes/carousel.recipe";
 import { checkboxRecipe } from "@/design-system/chakra/slot-recipes/checkbox.recipe";
 import { dialogRecipe } from "@/design-system/chakra/slot-recipes/dialog.recipe";
@@ -114,7 +115,7 @@ export const chakraConfig = defineConfig({
 
     tokens: {
       colors: {
-        canvasLight: { value: "#f0f0f2" },
+        canvasLight: { value: "#f8f8f9" },
         canvasDark: { value: "#1a1a1a" },
 
         bodyLight: { value: "#ffffff" },
@@ -2411,6 +2412,7 @@ export const chakraConfig = defineConfig({
 
     recipes: {
       button: buttonRecipe,
+      input: inputRecipe,
     },
 
     slotRecipes: {
