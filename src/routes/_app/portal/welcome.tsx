@@ -7,5 +7,5 @@ export const Route = createFileRoute("/_app/portal/welcome")({
 });
 
 function RouteComponent() {
-  return <div>welcome</div>;
+  return <div>Portal Welcome</div>;
 }

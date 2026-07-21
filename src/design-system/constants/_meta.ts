@@ -1,7 +1,7 @@
 // src/design-system/constants/_meta.ts
 
 export const APP = {
-  name: "Exium.id",
+  title: "Exium.id",
   poweredBy: "Exium.id",
   link: "https://exium.id",
   defaultTitle: "Exium.id",

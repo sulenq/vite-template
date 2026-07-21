@@ -12,11 +12,18 @@ import { globalSearchParamsSchema } from "@/shared/schemas/root-search-params.sc
 import "@fontsource-variable/plus-jakarta-sans";
 import "@fontsource-variable/wix-madefor-text";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { APP } from "@/design-system/constants/_meta";
 
 export const Route = createRootRoute({
   validateSearch: globalSearchParamsSchema,
   component: RootComponent,
   notFoundComponent: NotFoundPage,
+  head: () => ({
+    meta: [
+      { title: APP.title },
+      { name: "description", content: APP.description },
+    ],
+  }),
 });
 
 function RootComponent() {
