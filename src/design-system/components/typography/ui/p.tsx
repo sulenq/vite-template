@@ -89,7 +89,7 @@ export const ClampedP = forwardRef<HTMLParagraphElement, PProps>(
     const { children, ...restProps } = props;
 
     return (
-      <Tooltip content={children}>
+      <Tooltip content={children} w={restProps.w ?? restProps.width}>
         <P ref={ref} lineClamp={1} {...restProps}>
           {children}
         </P>
