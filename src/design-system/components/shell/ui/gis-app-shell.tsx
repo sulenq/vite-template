@@ -20,7 +20,7 @@ import { SettingsTrigger } from "@/features/settings/components/settings";
 import { APP_NAV_GROUPS } from "@/shared/constants/app.nav-groups.";
 import { APP_NAVS_MAP } from "@/shared/constants/app.navs";
 import type { AppNavKey } from "@/shared/types/app-navs.type";
-import { Outlet, useNavigate, useParams } from "@tanstack/react-router";
+import { Outlet, useNavigate } from "@tanstack/react-router";
 import { ChevronRightIcon } from "lucide-react";
 
 const DEFAULT_SIDEBAR_EXPANDED = true;
@@ -56,14 +56,6 @@ const SideBar = () => {
 
   // Hooks
   const navigate = useNavigate();
-  const params = useParams({
-    strict: false,
-  }) as {
-    activeAppNavKey: AppNavKey;
-  };
-
-  // Derived Values
-  const activeAppNavKey = params.activeAppNavKey;
 
   return (
     <VStack
@@ -75,6 +67,7 @@ const SideBar = () => {
     >
       <ExpandToggleButton />
 
+      {/* Header */}
       <HStack align={"center"} justify={"center"} h={HEADER_H} p={4}>
         <Logo />
 
@@ -89,16 +82,15 @@ const SideBar = () => {
         </ClampedP>
       </HStack>
 
+      {/* Nav items */}
       <VNavs<AppNavKey>
         groups={APP_NAV_GROUPS}
         navs={APP_NAVS_MAP}
         expanded={expanded}
         onNavClick={(key) => {
           navigate({
-            to: ".",
+            to: APP_NAVS_MAP[key].href,
             resetScroll: false,
-            replace: !!activeAppNavKey,
-            search: (old) => ({ ...old, activeAppNavKey: key }),
           });
         }}
         p={3}
