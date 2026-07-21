@@ -16,6 +16,9 @@ export const APP_NAV_GROUPS: NavGroup<AppNavKey>[] = [
           {
             key: "reports",
           },
+          {
+            key: "analytics",
+          },
         ],
       },
     ],
