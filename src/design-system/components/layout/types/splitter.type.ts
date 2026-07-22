@@ -1,10 +1,10 @@
 // src/design-system/components/layout/types/splitter.type.ts
 
 import type {
-  SplitterRootProps as ChakraSplitterRootProps,
   SplitterPanelProps as ChakraSplitterPanelProps,
-  SplitterResizeTriggerProps as ChakraSplitterResizeTriggerProps,
   SplitterResizeTriggerIndicatorProps as ChakraSplitterResizeTriggerIndicatorProps,
+  SplitterResizeTriggerProps as ChakraSplitterResizeTriggerProps,
+  SplitterRootProps as ChakraSplitterRootProps,
 } from "@chakra-ui/react";
 
 export type SplitterRootProps = ChakraSplitterRootProps & {};
