@@ -126,7 +126,7 @@ const VNavNode = <TNavKey extends string>(props: VNavNodeProps<TNavKey>) => {
       <NavButton
         aria-label={navTitle}
         variant={isActive ? "subtle" : "ghost"}
-        color={isActive ? `${theme.colorPalette}.fg` : undefined}
+        // color={isActive ? `${theme.colorPalette}.fg` : undefined}
         onClick={() => onNavClick?.(node.key)}
       >
         <NavIcon nav={nav} />
@@ -142,7 +142,7 @@ const VNavNode = <TNavKey extends string>(props: VNavNodeProps<TNavKey>) => {
           <NavButton
             aria-label={navTitle}
             variant={isActive || isAncestorActive ? "subtle" : "ghost"}
-            color={isActive ? `${theme.colorPalette}.fg` : undefined}
+            // color={isActive ? `${theme.colorPalette}.fg` : undefined}
           >
             <NavIcon nav={nav} />
           </NavButton>
@@ -159,8 +159,7 @@ const VNavNode = <TNavKey extends string>(props: VNavNodeProps<TNavKey>) => {
                 value={child.key}
                 onClick={() => onNavClick?.(child.key)}
                 bg={isChildActive ? "colorPalette.subtle" : undefined}
-                color={isChildActive ? `${theme.colorPalette}.fg` : undefined}
-                fontWeight={isChildActive ? "medium" : undefined}
+                // color={isChildActive ? `${theme.colorPalette}.fg` : undefined}
               >
                 {childNav.icon && <AppIcon icon={childNav.icon} />}
 
@@ -179,7 +178,7 @@ const VNavNode = <TNavKey extends string>(props: VNavNodeProps<TNavKey>) => {
       <NavButton
         aria-label={navTitle}
         variant={isActive ? "subtle" : "ghost"}
-        color={isActive ? `${theme.colorPalette}.fg` : undefined}
+        // color={isActive ? `${theme.colorPalette}.fg` : undefined}
         h={"40px"}
         w={"full"}
         rounded={isSmallViewport ? 0 : theme.radii.component}
@@ -203,7 +202,7 @@ const VNavNode = <TNavKey extends string>(props: VNavNodeProps<TNavKey>) => {
     >
       <Collapsible.Trigger
         _open={{
-          bg: "transparent",
+          bg: isActive || isAncestorActive ? "bg.subtle" : "transparent",
         }}
       >
         <NavButton
@@ -278,5 +277,7 @@ const NavIcon = (props: VNavIconProps) => {
   // Props
   const { nav, ...restProps } = props;
 
-  return nav.icon && <AppIcon icon={nav.icon} {...restProps} />;
+  return (
+    nav.icon && <AppIcon icon={nav.icon} color={"fg.muted"} {...restProps} />
+  );
 };
