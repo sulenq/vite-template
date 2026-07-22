@@ -9,10 +9,10 @@ export const buttonRecipe = defineRecipe({
       blend: {
         bg: "bg.body",
         _hover: {
-          bg: "bg.subtle",
+          // bg: "bg.subtle",
         },
         _active: {
-          bg: "bg.muted",
+          // bg: "bg.muted",
         },
       },
 
