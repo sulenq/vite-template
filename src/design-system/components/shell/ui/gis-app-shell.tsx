@@ -2,14 +2,13 @@
 
 import { Logo } from "@/design-system/components/branding/ui/logo";
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
-import {
-  Button,
-  IconButton,
-} from "@/design-system/components/button/ui/button";
+import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
+import { Center } from "@/design-system/components/layout/ui/center";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { AppPageContainer } from "@/design-system/components/layout/ui/page-container";
 import { Separator } from "@/design-system/components/layout/ui/separator";
+import { Splitter } from "@/design-system/components/layout/ui/splitter";
 import { NavButton } from "@/design-system/components/navigation/ui/nav";
 import { VNavs } from "@/design-system/components/navigation/ui/v-navs";
 import { getNavKeyFromPathname } from "@/design-system/components/navigation/utils/v-navs.utils";
@@ -21,7 +20,6 @@ import { HEADER_H } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { useNavStore } from "@/design-system/stores/use-nav-store";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
-import { SettingsTrigger } from "@/features/settings/components/settings";
 import { APP_NAV_GROUPS } from "@/shared/constants/app.nav-groups.";
 import { APP_NAVS_MAP } from "@/shared/constants/app.navs";
 import { t } from "@/shared/libs/i18n";
@@ -41,19 +39,44 @@ export const GisAppShell = (props: GisAppShellProps) => {
 
   return (
     <AppPageContainer
-      flexDir={isSmallViewport ? "column-reverse" : "row"}
+      flexDir={isSmallViewport ? "column" : "row"}
       bg={"bg.canvas"}
       // p={2}
       {...restProps}
     >
-      <SideBar />
+      {!isSmallViewport && <SideBar />}
 
-      <SettingsTrigger modalKey={"settings"} mt={"auto"}>
-        <Button>Settings</Button>
-      </SettingsTrigger>
-
-      <Outlet />
+      <MainContent />
     </AppPageContainer>
+  );
+};
+
+const MainContent = () => {
+  // Hooks
+  const isSmallViewport = useIsSmallViewport();
+
+  return (
+    <Splitter.Root
+      panels={[
+        { id: "a", minSize: 30 },
+        { id: "b", minSize: 30 },
+      ]}
+      defaultSize={[50, 50]}
+      orientation={isSmallViewport ? "vertical" : "horizontal"}
+      minH={"60"}
+    >
+      <Splitter.Panel id={"a"} bg={"bg.body"}>
+        <Outlet />
+      </Splitter.Panel>
+
+      <Splitter.ResizeTrigger id={"a:b"} />
+
+      <Splitter.Panel id={"b"}>
+        <Center boxSize={"full"} textStyle={"2xl"}>
+          Base map
+        </Center>
+      </Splitter.Panel>
+    </Splitter.Root>
   );
 };
 
@@ -76,6 +99,8 @@ const SideBar = () => {
       zIndex={10}
       w={expanded ? "240px" : `calc(40px + 24px)`}
       h={"full"}
+      borderRight={"1px solid"}
+      borderColor={"an1"}
       transition={"200ms cubic-bezier(0.175, 0.885, 0.32, 1.1)"}
     >
       <VStack
