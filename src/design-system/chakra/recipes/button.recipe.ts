@@ -28,7 +28,7 @@ export const buttonRecipe = defineRecipe({
 
       frosted: {
         bg: "an1",
-        backdropFilter: `blur(${BACKDROP_FILTER_BLUR})`,
+        backdropFilter: `${BACKDROP_FILTER_BLUR}`,
         _hover: {
           bg: "an2",
         },
