@@ -15,6 +15,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppPortalWelcomeRouteImport } from './routes/_app/portal/welcome'
 import { Route as AppPortalHomeRouteImport } from './routes/_app/portal/home'
 import { Route as AppAdminWelcomeRouteImport } from './routes/_app/admin/welcome'
+import { Route as AppPortalReportsIncomeStatementRouteImport } from './routes/_app/portal/reports/income-statement'
+import { Route as AppPortalReportsBalanceSheetRouteImport } from './routes/_app/portal/reports/balance-sheet'
 
 const DemoRoute = DemoRouteImport.update({
   id: '/demo',
@@ -45,6 +47,18 @@ const AppAdminWelcomeRoute = AppAdminWelcomeRouteImport.update({
   path: '/admin/welcome',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppPortalReportsIncomeStatementRoute =
+  AppPortalReportsIncomeStatementRouteImport.update({
+    id: '/portal/reports/income-statement',
+    path: '/portal/reports/income-statement',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
+const AppPortalReportsBalanceSheetRoute =
+  AppPortalReportsBalanceSheetRouteImport.update({
+    id: '/portal/reports/balance-sheet',
+    path: '/portal/reports/balance-sheet',
+    getParentRoute: () => AppRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -52,6 +66,8 @@ export interface FileRoutesByFullPath {
   '/admin/welcome': typeof AppAdminWelcomeRoute
   '/portal/home': typeof AppPortalHomeRoute
   '/portal/welcome': typeof AppPortalWelcomeRoute
+  '/portal/reports/balance-sheet': typeof AppPortalReportsBalanceSheetRoute
+  '/portal/reports/income-statement': typeof AppPortalReportsIncomeStatementRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -59,6 +75,8 @@ export interface FileRoutesByTo {
   '/admin/welcome': typeof AppAdminWelcomeRoute
   '/portal/home': typeof AppPortalHomeRoute
   '/portal/welcome': typeof AppPortalWelcomeRoute
+  '/portal/reports/balance-sheet': typeof AppPortalReportsBalanceSheetRoute
+  '/portal/reports/income-statement': typeof AppPortalReportsIncomeStatementRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -68,6 +86,8 @@ export interface FileRoutesById {
   '/_app/admin/welcome': typeof AppAdminWelcomeRoute
   '/_app/portal/home': typeof AppPortalHomeRoute
   '/_app/portal/welcome': typeof AppPortalWelcomeRoute
+  '/_app/portal/reports/balance-sheet': typeof AppPortalReportsBalanceSheetRoute
+  '/_app/portal/reports/income-statement': typeof AppPortalReportsIncomeStatementRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -77,8 +97,17 @@ export interface FileRouteTypes {
     | '/admin/welcome'
     | '/portal/home'
     | '/portal/welcome'
+    | '/portal/reports/balance-sheet'
+    | '/portal/reports/income-statement'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/demo' | '/admin/welcome' | '/portal/home' | '/portal/welcome'
+  to:
+    | '/'
+    | '/demo'
+    | '/admin/welcome'
+    | '/portal/home'
+    | '/portal/welcome'
+    | '/portal/reports/balance-sheet'
+    | '/portal/reports/income-statement'
   id:
     | '__root__'
     | '/'
@@ -87,6 +116,8 @@ export interface FileRouteTypes {
     | '/_app/admin/welcome'
     | '/_app/portal/home'
     | '/_app/portal/welcome'
+    | '/_app/portal/reports/balance-sheet'
+    | '/_app/portal/reports/income-statement'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -139,6 +170,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAdminWelcomeRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/portal/reports/income-statement': {
+      id: '/_app/portal/reports/income-statement'
+      path: '/portal/reports/income-statement'
+      fullPath: '/portal/reports/income-statement'
+      preLoaderRoute: typeof AppPortalReportsIncomeStatementRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
+    '/_app/portal/reports/balance-sheet': {
+      id: '/_app/portal/reports/balance-sheet'
+      path: '/portal/reports/balance-sheet'
+      fullPath: '/portal/reports/balance-sheet'
+      preLoaderRoute: typeof AppPortalReportsBalanceSheetRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
   }
 }
 
@@ -146,12 +191,16 @@ interface AppRouteRouteChildren {
   AppAdminWelcomeRoute: typeof AppAdminWelcomeRoute
   AppPortalHomeRoute: typeof AppPortalHomeRoute
   AppPortalWelcomeRoute: typeof AppPortalWelcomeRoute
+  AppPortalReportsBalanceSheetRoute: typeof AppPortalReportsBalanceSheetRoute
+  AppPortalReportsIncomeStatementRoute: typeof AppPortalReportsIncomeStatementRoute
 }
 
 const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppAdminWelcomeRoute: AppAdminWelcomeRoute,
   AppPortalHomeRoute: AppPortalHomeRoute,
   AppPortalWelcomeRoute: AppPortalWelcomeRoute,
+  AppPortalReportsBalanceSheetRoute: AppPortalReportsBalanceSheetRoute,
+  AppPortalReportsIncomeStatementRoute: AppPortalReportsIncomeStatementRoute,
 }
 
 const AppRouteRouteWithChildren = AppRouteRoute._addFileChildren(

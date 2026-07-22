@@ -15,21 +15,33 @@ export const APP_NAVS_MAP = {
     titleKey: "app.navs.home",
     pathname: "/portal/home",
   },
+
   users: {
     icon: UsersIcon,
     titleKey: "app.navs.users",
     pathname: "/portal/home",
   },
+
   analytics: {
     icon: ChartLineIcon,
     titleKey: "app.navs.analytics",
     pathname: "/portal/home",
   },
+
   reports: {
     icon: ClipboardListIcon,
     titleKey: "app.navs.reports",
     pathname: "/portal/home",
   },
+  "reports.balance-sheet": {
+    titleKey: "app.navs.reports",
+    pathname: "/portal/reports/balance-sheet",
+  },
+  "reports.income-statement": {
+    titleKey: "app.navs.reports",
+    pathname: "/portal/reports/income-statement",
+  },
+
   billing: {
     icon: ReceiptIcon,
     titleKey: "app.navs.billing",

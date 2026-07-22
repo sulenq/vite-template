@@ -1,0 +1,9 @@
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/_app/portal/reports/balance-sheet')({
+  component: RouteComponent,
+})
+
+function RouteComponent() {
+  return <div>Hello "/_app/portal/reports/balance-sheet"!</div>
+}

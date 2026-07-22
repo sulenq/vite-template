@@ -9,17 +9,19 @@ export const APP_NAV_GROUPS: NavGroup<AppNavKey>[] = [
       { key: "home" },
       { key: "users" },
       { key: "analytics" },
-      { key: "reports" },
       {
-        key: "billing",
+        key: "reports",
         children: [
           {
-            key: "reports",
+            key: "reports.balance-sheet",
           },
           {
-            key: "analytics",
+            key: "reports.income-statement",
           },
         ],
+      },
+      {
+        key: "billing",
       },
     ],
   },

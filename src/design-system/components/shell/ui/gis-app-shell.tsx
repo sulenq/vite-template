@@ -41,8 +41,9 @@ export const GisAppShell = (props: GisAppShellProps) => {
 
   return (
     <AppPageContainer
-      flexDir={isSmallViewport ? "column" : "row"}
+      flexDir={isSmallViewport ? "column-reverse" : "row"}
       bg={"bg.canvas"}
+      // p={2}
       {...restProps}
     >
       <SideBar />
@@ -72,12 +73,18 @@ const SideBar = () => {
     <Box
       className={"group"}
       pos={"relative"}
-      w={expanded ? "240px" : `calc(40px + 24px)`}
-      transition={"width 200ms"}
-      h={"full"}
       zIndex={10}
+      w={expanded ? "240px" : `calc(40px + 24px)`}
+      h={"full"}
+      transition={"width 200ms"}
     >
-      <VStack h={"full"} overflowY={"auto"} bg={"bg.body"} overflowX={"hidden"}>
+      <VStack
+        overflowY={"auto"}
+        overflowX={"clip"}
+        h={"full"}
+        bg={"bg.body"}
+        // rounded={theme.radii.container}
+      >
         {/* Header */}
         <HStack
           align={"center"}
@@ -86,34 +93,31 @@ const SideBar = () => {
           p={4}
           w={"full"}
         >
-          <HStack>
-            <Logo ml={2} />
+          <HStack gap={3} ml={2}>
+            <Logo />
 
-            <HStack align={"center"} gap={1}>
-              <ClampedP
-                w={expanded ? "" : 0}
-                ml={3}
-                mr={1}
-                fontWeight={"semibold"}
-                color={`${theme.colorPalette}.fg`}
-                lineHeight={1.2}
-              >
-                {APP.title}
-              </ClampedP>
-
-              <ClampedP
-                w={expanded ? "" : 0}
-                fontSize={"sm"}
-                transition={"200ms"}
-                color={"fg.subtle"}
-                lineHeight={1}
-              >
-                {APP.version}
-              </ClampedP>
-            </HStack>
+            <ClampedP
+              w={expanded ? "" : 0}
+              fontWeight={"semibold"}
+              color={`${theme.colorPalette}.fg`}
+              lineHeight={1.2}
+            >
+              {APP.title}
+            </ClampedP>
           </HStack>
 
-          {expanded && <ExpandToggleButton />}
+          <ClampedP
+            w={expanded ? "" : 0}
+            mr={1}
+            fontSize={"sm"}
+            transition={"200ms"}
+            color={"fg.subtle"}
+            lineHeight={1}
+          >
+            {APP.version}
+          </ClampedP>
+
+          {/* {expanded && <ExpandToggleButton />} */}
         </HStack>
 
         <Separator borderColor={"border.subtle"} mx={2} />
@@ -150,15 +154,13 @@ const SideBar = () => {
         </VStack>
       </VStack>
 
-      {!expanded && (
-        <ExpandToggleButton
-          pos={"absolute"}
-          right={"-13px"}
-          top={"16px"}
-          opacity={0}
-          _groupHover={{ opacity: 1 }}
-        />
-      )}
+      <ExpandToggleButton
+        pos={"absolute"}
+        right={"-13px"}
+        top={"16px"}
+        opacity={0}
+        _groupHover={{ opacity: 1 }}
+      />
     </Box>
   );
 };
@@ -188,6 +190,7 @@ const ExpandToggleButton = (props: IconButtonProps) => {
       >
         <AppIcon
           icon={ChevronsRightIcon}
+          size={"sm"}
           transform={expanded ? "rotate(180deg)" : ""}
         />
       </IconButton>
