@@ -114,7 +114,7 @@ const SideBar = () => {
             color={"fg.subtle"}
             lineHeight={1}
           >
-            {APP.version}
+            v{APP.version}
           </ClampedP>
 
           {/* {expanded && <ExpandToggleButton />} */}
