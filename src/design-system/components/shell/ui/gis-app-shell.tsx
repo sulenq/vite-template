@@ -76,7 +76,7 @@ const SideBar = () => {
       zIndex={10}
       w={expanded ? "240px" : `calc(40px + 24px)`}
       h={"full"}
-      transition={"width 200ms"}
+      transition={"200ms cubic-bezier(0.175, 0.885, 0.32, 1.1)"}
     >
       <VStack
         overflowY={"auto"}
@@ -93,7 +93,7 @@ const SideBar = () => {
           p={4}
           w={"full"}
         >
-          <HStack gap={3} ml={2}>
+          <HStack align={"center"} gap={3} ml={2}>
             <Logo />
 
             <ClampedP
@@ -178,10 +178,10 @@ const ExpandToggleButton = (props: IconButtonProps) => {
         variant={"blend"}
         size={"2xs"}
         zIndex={99}
-        rounded={"full"}
-        border={expanded ? "none" : "1px solid"}
-        borderColor={"border.subtle"}
         color={"fg.muted"}
+        rounded={"full"}
+        border={"1px solid"}
+        borderColor={"border.subtle"}
         transition={"200ms"}
         {...props}
         onClick={() => {

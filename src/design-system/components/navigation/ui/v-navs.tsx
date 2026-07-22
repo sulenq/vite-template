@@ -121,7 +121,7 @@ const VNavNode = <TNavKey extends string>(props: VNavNodeProps<TNavKey>) => {
   const opened = internalOpen;
 
   // Rail mode, no children → icon-only button
-  if (!expanded) {
+  if (!expanded && !hasChildren) {
     return (
       <NavButton
         aria-label={navTitle}
@@ -134,7 +134,7 @@ const VNavNode = <TNavKey extends string>(props: VNavNodeProps<TNavKey>) => {
     );
   }
 
-  // Rail mode (!expanded) + has children → icon-only trigger + Chakra Menu popup
+  // Rail mode + has children → icon-only trigger + Chakra Menu popup
   if (!expanded && hasChildren) {
     return (
       <Menu.Root>
@@ -151,13 +151,19 @@ const VNavNode = <TNavKey extends string>(props: VNavNodeProps<TNavKey>) => {
         <Menu.Content>
           {node.children!.map((child) => {
             const childNav = navs[child.key];
+            const isChildActive = activeKey === child.key;
+
             return (
               <Menu.Item
                 key={child.key}
                 value={child.key}
                 onClick={() => onNavClick?.(child.key)}
+                bg={isChildActive ? "colorPalette.subtle" : undefined}
+                color={isChildActive ? `${theme.colorPalette}.fg` : undefined}
+                fontWeight={isChildActive ? "medium" : undefined}
               >
                 {childNav.icon && <AppIcon icon={childNav.icon} />}
+
                 {t[childNav.titleKey]()}
               </Menu.Item>
             );
@@ -190,13 +196,16 @@ const VNavNode = <TNavKey extends string>(props: VNavNodeProps<TNavKey>) => {
   const activeChildIndex = node.children!.findIndex(
     (child) => child.key === activeKey || activePathKeys.has(child.key),
   );
-
   return (
     <Collapsible.Root
       opened={opened}
       onOpenChange={(e) => setInternalOpen(e.open)}
     >
-      <Collapsible.Trigger>
+      <Collapsible.Trigger
+        _open={{
+          bg: "transparent",
+        }}
+      >
         <NavButton
           aria-expanded={opened}
           size={"md"}
@@ -204,6 +213,9 @@ const VNavNode = <TNavKey extends string>(props: VNavNodeProps<TNavKey>) => {
           h={"40px"}
           w={"full"}
           rounded={isSmallViewport ? 0 : theme.radii.component}
+          _hover={{
+            bg: "bg.subtle",
+          }}
         >
           <NavIcon nav={nav} />
 

@@ -2,7 +2,6 @@
 
 import type { NavItem } from "@/shared/types/nav.type";
 import {
-  ChartLineIcon,
   ClipboardListIcon,
   HouseIcon,
   ReceiptIcon,
@@ -22,20 +21,14 @@ export const APP_NAVS_MAP = {
     pathname: "/portal/home",
   },
 
-  analytics: {
-    icon: ChartLineIcon,
-    titleKey: "app.navs.analytics",
-    pathname: "/portal/home",
-  },
-
   reports: {
     icon: ClipboardListIcon,
     titleKey: "app.navs.reports",
     pathname: "/portal/home",
   },
-  "reports.balance-sheet": {
-    titleKey: "app.navs.reports",
-    pathname: "/portal/reports/balance-sheet",
+  "reports.analytics": {
+    titleKey: "app.navs.analytics",
+    pathname: "/portal/reports/analytics",
   },
   "reports.income-statement": {
     titleKey: "app.navs.reports",

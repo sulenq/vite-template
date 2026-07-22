@@ -28,6 +28,7 @@
   },
 
   "common": {
+    "profile": "Profil",
     "show_less": "Tampilkan lebih sedikit",
     "welcome_user": "Selamat datang kembali, {name}!",
     "loading": "Memuat...",

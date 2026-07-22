@@ -1,4 +1,4 @@
-// src/shared/utils/v-navs.ts
+// src/design-system/components/navigation/utils/v-navs.utils.ts
 
 import type { NavItem, NavNode } from "@/shared/types/nav.type";
 

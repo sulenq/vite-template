@@ -1,4 +1,4 @@
-// src/shared/constants/app.navs-groups..ts
+// src/shared/constants/app.nav-groups..ts
 
 import type { AppNavKey } from "@/shared/types/app-navs.type";
 import type { NavGroup } from "@/shared/types/nav.type";
@@ -8,12 +8,11 @@ export const APP_NAV_GROUPS: NavGroup<AppNavKey>[] = [
     items: [
       { key: "home" },
       { key: "users" },
-      { key: "analytics" },
       {
         key: "reports",
         children: [
           {
-            key: "reports.balance-sheet",
+            key: "reports.analytics",
           },
           {
             key: "reports.income-statement",

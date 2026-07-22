@@ -28,6 +28,7 @@
   },
 
   "common": {
+    "profile": "Profile",
     "show_less": "Show less",
     "welcome_user": "Welcome back, {name}!",
     "loading": "Loading...",

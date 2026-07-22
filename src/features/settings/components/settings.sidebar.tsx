@@ -3,7 +3,7 @@
 "use client";
 
 import { IconButton } from "@/design-system/components/button/ui/button";
-import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode-button";
+import { ColorModeToggleButton } from "@/design-system/components/button/ui/color-mode";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { VNavs } from "@/design-system/components/navigation/ui/v-navs";
