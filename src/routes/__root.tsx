@@ -3,16 +3,16 @@
 import "@/app.css";
 import { ChakraSystemProvider } from "@/design-system/chakra/providers/chakra-system.provider";
 import { ColorModeProvider } from "@/design-system/chakra/providers/color-mode-provider";
+import { NotFoundPage } from "@/design-system/components/error-boundary/ui/not-found.page";
 import { Toaster } from "@/design-system/components/toast";
 import { DebugMenu } from "@/design-system/components/utilities/ui/debug-menu";
 import { OfflineAlert } from "@/design-system/components/utilities/ui/offline-alert";
-import { NotFoundPage } from "@/design-system/components/error-boundary/ui/not-found.page";
+import { APP } from "@/design-system/constants/_meta";
 import { LocaleProvider } from "@/shared/libs/i18n/locale-provider";
 import { globalSearchParamsSchema } from "@/shared/schemas/root-search-params.schema";
-import "@fontsource-variable/plus-jakarta-sans";
 import "@fontsource-variable/wix-madefor-text";
-import { Outlet, createRootRoute } from "@tanstack/react-router";
-import { APP } from "@/design-system/constants/_meta";
+import "@fontsource/sorts-mill-goudy";
+import { HeadContent, Outlet, createRootRoute } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
   validateSearch: globalSearchParamsSchema,
@@ -31,13 +31,16 @@ function RootComponent() {
     <ColorModeProvider>
       <ChakraSystemProvider>
         <LocaleProvider>
-          <Toaster />
+          <>
+            <HeadContent />
+            <Outlet />
+          </>
 
-          <OfflineAlert />
-
-          <DebugMenu />
-
-          <Outlet />
+          <>
+            <Toaster />
+            <OfflineAlert />
+            <DebugMenu />
+          </>
         </LocaleProvider>
       </ChakraSystemProvider>
     </ColorModeProvider>
