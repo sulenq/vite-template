@@ -72,7 +72,7 @@ const Content = () => {
   // Derived Values
   const panels = [
     { id: "map", minSize: isSmallViewport ? 5 : 5 },
-    { id: "content", minSize: isSmallViewport ? 5 : "100px" },
+    { id: "content", minSize: isSmallViewport ? 5 : 5 },
   ];
 
   // Constants
@@ -114,6 +114,9 @@ const Content = () => {
     <Splitter.ResizeTrigger
       key={"trigger"}
       id={isSmallViewport ? "map:content" : "content:map"}
+      onDoubleClick={() => {
+        setSplitterSize(SPLITTER_KEY, DEFAULT_SPLITTER_SIZE);
+      }}
     />
   );
 
