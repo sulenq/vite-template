@@ -19,6 +19,7 @@ import { APP } from "@/design-system/constants/_meta";
 import { HEADER_H } from "@/design-system/constants/styles";
 import { useIsSmallViewport } from "@/design-system/hooks/use-is-small-viewport";
 import { useSidebarStore } from "@/design-system/stores/use-sidebar-store";
+import { useSplitterStore } from "@/design-system/stores/use-splitter-store";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { APP_NAV_GROUPS } from "@/shared/constants/app.nav-groups.";
 import { APP_NAVS_MAP } from "@/shared/constants/app.navs";
@@ -30,7 +31,9 @@ import { Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { BellIcon, HelpCircleIcon, UserIcon } from "lucide-react";
 
 const DEFAULT_SIDEBAR_EXPANDED = true;
-const SIDE_BAR_KEY = "app";
+const SIDE_BAR_KEY = "gis-app";
+const DEFAULT_SPLITTER_SIZE = [50, 50];
+const SPLITTER_KEY = "gis-app";
 
 export const GisAppShell = (props: GisAppShellProps) => {
   // Props
@@ -56,6 +59,12 @@ export const GisAppShell = (props: GisAppShellProps) => {
 // -------------------------------------------------------------------------------------
 
 const Content = () => {
+  // Stores
+  const splitterSize = useSplitterStore(
+    (s) => s.sizesByKey[SPLITTER_KEY] ?? DEFAULT_SPLITTER_SIZE,
+  );
+  const setSplitterSize = useSplitterStore((s) => s.setSize);
+
   // Hooks
   const isSmallViewport = useIsSmallViewport();
   const pathname = useLocation().pathname;
@@ -111,7 +120,10 @@ const Content = () => {
   return (
     <Splitter.Root
       panels={panels}
-      defaultSize={[50, 50]}
+      size={splitterSize}
+      onResize={(details) => {
+        setSplitterSize(SPLITTER_KEY, details.size);
+      }}
       orientation={isSmallViewport ? "vertical" : "horizontal"}
     >
       {isSmallViewport
