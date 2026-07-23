@@ -36,8 +36,6 @@ export const BaseMap = ({ layers, styleUrl, onDrawFinish }: BaseMapProps) => {
 
   const { activeStyleId } = useMapBasemapStore();
 
-  // "color" uses a string URL (OpenFreeMap Liberty vector style);
-  // all other IDs return a StyleSpecification object.
   const currentStyle =
     styleUrl ??
     (activeStyleId === "color"
