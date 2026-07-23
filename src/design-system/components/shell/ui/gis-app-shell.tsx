@@ -9,6 +9,8 @@ import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { AppPageContainer } from "@/design-system/components/layout/ui/page-container";
 import { Separator } from "@/design-system/components/layout/ui/separator";
 import { Splitter } from "@/design-system/components/layout/ui/splitter";
+import type { MapLayerConfig } from "@/design-system/components/map/types/map.type";
+import { BaseMap } from "@/design-system/components/map/ui/base-map";
 import { NavButton } from "@/design-system/components/navigation/ui/nav";
 import { VNavs } from "@/design-system/components/navigation/ui/v-navs";
 import { getNavKeyFromPathname } from "@/design-system/components/navigation/utils/v-navs.utils";
@@ -32,6 +34,9 @@ import {
 } from "@tabler/icons-react";
 import { Outlet, useLocation, useNavigate } from "@tanstack/react-router";
 import { BellIcon, HelpCircleIcon, UserIcon } from "lucide-react";
+
+// TODO: replace with real WFS/raster/vector layer config once endpoints are ready
+const MAP_LAYERS: MapLayerConfig[] = [];
 
 const DEFAULT_SIDEBAR_EXPANDED = true;
 const SIDE_BAR_KEY = "gis-app";
@@ -299,9 +304,15 @@ const Content = () => {
   );
   const mapPanel = (
     <Splitter.Panel key={"map"} id={"map"}>
-      <Center boxSize={"full"} textStyle={"2xl"} bg={"bg.success"}>
-        Base map
-      </Center>
+      <Box pos={"relative"} minW={"360px"} boxSize={"full"}>
+        <BaseMap
+          layers={MAP_LAYERS}
+          onDrawFinish={(feature) => {
+            console.log(feature);
+            // TODO: handle the finished polygon (e.g. push into form state or send to API)
+          }}
+        />
+      </Box>
     </Splitter.Panel>
   );
   const resizeTrigger = (
