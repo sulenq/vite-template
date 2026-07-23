@@ -61,6 +61,197 @@ export const GisAppShell = (props: GisAppShellProps) => {
 
 // -------------------------------------------------------------------------------------
 
+const Sidebar = () => {
+  // Stores
+  const expanded = useSidebarStore(
+    (s) => s.expandedByKey[SIDE_BAR_KEY] ?? DEFAULT_SIDEBAR_EXPANDED,
+  );
+
+  return (
+    <Box
+      className={"group"}
+      pos={"relative"}
+      zIndex={10}
+      w={expanded ? "300px" : `calc(40px + 24px)`}
+      h={"full"}
+      borderRight={"1px solid"}
+      borderColor={"border"}
+      transition={"250ms cubic-bezier(0.175, 0.885, 0.32, 1.1)"}
+    >
+      <VStack
+        overflowY={"auto"}
+        overflowX={"clip"}
+        h={"full"}
+        bg={"bg.body"}
+        // rounded={theme.radii.container}
+      >
+        <SidebarHeader />
+
+        <Separator mx={2} />
+
+        <SidebarBody />
+
+        <Separator mx={2} />
+
+        <SidebarFooter />
+      </VStack>
+
+      <SidebarToogleButton />
+    </Box>
+  );
+};
+
+const SidebarHeader = () => {
+  // Stores
+  const { theme } = useThemeStore();
+  const expanded = useSidebarStore(
+    (s) => s.expandedByKey[SIDE_BAR_KEY] ?? DEFAULT_SIDEBAR_EXPANDED,
+  );
+
+  return (
+    <HStack
+      align={"center"}
+      justify={"space-between"}
+      h={HEADER_H}
+      p={4}
+      w={"full"}
+    >
+      <HStack align={"center"} gap={3} ml={2}>
+        <Logo />
+
+        <ClampedP
+          w={expanded ? "" : 0}
+          fontWeight={"semibold"}
+          color={`${theme.colorPalette}.fg`}
+          lineHeight={1.2}
+        >
+          {APP.title}
+        </ClampedP>
+      </HStack>
+
+      <ClampedP
+        w={expanded ? "" : 0}
+        mr={1}
+        fontSize={"sm"}
+        transition={"200ms"}
+        color={"fg.subtle"}
+        lineHeight={1}
+      >
+        v{APP.version}
+      </ClampedP>
+    </HStack>
+  );
+};
+
+const SidebarBody = () => {
+  // Stores
+  const expanded = useSidebarStore(
+    (s) => s.expandedByKey[SIDE_BAR_KEY] ?? DEFAULT_SIDEBAR_EXPANDED,
+  );
+
+  // Hooks
+  const navigate = useNavigate();
+  const pathname = useLocation().pathname;
+  const activeKey = getNavKeyFromPathname(APP_NAVS_MAP, pathname);
+
+  return (
+    <VNavs<AppNavKey>
+      showTopBorderOnScroll={false}
+      flex={1}
+      groups={APP_NAV_GROUPS}
+      navs={APP_NAVS_MAP}
+      activeKey={activeKey}
+      expanded={expanded}
+      onNavClick={(key) => {
+        navigate({
+          to: APP_NAVS_MAP[key].pathname,
+          resetScroll: false,
+        });
+      }}
+      p={3}
+    />
+  );
+};
+
+const SidebarFooter = () => {
+  // Stores
+  const expanded = useSidebarStore(
+    (s) => s.expandedByKey[SIDE_BAR_KEY] ?? DEFAULT_SIDEBAR_EXPANDED,
+  );
+
+  return (
+    <VStack gap={1} p={3}>
+      <NavButton>
+        <AppIcon icon={BellIcon} />
+        {expanded && t["app.navs.notifications"]()}
+      </NavButton>
+
+      <NavButton>
+        <AppIcon icon={HelpCircleIcon} />
+        {expanded && t["app.navs.help"]()}
+      </NavButton>
+
+      <NavButton>
+        <AppIcon icon={UserIcon} />
+        {expanded && t["app.navs.profile"]()}
+      </NavButton>
+    </VStack>
+  );
+};
+
+const SidebarToogleButton = (props: IconButtonProps) => {
+  // Stores
+  const expanded = useSidebarStore(
+    (s) => s.expandedByKey[SIDE_BAR_KEY] ?? DEFAULT_SIDEBAR_EXPANDED,
+  );
+  const toggleExpanded = useSidebarStore((s) => s.toggleExpanded);
+
+  return (
+    <Tooltip
+      content={expanded ? t["action.collapse"]() : t["action.expand"]()}
+      positioning={{
+        placement: "right",
+      }}
+    >
+      <Center
+        h={"full"}
+        w={"16px"}
+        pos={"absolute"}
+        right={"-8px"}
+        top={0}
+        zIndex={99}
+        opacity={0}
+        cursor={"pointer"}
+        _groupHover={{ opacity: 1 }}
+        transition={"200ms"}
+        onClick={() => {
+          toggleExpanded(SIDE_BAR_KEY);
+        }}
+      >
+        <IconButton
+          variant={"blend"}
+          size={"2xs"}
+          minW={"16px"}
+          w={"16px"}
+          h={"80px"}
+          color={"fg.muted"}
+          rounded={"full"}
+          border={"1px solid"}
+          borderColor={"border.subtle"}
+          {...props}
+        >
+          <AppIcon
+            icon={expanded ? IconChevronCompactLeft : IconChevronCompactRight}
+            size={"sm"}
+          />
+        </IconButton>
+      </Center>
+    </Tooltip>
+  );
+};
+
+// -------------------------------------------------------------------------------------
+
 const Content = () => {
   // Stores
   const splitterSize = useSplitterStore(
@@ -136,200 +327,5 @@ const Content = () => {
         ? [mapPanel, resizeTrigger, contentPanel]
         : [contentPanel, resizeTrigger, mapPanel]}
     </Splitter.Root>
-  );
-};
-
-// -------------------------------------------------------------------------------------
-
-const Sidebar = () => {
-  // Stores
-  const expanded = useSidebarStore(
-    (s) => s.expandedByKey[SIDE_BAR_KEY] ?? DEFAULT_SIDEBAR_EXPANDED,
-  );
-
-  return (
-    <Box
-      className={"group"}
-      pos={"relative"}
-      zIndex={10}
-      w={expanded ? "300px" : `calc(40px + 24px)`}
-      h={"full"}
-      borderRight={"1px solid"}
-      borderColor={"border"}
-      transition={"250ms cubic-bezier(0.175, 0.885, 0.32, 1.1)"}
-    >
-      <VStack
-        overflowY={"auto"}
-        overflowX={"clip"}
-        h={"full"}
-        bg={"bg.body"}
-        // rounded={theme.radii.container}
-      >
-        <SidebarHeader />
-
-        <Separator mx={2} />
-
-        <SidebarBody />
-
-        <Separator mx={2} />
-
-        <SidebarFooter />
-      </VStack>
-
-      <ExpandToggleButton />
-    </Box>
-  );
-};
-
-const SidebarHeader = () => {
-  // Stores
-  const { theme } = useThemeStore();
-  const expanded = useSidebarStore(
-    (s) => s.expandedByKey[SIDE_BAR_KEY] ?? DEFAULT_SIDEBAR_EXPANDED,
-  );
-
-  return (
-    <HStack
-      align={"center"}
-      justify={"space-between"}
-      h={HEADER_H}
-      p={4}
-      w={"full"}
-    >
-      <HStack align={"center"} gap={3} ml={2}>
-        <Logo />
-
-        <ClampedP
-          w={expanded ? "" : 0}
-          fontWeight={"semibold"}
-          color={`${theme.colorPalette}.fg`}
-          lineHeight={1.2}
-        >
-          {APP.title}
-        </ClampedP>
-      </HStack>
-
-      <ClampedP
-        w={expanded ? "" : 0}
-        mr={1}
-        fontSize={"sm"}
-        transition={"200ms"}
-        color={"fg.subtle"}
-        lineHeight={1}
-      >
-        v{APP.version}
-      </ClampedP>
-
-      {/* {expanded && <ExpandToggleButton />} */}
-    </HStack>
-  );
-};
-
-const SidebarBody = () => {
-  // Stores
-  const expanded = useSidebarStore(
-    (s) => s.expandedByKey[SIDE_BAR_KEY] ?? DEFAULT_SIDEBAR_EXPANDED,
-  );
-
-  // Hooks
-  const navigate = useNavigate();
-  const pathname = useLocation().pathname;
-  const activeKey = getNavKeyFromPathname(APP_NAVS_MAP, pathname);
-
-  return (
-    <VNavs<AppNavKey>
-      showTopBorderOnScroll={false}
-      flex={1}
-      groups={APP_NAV_GROUPS}
-      navs={APP_NAVS_MAP}
-      activeKey={activeKey}
-      expanded={expanded}
-      onNavClick={(key) => {
-        navigate({
-          to: APP_NAVS_MAP[key].pathname,
-          resetScroll: false,
-        });
-      }}
-      p={3}
-    />
-  );
-};
-
-const SidebarFooter = () => {
-  // Stores
-  const expanded = useSidebarStore(
-    (s) => s.expandedByKey[SIDE_BAR_KEY] ?? DEFAULT_SIDEBAR_EXPANDED,
-  );
-
-  return (
-    <VStack gap={1} p={3}>
-      <NavButton>
-        <AppIcon icon={BellIcon} />
-        {expanded && t["app.navs.notifications"]()}
-      </NavButton>
-
-      <NavButton>
-        <AppIcon icon={HelpCircleIcon} />
-        {expanded && t["app.navs.help"]()}
-      </NavButton>
-
-      <NavButton>
-        <AppIcon icon={UserIcon} />
-        {expanded && t["app.navs.profile"]()}
-      </NavButton>
-    </VStack>
-  );
-};
-
-// -------------------------------------------------------------------------------------
-
-const ExpandToggleButton = (props: IconButtonProps) => {
-  // Stores
-  const expanded = useSidebarStore(
-    (s) => s.expandedByKey[SIDE_BAR_KEY] ?? DEFAULT_SIDEBAR_EXPANDED,
-  );
-  const toggleExpanded = useSidebarStore((s) => s.toggleExpanded);
-
-  return (
-    <Tooltip
-      content={expanded ? t["action.collapse"]() : t["action.expand"]()}
-      positioning={{
-        placement: "right",
-      }}
-    >
-      <Center
-        h={"full"}
-        w={"16px"}
-        pos={"absolute"}
-        right={"-8px"}
-        top={0}
-        zIndex={99}
-        opacity={0}
-        cursor={"pointer"}
-        _groupHover={{ opacity: 1 }}
-        transition={"200ms"}
-        onClick={() => {
-          toggleExpanded(SIDE_BAR_KEY);
-        }}
-      >
-        <IconButton
-          variant={"blend"}
-          size={"2xs"}
-          minW={"16px"}
-          w={"16px"}
-          h={"80px"}
-          color={"fg.muted"}
-          rounded={"full"}
-          border={"1px solid"}
-          borderColor={"border.subtle"}
-          {...props}
-        >
-          <AppIcon
-            icon={expanded ? IconChevronCompactLeft : IconChevronCompactRight}
-            size={"sm"}
-          />
-        </IconButton>
-      </Center>
-    </Tooltip>
   );
 };
