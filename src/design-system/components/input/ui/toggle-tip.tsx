@@ -5,7 +5,7 @@ import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
 import type {
   InfoTipProps,
   ToggleTipProps,
-} from "@/design-system/components/input/types/toggle-tip";
+} from "@/design-system/components/input/types/toggle-tip.type";
 import { Popover } from "@/design-system/components/overlay/ui/popover";
 import { Portal } from "@/design-system/components/utilities/ui/portal";
 import { InfoIcon } from "lucide-react";
@@ -54,16 +54,17 @@ export const ToggleTip = React.forwardRef<HTMLDivElement, ToggleTipProps>(
 
 export const InfoTip = React.forwardRef<HTMLDivElement, InfoTipProps>(
   function InfoTip(props, ref) {
-    const { children, buttonProps, ...restProps } = props;
+    const { children, iconButtonProps, appIconProps, ...restProps } = props;
     return (
       <ToggleTip ref={ref} content={children} {...restProps}>
         <IconButton
           variant={"ghost"}
           aria-label={"info"}
           size={"2xs"}
-          {...buttonProps}
+          rounded={"full"}
+          {...iconButtonProps}
         >
-          <AppIcon icon={InfoIcon} />
+          <AppIcon icon={InfoIcon} {...appIconProps} />
         </IconButton>
       </ToggleTip>
     );
