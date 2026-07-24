@@ -4,6 +4,7 @@ import { Logo } from "@/design-system/components/branding/ui/logo";
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { AppIcon } from "@/design-system/components/icon/ui/app-icon";
+import { SegmentedControl } from "@/design-system/components/input/ui/segmented-control";
 import { Center } from "@/design-system/components/layout/ui/center";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { AppPageContainer } from "@/design-system/components/layout/ui/page-container";
@@ -33,7 +34,14 @@ import {
   IconChevronCompactRight,
 } from "@tabler/icons-react";
 import { Outlet, useLocation, useNavigate } from "@tanstack/react-router";
-import { BellIcon, HelpCircleIcon, UserIcon } from "lucide-react";
+import {
+  BellIcon,
+  Columns2Icon,
+  HelpCircleIcon,
+  MapIcon,
+  PanelLeftIcon,
+  UserIcon,
+} from "lucide-react";
 
 // TODO: replace with real WFS/raster/vector layer config once endpoints are ready
 const MAP_LAYERS: MapLayerConfig[] = [];
@@ -186,25 +194,53 @@ const SidebarFooter = () => {
 
   return (
     <VStack gap={1} p={3}>
-      <NavButton>
-        <AppIcon icon={BellIcon} />
-        {expanded && t["app.navs.notifications"]()}
-      </NavButton>
+      <VStack gap={1}>
+        <NavButton>
+          <AppIcon icon={BellIcon} />
+          {expanded && t["app.navs.notifications"]()}
+        </NavButton>
 
-      <NavButton>
-        <AppIcon icon={HelpCircleIcon} />
-        {expanded && t["app.navs.help"]()}
-      </NavButton>
+        <NavButton>
+          <AppIcon icon={HelpCircleIcon} />
+          {expanded && t["app.navs.help"]()}
+        </NavButton>
 
-      <NavButton>
-        <AppIcon icon={UserIcon} />
-        {expanded && t["app.navs.profile"]()}
-      </NavButton>
+        <NavButton>
+          <AppIcon icon={UserIcon} />
+          {expanded && t["app.navs.profile"]()}
+        </NavButton>
+      </VStack>
+
+      <Separator my={2} />
+
+      <SegmentedControl
+        orientation={"vertical"}
+        size={"xs"}
+        w={"40px"}
+        defaultValue={"split"}
+        options={[
+          {
+            value: "panel",
+            leftIcon: PanelLeftIcon,
+          },
+          {
+            value: "split",
+            leftIcon: Columns2Icon,
+          },
+          {
+            value: "map",
+            leftIcon: MapIcon,
+          },
+        ]}
+        itemProps={{
+          minH: "40px",
+        }}
+      />
     </VStack>
   );
 };
 
-const SidebarToogleButton = (props: IconButtonProps) => {
+export const SidebarToogleButton = (props: IconButtonProps) => {
   // Stores
   const expanded = useSidebarStore(
     (s) => s.expandedByKey[SIDE_BAR_KEY] ?? DEFAULT_SIDEBAR_EXPANDED,
