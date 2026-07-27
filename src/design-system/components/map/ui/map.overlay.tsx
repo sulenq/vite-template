@@ -3,11 +3,12 @@ import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { MapAttribution } from "@/design-system/components/map/ui/map-attribution";
 import { MapControls } from "@/design-system/components/map/ui/map-controls";
 import { MapDrawControls } from "@/design-system/components/map/ui/map-draw-controls";
+import { MapSearchOverlay } from "@/design-system/components/map/ui/map-search-overlay";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 
-export type BaseMapOverlayProps = {};
+export type MapOverlayProps = {};
 
-export const BaseMapOverlay = (_: BaseMapOverlayProps) => {
+export const MapOverlay = (_: MapOverlayProps) => {
   return (
     <VStack
       justify={"space-between"}
@@ -18,10 +19,19 @@ export const BaseMapOverlay = (_: BaseMapOverlayProps) => {
       h={"full"}
       pointerEvents={"none"}
     >
-      <HStack align={"start"} justify={"end"} gap={2} p={4}>
-        <MapDrawControls />
+      <HStack
+        align={"start"}
+        justify={"space-between"}
+        w={"full"}
+        gap={4}
+        p={4}
+      >
+        <MapSearchOverlay />
 
-        <MapAttribution />
+        <HStack align={"start"} gap={2}>
+          <MapDrawControls />
+          <MapAttribution />
+        </HStack>
       </HStack>
 
       <MapControls />
