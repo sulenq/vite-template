@@ -44,7 +44,7 @@ export const MapBaseLayerSelect = () => {
                 src={activeStyle.thumbnail}
                 aspectRatio={1}
                 objectFit={"cover"}
-                w={["64px", null, "80px"]}
+                w={["64px", null, "70px"]}
                 rounded={`calc(${theme.radii.component} - 2px)`}
               />
             </Center>
@@ -80,8 +80,8 @@ export const MapBaseLayerSelect = () => {
                 >
                   <Image
                     src={item.thumbnail}
-                    aspectRatio={2 / 1}
-                    w={"120px"}
+                    aspectRatio={1}
+                    w={"112px"}
                     objectFit={"cover"}
                     rounded={`calc(${theme.radii.component} - 2px)`}
                     cursor={"pointer"}

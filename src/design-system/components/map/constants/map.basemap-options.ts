@@ -233,7 +233,7 @@ export const MAP_BASE_LAYER_MAP = {
 
   topo: {
     thumbnail: `${IMAGES_PATH}/base_map_styles/topo.png`,
-    label: "Terrain/Topo",
+    label: "Topo",
     description: "Peta topografi 3D dengan kontur ketinggian",
     attributions: [
       'Kartografi &copy; <a href="https://opentopomap.org" target="_blank" rel="noopener noreferrer">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener noreferrer">CC-BY-SA</a>)',
