@@ -47,6 +47,9 @@ const ContainerRoot = forwardRef<HTMLDivElement, ContainerRootProps>(
       ...restProps
     } = props;
 
+    // Stores
+    const { theme } = useThemeStore();
+
     // Refs
     const containerRef = useRef<HTMLDivElement>(null);
     const mergeRef = useMergedRefs({ refs: [containerRef, ref] });
@@ -68,7 +71,10 @@ const ContainerRoot = forwardRef<HTMLDivElement, ContainerRootProps>(
         ref={mergeRef}
         className={`${scrollY ? "scrollY" : ""} ${className}`}
         w={"full"}
+        bg={"bg.body"}
+        rounded={theme.radii.container}
         borderColor={"border.subtle"}
+        shadow={"md"}
         {...restProps}
       >
         {children}
