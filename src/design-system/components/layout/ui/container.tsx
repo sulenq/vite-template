@@ -7,12 +7,11 @@ import type {
 } from "@/design-system/components/layout/types/container.type";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import {
-  HEADER_H,
+  PADDING_MD,
   SM_SCREEN_BREAKPOINT,
-  SPACING_MD,
 } from "@/design-system/constants/styles";
-import { useRefDimension } from "@/design-system/hooks/use-ref-dimenssion";
 import { useMergedRefs } from "@/design-system/hooks/use-merge-refs";
+import { useRefDimension } from "@/design-system/hooks/use-ref-dimenssion";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { createContext, forwardRef, useContext, useMemo, useRef } from "react";
 
@@ -96,7 +95,7 @@ const ContainerHeader = (props: ContainerHeaderProps) => {
   const { children, ...restProps } = props;
 
   return (
-    <HStack w={"full"} minH={HEADER_H} px={SPACING_MD} {...restProps}>
+    <HStack w={"full"} p={PADDING_MD} {...restProps}>
       {children}
     </HStack>
   );
