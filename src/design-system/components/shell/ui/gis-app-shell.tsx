@@ -354,7 +354,6 @@ const Content = () => {
         ].join(", ")}
         bgSize={"200px 200px, 250px 250px, 300px 300px, 350px 350px, 100% 100%"}
         borderLeft={!isSmallViewport ? "1px solid" : undefined}
-        borderTop={isSmallViewport ? "1px solid" : undefined}
         borderColor={"border"}
       >
         <BaseMap
