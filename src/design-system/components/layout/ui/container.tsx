@@ -95,7 +95,7 @@ const ContainerHeader = (props: ContainerHeaderProps) => {
   const { children, ...restProps } = props;
 
   return (
-    <HStack w={"full"} p={PADDING_MD} {...restProps}>
+    <HStack align={"center"} gap={4} w={"full"} p={PADDING_MD} {...restProps}>
       {children}
     </HStack>
   );
