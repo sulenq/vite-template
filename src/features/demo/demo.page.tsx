@@ -1,7 +1,7 @@
 // src/features/demo/demo.page.tsx
 
 import { BrandWatermark } from "@/design-system/components/branding/ui/brand-watermark";
-import { Logo } from "@/design-system/components/branding/ui/logo";
+import { Logo } from "@/design-system/components/branding/ui/logo-old";
 import {
   Button,
   IconButton,

@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Logo } from "@/design-system/components/branding/ui/logo";
+import { Logo } from "@/design-system/components/branding/ui/logo-old";
 import { Button } from "@/design-system/components/button/ui/button";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import { PageContainer } from "@/design-system/components/layout/ui/page-container";

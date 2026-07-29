@@ -144,7 +144,7 @@ const SidebarHeader = () => {
 
         <ClampedP
           w={expanded ? "" : 0}
-          fontWeight={"semibold"}
+          fontWeight={"bold"}
           color={`${theme.colorPalette}.fg`}
           lineHeight={1.2}
         >
