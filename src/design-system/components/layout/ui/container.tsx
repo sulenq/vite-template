@@ -7,11 +7,12 @@ import type {
 } from "@/design-system/components/layout/types/container.type";
 import { HStack, VStack } from "@/design-system/components/layout/ui/flex-box";
 import {
-  PADDING_MD,
+  HEADER_H,
   SM_SCREEN_BREAKPOINT,
+  SPACING_MD,
 } from "@/design-system/constants/styles";
-import { useMergedRefs } from "@/design-system/hooks/use-merge-refs";
 import { useRefDimension } from "@/design-system/hooks/use-ref-dimenssion";
+import { useMergedRefs } from "@/design-system/hooks/use-merge-refs";
 import { useThemeStore } from "@/design-system/stores/use-theme-store";
 import { createContext, forwardRef, useContext, useMemo, useRef } from "react";
 
@@ -46,9 +47,6 @@ const ContainerRoot = forwardRef<HTMLDivElement, ContainerRootProps>(
       ...restProps
     } = props;
 
-    // Stores
-    const { theme } = useThemeStore();
-
     // Refs
     const containerRef = useRef<HTMLDivElement>(null);
     const mergeRef = useMergedRefs({ refs: [containerRef, ref] });
@@ -70,10 +68,7 @@ const ContainerRoot = forwardRef<HTMLDivElement, ContainerRootProps>(
         ref={mergeRef}
         className={`${scrollY ? "scrollY" : ""} ${className}`}
         w={"full"}
-        bg={"bg.body"}
-        rounded={theme.radii.container}
         borderColor={"border.subtle"}
-        shadow={"md"}
         {...restProps}
       >
         {children}
@@ -95,7 +90,7 @@ const ContainerHeader = (props: ContainerHeaderProps) => {
   const { children, ...restProps } = props;
 
   return (
-    <HStack align={"center"} gap={4} w={"full"} p={PADDING_MD} {...restProps}>
+    <HStack w={"full"} minH={HEADER_H} px={SPACING_MD} {...restProps}>
       {children}
     </HStack>
   );
@@ -110,6 +105,7 @@ const ContainerBody = (props: ContainerBodyProps) => {
 
   return (
     <VStack
+      flex={1}
       w={"full"}
       bg={"bg.body"}
       rounded={theme.radii.container}
