@@ -1,5 +1,7 @@
 // src/design-system/components/disclosure/ui/tabs.tsx
 
+"use client";
+
 import { forwardRef } from "react";
 import { Tabs as ChakraTabs } from "@chakra-ui/react";
 import type {
@@ -26,7 +28,7 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>((props, ref) => {
 
 const TabsTrigger = forwardRef<HTMLButtonElement, TabsTriggerProps>(
   (props, ref) => {
-    return <ChakraTabs.Trigger ref={ref} {...props} />;
+    return <ChakraTabs.Trigger ref={ref} fontSize={"md"} {...props} />;
   },
 );
 
