@@ -1,5 +1,7 @@
 // src/design-system/components/overlay/ui/dialog.tsx
 
+"use client";
+
 import type { IconButtonProps } from "@/design-system/components/button/types/button.type";
 import { IconButton } from "@/design-system/components/button/ui/button";
 import { CloseButton } from "@/design-system/components/button/ui/close-button";
@@ -372,6 +374,9 @@ const DialogFullscreenButton = (props: IconButtonProps) => {
       variant={"subtle"}
       bg={"an1"}
       rounded={"full"}
+      pos={"absolute"}
+      top={3.5}
+      right={"48px"}
       onClick={() => {
         const next = !fullscreen;
         triggerFullscreenAnimation(modalKey, next);
@@ -383,7 +388,6 @@ const DialogFullscreenButton = (props: IconButtonProps) => {
         icon={fullscreen ? IconSquares : IconSquare}
         transform={"scaleX(-1)"}
         boxSize={3.5}
-        strokeWidth={2.25}
       />
     </IconButton>
   );
